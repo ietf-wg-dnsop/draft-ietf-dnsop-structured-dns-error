@@ -19,7 +19,7 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "dee enn ess"
+title: "dee enn ess (DNS)"
 abbrev: "dns"
 category: info
 
