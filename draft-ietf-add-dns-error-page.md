@@ -19,11 +19,11 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
+title: "dee enn ess"
+abbrev: "dns"
 category: info
 
-docname: draft-todo-yourname-protocol-latest
+docname: draft-ietf-add-dns-error-page-latest
 submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
 number:
 date:
