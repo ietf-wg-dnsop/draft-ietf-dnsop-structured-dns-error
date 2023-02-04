@@ -1,10 +1,11 @@
 ---
 title: "Structured Data for Filtered DNS"
 abbrev: "Data for Filtered DNS"
-category: info
+category: std
+updates: 8914
 
 docname: draft-ietf-dnsop-structured-dns-error-page-latest
-submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
+submissiontype: IETF
 number:
 date:
 consensus: true
@@ -12,19 +13,20 @@ v: 3
 area: "Internet"
 workgroup: "Adaptive DNS Discovery"
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - Customer experience
+ - Informed decision
+ - transparency
+ - enriched feedback
 venue:
   group: "dnsop"
   type: "Working Group"
   mail: "dnsop@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/dnsop/"
   github: "danwing/dnsop2"
-  latest: "https://danwing.github.io/dnsop2/draft-ietf-add-dns-error-page.html"
+  latest: "https://danwing.github.io/dnsop2/draft-ietf-dnsop-structured-dns-error-page.html"
 
 stand_alone: yes
-pi: [toc, sortrefs, symrefs]
+pi: [toc, sortrefs, symrefs, strict, comments, docmapping]
 
 author:
  -
@@ -48,20 +50,13 @@ author:
  -
     fullname: Mohamed Boucadair
     organization: Orange
-    street: 35000 Rennes
+    street: Rennes
+    code: 35000
     country: France
     email: "mohamed.boucadair@orange.com"
 
 
 normative:
-  RFC7493:
-  RFC7159:
-  RFC6838:
-  RFC6891:
-  RFC8310:
-  RFC8126:
-  RFC5198:
-  RFC8914:
 
 informative:
   IANA-MediaTypes:
@@ -70,6 +65,14 @@ informative:
        -
          organization: "IANA"
      target: https://www.iana.org/assignments/media-types
+     date: false
+
+  IANA-DNS:
+     title: Domain Name System (DNS) Parameters, Extended DNS Error Codes
+     author:
+       -
+         organization: "IANA"
+     target: https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#extended-dns-error-codes
      date: false
 
   RPZ:
@@ -81,16 +84,6 @@ informative:
      title: "Change Chrome languages & translate webpages"
      target: https://support.google.com/chrome/answer/173424
      date: false
-
-  RFC5625:
-  RFC7858:
-  RFC8484:
-  RFC8499:
-  RFC8792:
-  RFC8259:
-  RFC9250:
-
-  I-D.reddy-add-resolver-info:
 
 --- abstract
 
@@ -131,7 +124,7 @@ resolve erroneous filtering, log the information, or other uses.
 
 For the DNS filtering mechanisms described in {{techniques}} the DNS
 server can return extended error codes Blocked, Censored, Filtered, or
-Forged Answer defined in Section 4 of [RFC8914]. However, these codes
+Forged Answer defined in Section 4 of {{!RFC8914}}. However, these codes
 only explain that filtering occurred but lack detail for the user to
 diagnose erroneous filtering.
 
@@ -150,7 +143,7 @@ block page. This approach thus avoids the need to install a local root
 certificate authority on those IT-managed devices.
 
 This document describes a format for computer-parsable data in the
-EXTRA-TEXT field of [RFC8914]. It updates Section 2 of [RFC8914] which
+EXTRA-TEXT field of {{!RFC8914}}. It updates Section 2 of {{!RFC8914}} which
 says the information in EXTRA-TEXT field is intended for human
 consumption (not automated parsing).
 
@@ -164,7 +157,7 @@ queries are filtered.
 
 {::boilerplate bcp14-tagged}
 
-This document uses terms defined in DNS Terminology [RFC8499].
+This document uses terms defined in DNS Terminology {{?RFC8499}}.
 
 "Requestor" refers to the side that sends a request. "Responder"
 refers to an authoritative, recursive resolver or other DNS component
@@ -172,15 +165,15 @@ that responds to questions. Other terminology is used here as defined
 in the RFCs cited by this document.
 
 "Encrypted DNS" refers to any encrypted scheme to convey DNS messages,
-for example, DNS-over-HTTPS [RFC8484], DNS-over-TLS [RFC7858], or
-DNS-over-QUIC [RFC9250].
+for example, DNS-over-HTTPS {{?RFC8484}}, DNS-over-TLS {{?RFC7858}}, or
+DNS-over-QUIC {{?RFC9250}}.
 
 
 # DNS Filtering Techniques and Their Limitations {#techniques}
 
 DNS responses can be filtered by sending a bogus (also called,
 "forged") A or AAAA response, NXDOMAIN error or empty answer, or an
-extended DNS error (EDE) code defined in [RFC8914]. Each of these
+extended DNS error (EDE) code defined in {{!RFC8914}}. Each of these
 methods have advantages and disadvantages that are discussed below:
 
 1. The DNS response is forged to provide a list of IP addresses that
@@ -246,10 +239,10 @@ insecure connections to reach the domain, potentially compromising
 both security and privacy.
 
 3. The extended error codes Blocked, Censored, and Filtered defined in
-Section 4 of [RFC8914] can be returned by a DNS server to provide
+Section 4 of {{!RFC8914}} can be returned by a DNS server to provide
 additional information about the cause of an DNS error. If the
 extended error code "Forged Answer" defined in Section 4.5 of
-[RFC8914] is returned by the DNS server, the client can identify the
+{{!RFC8914}} is returned by the DNS server, the client can identify the
 DNS response is forged together with the reason for HTTPS certificate
 error.
 
@@ -264,17 +257,17 @@ know the contact details of the IT/InfoSec team to raise a complaint.
 
 5. When a resolver or forwarder forwards the received EDE option, the
 EXTRA-TEXT field only conveys the source of the error (Section 3 of
-[RFC8914]) and does not provide additional textual information about
+{{!RFC8914}}) and does not provide additional textual information about
 the cause of the error.
 
 
 # I-JSON in EXTRA-TEXT field
 
 Servers that are compliant with this specification send I-JSON data in
-the EXTRA-TEXT field [RFC8914] using the Internet JSON (I-JSON)
-message format [RFC7493].
+the EXTRA-TEXT field {{!RFC8914}} using the Internet JSON (I-JSON)
+message format {{!RFC7493}}.
 
-> Note that [RFC7493] was based on [RFC7159], but [RFC7159] was replaced by [RFC8259].
+> Note that {{!RFC7493}} was based on {{!RFC7159}}, but {{!RFC7159}} was replaced by {{?RFC8259}}.
 
 This document defines the following JSON names:
 
@@ -285,7 +278,7 @@ DNS filtering. This field is structured as an array of contact URIs
 included. This field is mandatory.
 
 j: (justification)
-: UTF-8-encoded [RFC5198] textual justification for this particular
+: UTF-8-encoded {{!RFC5198}} textual justification for this particular
 DNS filtering. The field should be treated only as diagnostic
 information for IT staff. This field is mandatory.
 
@@ -307,7 +300,7 @@ The text in the "j" and "o" names can include international
 characters. If the text is displayed in a language not known to the
 end user, browser extensions to translate to user's native language
 can be used. For example, "Google Translate" extension
-[Chrome-Translate] provided by Google on Chrome can be used to
+{{Chrome-Translate}} provided by Google on Chrome can be used to
 translate the text.
 
 To reduce packet overhead the generated JSON SHOULD be as short as
@@ -325,7 +318,7 @@ and diagnosing the cause of the DNS filtering.
 ## Client Generating Request
 
 When generating a DNS query, the client includes the Extended DNS
-Error option Section 2 of [RFC8914] in the OPT pseudo-RR [RFC6891] to
+Error option Section 2 of {{!RFC8914}} in the OPT pseudo-RR {{!RFC6891}} to
 elicit the Extended DNS Error option in the DNS response.
 
 ## Server Generating Response
@@ -351,14 +344,14 @@ JSON:
 
 * The response MUST be received from a DNS server which advertised EDE
   support via a trusted channel, e.g., RESINFO
-  [I-D.reddy-add-resolver-info].
+  {{?I-D.reddy-add-resolver-info}}.
 
 * Servers which don't support this specification might use plain text
   in the EXTRA-TEXT field so that requestors SHOULD properly handle
   both plaintext and JSON text in the EXTRA-TEXT field.
 
 * The DNS response MUST also contain an extended error code of
-  "Censored", "Blocked", "Filtered" or "Forged" [RFC8914], otherwise
+  "Censored", "Blocked", "Filtered" or "Forged" {{!RFC8914}}, otherwise
   the EXTRA-TEXT field is discarded.
 
 * If either of the mandatory JSON names "c" and "j" are missing or
@@ -369,7 +362,7 @@ JSON:
   "Censored".
 
 * If a DNS client has enabled opportunistic privacy profile (Section 5
-  of [RFC8310]) for DoT, the DNS client will either fallback to an
+  of {{!RFC8310}}) for DoT, the DNS client will either fallback to an
   encrypted connection without authenticating the DNS server provided
   by the local network or fallback to clear text DNS, and cannot
   exchange encrypted DNS messages. Both of these fallback mechanisms
@@ -379,14 +372,14 @@ JSON:
   other parts of the response.
 
 * If a DNS client has enabled strict privacy profile (Section 5 of
-  [RFC8310]) for DoT, the DNS client requires an encrypted connection
+  {{!RFC8310}}) for DoT, the DNS client requires an encrypted connection
   and successful authentication of the DNS server; this mitigates both
   passive eavesdropping and client redirection (at the expense of
   providing no DNS service if an encrypted, authenticated connection
   is not available). If the DNS client has enabled strict privacy
   profile for DoT, the client MAY process the EXTRA-TEXT field of the
   DNS response. Note that the strict and opportunistic privacy
-  profiles as defined in [RFC8310] only apply to DoT; there has been
+  profiles as defined in {{!RFC8310}} only apply to DoT; there has been
   no such distinction made for DoH.
 
 * If the DNS client determines that the encrypted DNS server does not
@@ -394,11 +387,11 @@ JSON:
   the EDE response. For example, the DNS client can learn whether the
   encrypted DNS resolver performs DNS-based content filtering or not
   by retrieving resolver information using the method defined in
-  [I-D.reddy-add-resolver-info].
+  {{?I-D.reddy-add-resolver-info}}.
 
 * When a forwarder receives an EDE option, whether or not (and how) to
   pass along JSON information in the EXTRA-TEXT on to their client is
-  implementation dependent [RFC5625]. Implementations MAY choose to
+  implementation dependent {{?RFC5625}}. Implementations MAY choose to
   not forward the JSON information, or they MAY choose to create a new
   EDE option that conveys the information in the "c", "s" and "j"
   fields encoded in the JSON object.
@@ -407,7 +400,7 @@ JSON:
 
 # Interoperation with RPZ Servers
 
-This section discusses operation with an RPZ server [RPZ] that
+This section discusses operation with an RPZ server {{RPZ}} that
 indicates filtering with a NXDOMAIN response with the Recursion
 Available bit cleared (RA=0).
 
@@ -419,7 +412,7 @@ from the RPZ server that does not support this specification.
 
 When the DNS client supports this specification and the server
 supports this specification, the client learns of the server's support
-via [I-D.reddy-add-resolver-info] and the client includes the EDE OPT
+via {{?I-D.reddy-add-resolver-info}} and the client includes the EDE OPT
 pseudo-RR in the query. This allows the server to differentiate
 EDE-aware clients from EDE-unaware clients and respond appropriately.
 
@@ -444,7 +437,7 @@ DNS "A" record query for 'example.org' is shown in {{example-json}}.
 {: #example-json title="JSON returned in EXTRA-TEXT field of Extended DNS Error response"}
 
 In {{example-json-minified}} the same content is shown with minified JSON (no
-whitespace, no blank lines) with '\\' line wrapping per [RFC8792].
+whitespace, no blank lines) with '\\' line wrapping per {{?RFC8792}}.
 
 ~~~~~
  ============== NOTE: '\' line wrapping per RFC 8792 ===============
@@ -458,7 +451,7 @@ whitespace, no blank lines) with '\\' line wrapping per [RFC8792].
 
 # Security Considerations
 
-Security considerations in Section 6 of [RFC8914] apply to this
+Security considerations in Section 6 of {{!RFC8914}} apply to this
 document.
 
 To minimize impact of active on-path attacks on the DNS channel, the
@@ -483,21 +476,21 @@ DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
 DNS forwarder will forward that attacker-controlled EDE option. To
 prevent such an attack, clients supporting this document MUST discard
 the EDE option if their DNS server does not signal EDE support via
-RESINFO [I-D.reddy-add-resolver-info]. As recommended in
-[I-D.reddy-add-resolver-info], RESINFO should be retrieved over an
+RESINFO {{?I-D.reddy-add-resolver-info}}. As recommended in
+{{?I-D.reddy-add-resolver-info}}, RESINFO should be retrieved over an
 encrypted DNS channel or integrity protected with DNSSEC.
 
 
 # IANA Considerations {#IANA}
 
-This document requests two IANA actions.
+This document requests two IANA actions as described in the following subsections.
 
-## New structured-dns-error media type
+## New structured-dns-error Media Type
 
 This document requests IANA to register the
 "application/json+structured-dns-error" media type in the "Media
-Types" registry [IANA-MediaTypes]. This registration follows the
-procedures specified in [RFC6838]:
+Types" registry {{IANA-MediaTypes}}. This registration follows the
+procedures specified in {{!RFC6838}}:
 
 ~~~~~
    Type name: application
@@ -536,69 +529,56 @@ procedures specified in [RFC6838]:
    Provisional registration?  No
 ~~~~~
 
-## New registry for SubError Codes
+## New Registry for SubError Codes
 
-IANA is requested to create a new registry, entitled "SubError Codes"
+This document requests IANA to create a new registry, entitled "SubError Codes"
 under "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
-registry. A registration procedure for suberror codes MUST include the
+registry {{IANA-DNS}}. The registration request for a new suberror codes MUST include the
 following fields:
 
-* Number: wire format suberror code (range 0-255)
+* Number: Wire format suberror code (range 0-255)
 
-* Meaning: a short description
+* Meaning: A short description of the errir
 
-* Reference: pointer to the specification text
+* Reference: A pointer to the specification text
 
 * Change Controller: Person or entity, with contact information if appropriate.
-
-New entries in this registry are subject to an Expert Review
-registration policy [RFC8126]. The designated expert MUST ensure that
-the Reference is stable and publicly available, and that it specifies
-the suberror code and a short description. The Format Reference may be
-any individual's Internet-Draft, or a document from any other source
-with similar assurances of stability and availability.
 
 The SubError Code registry shall initially be populated with the
 following suberror codes:
 
-     +========+=============================+===========+============+
-     | Number | Meaning                     | Reference | Change     |
-     |        |                             |           | Controller |
-     +========+=============================+===========+============+
-     | 0      | Reserved                    | This      | IETF       |
-     |        |                             | document  |            |
-     +--------+-----------------------------+-----------+------------+
-     | 1      | Malware                     | This      | IETF       |
-     |        |                             | document  |            |
-     +--------+-----------------------------+-----------+------------+
-     | 2      | Phishing                    | This      | IETF       |
-     |        |                             | document  |            |
-     +--------+-----------------------------+-----------+------------+
-     | 3      | Spam                        | This      | IETF       |
-     |        |                             | document  |            |
-     +--------+-----------------------------+-----------+------------+
-     | 4      | Spyware                     | This      | IETF       |
-     |        |                             | document  |            |
-     +--------+-----------------------------+-----------+------------+
-     | 5      | Adware                      | This      | IETF       |
-     |        |                             | document  |            |
-     +--------+-----------------------------+-----------+------------+
-     | 6      | Network policy imposed by   | This      | IETF       |
-     |        | the operator of the network | document  |            |
-     +--------+-----------------------------+-----------+------------+
+| Number | Meaning | Reference |  Change Controller |
+| 0 | Reserved | This-Document | IETF |
+| 1 | Malware | This-Document | IETF |
+| 2 | Phishing | This-Document | IETF |
+| 3 | Spam  | This-Document | IETF |
+| 4 | Spyware | This-Document | IETF |
+| 5 | Adware | This-Document | IETF |
+| 6 | Network policy imposed by the operator of the network | This-Document | IETF |
+{: #reg title='Initial SubError Code Rregistry'}
 
+New entries in this registry are subject to an Expert Review
+registration policy {{!RFC8126}}. The designated expert MUST ensure that
+the Reference is stable and publicly available, and that it specifies
+the suberror code and a short description. The reference may be
+an individual Internet-Draft, or a document from any other source
+with similar assurances of stability and availability.
+
+Review requests are evaluated on the advice of one or more
+designated experts. Criteria that should be applied by the designated
+experts include determining whether the proposed registration
+duplicates existing entries and whether the registration description
+is sufficiently detailed and fits the purpose of this registry.
+The designated experts will either approve or deny the registration
+request, communicating this decision to IANA. Denials should
+include an explanation and, if applicable, suggestions as to how
+to make the request successful.
+
+--- back
 
 # Acknowledgements
 {:numbered="false"}
 
 Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
-Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine and Bob
+Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, and Bob
 Harold for the comments.
-
-
---- back
-
-# Acknowledgments
-{:numbered="false"}
-
-TODO acknowledge.
