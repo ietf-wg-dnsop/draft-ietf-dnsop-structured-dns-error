@@ -29,7 +29,8 @@ pi: [toc, sortrefs, symrefs]
 author:
  -
     fullname: Dan Wing
-    organization: Cloud Software Group
+    organization: Citrix Systems, Inc.
+    abbrev: Citrix
     country: United States of America
     email: "dwing-ietf@fuggles.com"
  -
