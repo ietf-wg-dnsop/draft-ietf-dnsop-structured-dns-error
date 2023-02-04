@@ -29,19 +29,26 @@ pi: [toc, sortrefs, symrefs]
 author:
  -
     fullname: Dan Wing
-    organization: Citrix
+    organization: Cloud Software Group
+    country: United States of America
     email: "dwing-ietf@fuggles.com"
  -
     fullname: Tirumaleswar Reddy
     organization: Nokia
+    city: Bangalore
+    region: Karnataka
+    country: India
     email: "kondtir@gmail.com"
  -
     fullname: Neil Cook
     organization: Open-Xchange
+    country: United Kingdom
     email: "neil.cook@noware.co.uk"
  -
     fullname: Mohamed Boucadair
     organization: Orange
+    street: 35000 Rennes
+    country: France
     email: "mohamed.boucadair@orange.com"
 
 
@@ -98,8 +105,6 @@ details can be parsed by the client and displayed, logged, or used for
 other purposes. Other than that, this document does not change any
 thing written in RFC 8914.
 
-
-
 --- middle
 
 # Introduction
@@ -123,11 +128,11 @@ domain was filtered. With that information, the user can choose
 another network, open a trouble ticket with the DNS administrator to
 resolve erroneous filtering, log the information, or other uses.
 
-For both DNS filtering mechanisms described in Section 4 of (Section
-3), the DNS server can return extended error codes Blocked, Censored,
-Filtered, or Forged Answer defined in Section 4 of [RFC8914]. However,
-these codes only explain that filtering occurred but lack detail for
-the user to diagnose erroneous filtering.
+For the DNS filtering mechanisms described in {{techniques}} the DNS
+server can return extended error codes Blocked, Censored, Filtered, or
+Forged Answer defined in Section 4 of [RFC8914]. However, these codes
+only explain that filtering occurred but lack detail for the user to
+diagnose erroneous filtering.
 
 No matter which type of response is generated (forged IP address(es),
 NXDOMAIN or empty answer, even with an extended error code), the user
@@ -170,7 +175,7 @@ for example, DNS-over-HTTPS [RFC8484], DNS-over-TLS [RFC7858], or
 DNS-over-QUIC [RFC9250].
 
 
-# Limitations of Filtering techniques
+# DNS Filtering Techniques and Their Limitations {#techniques}
 
 DNS responses can be filtered by sending a bogus (also called,
 "forged") A or AAAA response, NXDOMAIN error or empty answer, or an
@@ -328,13 +333,13 @@ When the DNS server filters its DNS response to an A or AAAA record
 query, the DNS response MAY contain an empty answer, NXDOMAIN, or a
 forged A or AAAA response, as desired by the DNS server. In addition,
 if the query contained the OPT pseudo-RR the DNS server MAY return
-more detail in the EXTRA-TEXT field as described in Section 5.3.
+more detail in the EXTRA-TEXT field as described in {{client-processing}}.
 
 Servers may decide to return small TTL values in filtered DNS
 responses (e.g., 2 seconds) to handle domain category and reputation
 updates.
 
-## Client Processing Response
+## Client Processing Response {#client-processing}
 
 On receipt of a DNS response with an Extended DNS Error option, the
 following actions are performed if the EXTRA-TEXT field contains valid
@@ -435,7 +440,7 @@ DNS "A" record query for 'example.org' is shown in {{example-json}}.
   "o": "example.net Filtering Service"
 }
 ~~~~~
-{: #example-json title="example JSON response"}
+{: #example-json title="JSON returned in EXTRA-TEXT field of Extended DNS Error response"}
 
 In {{example-json-minified}} the same content is shown with minified JSON (no
 whitespace, no blank lines) with '\\' line wrapping per [RFC8792].
@@ -448,7 +453,7 @@ whitespace, no blank lines) with '\\' line wrapping per [RFC8792].
   "j":"malware present for 23 days","o":"example.net Filtering \
   Service"}
 ~~~~~
-{: #example-json-minified title="example minified JSON response"}
+{: #example-json-minified title="Minified response"}
 
 # Security Considerations
 
@@ -456,7 +461,7 @@ Security considerations in Section 6 of [RFC8914] apply to this
 document.
 
 To minimize impact of active on-path attacks on the DNS channel, the
-client validates the response as described in Section 5.3.
+client validates the response as described in {{client-processing}}.
 
 A client might choose to display the information in the "c", "j" and
 "o" fields if and only if the encrypted resolver has sufficient
