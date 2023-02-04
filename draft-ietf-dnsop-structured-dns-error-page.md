@@ -421,7 +421,7 @@ EDE-aware clients from EDE-unaware clients and respond appropriately.
 # Examples
 
 An example showing the nameserver at 'ns.example.net' that filtered a
-DNS "A" record query for 'example.org' is shown in Figure 1.
+DNS "A" record query for 'example.org' is shown in {{example-json}}.
 
 ~~~~~
 {
@@ -435,9 +435,9 @@ DNS "A" record query for 'example.org' is shown in Figure 1.
   "o": "example.net Filtering Service"
 }
 ~~~~~
+{: #example-json title="example JSON response"}
 
-
-In Figure 2 the same content is shown with minified JSON (no
+In {{example-json-minified}} the same content is shown with minified JSON (no
 whitespace, no blank lines) with '\\' line wrapping per [RFC8792].
 
 ~~~~~
@@ -448,6 +448,7 @@ whitespace, no blank lines) with '\\' line wrapping per [RFC8792].
   "j":"malware present for 23 days","o":"example.net Filtering \
   Service"}
 ~~~~~
+{: #example-json-minified title="example minified JSON response"}
 
 # Security Considerations
 
@@ -551,10 +552,8 @@ the suberror code and a short description. The Format Reference may be
 any individual's Internet-Draft, or a document from any other source
 with similar assurances of stability and availability.
 
-
-## Initial Sub-errors
-
-The registry shall initially be populated with the following suberror codes:
+The SubError Code registry shall initially be populated with the
+following suberror codes:
 
      +========+=============================+===========+============+
      | Number | Meaning                     | Reference | Change     |
@@ -581,7 +580,6 @@ The registry shall initially be populated with the following suberror codes:
      | 6      | Network policy imposed by   | This      | IETF       |
      |        | the operator of the network | document  |            |
      +--------+-----------------------------+-----------+------------+
-
 
 
 # Acknowledgements
