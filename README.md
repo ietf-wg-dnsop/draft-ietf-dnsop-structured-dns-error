@@ -1,17 +1,17 @@
-# dee enn ess (DNS)
+# Structured DNS Error
 
 This is the working area for the IETF [ADD Working Group](https://datatracker.ietf.org/wg/add/documents/) Internet-Draft, "dee enn ess (DNS)".
 
-* [Editor's Copy](https://danwing.github.io/dnsop2/#go.draft-ietf-add-dns-error-page.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-add-dns-error-page)
-* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-add-dns-error-page)
-* [Compare Editor's Copy to Working Group Draft](https://danwing.github.io/dnsop2/#go.draft-ietf-add-dns-error-page.diff)
+* [Editor's Copy](https://ietf-wg-dnsop.github.io/ietf-wg-dnsop/#go.draft-ietf-add-dns-error.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-add-dns-error)
+* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-add-dns-error)
+* [Compare Editor's Copy to Working Group Draft](https://ietf-wg-dnsop.github.io/ietf-wg-dnsop/#go.draft-ietf-add-dns-error.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/danwing/dnsop2/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/ietf-wg-dnsop/blob/main/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.
