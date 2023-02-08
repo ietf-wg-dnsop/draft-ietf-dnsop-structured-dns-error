@@ -17,6 +17,7 @@ keyword:
  - Informed decision
  - transparency
  - enriched feedback
+
 venue:
   group: "dnsop"
   type: "Working Group"
