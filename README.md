@@ -2,10 +2,10 @@
 
 This is the working area for the IETF [DNSOP Working Group](https://datatracker.ietf.org/wg/dnsop/documents/) Internet-Draft, "Structured Error Data for Filtered DNS".
 
-* [Editor's Copy](https://ietf-wg-dnsop.github.io/ietf-wg-dnsop/#go.draft-ietf-add-dns-error.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-add-dns-error)
-* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-add-dns-error)
-* [Compare Editor's Copy to Working Group Draft](https://ietf-wg-dnsop.github.io/ietf-wg-dnsop/#go.draft-ietf-add-dns-error.diff)
+* [Editor's Copy](https://ietf-wg-dnsop.github.io/ietf-wg-dnsop/#go.draft-ietf-dnsop-dns-error.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-dnsop-dns-error)
+* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-dns-error)
+* [Compare Editor's Copy to Working Group Draft](https://ietf-wg-dnsop.github.io/ietf-wg-dnsop/#go.draft-ietf-dnsop-dns-error.diff)
 
 
 ## Contributing
