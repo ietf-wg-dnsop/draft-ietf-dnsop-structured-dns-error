@@ -1,6 +1,6 @@
 ---
 title: "Structured Error Data for Filtered DNS"
-abbrev: "Structed DNS Error"
+abbrev: "Structured DNS Error"
 category: std
 updates: 8914
 
@@ -24,7 +24,7 @@ venue:
   mail: "dnsop@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/dnsop/"
   github: "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error"
-  latest: "https://danwing.github.io/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error.html"
+  latest: "https://ietf-wg-dnsop.github.io/draft-ietf-dnsop-structured-dns-error/draft-ietf-dnsop-structured-dns-error.html"
 
 stand_alone: yes
 pi: [toc, sortrefs, symrefs, strict, comments, docmapping]
