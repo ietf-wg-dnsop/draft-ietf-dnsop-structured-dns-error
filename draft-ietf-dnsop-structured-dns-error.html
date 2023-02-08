@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Structured Error Data for Filtered DNS</title>
+<meta content="Dan Wing" name="author">
+<meta content="Tirumaleswar Reddy" name="author">
+<meta content="Neil Cook" name="author">
+<meta content="Mohamed Boucadair" name="author">
+<meta content="
+       DNS filtering is widely deployed for network security, but filtered
+DNS responses lack information for the end user to understand the
+reason for the filtering. Existing mechanisms to provide detail to end
+users cause harm especially if the blocked DNS response is to an HTTPS
+website. 
+       This document updates RFC 8914 by structuring the EXTRA-TEXT field of
+the Extended DNS Error to provide details on the DNS filtering. Such
+details can be parsed by the client and displayed, logged, or used for
+other purposes. Other than that, this document does not change any
+thing written in RFC 8914. 
+    " name="description">
+<meta content="xml2rfc 3.16.0" name="generator">
+<meta content="Customer experience" name="keyword">
+<meta content="Informed decision" name="keyword">
+<meta content="transparency" name="keyword">
+<meta content="enriched feedback" name="keyword">
+<meta content="draft-ietf-dnsop-structured-dns-error-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.16.0
+    Python 3.10.9
+    appdirs 1.4.4
+    ConfigArgParse 1.5.3
+    google-i18n-address 2.5.2
+    html5lib 1.1
+    intervaltree 3.1.0
+    Jinja2 3.1.2
+    lxml 4.9.2
+    MarkupSafe 2.1.1
+    pycountry 22.3.5
+    PyYAML 6.0
+    requests 2.28.1
+    setuptools 65.6.0
+    six 1.16.0
+    wcwidth 0.2.6
+-->
+<link href="draft-ietf-dnsop-structured-dns-error.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin Condensed", sans-serif;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+}
+:is(ol, ul) :is(ol, ul) {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+  min-width: 8ch;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
+  margin-top: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
+  margin-bottom: 0;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    overflow-x: auto;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+}
+a.pilcrow[href] { color: var(--pilcrow-weak); }
+a.pilcrow[href]:hover { text-decoration: none; }
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: 14.5px;
+}
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+}
+#identifiers dt {
+  width: var(--identifier-width);
+  min-width: var(--identifier-width);
+  clear: left;
+  float: left;
+  text-align: right;
+}
+#identifiers dd {
+  margin: 0;
+  margin-left: calc(1em + var(--identifier-width)) !important;
+  min-width: 5em;
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+#toc nav ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+#toc nav li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dt:target::before {
+  content: "⇒";
+  width: 15px;
+  margin: 0 10px 0 -25px;
+}
+.references dd {
+  margin-left: 8em !important;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc.active {
+      opacity: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 8px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active nav {
+    display: block;
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin-top: 2px;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  #toc nav > ul  {
+    margin-bottom: 2em;
+  }
+  #toc ul {
+    margin: 0 0 0 4px;
+    font-size: var(--small-font-size);
+  }
+  #toc ul :is(p, li) {
+    margin: 2px 0;
+    line-height: 22px;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Changes introduced to fix issues found during implementation */
+
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin: 8px 0.5em 0;
+}
+
+/* Provide styling for table cell text alignment */
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 20em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  dd {
+    page-break-before: avoid;
+  }
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Data for Filtered DNS</td>
+<td class="right">February 2023</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Wing, et al.</td>
+<td class="center">Expires 12 August 2023</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">DNS Operations Working Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-ietf-dnsop-structured-dns-error-latest</dd>
+<dt class="label-updates">Updates:</dt>
+<dd class="updates">
+<a href="https://www.rfc-editor.org/rfc/rfc8914" class="eref">8914</a> (if approved)</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2023-02-08" class="published">8 February 2023</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2023-08-12">12 August 2023</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">D. Wing</div>
+<div class="org">Citrix</div>
+</div>
+<div class="author">
+      <div class="author-name">T. Reddy</div>
+<div class="org">Nokia</div>
+</div>
+<div class="author">
+      <div class="author-name">N. Cook</div>
+<div class="org">Open-Xchange</div>
+</div>
+<div class="author">
+      <div class="author-name">M. Boucadair</div>
+<div class="org">Orange</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Structured Error Data for Filtered DNS</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">DNS filtering is widely deployed for network security, but filtered
+DNS responses lack information for the end user to understand the
+reason for the filtering. Existing mechanisms to provide detail to end
+users cause harm especially if the blocked DNS response is to an HTTPS
+website.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">This document updates RFC 8914 by structuring the EXTRA-TEXT field of
+the Extended DNS Error to provide details on the DNS filtering. Such
+details can be parsed by the client and displayed, logged, or used for
+other purposes. Other than that, this document does not change any
+thing written in RFC 8914.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        The latest revision of this draft can be found at <span><a href="https://danwing.github.io/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error.html">https://danwing.github.io/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error.html</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-ietf-dnsop-structured-dns-error/">https://datatracker.ietf.org/doc/draft-ietf-dnsop-structured-dns-error/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">
+        Discussion of this document takes place on the
+        dnsop Working Group mailing list (<span><a href="mailto:dnsop@ietf.org">mailto:dnsop@ietf.org</a></span>),
+        which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/dnsop/">https://mailarchive.ietf.org/arch/browse/dnsop/</a></span>.
+        Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/dnsop/">https://www.ietf.org/mailman/listinfo/dnsop/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error">https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 12 August 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2023 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-dns-filtering-techniques-an" class="internal xref">DNS Filtering Techniques and Their Limitations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-i-json-in-extra-text-field" class="internal xref">I-JSON in EXTRA-TEXT field</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-protocol-operation" class="internal xref">Protocol Operation</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-client-generating-request" class="internal xref">Client Generating Request</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-server-generating-response" class="internal xref">Server Generating Response</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-client-processing-response" class="internal xref">Client Processing Response</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-interoperation-with-rpz-ser" class="internal xref">Interoperation with RPZ Servers</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-new-structured-dns-error-me" class="internal xref">New structured-dns-error Media Type</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-new-registry-for-suberror-c" class="internal xref">New Registry for SubError Codes</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">DNS filters are deployed for a variety of reasons including endpoint
+security, parental filtering, and filtering required by law
+enforcement. Network-based security solutions such as firewalls and
+Intrusion Prevention Systems (IPS) rely upon network traffic
+inspection to implement perimeter-based security policies and operate
+by filtering DNS responses. In a home, DNS filtering is used for the
+same reasons as above and additionally for parental control. Internet
+Service Providers typically block access to some DNS domains due to a
+requirement imposed by an external entity (e.g., law enforcement
+agency) also performed using DNS-based content filtering.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Users of DNS services which perform filtering may wish to receive more
+information about such filtering to resolve problems with the filter
+-- for example to contact the administrator to allowlist a domain that
+was erroneously filtered or to understand the reason a particular
+domain was filtered. With that information, the user can choose
+another network, open a trouble ticket with the DNS administrator to
+resolve erroneous filtering, log the information, or other uses.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">For the DNS filtering mechanisms described in <a href="#techniques" class="auto internal xref">Section 3</a> the DNS
+server can return extended error codes Blocked, Censored, Filtered, or
+Forged Answer defined in Section 4 of <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>. However, these codes
+only explain that filtering occurred but lack detail for the user to
+diagnose erroneous filtering.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">No matter which type of response is generated (forged IP address(es),
+NXDOMAIN or empty answer, even with an extended error code), the user
+who triggered the DNS query has little chance to understand which
+entity filtered the query, how to report a mistake in the filter, or
+why the entity filtered it at all. This document describes a mechanism
+to provide such detail.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">One of the other benefits of this approach is to eliminate the need to
+"spoof" block pages for HTTPS resources. This is achieved since
+clients implementing this approach would be able to display a
+meaningful error message, and would not need to connect to such a
+block page. This approach thus avoids the need to install a local root
+certificate authority on those IT-managed devices.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">This document describes a format for computer-parsable data in the
+EXTRA-TEXT field of <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>. It updates Section 2 of <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> which
+says the information in EXTRA-TEXT field is intended for human
+consumption (not automated parsing).<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">This document does not recommend DNS filtering but provides a
+mechanism for better transparency to explain to the users why some DNS
+queries are filtered.<a href="#section-1-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="conventions-and-definitions">
+<section id="section-2">
+      <h2 id="name-conventions-and-definitions">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+      </h2>
+<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">This document uses terms defined in DNS Terminology <span>[<a href="#RFC8499" class="cite xref">RFC8499</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-3">"Requestor" refers to the side that sends a request. "Responder"
+refers to an authoritative, recursive resolver or other DNS component
+that responds to questions. Other terminology is used here as defined
+in the RFCs cited by this document.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-4">"Encrypted DNS" refers to any encrypted scheme to convey DNS messages,
+for example, DNS-over-HTTPS <span>[<a href="#RFC8484" class="cite xref">RFC8484</a>]</span>, DNS-over-TLS <span>[<a href="#RFC7858" class="cite xref">RFC7858</a>]</span>, or
+DNS-over-QUIC <span>[<a href="#RFC9250" class="cite xref">RFC9250</a>]</span>.<a href="#section-2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="techniques">
+<section id="section-3">
+      <h2 id="name-dns-filtering-techniques-an">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-dns-filtering-techniques-an" class="section-name selfRef">DNS Filtering Techniques and Their Limitations</a>
+      </h2>
+<p id="section-3-1">DNS responses can be filtered by sending a bogus (also called,
+"forged") A or AAAA response, NXDOMAIN error or empty answer, or an
+extended DNS error (EDE) code defined in <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>. Each of these
+methods have advantages and disadvantages that are discussed below:<a href="#section-3-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-3-2">
+<li id="section-3-2.1">
+          <p id="section-3-2.1.1">The DNS response is forged to provide a list of IP addresses that
+points to an HTTP(S) server alerting the end user about the reason for
+blocking access to the requested domain (e.g., malware). When an
+HTTP(S) enabled domain name is blocked, the network security device
+(e.g., CPE, firewall) presents a block page instead of the HTTP
+response from the content provider hosting that domain. If an HTTP
+enabled domain name is blocked, the network security device intercepts
+the HTTP request and returns a block page over HTTP. If an HTTPS
+enabled domain is blocked, the block page is also served over
+HTTPS. In order to return a block page over HTTPS, man in the middle
+(MITM) is enabled on endpoints by generating a local root certificate
+and an accompanying (local) public/private key pair. The local root
+certificate is installed on the endpoint while the network security
+device(s) stores a copy of the private key. During the TLS handshake,
+the network security device modifies the certificate provided by the
+server and (re)signs it using the private key from the local root
+certificate.<a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3-2.1.2.1">However, configuring the local root certificate on endpoints is
+not a viable option in several deployments like home networks,
+schools, Small Office/Home Office (SOHO), and Small/ Medium
+Enterprise (SME). In these cases, the typical behavior is that
+the filtered DNS response points to a server that will display
+the block page. If the client is using HTTPS (via web browser or
+another application) this results in a certificate validation
+error which gives no information to the end-user about the reason
+for the DNS filtering. Browsers will display errors such as "The
+security certificate presented by this website was not issued by
+a trusted certificate authority" (Internet Explorer/Edge"), "The
+site's security certificate is not trusted" (Chrome), "This
+Connection is Untrusted" (Firefox), "Safari can't verify the
+identity of the website..." (Safari on MacOS). Applications might
+display even more cryptic error messages.<a href="#section-3-2.1.2.1" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-3-2.1.2.2">Enterprise networks do not assume that all the connected devices
+are managed by the IT team or Mobile Device Management (MDM)
+devices, especially in the quite common Bring Your Own Device
+(BYOD) scenario. In addition, the local root certificate cannot
+be installed on IoT devices without a device management tool.<a href="#section-3-2.1.2.2" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-3-2.1.2.3">An end user does not know why the connection was prevented and,
+consequently, may repeatedly try to reach the domain but with no
+success. Frustrated, the end user may switch to an alternate
+network that offers no DNS filtering against malware and
+phishing, potentially compromising both security and
+privacy. Furthermore, certificate errors train users to click
+through certificate errors, which is a bad security practice. To
+eliminate the need for an end user to click through certificate
+errors, an end user may manually install a local root certificate
+on a host device. Doing so, however, is also a bad security
+practice as it creates a security vulnerability that may be
+exploited by a MITM attack. When a manually installed local root
+certificate expires, the user has to (again) manually install the
+new local root certificate.<a href="#section-3-2.1.2.3" class="pilcrow">¶</a>
+</li>
+          </ul>
+</li>
+        <li id="section-3-2.2">The DNS response is forged to provide a NXDOMAIN response to cause
+the DNS lookup to terminate in failure. In this case, an end user does
+not know why the domain cannot be reached and may repeatedly try to
+reach the domain but with no success. Frustrated, the end user may use
+insecure connections to reach the domain, potentially compromising
+both security and privacy.<a href="#section-3-2.2" class="pilcrow">¶</a>
+</li>
+        <li id="section-3-2.3">The extended error codes Blocked, Censored, and Filtered defined in
+Section 4 of <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> can be returned by a DNS server to provide
+additional information about the cause of an DNS error. If the
+extended error code "Forged Answer" defined in Section 4.5 of
+<span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> is returned by the DNS server, the client can identify the
+DNS response is forged together with the reason for HTTPS certificate
+error.<a href="#section-3-2.3" class="pilcrow">¶</a>
+</li>
+        <li id="section-3-2.4">These extended error codes do not suffer from the limitations
+discussed in bullets (1) and (2), but the user still does not know the
+exact reason nor he/she is aware of the exact entity blocking the
+access to the domain. For example, a DNS server may block access to a
+domain based on the content category such as "Malware" to protect the
+endpoint from malicious software, "Phishing" to prevent the user from
+revealing sensitive information to the attacker, etc. A user needs to
+know the contact details of the IT/InfoSec team to raise a complaint.<a href="#section-3-2.4" class="pilcrow">¶</a>
+</li>
+        <li id="section-3-2.5">When a resolver or forwarder forwards the received EDE option, the
+EXTRA-TEXT field only conveys the source of the error (Section 3 of
+<span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>) and does not provide additional textual information about
+the cause of the error.<a href="#section-3-2.5" class="pilcrow">¶</a>
+</li>
+      </ol>
+</section>
+</div>
+<div id="i-json-in-extra-text-field">
+<section id="section-4">
+      <h2 id="name-i-json-in-extra-text-field">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-i-json-in-extra-text-field" class="section-name selfRef">I-JSON in EXTRA-TEXT field</a>
+      </h2>
+<p id="section-4-1">Servers that are compliant with this specification send I-JSON data in
+the EXTRA-TEXT field <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> using the Internet JSON (I-JSON)
+message format <span>[<a href="#RFC7493" class="cite xref">RFC7493</a>]</span>.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-4-2.1">
+          <p id="section-4-2.1.1">Note that <span>[<a href="#RFC7493" class="cite xref">RFC7493</a>]</span> was based on <span>[<a href="#RFC7159" class="cite xref">RFC7159</a>]</span>, but <span>[<a href="#RFC7159" class="cite xref">RFC7159</a>]</span> was replaced by <span>[<a href="#RFC8259" class="cite xref">RFC8259</a>]</span>.<a href="#section-4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-4-3">This document defines the following JSON names:<a href="#section-4-3" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-4-4">
+        <dt id="section-4-4.1">c: (contact)</dt>
+        <dd style="margin-left: 1.5em" id="section-4-4.2">
+          <p id="section-4-4.2.1">The contact details of the IT/InfoSec team to report mis-classified
+DNS filtering. This field is structured as an array of contact URIs
+(e.g., tel, sips, https). At least one contact URI <span class="bcp14">MUST</span> be
+included. This field is mandatory.<a href="#section-4-4.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-4.3">j: (justification)</dt>
+        <dd style="margin-left: 1.5em" id="section-4-4.4">
+          <p id="section-4-4.4.1">UTF-8-encoded <span>[<a href="#RFC5198" class="cite xref">RFC5198</a>]</span> textual justification for this particular
+DNS filtering. The field should be treated only as diagnostic
+information for IT staff. This field is mandatory.<a href="#section-4-4.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-4.5">s: (suberror)</dt>
+        <dd style="margin-left: 1.5em" id="section-4-4.6">
+          <p id="section-4-4.6.1">the suberror code for this particular DNS filtering. This field is optional.<a href="#section-4-4.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-4.7">o: (organization)</dt>
+        <dd style="margin-left: 1.5em" id="section-4-4.8">
+          <p id="section-4-4.8.1">UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query. This field is optional.<a href="#section-4-4.8.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+<p id="section-4-5">New JSON names <span class="bcp14">MUST</span> be defined in the IANA
+"application/json+structured-dns-error" registry (<a href="#IANA" class="auto internal xref">Section 9</a>), and <span class="bcp14">MUST</span>
+consist only of lower-case ASCII characters, digits, and hyphens (that
+is, Unicode characters U+0061 through 007A, U+0030 through U+0039, and
+U+002D). These names <span class="bcp14">MUST</span> be 63 characters or shorter and it is
+<span class="bcp14">RECOMMENDED</span> they be as short as possible.<a href="#section-4-5" class="pilcrow">¶</a></p>
+<p id="section-4-6">The text in the "j" and "o" names can include international
+characters. If the text is displayed in a language not known to the
+end user, browser extensions to translate to user's native language
+can be used. For example, "Google Translate" extension
+<span>[<a href="#Chrome-Translate" class="cite xref">Chrome-Translate</a>]</span> provided by Google on Chrome can be used to
+translate the text.<a href="#section-4-6" class="pilcrow">¶</a></p>
+<p id="section-4-7">To reduce packet overhead the generated JSON <span class="bcp14">SHOULD</span> be as short as
+possible: short domain names, concise text in the values for the "j"
+and "o" names, and minified JSON (that is, without spaces or line
+breaks between JSON elements).<a href="#section-4-7" class="pilcrow">¶</a></p>
+<p id="section-4-8">The JSON data can be parsed to display to the user, logged, or
+otherwise used to assist the end-user or IT staff with troubleshooting
+and diagnosing the cause of the DNS filtering.<a href="#section-4-8" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="protocol-operation">
+<section id="section-5">
+      <h2 id="name-protocol-operation">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-protocol-operation" class="section-name selfRef">Protocol Operation</a>
+      </h2>
+<div id="client-generating-request">
+<section id="section-5.1">
+        <h3 id="name-client-generating-request">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-client-generating-request" class="section-name selfRef">Client Generating Request</a>
+        </h3>
+<p id="section-5.1-1">When generating a DNS query, the client includes the Extended DNS
+Error option Section 2 of <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> in the OPT pseudo-RR <span>[<a href="#RFC6891" class="cite xref">RFC6891</a>]</span> to
+elicit the Extended DNS Error option in the DNS response.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="server-generating-response">
+<section id="section-5.2">
+        <h3 id="name-server-generating-response">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-server-generating-response" class="section-name selfRef">Server Generating Response</a>
+        </h3>
+<p id="section-5.2-1">When the DNS server filters its DNS response to an A or AAAA record
+query, the DNS response <span class="bcp14">MAY</span> contain an empty answer, NXDOMAIN, or a
+forged A or AAAA response, as desired by the DNS server. In addition,
+if the query contained the OPT pseudo-RR the DNS server <span class="bcp14">MAY</span> return
+more detail in the EXTRA-TEXT field as described in <a href="#client-processing" class="auto internal xref">Section 5.3</a>.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-2">Servers may decide to return small TTL values in filtered DNS
+responses (e.g., 2 seconds) to handle domain category and reputation
+updates.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="client-processing">
+<section id="section-5.3">
+        <h3 id="name-client-processing-response">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-client-processing-response" class="section-name selfRef">Client Processing Response</a>
+        </h3>
+<p id="section-5.3-1">On receipt of a DNS response with an Extended DNS Error option, the
+following actions are performed if the EXTRA-TEXT field contains valid
+JSON:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-2.1">The response <span class="bcp14">MUST</span> be received over an encrypted DNS channel. If not,
+the requestor <span class="bcp14">MUST</span> discard data in the EXTRA-TEXT field.<a href="#section-5.3-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.3-2.2">The response <span class="bcp14">MUST</span> be received from a DNS server which advertised EDE
+support via a trusted channel, e.g., RESINFO
+<span>[<a href="#I-D.reddy-add-resolver-info" class="cite xref">I-D.reddy-add-resolver-info</a>]</span>.<a href="#section-5.3-2.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.3-2.3">Servers which don't support this specification might use plain text
+in the EXTRA-TEXT field so that requestors <span class="bcp14">SHOULD</span> properly handle
+both plaintext and JSON text in the EXTRA-TEXT field.<a href="#section-5.3-2.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.3-2.4">The DNS response <span class="bcp14">MUST</span> also contain an extended error code of
+"Censored", "Blocked", "Filtered" or "Forged" <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>, otherwise
+the EXTRA-TEXT field is discarded.<a href="#section-5.3-2.4" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.3-2.5">If either of the mandatory JSON names "c" and "j" are missing or
+have empty values in the EXTRA-TEXT field, the entire JSON is
+discarded.<a href="#section-5.3-2.5" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.3-2.6">The JSON name "s" <span class="bcp14">MUST NOT</span> be present with the extended error code
+"Censored".<a href="#section-5.3-2.6" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.3-2.7">If a DNS client has enabled opportunistic privacy profile (Section 5
+of <span>[<a href="#RFC8310" class="cite xref">RFC8310</a>]</span>) for DoT, the DNS client will either fallback to an
+encrypted connection without authenticating the DNS server provided
+by the local network or fallback to clear text DNS, and cannot
+exchange encrypted DNS messages. Both of these fallback mechanisms
+adversely impacts security and privacy. If the DNS client has
+enabled opportunistic privacy profile for DoT, the DNS client <span class="bcp14">MUST</span>
+ignore the EXTRA-TEXT field of the EDE responses, but <span class="bcp14">SHOULD</span> process
+other parts of the response.<a href="#section-5.3-2.7" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.3-2.8">If a DNS client has enabled strict privacy profile (Section 5 of
+<span>[<a href="#RFC8310" class="cite xref">RFC8310</a>]</span>) for DoT, the DNS client requires an encrypted connection
+and successful authentication of the DNS server; this mitigates both
+passive eavesdropping and client redirection (at the expense of
+providing no DNS service if an encrypted, authenticated connection
+is not available). If the DNS client has enabled strict privacy
+profile for DoT, the client <span class="bcp14">MAY</span> process the EXTRA-TEXT field of the
+DNS response. Note that the strict and opportunistic privacy
+profiles as defined in <span>[<a href="#RFC8310" class="cite xref">RFC8310</a>]</span> only apply to DoT; there has been
+no such distinction made for DoH.<a href="#section-5.3-2.8" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.3-2.9">If the DNS client determines that the encrypted DNS server does not
+offer DNS filtering service, it <span class="bcp14">MUST</span> discard the EXTRA-TEXT field of
+the EDE response. For example, the DNS client can learn whether the
+encrypted DNS resolver performs DNS-based content filtering or not
+by retrieving resolver information using the method defined in
+<span>[<a href="#I-D.reddy-add-resolver-info" class="cite xref">I-D.reddy-add-resolver-info</a>]</span>.<a href="#section-5.3-2.9" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.3-2.10">When a forwarder receives an EDE option, whether or not (and how) to
+pass along JSON information in the EXTRA-TEXT on to their client is
+implementation dependent <span>[<a href="#RFC5625" class="cite xref">RFC5625</a>]</span>. Implementations <span class="bcp14">MAY</span> choose to
+not forward the JSON information, or they <span class="bcp14">MAY</span> choose to create a new
+EDE option that conveys the information in the "c", "s" and "j"
+fields encoded in the JSON object.<a href="#section-5.3-2.10" class="pilcrow">¶</a>
+</li>
+        </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="interoperation-with-rpz-servers">
+<section id="section-6">
+      <h2 id="name-interoperation-with-rpz-ser">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-interoperation-with-rpz-ser" class="section-name selfRef">Interoperation with RPZ Servers</a>
+      </h2>
+<p id="section-6-1">This section discusses operation with an RPZ server <span>[<a href="#RPZ" class="cite xref">RPZ</a>]</span> that
+indicates filtering with a NXDOMAIN response with the Recursion
+Available bit cleared (RA=0).<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">When the DNS client supports this specification but the server does
+not, the server will continue replying when a query is RPZ filtered
+with NXDOMAIN and RA=0. An DNS client upgraded to support this
+specification can continue to accept responses with NXDOMAIN and RA=0
+from the RPZ server that does not support this specification.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">When the DNS client supports this specification and the server
+supports this specification, the client learns of the server's support
+via <span>[<a href="#I-D.reddy-add-resolver-info" class="cite xref">I-D.reddy-add-resolver-info</a>]</span> and the client includes the EDE OPT
+pseudo-RR in the query. This allows the server to differentiate
+EDE-aware clients from EDE-unaware clients and respond appropriately.<a href="#section-6-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="examples">
+<section id="section-7">
+      <h2 id="name-examples">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+      </h2>
+<p id="section-7-1">An example showing the nameserver at 'ns.example.net' that filtered a
+DNS "A" record query for 'example.org' is shown in <a href="#example-json" class="auto internal xref">Figure 1</a>.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<span id="name-json-returned-in-extra-text"></span><div id="example-json">
+<figure id="figure-1">
+        <div class="alignLeft art-text artwork" id="section-7-2.1">
+<pre>
+{
+  "c": [
+    "tel:+358-555-1234567",
+    "sips:bob@bobphone.example.com",
+    "https://ticket.example.com?d=example.org&amp;t=1650560748"
+  ],
+  "j": "malware present for 23 days",
+  "s": 1,
+  "o": "example.net Filtering Service"
+}
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-json-returned-in-extra-text" class="selfRef">JSON returned in EXTRA-TEXT field of Extended DNS Error response</a>
+        </figcaption></figure>
+</div>
+<p id="section-7-3">In <a href="#example-json-minified" class="auto internal xref">Figure 2</a> the same content is shown with minified JSON (no
+whitespace, no blank lines) with '\' line wrapping per <span>[<a href="#RFC8792" class="cite xref">RFC8792</a>]</span>.<a href="#section-7-3" class="pilcrow">¶</a></p>
+<span id="name-minified-response"></span><div id="example-json-minified">
+<figure id="figure-2">
+        <div class="alignLeft art-text artwork" id="section-7-4.1">
+<pre>
+ ============== NOTE: '\' line wrapping per RFC 8792 ===============
+
+  {"c":["tel:+358-555-1234567","sips:bob@bobphone.example.com", \
+  "https://ticket.example.com?d=example.org&amp;t=1650560748"],"s":1, \
+  "j":"malware present for 23 days","o":"example.net Filtering \
+  Service"}
+</pre>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-minified-response" class="selfRef">Minified response</a>
+        </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-8">
+      <h2 id="name-security-considerations">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-8-1">Security considerations in Section 6 of <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> apply to this
+document.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2">To minimize impact of active on-path attacks on the DNS channel, the
+client validates the response as described in <a href="#client-processing" class="auto internal xref">Section 5.3</a>.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-3">A client might choose to display the information in the "c", "j" and
+"o" fields if and only if the encrypted resolver has sufficient
+reputation, according to some local policy (e.g. user configuration,
+administrative configuration, or a built-in list of respectable
+resolvers). This limits the ability of a malicious encrypted resolver
+to cause harm. If the client decides not to display the all of the
+information in the EXTRA-TEXT field, it can be logged for diagnostics
+purpose and the client can only display the resolver hostname that
+blocked the domain, error description for the EDE code and the
+suberror description for the "s'" field to the end-user.<a href="#section-8-3" class="pilcrow">¶</a></p>
+<p id="section-8-4">When displaying the free-form text of "c" and "o", the browser <span class="bcp14">SHOULD NOT</span> make any of those elements into actionable (clickable) links.<a href="#section-8-4" class="pilcrow">¶</a></p>
+<p id="section-8-5">An attacker might inject (or modify) the EDE EXTRA-TEXT field with an
+DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
+DNS forwarder will forward that attacker-controlled EDE option. To
+prevent such an attack, clients supporting this document <span class="bcp14">MUST</span> discard
+the EDE option if their DNS server does not signal EDE support via
+RESINFO <span>[<a href="#I-D.reddy-add-resolver-info" class="cite xref">I-D.reddy-add-resolver-info</a>]</span>. As recommended in
+<span>[<a href="#I-D.reddy-add-resolver-info" class="cite xref">I-D.reddy-add-resolver-info</a>]</span>, RESINFO should be retrieved over an
+encrypted DNS channel or integrity protected with DNSSEC.<a href="#section-8-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="IANA">
+<section id="section-9">
+      <h2 id="name-iana-considerations">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-9-1">This document requests two IANA actions as described in the following subsections.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<div id="new-structured-dns-error-media-type">
+<section id="section-9.1">
+        <h3 id="name-new-structured-dns-error-me">
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-new-structured-dns-error-me" class="section-name selfRef">New structured-dns-error Media Type</a>
+        </h3>
+<p id="section-9.1-1">This document requests IANA to register the
+"application/json+structured-dns-error" media type in the "Media
+Types" registry <span>[<a href="#IANA-MediaTypes" class="cite xref">IANA-MediaTypes</a>]</span>. This registration follows the
+procedures specified in <span>[<a href="#RFC6838" class="cite xref">RFC6838</a>]</span>:<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-9.1-2">
+<pre>
+   Type name: application
+
+   Subtype name: json+structured-dns-error
+
+   Required parameters: N/A
+
+   Optional parameters: N/A
+
+   Encoding considerations: as defined in Section NN of [RFCXXXX].
+
+   Security considerations: See Section NNN of [RFCXXXX].
+
+   Interoperability considerations: N/A
+
+   Published specification: [RFCXXXX]
+
+   Applications that use this media type: Section NNNN of [RFCXXXX].
+
+   Fragment identifier considerations: N/A
+
+   Additional information: N/A
+
+   Person &amp; email address to contact for further information: IETF,
+      iesg@ietf.org
+
+   Intended usage: COMMON
+
+   Restrictions on usage: none
+
+   Author: See Authors' Addresses section.
+
+   Change controller: IESG
+
+   Provisional registration?  No
+</pre><a href="#section-9.1-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="new-registry-for-suberror-codes">
+<section id="section-9.2">
+        <h3 id="name-new-registry-for-suberror-c">
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-new-registry-for-suberror-c" class="section-name selfRef">New Registry for SubError Codes</a>
+        </h3>
+<p id="section-9.2-1">This document requests IANA to create a new registry, entitled "SubError Codes"
+under "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
+registry <span>[<a href="#IANA-DNS" class="cite xref">IANA-DNS</a>]</span>. The registration request for a new suberror codes <span class="bcp14">MUST</span> include the
+following fields:<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-9.2-2.1">Number: Wire format suberror code (range 0-255)<a href="#section-9.2-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-9.2-2.2">Meaning: A short description of the errir<a href="#section-9.2-2.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-9.2-2.3">Reference: A pointer to the specification text<a href="#section-9.2-2.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-9.2-2.4">Change Controller: Person or entity, with contact information if appropriate.<a href="#section-9.2-2.4" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-9.2-3">The SubError Code registry shall initially be populated with the
+following suberror codes:<a href="#section-9.2-3" class="pilcrow">¶</a></p>
+<span id="name-initial-suberror-code-rregi"></span><div id="reg">
+<table class="center" id="table-1">
+          <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-initial-suberror-code-rregi" class="selfRef">Initial SubError Code Rregistry</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Number</th>
+              <th class="text-left" rowspan="1" colspan="1">Meaning</th>
+              <th class="text-left" rowspan="1" colspan="1">Reference</th>
+              <th class="text-left" rowspan="1" colspan="1">Change Controller</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0</td>
+              <td class="text-left" rowspan="1" colspan="1">Reserved</td>
+              <td class="text-left" rowspan="1" colspan="1">This-Document</td>
+              <td class="text-left" rowspan="1" colspan="1">IETF</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">1</td>
+              <td class="text-left" rowspan="1" colspan="1">Malware</td>
+              <td class="text-left" rowspan="1" colspan="1">This-Document</td>
+              <td class="text-left" rowspan="1" colspan="1">IETF</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">2</td>
+              <td class="text-left" rowspan="1" colspan="1">Phishing</td>
+              <td class="text-left" rowspan="1" colspan="1">This-Document</td>
+              <td class="text-left" rowspan="1" colspan="1">IETF</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">3</td>
+              <td class="text-left" rowspan="1" colspan="1">Spam</td>
+              <td class="text-left" rowspan="1" colspan="1">This-Document</td>
+              <td class="text-left" rowspan="1" colspan="1">IETF</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">4</td>
+              <td class="text-left" rowspan="1" colspan="1">Spyware</td>
+              <td class="text-left" rowspan="1" colspan="1">This-Document</td>
+              <td class="text-left" rowspan="1" colspan="1">IETF</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">5</td>
+              <td class="text-left" rowspan="1" colspan="1">Adware</td>
+              <td class="text-left" rowspan="1" colspan="1">This-Document</td>
+              <td class="text-left" rowspan="1" colspan="1">IETF</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">6</td>
+              <td class="text-left" rowspan="1" colspan="1">Network policy imposed by the operator of the network</td>
+              <td class="text-left" rowspan="1" colspan="1">This-Document</td>
+              <td class="text-left" rowspan="1" colspan="1">IETF</td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+<p id="section-9.2-5">New entries in this registry are subject to an Expert Review
+registration policy <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. The designated expert <span class="bcp14">MUST</span> ensure that
+the Reference is stable and publicly available, and that it specifies
+the suberror code and a short description. The reference may be
+an individual Internet-Draft, or a document from any other source
+with similar assurances of stability and availability.<a href="#section-9.2-5" class="pilcrow">¶</a></p>
+<p id="section-9.2-6">Review requests are evaluated on the advice of one or more
+designated experts. Criteria that should be applied by the designated
+experts include determining whether the proposed registration
+duplicates existing entries and whether the registration description
+is sufficiently detailed and fits the purpose of this registry.
+The designated experts will either approve or deny the registration
+request, communicating this decision to IANA. Denials should
+include an explanation and, if applicable, suggestions as to how
+to make the request successful.<a href="#section-9.2-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<section id="section-10">
+      <h2 id="name-references">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<section id="section-10.1">
+        <h3 id="name-normative-references">
+<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5198">[RFC5198]</dt>
+        <dd>
+<span class="refAuthor">Klensin, J.</span> and <span class="refAuthor">M. Padlipsky</span>, <span class="refTitle">"Unicode Format for Network Interchange"</span>, <span class="seriesInfo">RFC 5198</span>, <span class="seriesInfo">DOI 10.17487/RFC5198</span>, <time datetime="2008-03" class="refDate">March 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5198">https://www.rfc-editor.org/rfc/rfc5198</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6838">[RFC6838]</dt>
+        <dd>
+<span class="refAuthor">Freed, N.</span>, <span class="refAuthor">Klensin, J.</span>, and <span class="refAuthor">T. Hansen</span>, <span class="refTitle">"Media Type Specifications and Registration Procedures"</span>, <span class="seriesInfo">BCP 13</span>, <span class="seriesInfo">RFC 6838</span>, <span class="seriesInfo">DOI 10.17487/RFC6838</span>, <time datetime="2013-01" class="refDate">January 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6838">https://www.rfc-editor.org/rfc/rfc6838</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6891">[RFC6891]</dt>
+        <dd>
+<span class="refAuthor">Damas, J.</span>, <span class="refAuthor">Graff, M.</span>, and <span class="refAuthor">P. Vixie</span>, <span class="refTitle">"Extension Mechanisms for DNS (EDNS(0))"</span>, <span class="seriesInfo">STD 75</span>, <span class="seriesInfo">RFC 6891</span>, <span class="seriesInfo">DOI 10.17487/RFC6891</span>, <time datetime="2013-04" class="refDate">April 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6891">https://www.rfc-editor.org/rfc/rfc6891</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7159">[RFC7159]</dt>
+        <dd>
+<span class="refAuthor">Bray, T., Ed.</span>, <span class="refTitle">"The JavaScript Object Notation (JSON) Data Interchange Format"</span>, <span class="seriesInfo">RFC 7159</span>, <span class="seriesInfo">DOI 10.17487/RFC7159</span>, <time datetime="2014-03" class="refDate">March 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7159">https://www.rfc-editor.org/rfc/rfc7159</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7493">[RFC7493]</dt>
+        <dd>
+<span class="refAuthor">Bray, T., Ed.</span>, <span class="refTitle">"The I-JSON Message Format"</span>, <span class="seriesInfo">RFC 7493</span>, <span class="seriesInfo">DOI 10.17487/RFC7493</span>, <time datetime="2015-03" class="refDate">March 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7493">https://www.rfc-editor.org/rfc/rfc7493</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8126">[RFC8126]</dt>
+        <dd>
+<span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8310">[RFC8310]</dt>
+        <dd>
+<span class="refAuthor">Dickinson, S.</span>, <span class="refAuthor">Gillmor, D.</span>, and <span class="refAuthor">T. Reddy</span>, <span class="refTitle">"Usage Profiles for DNS over TLS and DNS over DTLS"</span>, <span class="seriesInfo">RFC 8310</span>, <span class="seriesInfo">DOI 10.17487/RFC8310</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8310">https://www.rfc-editor.org/rfc/rfc8310</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8914">[RFC8914]</dt>
+      <dd>
+<span class="refAuthor">Kumari, W.</span>, <span class="refAuthor">Hunt, E.</span>, <span class="refAuthor">Arends, R.</span>, <span class="refAuthor">Hardaker, W.</span>, and <span class="refAuthor">D. Lawrence</span>, <span class="refTitle">"Extended DNS Errors"</span>, <span class="seriesInfo">RFC 8914</span>, <span class="seriesInfo">DOI 10.17487/RFC8914</span>, <time datetime="2020-10" class="refDate">October 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8914">https://www.rfc-editor.org/rfc/rfc8914</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+<section id="section-10.2">
+        <h3 id="name-informative-references">
+<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="Chrome-Translate">[Chrome-Translate]</dt>
+        <dd>
+<span class="refTitle">"Change Chrome languages &amp; translate webpages"</span>, <span>&lt;<a href="https://support.google.com/chrome/answer/173424">https://support.google.com/chrome/answer/173424</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.reddy-add-resolver-info">[I-D.reddy-add-resolver-info]</dt>
+        <dd>
+<span class="refAuthor">Reddy.K, T.</span> and <span class="refAuthor">M. Boucadair</span>, <span class="refTitle">"DNS Resolver Information"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-reddy-add-resolver-info-06</span>, <time datetime="2022-08-31" class="refDate">31 August 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-reddy-add-resolver-info-06">https://datatracker.ietf.org/doc/html/draft-reddy-add-resolver-info-06</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IANA-DNS">[IANA-DNS]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"Domain Name System (DNS) Parameters, Extended DNS Error Codes"</span>, <span>&lt;<a href="https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#extended-dns-error-codes">https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#extended-dns-error-codes</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IANA-MediaTypes">[IANA-MediaTypes]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"Media Types"</span>, <span>&lt;<a href="https://www.iana.org/assignments/media-types">https://www.iana.org/assignments/media-types</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5625">[RFC5625]</dt>
+        <dd>
+<span class="refAuthor">Bellis, R.</span>, <span class="refTitle">"DNS Proxy Implementation Guidelines"</span>, <span class="seriesInfo">BCP 152</span>, <span class="seriesInfo">RFC 5625</span>, <span class="seriesInfo">DOI 10.17487/RFC5625</span>, <time datetime="2009-08" class="refDate">August 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5625">https://www.rfc-editor.org/rfc/rfc5625</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7858">[RFC7858]</dt>
+        <dd>
+<span class="refAuthor">Hu, Z.</span>, <span class="refAuthor">Zhu, L.</span>, <span class="refAuthor">Heidemann, J.</span>, <span class="refAuthor">Mankin, A.</span>, <span class="refAuthor">Wessels, D.</span>, and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Specification for DNS over Transport Layer Security (TLS)"</span>, <span class="seriesInfo">RFC 7858</span>, <span class="seriesInfo">DOI 10.17487/RFC7858</span>, <time datetime="2016-05" class="refDate">May 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7858">https://www.rfc-editor.org/rfc/rfc7858</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8259">[RFC8259]</dt>
+        <dd>
+<span class="refAuthor">Bray, T., Ed.</span>, <span class="refTitle">"The JavaScript Object Notation (JSON) Data Interchange Format"</span>, <span class="seriesInfo">STD 90</span>, <span class="seriesInfo">RFC 8259</span>, <span class="seriesInfo">DOI 10.17487/RFC8259</span>, <time datetime="2017-12" class="refDate">December 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8259">https://www.rfc-editor.org/rfc/rfc8259</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8484">[RFC8484]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">P. McManus</span>, <span class="refTitle">"DNS Queries over HTTPS (DoH)"</span>, <span class="seriesInfo">RFC 8484</span>, <span class="seriesInfo">DOI 10.17487/RFC8484</span>, <time datetime="2018-10" class="refDate">October 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8484">https://www.rfc-editor.org/rfc/rfc8484</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8499">[RFC8499]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span>, <span class="refAuthor">Sullivan, A.</span>, and <span class="refAuthor">K. Fujiwara</span>, <span class="refTitle">"DNS Terminology"</span>, <span class="seriesInfo">BCP 219</span>, <span class="seriesInfo">RFC 8499</span>, <span class="seriesInfo">DOI 10.17487/RFC8499</span>, <time datetime="2019-01" class="refDate">January 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8499">https://www.rfc-editor.org/rfc/rfc8499</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8792">[RFC8792]</dt>
+        <dd>
+<span class="refAuthor">Watsen, K.</span>, <span class="refAuthor">Auerswald, E.</span>, <span class="refAuthor">Farrel, A.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Handling Long Lines in Content of Internet-Drafts and RFCs"</span>, <span class="seriesInfo">RFC 8792</span>, <span class="seriesInfo">DOI 10.17487/RFC8792</span>, <time datetime="2020-06" class="refDate">June 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8792">https://www.rfc-editor.org/rfc/rfc8792</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9250">[RFC9250]</dt>
+        <dd>
+<span class="refAuthor">Huitema, C.</span>, <span class="refAuthor">Dickinson, S.</span>, and <span class="refAuthor">A. Mankin</span>, <span class="refTitle">"DNS over Dedicated QUIC Connections"</span>, <span class="seriesInfo">RFC 9250</span>, <span class="seriesInfo">DOI 10.17487/RFC9250</span>, <time datetime="2022-05" class="refDate">May 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9250">https://www.rfc-editor.org/rfc/rfc9250</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RPZ">[RPZ]</dt>
+      <dd>
+<span class="refTitle">"Response Policy Zone"</span>, <span>&lt;<a href="https://dnsrpz.info">https://dnsrpz.info</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</section>
+<div id="acknowledgements">
+<section id="appendix-A">
+      <h2 id="name-acknowledgements">
+<a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+      </h2>
+<p id="appendix-A-1">Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
+Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, and Bob
+Harold for the comments.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-B">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Dan Wing</span></div>
+<div dir="auto" class="left"><span class="org">Citrix Systems, Inc.</span></div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:dwing-ietf@fuggles.com" class="email">dwing-ietf@fuggles.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Tirumaleswar Reddy</span></div>
+<div dir="auto" class="left"><span class="org">Nokia</span></div>
+<div dir="auto" class="left">
+<span class="locality">Bangalore</span> </div>
+<div dir="auto" class="left"><span class="region">Karnataka</span></div>
+<div dir="auto" class="left"><span class="country-name">India</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:kondtir@gmail.com" class="email">kondtir@gmail.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Neil Cook</span></div>
+<div dir="auto" class="left"><span class="org">Open-Xchange</span></div>
+<div dir="auto" class="left"><span class="country-name">United Kingdom</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:neil.cook@noware.co.uk" class="email">neil.cook@noware.co.uk</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Mohamed Boucadair</span></div>
+<div dir="auto" class="left"><span class="org">Orange</span></div>
+<div dir="auto" class="left"><span class="street-address">Rennes</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">35000</span> </div>
+<div dir="auto" class="left"><span class="country-name">France</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:mohamed.boucadair@orange.com" class="email">mohamed.boucadair@orange.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
