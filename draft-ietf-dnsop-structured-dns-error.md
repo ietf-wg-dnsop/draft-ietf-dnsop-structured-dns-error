@@ -11,7 +11,7 @@ date:
 consensus: true
 v: 3
 area: "Internet"
-workgroup: "Adaptive DNS Discovery"
+workgroup: "DNS Operations Working Group"
 keyword:
  - Customer experience
  - Informed decision
