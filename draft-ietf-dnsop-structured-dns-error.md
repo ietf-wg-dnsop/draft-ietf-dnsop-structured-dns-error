@@ -459,7 +459,7 @@ This document defines new IANA-registered Sub-Error codes, below.
 
   * Applicability: Blocked, Forged
 
-  * Reference: the operator of the DNS server filtered the response
+  * Reference:  Filtered according to policy determined by the operator of the DNS server
 
   * Change Controller: IETF
 
