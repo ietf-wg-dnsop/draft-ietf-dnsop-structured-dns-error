@@ -1,6 +1,6 @@
 ---
 title: "Structured Error Data for Filtered DNS"
-abbrev: "Data for Filtered DNS"
+abbrev: "Structed DNS Error"
 category: std
 updates: 8914
 
