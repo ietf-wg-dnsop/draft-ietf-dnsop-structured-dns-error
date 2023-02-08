@@ -1,6 +1,6 @@
 # Structured DNS Error
 
-This is the working area for the IETF [ADD Working Group](https://datatracker.ietf.org/wg/add/documents/) Internet-Draft, "dee enn ess (DNS)".
+This is the working area for the IETF [DNSOP Working Group](https://datatracker.ietf.org/wg/dnsop/documents/) Internet-Draft, "Structured DNS Error".
 
 * [Editor's Copy](https://ietf-wg-dnsop.github.io/ietf-wg-dnsop/#go.draft-ietf-add-dns-error.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-add-dns-error)
