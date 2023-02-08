@@ -446,7 +446,7 @@ This document defines new IANA-registered Sub-Error codes, below.
 
   * Applicability: Blocked, Forged
 
-  * Reference: the operator providing IP connectivity filtered the response
+  * Reference: Filtered according to policy determined by the operator of the local network 
 
   * Change Controller: IETF
 
