@@ -1,6 +1,6 @@
-# Structured DNS Error
+# Structured Error Data for Filtered DNS
 
-This is the working area for the IETF [DNSOP Working Group](https://datatracker.ietf.org/wg/dnsop/documents/) Internet-Draft, "Structured DNS Error".
+This is the working area for the IETF [DNSOP Working Group](https://datatracker.ietf.org/wg/dnsop/documents/) Internet-Draft, "Structured Error Data for Filtered DNS".
 
 * [Editor's Copy](https://ietf-wg-dnsop.github.io/ietf-wg-dnsop/#go.draft-ietf-add-dns-error.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-add-dns-error)
