@@ -11,7 +11,7 @@ date:
 consensus: true
 v: 3
 area: "Internet"
-workgroup: "Adaptive DNS Discovery"
+workgroup: "DNS Operations Working Group"
 keyword:
  - Customer experience
  - Informed decision
@@ -22,8 +22,9 @@ venue:
   type: "Working Group"
   mail: "dnsop@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/dnsop/"
-  github: "danwing/dnsop2"
-  latest: "https://danwing.github.io/dnsop2/draft-ietf-dnsop-structured-dns-error-page.html"
+  github: "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error"
+  latest: "https://danwing.github.io/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error.html"
+
 
 stand_alone: yes
 pi: [toc, sortrefs, symrefs, strict, comments, docmapping]
