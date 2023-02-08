@@ -1,6 +1,6 @@
 ---
-title: "Structured Error Data for Filtered DNS"
-abbrev: "Structed DNS Error"
+title: "Structured Data for Filtered DNS"
+abbrev: "Structured DNS Error"
 category: std
 updates: 8914
 
@@ -11,20 +11,19 @@ date:
 consensus: true
 v: 3
 area: "Internet"
-workgroup: "DNS Operations Working Group"
+workgroup: "Adaptive DNS Discovery"
 keyword:
  - Customer experience
  - Informed decision
  - transparency
  - enriched feedback
-
 venue:
   group: "dnsop"
   type: "Working Group"
   mail: "dnsop@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/dnsop/"
-  github: "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error"
-  latest: "https://danwing.github.io/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error.html"
+  github: "danwing/dnsop2"
+  latest: "https://danwing.github.io/dnsop2/draft-ietf-dnsop-structured-dns-error-page.html"
 
 stand_alone: yes
 pi: [toc, sortrefs, symrefs, strict, comments, docmapping]
@@ -417,6 +416,53 @@ via {{?I-D.reddy-add-resolver-info}} and the client includes the EDE OPT
 pseudo-RR in the query. This allows the server to differentiate
 EDE-aware clients from EDE-unaware clients and respond appropriately.
 
+# New Sub-Error Codes Definition
+
+Subsequent documents defining new Sub-Error codes MUST be accepted by
+IETF, MUST also provide a clear definition of the error code (in their
+Reference text), and MUST also provide more characterization than the
+{{RFC8914}} parent error.
+
+This document defines new IANA-registered Sub-Error codes, below.
+
+## Reserved {#policy-reserved}
+
+  * Number: 0
+
+  * Meaning: Reserved
+
+  * Applicability: Blocked, Forged, Censored, Filtered
+
+  * Reference: this sub-error code value MUST NOT be sent. If received, it has no meaning.
+
+  * Change Controller: IETF
+
+
+## Network Operator Policy {#policy-network}
+
+  * Number: 5
+
+  * Meaning: Network Operator Policy
+
+  * Applicability: Blocked, Forged
+
+  * Reference: the operator providing IP connectivity filtered the response
+
+  * Change Controller: IETF
+
+
+## DNS Operator Policy {#policy-dns}
+
+  * Number: 6
+
+  * Meaning: DNS Operator Policy
+
+  * Applicability: Blocked, Forged
+
+  * Reference: the operator of the DNS server filtered the response
+
+  * Change Controller: IETF
+
 
 # Examples
 
@@ -539,7 +585,9 @@ following fields:
 
 * Number: Wire format suberror code (range 0-255)
 
-* Meaning: A short description of the errir
+* Meaning: A short description of the error including reference to an IETF-approved document
+
+* Applicability: Indicates which RFC8914 error codes apply to this sub-error code
 
 * Reference: A pointer to the specification text
 
@@ -548,14 +596,15 @@ following fields:
 The SubError Code registry shall initially be populated with the
 following suberror codes:
 
-| Number | Meaning | Reference |  Change Controller |
-| 0 | Reserved | This-Document | IETF |
-| 1 | Malware | This-Document | IETF |
-| 2 | Phishing | This-Document | IETF |
-| 3 | Spam  | This-Document | IETF |
-| 4 | Spyware | This-Document | IETF |
-| 5 | Adware | This-Document | IETF |
-| 6 | Network policy imposed by the operator of the network | This-Document | IETF |
+| Number | Meaning | RFC8914 error code applicability | Reference |  Change Controller |
+|:------:|:--------|:---------------------------------|:----------|:------------------:|
+| 0 | Reserved| Blocked, Forged, Censored, Filtered | {{policy-reserved}} | IETF |
+| 1 | Malware | Blocked, Forged, Censored, Filtered | Section 5.5 of {{!RFC5901}} | IETF |
+| 2 | Phishing | Blocked, Forged, Censored, Filtered | Section 5.5 of {{!RFC5901}} | IETF |
+| 3 | Spam | Blocked, Forged, Censored, Filtered | Page 289 of {{?RFC4949}} | IETF |
+| 4 | Spyware | Blocked, Forged, Censored, Filtered | Page 291 of {{!RFC4949}} | IETF |
+| 5 | Network operator policy | Blocked, Forged | {{policy-network}} | IETF |
+| 6 | DNS operator policy | Blocked, Forged | {{policy-dns}} | IETF |
 {: #reg title='Initial SubError Code Rregistry'}
 
 New entries in this registry are subject to an Expert Review
