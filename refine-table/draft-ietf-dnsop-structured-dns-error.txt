@@ -2,7 +2,7 @@
 
 
 
-Adaptive DNS Discovery                                           D. Wing
+DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
