@@ -538,7 +538,10 @@ Table of Contents
 
    *  Number: Wire format suberror code (range 0-255)
 
-   *  Meaning: A short description of the errir
+   *  Meaning: A short description of the error
+
+   *  Applicable EDO Codes: List the Extended DNS Error codes to which
+      the suberror code applies.
 
    *  Reference: A pointer to the specification text
 
@@ -548,26 +551,49 @@ Table of Contents
    The SubError Code registry shall initially be populated with the
    following suberror codes:
 
-   +========+=============================+===============+============+
-   | Number | Meaning                     | Reference     | Change     |
-   |        |                             |               | Controller |
-   +========+=============================+===============+============+
-   | 0      | Reserved                    | This-Document | IETF       |
-   +--------+-----------------------------+---------------+------------+
-   | 1      | Malware                     | This-Document | IETF       |
-   +--------+-----------------------------+---------------+------------+
-   | 2      | Phishing                    | This-Document | IETF       |
-   +--------+-----------------------------+---------------+------------+
-   | 3      | Spam                        | This-Document | IETF       |
-   +--------+-----------------------------+---------------+------------+
-   | 4      | Spyware                     | This-Document | IETF       |
-   +--------+-----------------------------+---------------+------------+
-   | 5      | Adware                      | This-Document | IETF       |
-   +--------+-----------------------------+---------------+------------+
-   | 6      | Network policy imposed      | This-Document | IETF       |
-   |        | by the operator of the      |               |            |
-   |        | network                     |               |            |
-   +--------+-----------------------------+---------------+------------+
+    +========+=============+=============+===============+============+
+    | Number | Meaning     | Applicable  | Reference     | Change     |
+    |        |             | EDO Codes   |               | Controller |
+    +========+=============+=============+===============+============+
+    | 0      | Reserved    | N/A         | This-Document | IETF       |
+    +--------+-------------+-------------+---------------+------------+
+    | 1      | Malware     | "Censored", | This-Document | IETF       |
+    |        |             | "Filtered", |               |            |
+    |        |             | "Blocked",  |               |            |
+    |        |             | and         |               |            |
+    |        |             | "Forged"    |               |            |
+    +--------+-------------+-------------+---------------+------------+
+    | 2      | Phishing    | "Censored", | This-Document | IETF       |
+    |        |             | "Filtered", |               |            |
+    |        |             | "Blocked",  |               |            |
+    |        |             | and         |               |            |
+    |        |             | "Forged"    |               |            |
+    +--------+-------------+-------------+---------------+------------+
+    | 3      | Spam        | "Censored", | This-Document | IETF       |
+    |        |             | "Filtered", |               |            |
+    |        |             | "Blocked",  |               |            |
+    |        |             | and         |               |            |
+    |        |             | "Forged"    |               |            |
+    +--------+-------------+-------------+---------------+------------+
+    | 4      | Spyware     | "Censored", | This-Document | IETF       |
+    |        |             | "Filtered", |               |            |
+    |        |             | "Blocked",  |               |            |
+    |        |             | and         |               |            |
+    |        |             | "Forged"    |               |            |
+    +--------+-------------+-------------+---------------+------------+
+    | 5      | Adware      | "Censored", | This-Document | IETF       |
+    |        |             | "Filtered", |               |            |
+    |        |             | "Blocked",  |               |            |
+    |        |             | and         |               |            |
+    |        |             | "Forged"    |               |            |
+    +--------+-------------+-------------+---------------+------------+
+    | 6      | Network     | "Blocked",  | This-Document | IETF       |
+    |        | policy      | and         |               |            |
+    |        | imposed by  | "Forged"    |               |            |
+    |        | the         |             |               |            |
+    |        | operator of |             |               |            |
+    |        | the network |             |               |            |
+    +--------+-------------+-------------+---------------+------------+
 
                   Table 1: Initial SubError Code Rregistry
 

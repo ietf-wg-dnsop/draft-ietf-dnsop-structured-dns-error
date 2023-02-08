@@ -1738,11 +1738,13 @@ following fields:<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.2-2.1">Number: Wire format suberror code (range 0-255)<a href="#section-9.2-2.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-9.2-2.2">Meaning: A short description of the errir<a href="#section-9.2-2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-9.2-2.2">Meaning: A short description of the error<a href="#section-9.2-2.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-9.2-2.3">Reference: A pointer to the specification text<a href="#section-9.2-2.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-9.2-2.3">Applicable EDO Codes: List the Extended DNS Error codes to which the suberror code applies.<a href="#section-9.2-2.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-9.2-2.4">Change Controller: Person or entity, with contact information if appropriate.<a href="#section-9.2-2.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-9.2-2.4">Reference: A pointer to the specification text<a href="#section-9.2-2.4" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-9.2-2.5">Change Controller: Person or entity, with contact information if appropriate.<a href="#section-9.2-2.5" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-9.2-3">The SubError Code registry shall initially be populated with the
@@ -1757,6 +1759,7 @@ following suberror codes:<a href="#section-9.2-3" class="pilcrow">¶</a></p>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Number</th>
               <th class="text-left" rowspan="1" colspan="1">Meaning</th>
+              <th class="text-left" rowspan="1" colspan="1">Applicable EDO Codes</th>
               <th class="text-left" rowspan="1" colspan="1">Reference</th>
               <th class="text-left" rowspan="1" colspan="1">Change Controller</th>
             </tr>
@@ -1765,42 +1768,49 @@ following suberror codes:<a href="#section-9.2-3" class="pilcrow">¶</a></p>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0</td>
               <td class="text-left" rowspan="1" colspan="1">Reserved</td>
+              <td class="text-left" rowspan="1" colspan="1">N/A</td>
               <td class="text-left" rowspan="1" colspan="1">This-Document</td>
               <td class="text-left" rowspan="1" colspan="1">IETF</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Malware</td>
+              <td class="text-left" rowspan="1" colspan="1">"Censored", "Filtered", "Blocked", and "Forged"</td>
               <td class="text-left" rowspan="1" colspan="1">This-Document</td>
               <td class="text-left" rowspan="1" colspan="1">IETF</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">2</td>
               <td class="text-left" rowspan="1" colspan="1">Phishing</td>
+              <td class="text-left" rowspan="1" colspan="1">"Censored", "Filtered", "Blocked", and "Forged"</td>
               <td class="text-left" rowspan="1" colspan="1">This-Document</td>
               <td class="text-left" rowspan="1" colspan="1">IETF</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">3</td>
               <td class="text-left" rowspan="1" colspan="1">Spam</td>
+              <td class="text-left" rowspan="1" colspan="1">"Censored", "Filtered", "Blocked", and "Forged"</td>
               <td class="text-left" rowspan="1" colspan="1">This-Document</td>
               <td class="text-left" rowspan="1" colspan="1">IETF</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">4</td>
               <td class="text-left" rowspan="1" colspan="1">Spyware</td>
+              <td class="text-left" rowspan="1" colspan="1">"Censored", "Filtered", "Blocked", and "Forged"</td>
               <td class="text-left" rowspan="1" colspan="1">This-Document</td>
               <td class="text-left" rowspan="1" colspan="1">IETF</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">5</td>
               <td class="text-left" rowspan="1" colspan="1">Adware</td>
+              <td class="text-left" rowspan="1" colspan="1">"Censored", "Filtered", "Blocked", and "Forged"</td>
               <td class="text-left" rowspan="1" colspan="1">This-Document</td>
               <td class="text-left" rowspan="1" colspan="1">IETF</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">6</td>
               <td class="text-left" rowspan="1" colspan="1">Network policy imposed by the operator of the network</td>
+              <td class="text-left" rowspan="1" colspan="1">"Blocked", and "Forged"</td>
               <td class="text-left" rowspan="1" colspan="1">This-Document</td>
               <td class="text-left" rowspan="1" colspan="1">IETF</td>
             </tr>
