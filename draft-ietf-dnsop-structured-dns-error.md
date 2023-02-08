@@ -539,7 +539,9 @@ following fields:
 
 * Number: Wire format suberror code (range 0-255)
 
-* Meaning: A short description of the errir
+* Meaning: A short description of the error
+
+* Applicable EDO Codes: List the Extended DNS Error codes to which the suberror code applies.
 
 * Reference: A pointer to the specification text
 
@@ -548,14 +550,14 @@ following fields:
 The SubError Code registry shall initially be populated with the
 following suberror codes:
 
-| Number | Meaning | Reference |  Change Controller |
-| 0 | Reserved | This-Document | IETF |
-| 1 | Malware | This-Document | IETF |
-| 2 | Phishing | This-Document | IETF |
-| 3 | Spam  | This-Document | IETF |
-| 4 | Spyware | This-Document | IETF |
-| 5 | Adware | This-Document | IETF |
-| 6 | Network policy imposed by the operator of the network | This-Document | IETF |
+| Number | Meaning | Applicable EDO Codes| Reference |  Change Controller |
+| 0 | Reserved | N/A| This-Document | IETF |
+| 1 | Malware | "Censored", "Filtered", "Blocked", and "Forged" |This-Document | IETF |
+| 2 | Phishing | "Censored", "Filtered", "Blocked", and "Forged" |This-Document | IETF |
+| 3 | Spam  | "Censored", "Filtered", "Blocked", and "Forged" |This-Document | IETF |
+| 4 | Spyware | "Censored", "Filtered", "Blocked", and "Forged" |This-Document | IETF |
+| 5 | Adware | "Censored", "Filtered", "Blocked", and "Forged" |This-Document | IETF |
+| 6 | Network policy imposed by the operator of the network | "Blocked", and "Forged" |This-Document | IETF |
 {: #reg title='Initial SubError Code Rregistry'}
 
 New entries in this registry are subject to an Expert Review
