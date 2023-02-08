@@ -446,7 +446,7 @@ This document defines new IANA-registered Sub-Error codes, below.
 
   * Applicability: Blocked, Forged
 
-  * Reference: Filtered according to policy determined by the operator of the local network 
+  * Reference: Filtered according to policy determined by the operator of the local network
 
   * Change Controller: IETF
 
@@ -585,11 +585,11 @@ following fields:
 
 * Number: Wire format suberror code (range 0-255)
 
-* Meaning: A short description of the error including reference to an IETF-approved document
+* Meaning: A short description of the sub-error
 
 * Applicability: Indicates which RFC8914 error codes apply to this sub-error code
 
-* Reference: A pointer to the specification text
+* Reference: A pointer to IETF-approved specification
 
 * Change Controller: Person or entity, with contact information if appropriate.
 
