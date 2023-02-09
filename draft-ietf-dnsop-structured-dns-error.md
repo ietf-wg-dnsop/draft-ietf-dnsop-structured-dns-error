@@ -17,6 +17,7 @@ keyword:
  - Informed decision
  - transparency
  - enriched feedback
+
 venue:
   group: "dnsop"
   type: "Working Group"
@@ -168,6 +169,13 @@ in the RFCs cited by this document.
 for example, DNS-over-HTTPS {{?RFC8484}}, DNS-over-TLS {{?RFC7858}}, or
 DNS-over-QUIC {{?RFC9250}}.
 
+
+The document refers to an extended DNS error using its purpose, not
+its INFO-CODE as per Table 3 of [RFC8914].  "Forged Answer",
+"Blocked", "Censored", and "Filtered" are thus used to refer to
+"Forged Answer (4)", "Blocked (15)", "Censored (16)", and "Filtered
+(17)".
+	
 
 # DNS Filtering Techniques and Their Limitations {#techniques}
 
