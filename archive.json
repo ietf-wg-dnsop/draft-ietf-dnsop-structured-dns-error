@@ -1,0 +1,239 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2023-02-09T00:29:09.670984+00:00",
+  "repo": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOI6P3FM5d6d9J",
+      "title": "Rationale and References for assigning a suberror code",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/1",
+      "state": "OPEN",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add some text to clarify the reasoning for the listed suberrors. \r\n\r\nA proposal is to echo the following in the text:  say basically that we can accept registering suberrors:\r\n  *  for which a clear definition is provided and\r\n  *  which provide more characterization of an error vs a \u201cparent\u201d error (8914).\r\n \r\nMost of the current proposed entries in the draft have their counterparts defined in existing RFCs (RFC4949, RFC5901). These citations should be added to the draft.\r\n",
+      "createdAt": "2023-02-08T07:12:43Z",
+      "updatedAt": "2023-02-08T17:08:35Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I would say a clear definition in a specification accepted by IETF.",
+          "createdAt": "2023-02-08T10:09:02Z",
+          "updatedAt": "2023-02-08T10:09:02Z"
+        },
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "`7.  New Sub-Error Codes Definition\r\n\r\n   Subsequent documents defining new Sub-Error codes MUST be accepted by\r\n   IETF, MUST also provide a clear definition of the error code (in\r\n   their Reference text), and MUST also provide more characterization\r\n   than the [RFC8914] parent error.\r\n\r\n   This document defines new IANA-registered Sub-Error codes, below.\r\n\r\n7.1.  Reserved\r\n\r\n   *  Number: 0\r\n` ...\r\n\r\nPerhaps like that?",
+          "createdAt": "2023-02-08T17:08:35Z",
+          "updatedAt": "2023-02-08T17:08:35Z"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "I_kwDOI6P3FM5d85q2",
+      "title": "Add \"Policy imposed by the operator of the DNS server\" suberror",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/2",
+      "state": "OPEN",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "as per the discussion with Neil",
+      "createdAt": "2023-02-08T14:42:00Z",
+      "updatedAt": "2023-02-08T18:04:38Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ok.  I can add.  As this code point, and the previous one (network policy) are defined by our own document we need some explanatory text.  The only thing I had to say about 'network policy' is that it's a codepoint used if the network operator providing IP service wanted the filtering.  \r\n\r\n`7.  New Sub-Error Codes Definition\r\n\r\n   This document defines new IANA-registered Sub-Error codes, below.\r\n\r\n7.1.  Network Operator Policy\r\n\r\n   *  Number: 5\r\n\r\n   *  Meaning: Network Operator Policy\r\n\r\n   *  Applicability: Blocked, Forged\r\n\r\n   *  Reference: the operator providing IP connectivity filtered the\r\n      response\r\n\r\n   *  Change Controller: IETF\r\n\r\n7.2.  DNS Operator Policy\r\n\r\n   *  Number: 6\r\n\r\n   *  Meaning: DNS Operator Policy\r\n\r\n   *  Applicability: Blocked, Forged\r\n\r\n   *  Reference: the operator of the DNS server filtered the response\r\n\r\n   *  Change Controller: IETF\r\n`\r\n\r\nIt feels thin.  ",
+          "createdAt": "2023-02-08T17:00:21Z",
+          "updatedAt": "2023-02-08T17:00:21Z"
+        },
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Need to strengthen the text, else folks will righteously ask, \r\n\r\n  \"aren't all the RFC8914 errors 'by the DNS operator', thus all of them should use sub-error=6\".\r\n  \r\nIs sub-error=6 (DNS operator) intended to be a catch-all?  Do we want to just say 'catch-all' (or similar?) or perhaps allow the sub-error number to be omitted from the JSON?  \r\n\r\n\r\nI sort of consider \"network operator\" (sub-error=5) to be restrictions based on IP address or ASN or some-such, where the network operator sends a list of IP addresses (or perhaps subscriber ID's, if there is some secret decoration of the DNS query as done by Cisco's Umbrella and by some other DNS operators to differentiate \"kid's computer\" from \"parent's computer\" because obviously IP address is inadequate.  I did not yet add text explaining that to the pull-request I have on the table right now.",
+          "createdAt": "2023-02-08T18:04:37Z",
+          "updatedAt": "2023-02-08T18:04:37Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 3,
+      "id": "PR_kwDOI6P3FM5JjHnX",
+      "title": "refine IANA table, add definition of DNS operator policy and network \u2026",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/3",
+      "state": "OPEN",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026operator policy, remove Abuse",
+      "createdAt": "2023-02-08T17:57:30Z",
+      "updatedAt": "2023-02-08T22:22:19Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "142cb7c6dd71eed2d18e0c2d6849a75fc3b02c2b",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "refine-table",
+      "headRefOid": "ea8a8ea2ebb4e1ade12861656accdc060928c784",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5M4utU",
+          "commit": {
+            "abbreviatedOid": "84d2e55"
+          },
+          "author": "neilcook",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-02-08T20:17:47Z",
+          "updatedAt": "2023-02-08T20:17:48Z",
+          "comments": [
+            {
+              "originalPosition": 49,
+              "body": "```suggestion\r\n  * Reference: Filtered according to policy determined by the operator of the local network \r\n```",
+              "createdAt": "2023-02-08T20:17:47Z",
+              "updatedAt": "2023-02-08T20:17:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5M4u3B",
+          "commit": {
+            "abbreviatedOid": "84d2e55"
+          },
+          "author": "neilcook",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-02-08T20:18:15Z",
+          "updatedAt": "2023-02-08T20:18:16Z",
+          "comments": [
+            {
+              "originalPosition": 62,
+              "body": "```suggestion\r\n  * Reference:  Filtered according to policy determined by the operator of the DNS server\r\n```",
+              "createdAt": "2023-02-08T20:18:15Z",
+              "updatedAt": "2023-02-08T20:18:16Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOI6P3FM5JjSBC",
+      "title": "Fix metadata",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/4",
+      "state": "CLOSED",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-02-08T18:34:09Z",
+      "updatedAt": "2023-02-08T18:36:05Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "879c663e84cb27f260ee8e2ccdd6739a41c1b9a3",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "fix-metadata",
+      "headRefOid": "fa184de7526a71eb72a69dcacd94263f51797eac",
+      "closedAt": "2023-02-08T18:35:57Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOI6P3FM5JjUjf",
+      "title": "fix metadata URL for ietf wg",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/5",
+      "state": "MERGED",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-02-08T18:45:05Z",
+      "updatedAt": "2023-02-08T18:54:39Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "879c663e84cb27f260ee8e2ccdd6739a41c1b9a3",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "correct-metadata",
+      "headRefOid": "9341ee684874f30ed64aedceb48ee7bb96bf1032",
+      "closedAt": "2023-02-08T18:47:51Z",
+      "mergedAt": "2023-02-08T18:47:51Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "142cb7c6dd71eed2d18e0c2d6849a75fc3b02c2b"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
