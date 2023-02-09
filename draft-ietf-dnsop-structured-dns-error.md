@@ -418,22 +418,17 @@ EDE-aware clients from EDE-unaware clients and respond appropriately.
 
 # New Sub-Error Codes Definition
 
-Subsequent documents defining new Sub-Error codes MUST be accepted by
-IETF, MUST also provide a clear definition of the error code (in their
-Reference text), and MUST also provide more characterization than the
-{{RFC8914}} parent error.
-
 This document defines new IANA-registered Sub-Error codes, below.
 
 ## Reserved {#policy-reserved}
 
   * Number: 0
 
-  * Meaning: Reserved
+  * Meaning: Reserved. This sub-error code value MUST NOT be sent. If received, it has no meaning.
 
-  * Applicability: Blocked, Forged, Censored, Filtered
+  * Applicability: This code should never be used
 
-  * Reference: this sub-error code value MUST NOT be sent. If received, it has no meaning.
+  * Reference:
 
   * Change Controller: IETF
 
@@ -589,7 +584,9 @@ following fields:
 
 * Applicability: Indicates which RFC8914 error codes apply to this sub-error code
 
-* Reference: A pointer to IETF-approved specification
+* Reference: A pointer to IETF-approved specification that registered
+  the code and/or an authoritative specification that describes the
+  meaning of this code
 
 * Change Controller: Person or entity, with contact information if appropriate.
 
@@ -598,13 +595,13 @@ following suberror codes:
 
 | Number | Meaning | RFC8914 error code applicability | Reference |  Change Controller |
 |:------:|:--------|:---------------------------------|:----------|:------------------:|
-| 0 | Reserved| Blocked, Forged, Censored, Filtered | {{policy-reserved}} | IETF |
-| 1 | Malware | Blocked, Forged, Censored, Filtered | Section 5.5 of {{!RFC5901}} | IETF |
-| 2 | Phishing | Blocked, Forged, Censored, Filtered | Section 5.5 of {{!RFC5901}} | IETF |
-| 3 | Spam | Blocked, Forged, Censored, Filtered | Page 289 of {{?RFC4949}} | IETF |
-| 4 | Spyware | Blocked, Forged, Censored, Filtered | Page 291 of {{!RFC4949}} | IETF |
-| 5 | Network operator policy | Blocked, Forged | {{policy-network}} | IETF |
-| 6 | DNS operator policy | Blocked, Forged | {{policy-dns}} | IETF |
+| 0 | Reserved| Not used | {{policy-reserved}} of this document | IETF |
+| 1 | Malware | "Blocked", "Forged Answer", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
+| 2 | Phishing | "Blocked", "Forged Answer", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
+| 3 | Spam | "Blocked", "Forged Answer", "Censored", "Filtered" | Page 289 of {{?RFC4949}} | IETF |
+| 4 | Spyware | "Blocked", "Forged Answer", "Censored", "Filtered" | Page 291 of {{!RFC4949}} | IETF |
+| 5 | Network operator policy | "Blocked", "Forged Answer" | {{policy-network}} of this document | IETF |
+| 6 | DNS operator policy | "Blocked", "Forged Answer" | {{policy-dns}} of this document | IETF |
 {: #reg title='Initial SubError Code Rregistry'}
 
 New entries in this registry are subject to an Expert Review
