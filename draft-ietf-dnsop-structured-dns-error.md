@@ -343,12 +343,13 @@ updates.
 
 Because the DNS client signals its EDE support ({{client-request}})
 and because EDE support is signaled via a non-cached OPT resource
-record (Section 6.2.1 of {{?RFC6891}}, the EDE-aware DNS server can
+record (Section 6.2.1 of {{?RFC6891}}) the EDE-aware DNS server can
 tailor its filtered response to be most appropriate to that client's
 EDE support.  If EDE support is signaled in the query, it is
 RECOMMENDED the server not to return the "Forged Answer" extended
 error code because the client can take advantage of EDE's more
-sophisticated error reporting.  Continuing to send "Forged Answer"
+sophisticated error reporting (e.g., "Censored", "Filtered",
+"Blocked").  Continuing to send "Forged Answer"
 even to an EDE-supporting client will cause the persistence of the
 drawbacks described in {{existing-techniques}}.
 
@@ -616,12 +617,12 @@ following suberror codes:
 | Number | Meaning | RFC8914 error code applicability | Reference |  Change Controller |
 |:------:|:--------|:---------------------------------|:----------|:------------------:|
 | 0 | Reserved| Not used | {{policy-reserved}} of this document | IETF |
-| 1 | Malware | "Blocked", "Forged Answer", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
-| 2 | Phishing | "Blocked", "Forged Answer", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
-| 3 | Spam | "Blocked", "Forged Answer", "Censored", "Filtered" | Page 289 of {{?RFC4949}} | IETF |
-| 4 | Spyware | "Blocked", "Forged Answer", "Censored", "Filtered" | Page 291 of {{!RFC4949}} | IETF |
-| 5 | Network operator policy | "Blocked", "Forged Answer" | {{policy-network}} of this document | IETF |
-| 6 | DNS operator policy | "Blocked", "Forged Answer" | {{policy-dns}} of this document | IETF |
+| 1 | Malware | "Forged Answer", "Blocked", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
+| 2 | Phishing | "Forged Answer", "Blocked", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
+| 3 | Spam | "Forged Answer", "Blocked", "Censored", "Filtered" | Page 289 of {{?RFC4949}} | IETF |
+| 4 | Spyware | "Forged Answer", "Blocked", "Censored", "Filtered" | Page 291 of {{!RFC4949}} | IETF |
+| 5 | Network operator policy | "Forged Answer", "Blocked" | {{policy-network}} of this document | IETF |
+| 6 | DNS operator policy | "Forged Answer", "Blocked" | {{policy-dns}} of this document | IETF |
 {: #reg title='Initial SubError Code Rregistry'}
 
 New entries in this registry are subject to an Expert Review
