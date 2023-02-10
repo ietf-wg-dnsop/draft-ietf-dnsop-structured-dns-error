@@ -123,7 +123,7 @@ domain was filtered. With that information, the user can choose
 another network, open a trouble ticket with the DNS administrator to
 resolve erroneous filtering, log the information, or other uses.
 
-For the DNS filtering mechanisms described in {{techniques}} the DNS
+For the DNS filtering mechanisms described in {{existing-techniques}} the DNS
 server can return extended error codes Blocked, Censored, Filtered, or
 Forged Answer defined in Section 4 of {{!RFC8914}}. However, these codes
 only explain that filtering occurred but lack detail for the user to
@@ -177,9 +177,9 @@ its INFO-CODE as per Table 3 of [RFC8914].  "Forged Answer",
 (17)".
 	
 
-# DNS Filtering Techniques and Their Limitations {#techniques}
+# DNS Filtering Techniques and Their Limitations {#existing-techniques}
 
-DNS responses can be filtered by sending a bogus (also called,
+Today, DNS responses can be filtered by sending a bogus (also called
 "forged") A or AAAA response, NXDOMAIN error or empty answer, or an
 extended DNS error (EDE) code defined in {{!RFC8914}}. Each of these
 methods have advantages and disadvantages that are discussed below:
@@ -268,7 +268,6 @@ EXTRA-TEXT field only conveys the source of the error (Section 3 of
 {{!RFC8914}}) and does not provide additional textual information about
 the cause of the error.
 
-
 # I-JSON in EXTRA-TEXT field
 
 Servers that are compliant with this specification send I-JSON data in
@@ -323,23 +322,35 @@ and diagnosing the cause of the DNS filtering.
 
 # Protocol Operation
 
-## Client Generating Request
+## Client Generating Request {#client-request}
 
 When generating a DNS query, the client includes the Extended DNS
 Error option Section 2 of {{!RFC8914}} in the OPT pseudo-RR {{!RFC6891}} to
 elicit the Extended DNS Error option in the DNS response.
 
-## Server Generating Response
+## Server Generating Response {#server-response}
 
 When the DNS server filters its DNS response to an A or AAAA record
-query, the DNS response MAY contain an empty answer, NXDOMAIN, or a
-forged A or AAAA response, as desired by the DNS server. In addition,
-if the query contained the OPT pseudo-RR the DNS server MAY return
-more detail in the EXTRA-TEXT field as described in {{client-processing}}.
+query, the DNS response MAY contain an empty answer, NXDOMAIN, or (less
+ideally) forged A or AAAA response, as desired by the DNS
+server. In addition, if the query contained the OPT pseudo-RR the DNS
+server MAY return more detail in the EXTRA-TEXT field as described in
+{{client-processing}}.
 
 Servers may decide to return small TTL values in filtered DNS
 responses (e.g., 2 seconds) to handle domain category and reputation
 updates.
+
+Because the DNS client signals its EDE support ({{client-request}})
+and because EDE support is signaled via a non-cached OPT resource
+record (Section 6.2.1 of {{?RFC6891}}, the EDE-aware DNS server can
+tailor its filtered response to be most appropriate to that client's
+EDE support.  If EDE support is signaled in the query, it is
+RECOMMENDED the server not to return the "Forged Answer" extended
+error code because the client can take advantage of EDE's more
+sophisticated error reporting.  Continuing to send "Forged Answer"
+even to an EDE-supporting client will cause the persistence of the
+drawbacks described in {{existing-techniques}}.
 
 ## Client Processing Response {#client-processing}
 
@@ -423,6 +434,7 @@ supports this specification, the client learns of the server's support
 via {{?I-D.reddy-add-resolver-info}} and the client includes the EDE OPT
 pseudo-RR in the query. This allows the server to differentiate
 EDE-aware clients from EDE-unaware clients and respond appropriately.
+
 
 # New Sub-Error Codes Definition
 
