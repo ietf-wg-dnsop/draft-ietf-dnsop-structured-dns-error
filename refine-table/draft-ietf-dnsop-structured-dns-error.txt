@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 13 August 2023                                          N. Cook
+Expires: 14 August 2023                                          N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                         9 February 2023
+                                                        10 February 2023
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 August 2023.
+   This Internet-Draft will expire on 14 August 2023.
 
 Copyright Notice
 
@@ -184,7 +184,7 @@ Table of Contents
 
 3.  DNS Filtering Techniques and Their Limitations
 
-   DNS responses can be filtered by sending a bogus (also called,
+   Today, DNS responses can be filtered by sending a bogus (also called
    "forged") A or AAAA response, NXDOMAIN error or empty answer, or an
    extended DNS error (EDE) code defined in [RFC8914].  Each of these
    methods have advantages and disadvantages that are discussed below:
@@ -338,15 +338,26 @@ Table of Contents
 5.2.  Server Generating Response
 
    When the DNS server filters its DNS response to an A or AAAA record
-   query, the DNS response MAY contain an empty answer, NXDOMAIN, or a
-   forged A or AAAA response, as desired by the DNS server.  In
-   addition, if the query contained the OPT pseudo-RR the DNS server MAY
-   return more detail in the EXTRA-TEXT field as described in
-   Section 5.3.
+   query, the DNS response MAY contain an empty answer, NXDOMAIN, or
+   (less ideally) forged A or AAAA response, as desired by the DNS
+   server.  In addition, if the query contained the OPT pseudo-RR the
+   DNS server MAY return more detail in the EXTRA-TEXT field as
+   described in Section 5.3.
 
    Servers may decide to return small TTL values in filtered DNS
    responses (e.g., 2 seconds) to handle domain category and reputation
    updates.
+
+   Because the DNS client signals its EDE support (Section 5.1) and
+   because EDE support is signaled via a non-cached OPT resource record
+   (Section 6.2.1 of [RFC6891], the EDE-aware DNS server can tailor its
+   filtered response to be most appropriate to that client's EDE
+   support.  If EDE support is signaled in the query, it is RECOMMENDED
+   the server not to return the "Forged Answer" extended error code
+   because the client can take advantage of EDE's more sophisticated
+   error reporting.  Continuing to send "Forged Answer" even to an EDE-
+   supporting client will cause the persistence of the drawbacks
+   described in Section 3.
 
 5.3.  Client Processing Response
 
