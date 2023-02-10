@@ -1523,12 +1523,13 @@ responses (e.g., 2 seconds) to handle domain category and reputation
 updates.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2-3">Because the DNS client signals its EDE support (<a href="#client-request" class="auto internal xref">Section 5.1</a>)
 and because EDE support is signaled via a non-cached OPT resource
-record (Section 6.2.1 of <span>[<a href="#RFC6891" class="cite xref">RFC6891</a>]</span>, the EDE-aware DNS server can
+record (Section 6.2.1 of <span>[<a href="#RFC6891" class="cite xref">RFC6891</a>]</span>) the EDE-aware DNS server can
 tailor its filtered response to be most appropriate to that client's
 EDE support.  If EDE support is signaled in the query, it is
 <span class="bcp14">RECOMMENDED</span> the server not to return the "Forged Answer" extended
 error code because the client can take advantage of EDE's more
-sophisticated error reporting.  Continuing to send "Forged Answer"
+sophisticated error reporting (e.g., "Censored", "Filtered",
+"Blocked").  Continuing to send "Forged Answer"
 even to an EDE-supporting client will cause the persistence of the
 drawbacks described in <a href="#existing-techniques" class="auto internal xref">Section 3</a>.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 </section>
@@ -1873,7 +1874,7 @@ following suberror codes:<a href="#section-10.2-3" class="pilcrow">¶</a></p>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Malware</td>
-              <td class="text-left" rowspan="1" colspan="1">"Blocked", "Forged Answer", "Censored", "Filtered"</td>
+              <td class="text-left" rowspan="1" colspan="1">"Forged Answer", "Blocked", "Censored", "Filtered"</td>
               <td class="text-left" rowspan="1" colspan="1">Section 5.5 of <span>[<a href="#RFC5901" class="cite xref">RFC5901</a>]</span>
 </td>
               <td class="text-center" rowspan="1" colspan="1">IETF</td>
@@ -1881,7 +1882,7 @@ following suberror codes:<a href="#section-10.2-3" class="pilcrow">¶</a></p>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">2</td>
               <td class="text-left" rowspan="1" colspan="1">Phishing</td>
-              <td class="text-left" rowspan="1" colspan="1">"Blocked", "Forged Answer", "Censored", "Filtered"</td>
+              <td class="text-left" rowspan="1" colspan="1">"Forged Answer", "Blocked", "Censored", "Filtered"</td>
               <td class="text-left" rowspan="1" colspan="1">Section 5.5 of <span>[<a href="#RFC5901" class="cite xref">RFC5901</a>]</span>
 </td>
               <td class="text-center" rowspan="1" colspan="1">IETF</td>
@@ -1889,7 +1890,7 @@ following suberror codes:<a href="#section-10.2-3" class="pilcrow">¶</a></p>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">3</td>
               <td class="text-left" rowspan="1" colspan="1">Spam</td>
-              <td class="text-left" rowspan="1" colspan="1">"Blocked", "Forged Answer", "Censored", "Filtered"</td>
+              <td class="text-left" rowspan="1" colspan="1">"Forged Answer", "Blocked", "Censored", "Filtered"</td>
               <td class="text-left" rowspan="1" colspan="1">Page 289 of <span>[<a href="#RFC4949" class="cite xref">RFC4949</a>]</span>
 </td>
               <td class="text-center" rowspan="1" colspan="1">IETF</td>
@@ -1897,7 +1898,7 @@ following suberror codes:<a href="#section-10.2-3" class="pilcrow">¶</a></p>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">4</td>
               <td class="text-left" rowspan="1" colspan="1">Spyware</td>
-              <td class="text-left" rowspan="1" colspan="1">"Blocked", "Forged Answer", "Censored", "Filtered"</td>
+              <td class="text-left" rowspan="1" colspan="1">"Forged Answer", "Blocked", "Censored", "Filtered"</td>
               <td class="text-left" rowspan="1" colspan="1">Page 291 of <span>[<a href="#RFC4949" class="cite xref">RFC4949</a>]</span>
 </td>
               <td class="text-center" rowspan="1" colspan="1">IETF</td>
@@ -1905,7 +1906,7 @@ following suberror codes:<a href="#section-10.2-3" class="pilcrow">¶</a></p>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">5</td>
               <td class="text-left" rowspan="1" colspan="1">Network operator policy</td>
-              <td class="text-left" rowspan="1" colspan="1">"Blocked", "Forged Answer"</td>
+              <td class="text-left" rowspan="1" colspan="1">"Forged Answer", "Blocked"</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#policy-network" class="auto internal xref">Section 7.2</a> of this document</td>
               <td class="text-center" rowspan="1" colspan="1">IETF</td>
@@ -1913,7 +1914,7 @@ following suberror codes:<a href="#section-10.2-3" class="pilcrow">¶</a></p>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">6</td>
               <td class="text-left" rowspan="1" colspan="1">DNS operator policy</td>
-              <td class="text-left" rowspan="1" colspan="1">"Blocked", "Forged Answer"</td>
+              <td class="text-left" rowspan="1" colspan="1">"Forged Answer", "Blocked"</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#policy-dns" class="auto internal xref">Section 7.3</a> of this document</td>
               <td class="text-center" rowspan="1" colspan="1">IETF</td>

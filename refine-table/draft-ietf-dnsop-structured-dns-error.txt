@@ -350,14 +350,14 @@ Table of Contents
 
    Because the DNS client signals its EDE support (Section 5.1) and
    because EDE support is signaled via a non-cached OPT resource record
-   (Section 6.2.1 of [RFC6891], the EDE-aware DNS server can tailor its
+   (Section 6.2.1 of [RFC6891]) the EDE-aware DNS server can tailor its
    filtered response to be most appropriate to that client's EDE
    support.  If EDE support is signaled in the query, it is RECOMMENDED
    the server not to return the "Forged Answer" extended error code
    because the client can take advantage of EDE's more sophisticated
-   error reporting.  Continuing to send "Forged Answer" even to an EDE-
-   supporting client will cause the persistence of the drawbacks
-   described in Section 3.
+   error reporting (e.g., "Censored", "Filtered", "Blocked").
+   Continuing to send "Forged Answer" even to an EDE-supporting client
+   will cause the persistence of the drawbacks described in Section 3.
 
 5.3.  Client Processing Response
 
@@ -626,32 +626,32 @@ Table of Contents
     |        |          |                  | of this     |            |
     |        |          |                  | document    |            |
     +--------+----------+------------------+-------------+------------+
-    |   1    | Malware  | "Blocked",       | Section 5.5 |    IETF    |
-    |        |          | "Forged Answer", | of          |            |
+    |   1    | Malware  | "Forged Answer", | Section 5.5 |    IETF    |
+    |        |          | "Blocked",       | of          |            |
     |        |          | "Censored",      | [RFC5901]   |            |
     |        |          | "Filtered"       |             |            |
     +--------+----------+------------------+-------------+------------+
-    |   2    | Phishing | "Blocked",       | Section 5.5 |    IETF    |
-    |        |          | "Forged Answer", | of          |            |
+    |   2    | Phishing | "Forged Answer", | Section 5.5 |    IETF    |
+    |        |          | "Blocked",       | of          |            |
     |        |          | "Censored",      | [RFC5901]   |            |
     |        |          | "Filtered"       |             |            |
     +--------+----------+------------------+-------------+------------+
-    |   3    | Spam     | "Blocked",       | Page 289 of |    IETF    |
-    |        |          | "Forged Answer", | [RFC4949]   |            |
+    |   3    | Spam     | "Forged Answer", | Page 289 of |    IETF    |
+    |        |          | "Blocked",       | [RFC4949]   |            |
     |        |          | "Censored",      |             |            |
     |        |          | "Filtered"       |             |            |
     +--------+----------+------------------+-------------+------------+
-    |   4    | Spyware  | "Blocked",       | Page 291 of |    IETF    |
-    |        |          | "Forged Answer", | [RFC4949]   |            |
+    |   4    | Spyware  | "Forged Answer", | Page 291 of |    IETF    |
+    |        |          | "Blocked",       | [RFC4949]   |            |
     |        |          | "Censored",      |             |            |
     |        |          | "Filtered"       |             |            |
     +--------+----------+------------------+-------------+------------+
-    |   5    | Network  | "Blocked",       | Section 7.2 |    IETF    |
-    |        | operator | "Forged Answer"  | of this     |            |
+    |   5    | Network  | "Forged Answer", | Section 7.2 |    IETF    |
+    |        | operator | "Blocked"        | of this     |            |
     |        | policy   |                  | document    |            |
     +--------+----------+------------------+-------------+------------+
-    |   6    | DNS      | "Blocked",       | Section 7.3 |    IETF    |
-    |        | operator | "Forged Answer"  | of this     |            |
+    |   6    | DNS      | "Forged Answer", | Section 7.3 |    IETF    |
+    |        | operator | "Blocked"        | of this     |            |
     |        | policy   |                  | document    |            |
     +--------+----------+------------------+-------------+------------+
 
