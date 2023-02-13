@@ -123,7 +123,7 @@ domain was filtered. With that information, the user can choose
 another network, open a trouble ticket with the DNS administrator to
 resolve erroneous filtering, log the information, or other uses.
 
-For the DNS filtering mechanisms described in {{techniques}} the DNS
+For the DNS filtering mechanisms described in {{existing-techniques}} the DNS
 server can return extended error codes Blocked, Censored, Filtered, or
 Forged Answer defined in Section 4 of {{!RFC8914}}. However, these codes
 only explain that filtering occurred but lack detail for the user to
@@ -175,9 +175,16 @@ INFO-CODE as per Table 3 of {{!RFC8914}}. "Forged Answer",
 "Blocked (15)", "Censored (16)", and "Filtered (17)".
 
 
-# DNS Filtering Techniques and Their Limitations {#techniques}
+The document refers to an extended DNS error using its purpose, not
+its INFO-CODE as per Table 3 of [RFC8914].  "Forged Answer",
+"Blocked", "Censored", and "Filtered" are thus used to refer to
+"Forged Answer (4)", "Blocked (15)", "Censored (16)", and "Filtered
+(17)".
+	
 
-DNS responses can be filtered by sending a bogus (also called,
+# DNS Filtering Techniques and Their Limitations {#existing-techniques}
+
+Today, DNS responses can be filtered by sending a bogus (also called
 "forged") A or AAAA response, NXDOMAIN error or empty answer, or an
 extended DNS error (EDE) code defined in {{!RFC8914}}. Each of these
 methods have advantages and disadvantages that are discussed below:
@@ -266,7 +273,6 @@ EXTRA-TEXT field only conveys the source of the error (Section 3 of
 {{!RFC8914}}) and does not provide additional textual information about
 the cause of the error.
 
-
 # I-JSON in EXTRA-TEXT field
 
 Servers that are compliant with this specification send I-JSON data in
@@ -321,23 +327,35 @@ and diagnosing the cause of the DNS filtering.
 
 # Protocol Operation
 
-## Client Generating Request
+## Client Generating Request {#client-request}
 
 When generating a DNS query, the client includes the Extended DNS
 Error option Section 2 of {{!RFC8914}} in the OPT pseudo-RR {{!RFC6891}} to
 elicit the Extended DNS Error option in the DNS response.
 
-## Server Generating Response
+## Server Generating Response {#server-response}
 
 When the DNS server filters its DNS response to an A or AAAA record
-query, the DNS response MAY contain an empty answer, NXDOMAIN, or a
-forged A or AAAA response, as desired by the DNS server. In addition,
-if the query contained the OPT pseudo-RR the DNS server MAY return
-more detail in the EXTRA-TEXT field as described in {{client-processing}}.
+query, the DNS response MAY contain an empty answer, NXDOMAIN, or (less
+ideally) forged A or AAAA response, as desired by the DNS
+server. In addition, if the query contained the OPT pseudo-RR the DNS
+server MAY return more detail in the EXTRA-TEXT field as described in
+{{client-processing}}.
 
 Servers may decide to return small TTL values in filtered DNS
 responses (e.g., 2 seconds) to handle domain category and reputation
 updates.
+
+Because the DNS client signals its EDE support ({{client-request}})
+and because EDE support is signaled via a non-cached OPT resource
+record (Section 6.2.1 of {{?RFC6891}}) the EDE-aware DNS server can
+tailor its filtered response to be most appropriate to that client's
+EDE support.  If EDE support is signaled in the query the server MUST
+NOT return the "Forged Answer" extended error code because the client
+can take advantage of EDE's more sophisticated error reporting (e.g.,
+"Censored", "Filtered", "Blocked").  Continuing to send "Forged
+Answer" even to an EDE-supporting client will cause the persistence of
+the drawbacks described in {{existing-techniques}}.
 
 ## Client Processing Response {#client-processing}
 
@@ -421,6 +439,49 @@ supports this specification, the client learns of the server's support
 via {{?I-D.reddy-add-resolver-info}} and the client includes the EDE OPT
 pseudo-RR in the query. This allows the server to differentiate
 EDE-aware clients from EDE-unaware clients and respond appropriately.
+
+
+# New Sub-Error Codes Definition
+
+This document defines new IANA-registered Sub-Error codes, below.
+
+## Reserved {#policy-reserved}
+
+  * Number: 0
+
+  * Meaning: Reserved. This sub-error code value MUST NOT be sent. If received, it has no meaning.
+
+  * Applicability: This code should never be used
+
+  * Reference:
+
+  * Change Controller: IETF
+
+
+## Network Operator Policy {#policy-network}
+
+  * Number: 5
+
+  * Meaning: Network Operator Policy
+
+  * Applicability: Blocked, Forged
+
+  * Reference: Filtered according to policy determined by the operator of the local network
+
+  * Change Controller: IETF
+
+
+## DNS Operator Policy {#policy-dns}
+
+  * Number: 6
+
+  * Meaning: DNS Operator Policy
+
+  * Applicability: Blocked, Forged
+
+  * Reference:  Filtered according to policy determined by the operator of the DNS server
+
+  * Change Controller: IETF
 
 
 # Examples
@@ -544,25 +605,28 @@ following fields:
 
 * Number: Wire format suberror code (range 0-255)
 
-* Meaning: A short description of the error
+* Meaning: A short description of the sub-error
 
-* Applicable EDO Codes: List the Extended DNS Error codes to which the suberror code applies.
+* Applicability: Indicates which RFC8914 error codes apply to this sub-error code
 
-* Reference: A pointer to the specification text
+* Reference: A pointer to IETF-approved specification that registered
+  the code and/or an authoritative specification that describes the
+  meaning of this code
 
 * Change Controller: Person or entity, with contact information if appropriate.
 
 The SubError Code registry shall initially be populated with the
 following suberror codes:
 
-| Number | Meaning | Applicable EDO Codes| Reference |  Change Controller |
-| 0 | Reserved | N/A| This-Document | IETF |
-| 1 | Malware | "Censored", "Filtered", "Blocked", and "Forged" |This-Document | IETF |
-| 2 | Phishing | "Censored", "Filtered", "Blocked", and "Forged" |This-Document | IETF |
-| 3 | Spam  | "Censored", "Filtered", "Blocked", and "Forged" |This-Document | IETF |
-| 4 | Spyware | "Censored", "Filtered", "Blocked", and "Forged" |This-Document | IETF |
-| 5 | Adware | "Censored", "Filtered", "Blocked", and "Forged" |This-Document | IETF |
-| 6 | Network policy imposed by the operator of the network | "Blocked", and "Forged" |This-Document | IETF |
+| Number | Meaning | RFC8914 error code applicability | Reference |  Change Controller |
+|:------:|:--------|:---------------------------------|:----------|:------------------:|
+| 0 | Reserved| Not used | {{policy-reserved}} of this document | IETF |
+| 1 | Malware | "Forged Answer", "Blocked", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
+| 2 | Phishing | "Forged Answer", "Blocked", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
+| 3 | Spam | "Forged Answer", "Blocked", "Censored", "Filtered" | Page 289 of {{?RFC4949}} | IETF |
+| 4 | Spyware | "Forged Answer", "Blocked", "Censored", "Filtered" | Page 291 of {{!RFC4949}} | IETF |
+| 5 | Network operator policy | "Forged Answer", "Blocked" | {{policy-network}} of this document | IETF |
+| 6 | DNS operator policy | "Forged Answer", "Blocked" | {{policy-dns}} of this document | IETF |
 {: #reg title='Initial SubError Code Rregistry'}
 
 New entries in this registry are subject to an Expert Review
