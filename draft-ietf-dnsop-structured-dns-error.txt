@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 13 August 2023                                          N. Cook
+Expires: 17 August 2023                                          N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                         9 February 2023
+                                                        13 February 2023
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 August 2023.
+   This Internet-Draft will expire on 17 August 2023.
 
 Copyright Notice
 
@@ -91,14 +91,18 @@ Table of Contents
      5.2.  Server Generating Response
      5.3.  Client Processing Response
    6.  Interoperation with RPZ Servers
-   7.  Examples
-   8.  Security Considerations
-   9.  IANA Considerations
-     9.1.  New structured-dns-error Media Type
-     9.2.  New Registry for SubError Codes
-   10. References
-     10.1.  Normative References
-     10.2.  Informative References
+   7.  New Sub-Error Codes Definition
+     7.1.  Reserved
+     7.2.  Network Operator Policy
+     7.3.  DNS Operator Policy
+   8.  Examples
+   9.  Security Considerations
+   10. IANA Considerations
+     10.1.  New structured-dns-error Media Type
+     10.2.  New Registry for SubError Codes
+   11. References
+     11.1.  Normative References
+     11.2.  Informative References
    Acknowledgements
    Authors' Addresses
 
@@ -178,9 +182,15 @@ Table of Contents
    "Forged Answer (4)", "Blocked (15)", "Censored (16)", and "Filtered
    (17)".
 
+   The document refers to an extended DNS error using its purpose, not
+   its INFO-CODE as per Table 3 of [RFC8914].  "Forged Answer",
+   "Blocked", "Censored", and "Filtered" are thus used to refer to
+   "Forged Answer (4)", "Blocked (15)", "Censored (16)", and "Filtered
+   (17)".
+
 3.  DNS Filtering Techniques and Their Limitations
 
-   DNS responses can be filtered by sending a bogus (also called,
+   Today, DNS responses can be filtered by sending a bogus (also called
    "forged") A or AAAA response, NXDOMAIN error or empty answer, or an
    extended DNS error (EDE) code defined in [RFC8914].  Each of these
    methods have advantages and disadvantages that are discussed below:
@@ -301,7 +311,7 @@ Table of Contents
       is optional.
 
    New JSON names MUST be defined in the IANA "application/
-   json+structured-dns-error" registry (Section 9), and MUST consist
+   json+structured-dns-error" registry (Section 10), and MUST consist
    only of lower-case ASCII characters, digits, and hyphens (that is,
    Unicode characters U+0061 through 007A, U+0030 through U+0039, and
    U+002D).  These names MUST be 63 characters or shorter and it is
@@ -334,15 +344,26 @@ Table of Contents
 5.2.  Server Generating Response
 
    When the DNS server filters its DNS response to an A or AAAA record
-   query, the DNS response MAY contain an empty answer, NXDOMAIN, or a
-   forged A or AAAA response, as desired by the DNS server.  In
-   addition, if the query contained the OPT pseudo-RR the DNS server MAY
-   return more detail in the EXTRA-TEXT field as described in
-   Section 5.3.
+   query, the DNS response MAY contain an empty answer, NXDOMAIN, or
+   (less ideally) forged A or AAAA response, as desired by the DNS
+   server.  In addition, if the query contained the OPT pseudo-RR the
+   DNS server MAY return more detail in the EXTRA-TEXT field as
+   described in Section 5.3.
 
    Servers may decide to return small TTL values in filtered DNS
    responses (e.g., 2 seconds) to handle domain category and reputation
    updates.
+
+   Because the DNS client signals its EDE support (Section 5.1) and
+   because EDE support is signaled via a non-cached OPT resource record
+   (Section 6.2.1 of [RFC6891]) the EDE-aware DNS server can tailor its
+   filtered response to be most appropriate to that client's EDE
+   support.  If EDE support is signaled in the query the server MUST NOT
+   return the "Forged Answer" extended error code because the client can
+   take advantage of EDE's more sophisticated error reporting (e.g.,
+   "Censored", "Filtered", "Blocked").  Continuing to send "Forged
+   Answer" even to an EDE-supporting client will cause the persistence
+   of the drawbacks described in Section 3.
 
 5.3.  Client Processing Response
 
@@ -426,7 +447,50 @@ Table of Contents
    differentiate EDE-aware clients from EDE-unaware clients and respond
    appropriately.
 
-7.  Examples
+7.  New Sub-Error Codes Definition
+
+   This document defines new IANA-registered Sub-Error codes, below.
+
+7.1.  Reserved
+
+   *  Number: 0
+
+   *  Meaning: Reserved.  This sub-error code value MUST NOT be sent.
+      If received, it has no meaning.
+
+   *  Applicability: This code should never be used
+
+   *  Reference:
+
+   *  Change Controller: IETF
+
+7.2.  Network Operator Policy
+
+   *  Number: 5
+
+   *  Meaning: Network Operator Policy
+
+   *  Applicability: Blocked, Forged
+
+   *  Reference: Filtered according to policy determined by the operator
+      of the local network
+
+   *  Change Controller: IETF
+
+7.3.  DNS Operator Policy
+
+   *  Number: 6
+
+   *  Meaning: DNS Operator Policy
+
+   *  Applicability: Blocked, Forged
+
+   *  Reference: Filtered according to policy determined by the operator
+      of the DNS server
+
+   *  Change Controller: IETF
+
+8.  Examples
 
    An example showing the nameserver at 'ns.example.net' that filtered a
    DNS "A" record query for 'example.org' is shown in Figure 1.
@@ -457,7 +521,7 @@ Table of Contents
 
                         Figure 2: Minified response
 
-8.  Security Considerations
+9.  Security Considerations
 
    Security considerations in Section 6 of [RFC8914] apply to this
    document.
@@ -488,12 +552,12 @@ Table of Contents
    [I-D.reddy-add-resolver-info], RESINFO should be retrieved over an
    encrypted DNS channel or integrity protected with DNSSEC.
 
-9.  IANA Considerations
+10.  IANA Considerations
 
    This document requests two IANA actions as described in the following
    subsections.
 
-9.1.  New structured-dns-error Media Type
+10.1.  New structured-dns-error Media Type
 
    This document requests IANA to register the "application/
    json+structured-dns-error" media type in the "Media Types" registry
@@ -535,7 +599,7 @@ Table of Contents
 
       Provisional registration?  No
 
-9.2.  New Registry for SubError Codes
+10.2.  New Registry for SubError Codes
 
    This document requests IANA to create a new registry, entitled
    "SubError Codes" under "Domain Name System (DNS) Parameters, Extended
@@ -544,12 +608,14 @@ Table of Contents
 
    *  Number: Wire format suberror code (range 0-255)
 
-   *  Meaning: A short description of the error
+   *  Meaning: A short description of the sub-error
 
-   *  Applicable EDO Codes: List the Extended DNS Error codes to which
-      the suberror code applies.
+   *  Applicability: Indicates which RFC8914 error codes apply to this
+      sub-error code
 
-   *  Reference: A pointer to the specification text
+   *  Reference: A pointer to IETF-approved specification that
+      registered the code and/or an authoritative specification that
+      describes the meaning of this code
 
    *  Change Controller: Person or entity, with contact information if
       appropriate.
@@ -557,49 +623,43 @@ Table of Contents
    The SubError Code registry shall initially be populated with the
    following suberror codes:
 
-    +========+=============+=============+===============+============+
-    | Number | Meaning     | Applicable  | Reference     | Change     |
-    |        |             | EDO Codes   |               | Controller |
-    +========+=============+=============+===============+============+
-    | 0      | Reserved    | N/A         | This-Document | IETF       |
-    +--------+-------------+-------------+---------------+------------+
-    | 1      | Malware     | "Censored", | This-Document | IETF       |
-    |        |             | "Filtered", |               |            |
-    |        |             | "Blocked",  |               |            |
-    |        |             | and         |               |            |
-    |        |             | "Forged"    |               |            |
-    +--------+-------------+-------------+---------------+------------+
-    | 2      | Phishing    | "Censored", | This-Document | IETF       |
-    |        |             | "Filtered", |               |            |
-    |        |             | "Blocked",  |               |            |
-    |        |             | and         |               |            |
-    |        |             | "Forged"    |               |            |
-    +--------+-------------+-------------+---------------+------------+
-    | 3      | Spam        | "Censored", | This-Document | IETF       |
-    |        |             | "Filtered", |               |            |
-    |        |             | "Blocked",  |               |            |
-    |        |             | and         |               |            |
-    |        |             | "Forged"    |               |            |
-    +--------+-------------+-------------+---------------+------------+
-    | 4      | Spyware     | "Censored", | This-Document | IETF       |
-    |        |             | "Filtered", |               |            |
-    |        |             | "Blocked",  |               |            |
-    |        |             | and         |               |            |
-    |        |             | "Forged"    |               |            |
-    +--------+-------------+-------------+---------------+------------+
-    | 5      | Adware      | "Censored", | This-Document | IETF       |
-    |        |             | "Filtered", |               |            |
-    |        |             | "Blocked",  |               |            |
-    |        |             | and         |               |            |
-    |        |             | "Forged"    |               |            |
-    +--------+-------------+-------------+---------------+------------+
-    | 6      | Network     | "Blocked",  | This-Document | IETF       |
-    |        | policy      | and         |               |            |
-    |        | imposed by  | "Forged"    |               |            |
-    |        | the         |             |               |            |
-    |        | operator of |             |               |            |
-    |        | the network |             |               |            |
-    +--------+-------------+-------------+---------------+------------+
+    +========+==========+==================+=============+============+
+    | Number | Meaning  | RFC8914 error    | Reference   |   Change   |
+    |        |          | code             |             | Controller |
+    |        |          | applicability    |             |            |
+    +========+==========+==================+=============+============+
+    |   0    | Reserved | Not used         | Section 7.1 |    IETF    |
+    |        |          |                  | of this     |            |
+    |        |          |                  | document    |            |
+    +--------+----------+------------------+-------------+------------+
+    |   1    | Malware  | "Forged Answer", | Section 5.5 |    IETF    |
+    |        |          | "Blocked",       | of          |            |
+    |        |          | "Censored",      | [RFC5901]   |            |
+    |        |          | "Filtered"       |             |            |
+    +--------+----------+------------------+-------------+------------+
+    |   2    | Phishing | "Forged Answer", | Section 5.5 |    IETF    |
+    |        |          | "Blocked",       | of          |            |
+    |        |          | "Censored",      | [RFC5901]   |            |
+    |        |          | "Filtered"       |             |            |
+    +--------+----------+------------------+-------------+------------+
+    |   3    | Spam     | "Forged Answer", | Page 289 of |    IETF    |
+    |        |          | "Blocked",       | [RFC4949]   |            |
+    |        |          | "Censored",      |             |            |
+    |        |          | "Filtered"       |             |            |
+    +--------+----------+------------------+-------------+------------+
+    |   4    | Spyware  | "Forged Answer", | Page 291 of |    IETF    |
+    |        |          | "Blocked",       | [RFC4949]   |            |
+    |        |          | "Censored",      |             |            |
+    |        |          | "Filtered"       |             |            |
+    +--------+----------+------------------+-------------+------------+
+    |   5    | Network  | "Forged Answer", | Section 7.2 |    IETF    |
+    |        | operator | "Blocked"        | of this     |            |
+    |        | policy   |                  | document    |            |
+    +--------+----------+------------------+-------------+------------+
+    |   6    | DNS      | "Forged Answer", | Section 7.3 |    IETF    |
+    |        | operator | "Blocked"        | of this     |            |
+    |        | policy   |                  | document    |            |
+    +--------+----------+------------------+-------------+------------+
 
                   Table 1: Initial SubError Code Rregistry
 
@@ -620,18 +680,27 @@ Table of Contents
    an explanation and, if applicable, suggestions as to how to make the
    request successful.
 
-10.  References
+11.  References
 
-10.1.  Normative References
+11.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
+   [RFC4949]  Shirey, R., "Internet Security Glossary, Version 2",
+              FYI 36, RFC 4949, DOI 10.17487/RFC4949, August 2007,
+              <https://www.rfc-editor.org/rfc/rfc4949>.
+
    [RFC5198]  Klensin, J. and M. Padlipsky, "Unicode Format for Network
               Interchange", RFC 5198, DOI 10.17487/RFC5198, March 2008,
               <https://www.rfc-editor.org/rfc/rfc5198>.
+
+   [RFC5901]  Cain, P. and D. Jevans, "Extensions to the IODEF-Document
+              Class for Reporting Phishing", RFC 5901,
+              DOI 10.17487/RFC5901, July 2010,
+              <https://www.rfc-editor.org/rfc/rfc5901>.
 
    [RFC6838]  Freed, N., Klensin, J., and T. Hansen, "Media Type
               Specifications and Registration Procedures", BCP 13,
@@ -670,7 +739,7 @@ Table of Contents
               DOI 10.17487/RFC8914, October 2020,
               <https://www.rfc-editor.org/rfc/rfc8914>.
 
-10.2.  Informative References
+11.2.  Informative References
 
    [Chrome-Translate]
               "Change Chrome languages & translate webpages",
