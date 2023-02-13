@@ -300,12 +300,11 @@ s: (suberror)
 o: (organization)
 : UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query. This field is optional.
 
-
-New JSON names MUST be defined in the IANA
-"application/json+structured-dns-error" registry ({{IANA}}), and MUST
+New JSON names can be defined in the IANA
+"application/json+structured-dns-error" registry ({{IANA}}). Such names MUST
 consist only of lower-case ASCII characters, digits, and hyphens (that
 is, Unicode characters U+0061 through 007A, U+0030 through U+0039, and
-U+002D). These names MUST be 63 characters or shorter and it is
+U+002D). Also, these names MUST be 63 characters or shorter and it is
 RECOMMENDED they be as short as possible.
 
 The text in the "j" and "o" names can include international
