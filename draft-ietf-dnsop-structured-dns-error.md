@@ -212,7 +212,7 @@ certificate.
      a trusted certificate authority" (Internet Explorer/Edge"), "The
      site's security certificate is not trusted" (Chrome), "This
      Connection is Untrusted" (Firefox), "Safari can't verify the
-     identity of the website..." (Safari on MacOS). Applications might
+     identity of the website ..." (Safari on MacOS). Applications might
      display even more cryptic error messages.
 
    * Enterprise networks do not assume that all the connected devices
@@ -434,7 +434,7 @@ EDE-aware clients from EDE-unaware clients and respond appropriately.
 
 # New Sub-Error Codes Definition
 
-This document defines new IANA-registered Sub-Error codes, below.
+The document defines the following new IANA-registered Sub-Error codes.
 
 ## Reserved {#policy-reserved}
 
@@ -444,7 +444,7 @@ This document defines new IANA-registered Sub-Error codes, below.
 
   * Applicability: This code should never be used
 
-  * Reference:
+  * Reference: This-Document
 
   * Change Controller: IETF
 
@@ -453,11 +453,11 @@ This document defines new IANA-registered Sub-Error codes, below.
 
   * Number: 5
 
-  * Meaning: Network Operator Policy
+  * Meaning: Network Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the local network.
 
   * Applicability: Blocked, Forged
 
-  * Reference: Filtered according to policy determined by the operator of the local network
+  * Reference: This-Document
 
   * Change Controller: IETF
 
@@ -466,11 +466,11 @@ This document defines new IANA-registered Sub-Error codes, below.
 
   * Number: 6
 
-  * Meaning: DNS Operator Policy
+  * Meaning: DNS Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the DNS server.
 
   * Applicability: Blocked, Forged
 
-  * Reference:  Filtered according to policy determined by the operator of the DNS server
+  * Reference:  This-Document
 
   * Change Controller: IETF
 
