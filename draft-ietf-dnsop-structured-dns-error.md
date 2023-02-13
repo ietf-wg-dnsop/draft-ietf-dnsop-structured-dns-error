@@ -475,7 +475,7 @@ The document defines the following new IANA-registered Sub-Error codes.
 
   * Number: 6
 
-  * Meaning: DNS Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the DNS server. 
+  * Meaning: DNS Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the DNS server.
 
   * Applicability: Blocked, Forged
 
