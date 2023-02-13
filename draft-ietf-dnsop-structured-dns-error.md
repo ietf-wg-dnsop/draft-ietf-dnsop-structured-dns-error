@@ -345,13 +345,12 @@ Because the DNS client signals its EDE support ({{client-request}})
 and because EDE support is signaled via a non-cached OPT resource
 record (Section 6.2.1 of {{?RFC6891}}) the EDE-aware DNS server can
 tailor its filtered response to be most appropriate to that client's
-EDE support.  If EDE support is signaled in the query, it is
-RECOMMENDED the server not to return the "Forged Answer" extended
-error code because the client can take advantage of EDE's more
-sophisticated error reporting (e.g., "Censored", "Filtered",
-"Blocked").  Continuing to send "Forged Answer"
-even to an EDE-supporting client will cause the persistence of the
-drawbacks described in {{existing-techniques}}.
+EDE support.  If EDE support is signaled in the query the server MUST
+NOT return the "Forged Answer" extended error code because the client
+can take advantage of EDE's more sophisticated error reporting (e.g.,
+"Censored", "Filtered", "Blocked").  Continuing to send "Forged
+Answer" even to an EDE-supporting client will cause the persistence of
+the drawbacks described in {{existing-techniques}}.
 
 ## Client Processing Response {#client-processing}
 
