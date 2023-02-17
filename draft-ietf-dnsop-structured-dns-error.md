@@ -359,7 +359,7 @@ JSON:
 
 * The response MUST be received from a DNS server which advertised EDE
   support via a trusted channel, e.g., RESINFO
-  {{?I-D.reddy-add-resolver-info}}.
+  {{?I-D.ietf-add-resolver-info}}.
 
 * Servers which don't support this specification might use plain text
   in the EXTRA-TEXT field so that requestors SHOULD properly handle
@@ -402,7 +402,7 @@ JSON:
   the EDE response. For example, the DNS client can learn whether the
   encrypted DNS resolver performs DNS-based content filtering or not
   by retrieving resolver information using the method defined in
-  {{?I-D.reddy-add-resolver-info}}.
+  {{?I-D.ietf-add-resolver-info}}.
 
 * When a forwarder receives an EDE option, whether or not (and how) to
   pass along JSON information in the EXTRA-TEXT on to their client is
@@ -427,7 +427,7 @@ from the RPZ server that does not support this specification.
 
 When the DNS client supports this specification and the server
 supports this specification, the client learns of the server's support
-via {{?I-D.reddy-add-resolver-info}} and the client includes the EDE OPT
+via {{?I-D.ietf-add-resolver-info}} and the client includes the EDE OPT
 pseudo-RR in the query. This allows the server to differentiate
 EDE-aware clients from EDE-unaware clients and respond appropriately.
 
@@ -534,8 +534,8 @@ DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
 DNS forwarder will forward that attacker-controlled EDE option. To
 prevent such an attack, clients supporting this document MUST discard
 the EDE option if their DNS server does not signal EDE support via
-RESINFO {{?I-D.reddy-add-resolver-info}}. As recommended in
-{{?I-D.reddy-add-resolver-info}}, RESINFO should be retrieved over an
+RESINFO {{?I-D.ietf-add-resolver-info}}. As recommended in
+{{?I-D.ietf-add-resolver-info}}, RESINFO should be retrieved over an
 encrypted DNS channel or integrity protected with DNSSEC.
 
 
