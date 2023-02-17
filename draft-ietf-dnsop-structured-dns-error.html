@@ -374,7 +374,7 @@ ul.empty li, .ulEmpty li {
   margin-top: 0.5em;
 }
 :is(ul, ol).compact, .ulCompact, .olCompact {
-  line-height: 100%;
+  line-height: 1;
   margin: 0 0 0 2em;
 }
 
@@ -596,10 +596,14 @@ hr {
 .bcp14 {
   font-variant: small-caps;
   font-weight: 600;
-  font-size: 14.5px;
+  font-size: var(--small-font-size);
 }
 .role {
   font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
 }
 
 /* info block */
@@ -1056,7 +1060,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Wing, et al.</td>
-<td class="center">Expires 17 August 2023</td>
+<td class="center">Expires 21 August 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1072,12 +1076,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc8914" class="eref">8914</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-02-13" class="published">13 February 2023</time>
+<time datetime="2023-02-17" class="published">17 February 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-08-17">17 August 2023</time></dd>
+<dd class="expires"><time datetime="2023-08-21">21 August 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1148,7 +1152,7 @@ thing written in RFC 8914.<a href="#section-abstract-2" class="pilcrow">¶</a></
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 17 August 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 August 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1545,7 +1549,7 @@ the requestor <span class="bcp14">MUST</span> discard data in the EXTRA-TEXT fie
 </li>
           <li class="normal" id="section-5.3-2.2">The response <span class="bcp14">MUST</span> be received from a DNS server which advertised EDE
 support via a trusted channel, e.g., RESINFO
-<span>[<a href="#I-D.reddy-add-resolver-info" class="cite xref">I-D.reddy-add-resolver-info</a>]</span>.<a href="#section-5.3-2.2" class="pilcrow">¶</a>
+<span>[<a href="#I-D.ietf-add-resolver-info" class="cite xref">I-D.ietf-add-resolver-info</a>]</span>.<a href="#section-5.3-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.3-2.3">Servers which don't support this specification might use plain text
 in the EXTRA-TEXT field so that requestors <span class="bcp14">SHOULD</span> properly handle
@@ -1588,7 +1592,7 @@ offer DNS filtering service, it <span class="bcp14">MUST</span> discard the EXTR
 the EDE response. For example, the DNS client can learn whether the
 encrypted DNS resolver performs DNS-based content filtering or not
 by retrieving resolver information using the method defined in
-<span>[<a href="#I-D.reddy-add-resolver-info" class="cite xref">I-D.reddy-add-resolver-info</a>]</span>.<a href="#section-5.3-2.9" class="pilcrow">¶</a>
+<span>[<a href="#I-D.ietf-add-resolver-info" class="cite xref">I-D.ietf-add-resolver-info</a>]</span>.<a href="#section-5.3-2.9" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.3-2.10">When a forwarder receives an EDE option, whether or not (and how) to
 pass along JSON information in the EXTRA-TEXT on to their client is
@@ -1617,7 +1621,7 @@ specification can continue to accept responses with NXDOMAIN and RA=0
 from the RPZ server that does not support this specification.<a href="#section-6-2" class="pilcrow">¶</a></p>
 <p id="section-6-3">When the DNS client supports this specification and the server
 supports this specification, the client learns of the server's support
-via <span>[<a href="#I-D.reddy-add-resolver-info" class="cite xref">I-D.reddy-add-resolver-info</a>]</span> and the client includes the EDE OPT
+via <span>[<a href="#I-D.ietf-add-resolver-info" class="cite xref">I-D.ietf-add-resolver-info</a>]</span> and the client includes the EDE OPT
 pseudo-RR in the query. This allows the server to differentiate
 EDE-aware clients from EDE-unaware clients and respond appropriately.<a href="#section-6-3" class="pilcrow">¶</a></p>
 </section>
@@ -1759,8 +1763,8 @@ DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
 DNS forwarder will forward that attacker-controlled EDE option. To
 prevent such an attack, clients supporting this document <span class="bcp14">MUST</span> discard
 the EDE option if their DNS server does not signal EDE support via
-RESINFO <span>[<a href="#I-D.reddy-add-resolver-info" class="cite xref">I-D.reddy-add-resolver-info</a>]</span>. As recommended in
-<span>[<a href="#I-D.reddy-add-resolver-info" class="cite xref">I-D.reddy-add-resolver-info</a>]</span>, RESINFO should be retrieved over an
+RESINFO <span>[<a href="#I-D.ietf-add-resolver-info" class="cite xref">I-D.ietf-add-resolver-info</a>]</span>. As recommended in
+<span>[<a href="#I-D.ietf-add-resolver-info" class="cite xref">I-D.ietf-add-resolver-info</a>]</span>, RESINFO should be retrieved over an
 encrypted DNS channel or integrity protected with DNSSEC.<a href="#section-9-5" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2006,9 +2010,9 @@ to make the request successful.<a href="#section-10.2-6" class="pilcrow">¶</a><
         <dd>
 <span class="refTitle">"Change Chrome languages &amp; translate webpages"</span>, <span>&lt;<a href="https://support.google.com/chrome/answer/173424">https://support.google.com/chrome/answer/173424</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.reddy-add-resolver-info">[I-D.reddy-add-resolver-info]</dt>
+<dt id="I-D.ietf-add-resolver-info">[I-D.ietf-add-resolver-info]</dt>
         <dd>
-<span class="refAuthor">Reddy.K, T.</span> and <span class="refAuthor">M. Boucadair</span>, <span class="refTitle">"DNS Resolver Information"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-reddy-add-resolver-info-06</span>, <time datetime="2022-08-31" class="refDate">31 August 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-reddy-add-resolver-info-06">https://datatracker.ietf.org/doc/html/draft-reddy-add-resolver-info-06</a>&gt;</span>. </dd>
+<span class="refAuthor">Reddy.K, T.</span> and <span class="refAuthor">M. Boucadair</span>, <span class="refTitle">"DNS Resolver Information"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-add-resolver-info-00</span>, <time datetime="2023-02-15" class="refDate">15 February 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-add-resolver-info-00">https://datatracker.ietf.org/doc/html/draft-ietf-add-resolver-info-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA-DNS">[IANA-DNS]</dt>
         <dd>

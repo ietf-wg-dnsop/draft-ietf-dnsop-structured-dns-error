@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 17 August 2023                                          N. Cook
+Expires: 21 August 2023                                          N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                        13 February 2023
+                                                        17 February 2023
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 August 2023.
+   This Internet-Draft will expire on 21 August 2023.
 
 Copyright Notice
 
@@ -370,7 +370,7 @@ Table of Contents
 
    *  The response MUST be received from a DNS server which advertised
       EDE support via a trusted channel, e.g., RESINFO
-      [I-D.reddy-add-resolver-info].
+      [I-D.ietf-add-resolver-info].
 
    *  Servers which don't support this specification might use plain
       text in the EXTRA-TEXT field so that requestors SHOULD properly
@@ -413,7 +413,7 @@ Table of Contents
       field of the EDE response.  For example, the DNS client can learn
       whether the encrypted DNS resolver performs DNS-based content
       filtering or not by retrieving resolver information using the
-      method defined in [I-D.reddy-add-resolver-info].
+      method defined in [I-D.ietf-add-resolver-info].
 
    *  When a forwarder receives an EDE option, whether or not (and how)
       to pass along JSON information in the EXTRA-TEXT on to their
@@ -436,7 +436,7 @@ Table of Contents
 
    When the DNS client supports this specification and the server
    supports this specification, the client learns of the server's
-   support via [I-D.reddy-add-resolver-info] and the client includes the
+   support via [I-D.ietf-add-resolver-info] and the client includes the
    EDE OPT pseudo-RR in the query.  This allows the server to
    differentiate EDE-aware clients from EDE-unaware clients and respond
    appropriately.
@@ -545,8 +545,8 @@ Table of Contents
    or DNS forwarder will forward that attacker-controlled EDE option.
    To prevent such an attack, clients supporting this document MUST
    discard the EDE option if their DNS server does not signal EDE
-   support via RESINFO [I-D.reddy-add-resolver-info].  As recommended in
-   [I-D.reddy-add-resolver-info], RESINFO should be retrieved over an
+   support via RESINFO [I-D.ietf-add-resolver-info].  As recommended in
+   [I-D.ietf-add-resolver-info], RESINFO should be retrieved over an
    encrypted DNS channel or integrity protected with DNSSEC.
 
 10.  IANA Considerations
@@ -742,12 +742,12 @@ Table of Contents
               "Change Chrome languages & translate webpages",
               <https://support.google.com/chrome/answer/173424>.
 
-   [I-D.reddy-add-resolver-info]
+   [I-D.ietf-add-resolver-info]
               Reddy.K, T. and M. Boucadair, "DNS Resolver Information",
-              Work in Progress, Internet-Draft, draft-reddy-add-
-              resolver-info-06, 31 August 2022,
-              <https://datatracker.ietf.org/doc/html/draft-reddy-add-
-              resolver-info-06>.
+              Work in Progress, Internet-Draft, draft-ietf-add-resolver-
+              info-00, 15 February 2023,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-add-
+              resolver-info-00>.
 
    [IANA-DNS] IANA, "Domain Name System (DNS) Parameters, Extended DNS
               Error Codes", <https://www.iana.org/assignments/dns-
