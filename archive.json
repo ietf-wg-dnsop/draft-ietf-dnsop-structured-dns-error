@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-02-14T00:30:44.617008+00:00",
+  "timestamp": "2023-02-19T00:30:28.974552+00:00",
   "repo": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
   "labels": [
     {
@@ -540,6 +540,34 @@
       "mergedBy": "danwing",
       "mergeCommit": {
         "oid": "98a850d1d0d55722abb53b0411f7d819d1bbc07f"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 10,
+      "id": "PR_kwDOI6P3FM5KMP9q",
+      "title": "Update add-resolver-info citations",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/10",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-02-17T06:57:53Z",
+      "updatedAt": "2023-02-17T23:00:53Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "98a850d1d0d55722abb53b0411f7d819d1bbc07f",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-5",
+      "headRefOid": "2ce13d90c1c9e5ca1e94bf1963229afdf4c20155",
+      "closedAt": "2023-02-17T23:00:53Z",
+      "mergedAt": "2023-02-17T23:00:53Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "b9af435141aeb341064c84e0594e0909f57a79aa"
       },
       "comments": [],
       "reviews": []
