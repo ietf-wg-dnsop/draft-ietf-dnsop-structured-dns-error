@@ -245,11 +245,7 @@ both security and privacy.
 
 3. The extended error codes Blocked, Censored, and Filtered defined in
 Section 4 of {{!RFC8914}} can be returned by a DNS server to provide
-additional information about the cause of an DNS error. If the
-extended error code "Forged Answer" defined in Section 4.5 of
-{{!RFC8914}} is returned by the DNS server, the client can identify the
-DNS response is forged together with the reason for HTTPS certificate
-error.
+additional information about the cause of an DNS error. 
 
 4. These extended error codes do not suffer from the limitations
 discussed in bullets (1) and (2), but the user still does not know the
@@ -366,7 +362,7 @@ JSON:
   both plaintext and JSON text in the EXTRA-TEXT field.
 
 * The DNS response MUST also contain an extended error code of
-  "Censored", "Blocked", "Filtered" or "Forged Answer" {{!RFC8914}}, otherwise
+  "Censored", "Blocked" or "Filtered" {{!RFC8914}}, otherwise
   the EXTRA-TEXT field is discarded.
 
 * If either of the mandatory JSON names "c" and "j" are missing or
@@ -455,7 +451,7 @@ The document defines the following new IANA-registered Sub-Error codes.
 
   * Meaning: Network Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the local network.
 
-  * Applicability: Blocked, Forged
+  * Applicability: Blocked
 
   * Reference: This-Document
 
@@ -468,7 +464,7 @@ The document defines the following new IANA-registered Sub-Error codes.
 
   * Meaning: DNS Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the DNS server.
 
-  * Applicability: Blocked, Forged
+  * Applicability: Blocked
 
   * Reference:  This-Document
 
@@ -612,12 +608,12 @@ following suberror codes:
 | Number | Meaning | RFC8914 error code applicability | Reference |  Change Controller |
 |:------:|:--------|:---------------------------------|:----------|:------------------:|
 | 0 | Reserved| Not used | {{policy-reserved}} of this document | IETF |
-| 1 | Malware | "Forged Answer", "Blocked", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
-| 2 | Phishing | "Forged Answer", "Blocked", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
-| 3 | Spam | "Forged Answer", "Blocked", "Censored", "Filtered" | Page 289 of {{?RFC4949}} | IETF |
-| 4 | Spyware | "Forged Answer", "Blocked", "Censored", "Filtered" | Page 291 of {{!RFC4949}} | IETF |
-| 5 | Network operator policy | "Forged Answer", "Blocked" | {{policy-network}} of this document | IETF |
-| 6 | DNS operator policy | "Forged Answer", "Blocked" | {{policy-dns}} of this document | IETF |
+| 1 | Malware | "Blocked", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
+| 2 | Phishing | "Blocked", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
+| 3 | Spam | "Blocked", "Censored", "Filtered" | Page 289 of {{?RFC4949}} | IETF |
+| 4 | Spyware | "Blocked", "Censored", "Filtered" | Page 291 of {{!RFC4949}} | IETF |
+| 5 | Network operator policy | "Blocked" | {{policy-network}} of this document | IETF |
+| 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document | IETF |
 {: #reg title='Initial SubError Code Rregistry'}
 
 New entries in this registry are subject to an Expert Review
