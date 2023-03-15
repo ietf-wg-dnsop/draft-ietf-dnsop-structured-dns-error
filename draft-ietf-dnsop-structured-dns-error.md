@@ -245,7 +245,7 @@ both security and privacy.
 
 3. The extended error codes Blocked, Censored, and Filtered defined in
 Section 4 of {{!RFC8914}} can be returned by a DNS server to provide
-additional information about the cause of an DNS error. 
+additional information about the cause of an DNS error.
 
 4. These extended error codes do not suffer from the limitations
 discussed in bullets (1) and (2), but the user still does not know the
@@ -404,7 +404,7 @@ JSON:
   pass along JSON information in the EXTRA-TEXT on to their client is
   implementation dependent {{?RFC5625}}. Implementations MAY choose to
   not forward the JSON information, or they MAY choose to create a new
-  EDE option that conveys the information in the "c", "s" and "j"
+  EDE option that conveys the information in the "c", "s", and "j"
   fields encoded in the JSON object.
 
 
@@ -438,7 +438,7 @@ The document defines the following new IANA-registered Sub-Error codes.
 
   * Meaning: Reserved. This sub-error code value MUST NOT be sent. If received, it has no meaning.
 
-  * Applicability: This code should never be used
+  * Applicability: This code should never be used.
 
   * Reference: This-Document
 
@@ -511,7 +511,7 @@ document.
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
 
-A client might choose to display the information in the "c", "j" and
+A client might choose to display the information in the "c", "j", and
 "o" fields if and only if the encrypted resolver has sufficient
 reputation, according to some local policy (e.g. user configuration,
 administrative configuration, or a built-in list of respectable
@@ -596,7 +596,7 @@ following fields:
 
 * Applicability: Indicates which RFC8914 error codes apply to this sub-error code
 
-* Reference: A pointer to IETF-approved specification that registered
+* Reference: A pointer to an IETF-approved specification that registered
   the code and/or an authoritative specification that describes the
   meaning of this code
 
