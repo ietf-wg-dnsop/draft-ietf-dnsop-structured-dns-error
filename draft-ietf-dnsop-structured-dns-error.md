@@ -261,7 +261,7 @@ EXTRA-TEXT field only conveys the source of the error (Section 3 of
 {{!RFC8914}}) and does not provide additional textual information about
 the cause of the error.
 
-# I-JSON in EXTRA-TEXT field
+# I-JSON in EXTRA-TEXT field {#name-spec}
 
 Servers that are compliant with this specification send I-JSON data in
 the EXTRA-TEXT field {{!RFC8914}} using the Internet JSON (I-JSON)
@@ -288,8 +288,7 @@ s: (suberror)
 o: (organization)
 : UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query. This field is optional.
 
-New JSON names can be defined in the IANA
-"application/json+structured-dns-error" registry ({{IANA}}). Such names MUST
+New JSON names can be defined in the IANA registry introduced in ({{IANA-Names}}). Such names MUST
 consist only of lower-case ASCII characters, digits, and hyphens (that
 is, Unicode characters U+0061 through 007A, U+0030 through U+0039, and
 U+002D). Also, these names MUST be 63 characters or shorter and it is
@@ -537,9 +536,9 @@ encrypted DNS channel or integrity protected with DNSSEC.
 
 # IANA Considerations {#IANA}
 
-This document requests two IANA actions as described in the following subsections.
+This document requests three IANA actions as described in the following subsections.
 
-## New structured-dns-error Media Type
+## Media Type Registration
 
 This document requests IANA to register the
 "application/json+structured-dns-error" media type in the "Media
@@ -555,15 +554,15 @@ procedures specified in {{!RFC6838}}:
 
    Optional parameters: N/A
 
-   Encoding considerations: as defined in Section NN of [RFCXXXX].
+   Encoding considerations: as defined in Section 4 of RFCXXXX.
 
-   Security considerations: See Section NNN of [RFCXXXX].
+   Security considerations: See Section NNN of RFCXXXX.
 
    Interoperability considerations: N/A
 
-   Published specification: [RFCXXXX]
+   Published specification: RFCXXXX
 
-   Applications that use this media type: Section NNNN of [RFCXXXX].
+   Applications that use this media type: Section NNNN of RFCXXXX.
 
    Fragment identifier considerations: N/A
 
@@ -583,7 +582,38 @@ procedures specified in {{!RFC6838}}:
    Provisional registration?  No
 ~~~~~
 
-## New Registry for SubError Codes
+##  New Registry for JSON Names {#IANA-Names}
+
+This document requests IANA to create a new registry, entitled "EXTRA-TEXT JSON Names"
+under "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
+registry {{IANA-DNS}}. The registration request for a new JSON name must include the
+following fields:
+
+JSON Name:
+: Specifies the name of an attribute that is present in the JSON data enclosed in EXTRA-TEXT field. The name must follow the guidelines in {{name-spec}}.
+
+Short description:
+: Includes a short description of the requested JSON name.
+
+Mandatory (Y/N?):
+: Indicates whether this attribute is mandatory or optional.
+
+Specification:
+: Provides a pointer to the reference document that specifies the attribute.
+
+The registry is initially populated with the following values:
+
+| JSON Name | Full JSON Name | Description                      | Mandatory |  Specification |
+|:---------:|:---------------|:---------------------------------|:----------|:------------------:|
+| c | contact| The contact details of the IT/InfoSec team to report mis-classified DNS filtering | Y | {{name-spec}} of RFCXXXX |
+| j | justification | UTF-8-encoded {{!RFC5198}} textual justification for a particular DNS filtering | Y | {{name-spec}} of RFCXXXX |
+| s | suberror | the suberror code for this particular DNS filtering | N | {{name-spec}} of RFCXXXX |
+| o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query | N | {{name-spec}} of RFCXXXX |
+{: #reg-names title='Initial JSON Names Rregistry'}
+
+New JSON names are registered via IETF Review (Section 4.8 of {{!RFC8126}}).
+
+## New Registry for DNS SubError Codes
 
 This document requests IANA to create a new registry, entitled "SubError Codes"
 under "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
