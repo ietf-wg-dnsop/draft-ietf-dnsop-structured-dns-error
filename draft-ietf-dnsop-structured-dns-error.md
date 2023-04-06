@@ -653,6 +653,9 @@ the suberror code and a short description. The reference may be
 an individual Internet-Draft, or a document from any other source
 with similar assurances of stability and availability.
 
+Entries created via IETF review MUST NOT be directly modified by designated experts,
+unless. Changes to such entries are only allowed via IETF review.
+
 Review requests are evaluated on the advice of one or more
 designated experts. Criteria that should be applied by the designated
 experts include determining whether the proposed registration
