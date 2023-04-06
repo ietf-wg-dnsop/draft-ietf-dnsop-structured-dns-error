@@ -201,19 +201,13 @@ certificate.
 
    * However, configuring the local root certificate on endpoints is
      not a viable option in several deployments like home networks,
-     schools, Small Office/Home Office (SOHO), and Small/ Medium
+     schools, Small Office/Home Office (SOHO), or Small/ Medium
      Enterprise (SME). In these cases, the typical behavior is that
      the filtered DNS response points to a server that will display
-     the block page. If the client is using HTTPS (via web browser or
+     the block page. If the client is using HTTPS (via a web browser or
      another application) this results in a certificate validation
      error which gives no information to the end-user about the reason
-     for the DNS filtering. Browsers will display errors such as "The
-     security certificate presented by this website was not issued by
-     a trusted certificate authority" (Internet Explorer/Edge"), "The
-     site's security certificate is not trusted" (Chrome), "This
-     Connection is Untrusted" (Firefox), "Safari can't verify the
-     identity of the website ..." (Safari on MacOS). Applications might
-     display even more cryptic error messages.
+     for the DNS filtering.
 
    * Enterprise networks do not assume that all the connected devices
      are managed by the IT team or Mobile Device Management (MDM)
@@ -261,7 +255,7 @@ EXTRA-TEXT field only conveys the source of the error (Section 3 of
 {{!RFC8914}}) and does not provide additional textual information about
 the cause of the error.
 
-# I-JSON in EXTRA-TEXT field {#name-spec}
+# I-JSON in EXTRA-TEXT Field
 
 Servers that are compliant with this specification send I-JSON data in
 the EXTRA-TEXT field {{!RFC8914}} using the Internet JSON (I-JSON)
@@ -473,7 +467,7 @@ The document defines the following new IANA-registered Sub-Error codes.
 # Examples
 
 An example showing the nameserver at 'ns.example.net' that filtered a
-DNS "A" record query for 'example.org' is shown in {{example-json}}.
+DNS "A" record query for 'example.org' is provided in {{example-json}}.
 
 ~~~~~
 {
