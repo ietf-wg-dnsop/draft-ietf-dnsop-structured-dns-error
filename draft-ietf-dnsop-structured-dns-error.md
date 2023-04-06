@@ -255,7 +255,7 @@ EXTRA-TEXT field only conveys the source of the error (Section 3 of
 {{!RFC8914}}) and does not provide additional textual information about
 the cause of the error.
 
-# I-JSON in EXTRA-TEXT Field
+# I-JSON in EXTRA-TEXT Field {#name-spec}
 
 Servers that are compliant with this specification send I-JSON data in
 the EXTRA-TEXT field {{!RFC8914}} using the Internet JSON (I-JSON)
@@ -311,7 +311,9 @@ and diagnosing the cause of the DNS filtering.
 
 When generating a DNS query, the client includes the Extended DNS
 Error option Section 2 of {{!RFC8914}} in the OPT pseudo-RR {{!RFC6891}} to
-elicit the Extended DNS Error option in the DNS response.
+elicit the Extended DNS Error option in the DNS response. It SHOULD use an 
+option-length of 0 (that is, omitting INFO-CODE and EXTRA-TEXT from 
+{{!RFC8914}}).
 
 ## Server Generating Response {#server-response}
 
@@ -362,18 +364,22 @@ JSON:
   have empty values in the EXTRA-TEXT field, the entire JSON is
   discarded.
 
-* The JSON name "s" MUST NOT be present with the extended error code
-  "Censored".
+* The "c", "j", and "o" fields MUST be ignored by the client 
+  with the extended error code "Censored".
 
 * If a DNS client has enabled opportunistic privacy profile (Section 5
   of {{!RFC8310}}) for DoT, the DNS client will either fallback to an
   encrypted connection without authenticating the DNS server provided
   by the local network or fallback to clear text DNS, and cannot
   exchange encrypted DNS messages. Both of these fallback mechanisms
-  adversely impacts security and privacy. If the DNS client has
-  enabled opportunistic privacy profile for DoT, the DNS client MUST
-  ignore the EXTRA-TEXT field of the EDE responses, but SHOULD process
-  other parts of the response.
+  adversely impact security and privacy. If the DNS client has enabled 
+  opportunistic privacy profile for DoT and the identify of the DNS server
+  cannot be verified, the DNS client MUST ignore the "c", "j", and "o" fields
+  but MAY process the “s” field and other parts of the response.
+
+* Opportunistic discovery {{?I-D.ietf-add-ddr}}, where only the IP address is
+  validated, the DNS client MUST ignore the "c", "j", and "o" fields
+  but MAY process the “s” field and other parts of the response.
 
 * If a DNS client has enabled strict privacy profile (Section 5 of
   {{!RFC8310}}) for DoT, the DNS client requires an encrypted connection
@@ -513,9 +519,9 @@ to cause harm. If the client decides not to display the all of the
 information in the EXTRA-TEXT field, it can be logged for diagnostics
 purpose and the client can only display the resolver hostname that
 blocked the domain, error description for the EDE code and the
-suberror description for the "s'" field to the end-user.
+suberror description for the "s" field to the end-user.
 
-When displaying the free-form text of "c" and "o", the browser SHOULD
+When displaying the free-form text of "j" and "o", the browser SHOULD
 NOT make any of those elements into actionable (clickable) links.
 
 An attacker might inject (or modify) the EDE EXTRA-TEXT field with an
