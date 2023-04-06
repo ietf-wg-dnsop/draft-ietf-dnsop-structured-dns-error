@@ -372,7 +372,7 @@ JSON:
   encrypted connection without authenticating the DNS server provided
   by the local network or fallback to clear text DNS, and cannot
   exchange encrypted DNS messages. Both of these fallback mechanisms
-  adversely impact security and privacy. If the DNS client has enabled 
+  adversely impact security and privacy. If the DNS client has enabled
   opportunistic privacy profile for DoT and the identify of the DNS server
   cannot be verified, the DNS client MUST ignore the "c", "j", and "o" fields
   but MAY process the “s” field and other parts of the response.
