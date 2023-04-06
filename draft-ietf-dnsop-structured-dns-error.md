@@ -311,8 +311,8 @@ and diagnosing the cause of the DNS filtering.
 
 When generating a DNS query, the client includes the Extended DNS
 Error option Section 2 of {{!RFC8914}} in the OPT pseudo-RR {{!RFC6891}} to
-elicit the Extended DNS Error option in the DNS response. It SHOULD use an 
-option-length of 0 (that is, omitting INFO-CODE and EXTRA-TEXT from 
+elicit the Extended DNS Error option in the DNS response. It SHOULD use an
+option-length of 0 (that is, omitting INFO-CODE and EXTRA-TEXT from
 {{!RFC8914}}).
 
 ## Server Generating Response {#server-response}
@@ -364,7 +364,7 @@ JSON:
   have empty values in the EXTRA-TEXT field, the entire JSON is
   discarded.
 
-* The "c", "j", and "o" fields MUST be ignored by the client 
+* The "c", "j", and "o" fields MUST be ignored by the client
   with the extended error code "Censored".
 
 * If a DNS client has enabled opportunistic privacy profile (Section 5
