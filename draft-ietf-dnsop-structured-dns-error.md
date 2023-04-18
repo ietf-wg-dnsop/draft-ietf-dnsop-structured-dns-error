@@ -630,20 +630,22 @@ following fields:
   the code and/or an authoritative specification that describes the
   meaning of this code
 
+* IETF Review: Indicates wether a registration is established via IETF review (Y). This field is set to "N", otherwise.
+
 * Change Controller: Person or entity, with contact information if appropriate.
 
 The SubError Code registry shall initially be populated with the
 following suberror codes:
 
-| Number | Meaning | RFC8914 error code applicability | Reference |  Change Controller |
-|:------:|:--------|:---------------------------------|:----------|:------------------:|
-| 0 | Reserved| Not used | {{policy-reserved}} of this document | IETF |
-| 1 | Malware | "Blocked", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
-| 2 | Phishing | "Blocked", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
-| 3 | Spam | "Blocked", "Censored", "Filtered" | Page 289 of {{?RFC4949}} | IETF |
-| 4 | Spyware | "Blocked", "Censored", "Filtered" | Page 291 of {{!RFC4949}} | IETF |
-| 5 | Network operator policy | "Blocked" | {{policy-network}} of this document | IETF |
-| 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document | IETF |
+| Number | Meaning | RFC8914 error code applicability | Reference |IETF Review|  Change Controller |
+|:------:|:--------|:---------------------------------|:----------|:----------|:------------------|
+| 0 | Reserved| Not used | {{policy-reserved}} of this document | Y | IETF |
+| 1 | Malware | "Blocked", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | Y | IETF |
+| 2 | Phishing | "Blocked", "Censored", "Filtered" | Section 5.5 of {{!RFC5901}} | Y | IETF |
+| 3 | Spam | "Blocked", "Censored", "Filtered" | Page 289 of {{?RFC4949}} | Y | IETF |
+| 4 | Spyware | "Blocked", "Censored", "Filtered" | Page 291 of {{!RFC4949}} | Y | IETF |
+| 5 | Network operator policy | "Blocked" | {{policy-network}} of this document | Y | IETF |
+| 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document | Y | IETF |
 {: #reg title='Initial SubError Code Rregistry'}
 
 New entries in this registry are subject to an Expert Review
