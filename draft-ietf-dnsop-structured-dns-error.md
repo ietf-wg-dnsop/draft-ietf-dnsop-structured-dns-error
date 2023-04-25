@@ -88,10 +88,10 @@ informative:
 
 --- abstract
 
-DNS filtering is widely deployed for various reasons including 
-network security, but filtered DNS responses lack information 
-for the end user to understand the reason for the filtering. 
-Existing mechanisms to provide detail to end users cause harm 
+DNS filtering is widely deployed for various reasons including
+network security, but filtered DNS responses lack information
+for the end user to understand the reason for the filtering.
+Existing mechanisms to provide detail to end users cause harm
 especially if the blocked DNS response is to an HTTPS
 website.
 
@@ -125,7 +125,7 @@ another network, open a trouble ticket with the DNS administrator to
 resolve erroneous filtering, log the information, or other uses.
 
 For the DNS filtering mechanisms described in {{existing-techniques}} the DNS
-server can return extended error codes Blocked, Censored, Filtered, or
+server can return extended error codes Blocked, Filtered, or
 Forged Answer defined in Section 4 of {{!RFC8914}}. However, these codes
 only explain that filtering occurred but lack detail for the user to
 diagnose erroneous filtering.
@@ -238,7 +238,7 @@ reach the domain but with no success. Frustrated, the end user may use
 insecure connections to reach the domain, potentially compromising
 both security and privacy.
 
-3. The extended error codes Blocked, Censored, and Filtered defined in
+3. The extended error codes Blocked and Filtered defined in
 Section 4 of {{!RFC8914}} can be returned by a DNS server to provide
 additional information about the cause of an DNS error.
 
@@ -467,14 +467,14 @@ The document defines the following new IANA-registered Sub-Error codes.
 
   * Change Controller: IETF
 
-# Extended DNS Error Code TBA1 - Blocked by upstream server
+# Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
 
- The server (e.g, DNS forwarder) is unable to respond to the request 
- because the domain is on a blocklist due to an internal security policy 
- imposed by the upstream server (e.g., DNS resolver). This error code
- is useful in deployments where the network-provided DNS forwarder 
- is configured to use a external resolver that filters malicious 
- domains. 
+The DNS server (e.g., a DNS forwarder) is unable to respond to the request
+because the domain is on a blocklist due to an internal security policy
+imposed by an upstream DNS server. This error code
+is useful in deployments where a network-provided DNS forwarder
+is configured to use an external resolver that filters malicious
+domains. Typically, when the DNS forwarder receives a Blocked (15) error code from the upstream DNS server, it will replace it with "Blocked by Upstream DNS Server" (TBA1) before forwarding the reply to the DNS client.
 
 # Examples
 
@@ -496,7 +496,7 @@ DNS "A" record query for 'example.org' is provided in {{example-json}}.
 {: #example-json title="JSON returned in EXTRA-TEXT field of Extended DNS Error response"}
 
 In {{example-json-minified}} the same content is shown with minified JSON (no
-whitespace, no blank lines) with '\\' line wrapping per {{?RFC8792}}.
+whitespace, no blank lines) with '\' line wrapping per {{?RFC8792}}.
 
 ~~~~~
  ============== NOTE: '\' line wrapping per RFC 8792 ===============
@@ -544,6 +544,8 @@ encrypted DNS channel or integrity protected with DNSSEC.
 
 This document requests four IANA actions as described in the following subsections.
 
+> Note to the RFC Editor: Please replace RFCXXXX with the RFC number assigned to this document and "TBA1" with the value assigned by IANA.
+
 ## Media Type Registration
 
 This document requests IANA to register the
@@ -562,13 +564,13 @@ procedures specified in {{!RFC6838}}:
 
    Encoding considerations: as defined in Section 4 of RFCXXXX.
 
-   Security considerations: See Section NNN of RFCXXXX.
+   Security considerations: See Section 9 of RFCXXXX.
 
    Interoperability considerations: N/A
 
    Published specification: RFCXXXX
 
-   Applications that use this media type: Section NNNN of RFCXXXX.
+   Applications that use this media type: Section 4 of RFCXXXX.
 
    Fragment identifier considerations: N/A
 
@@ -626,28 +628,28 @@ under "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
 registry {{IANA-DNS}}. The registration request for a new suberror codes MUST include the
 following fields:
 
-* Number: Wire format suberror code (range 0-255)
+* Number: Is the wire format suberror code (range 0-255).
 
-* Meaning: A short description of the sub-error
+* Meaning: Provides a short description of the sub-error.
 
-* Applicability: Indicates which RFC8914 error codes apply to this sub-error code
+* Applicability: Indicates which RFC8914 error codes apply to this sub-error code.
 
-* Reference: A pointer to an IETF-approved specification that registered
+* Reference: Provides a pointer to an IETF-approved specification that registered
   the code and/or an authoritative specification that describes the
-  meaning of this code
+  meaning of this code.
 
-* Change Controller: Person or entity, with contact information if appropriate.
+* Change Controller: Indicates the person or entity, with contact information if appropriate.
 
-The SubError Code registry shall initially be populated with the
+The SubError Code registry is initially be populated with the
 following suberror codes:
 
 | Number | Meaning | RFC8914 error code applicability | Reference |  Change Controller |
 |:------:|:--------|:---------------------------------|:----------|:------------------:|
 | 0 | Reserved| Not used | {{policy-reserved}} of this document | IETF |
-| 1 | Malware | "Blocked", "Blocked by upstream server", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
-| 2 | Phishing | "Blocked", "Blocked by upstream server", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
-| 3 | Spam | "Blocked", "Blocked by upstream server", "Filtered" | Page 289 of {{?RFC4949}} | IETF |
-| 4 | Spyware | "Blocked", "Blocked by upstream server", "Filtered" | Page 291 of {{!RFC4949}} | IETF |
+| 1 | Malware | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
+| 2 | Phishing | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
+| 3 | Spam | "Blocked", "Blocked by Upstream Server", "Filtered" | Page 289 of {{?RFC4949}} | IETF |
+| 4 | Spyware | "Blocked", "Blocked by Upstream Server", "Filtered" | Page 291 of {{!RFC4949}} | IETF |
 | 5 | Network operator policy | "Blocked" | {{policy-network}} of this document | IETF |
 | 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document | IETF |
 {: #reg title='Initial SubError Code Rregistry'}
@@ -656,12 +658,13 @@ New SubError Codes are registered via IETF Review (Section 4.8 of {{!RFC8126}}).
 
 ## New Extended DNS Error Code
 
-IANA is requested to assign the following Extended DNS Error code:
+IANA is requested to assign the following Extended DNS Error code from the "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
+registry {{IANA-DNS}}:
 
-INFO-CODE    Purpose                       Reference
------------  ----------------              -----------
-TBA1         Blocked by upstream server     RFC xxxx
-
+| INFO-CODE | Purose                           | Reference |
+|:---------:|:---------------------------------|:---------:|
+| TBA1      | Blocked by Upstream Server       | RFCXXXX   |
+{: #reg-ede title='New DNS Error Code'}
 
 --- back
 
@@ -671,3 +674,5 @@ TBA1         Blocked by upstream server     RFC xxxx
 Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
 Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, and Bob
 Harold for the comments.
+
+Thanks to Ralf Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
