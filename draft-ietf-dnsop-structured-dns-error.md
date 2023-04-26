@@ -111,7 +111,7 @@ Intrusion Prevention Systems (IPS) rely upon network traffic
 inspection to implement perimeter-based security policies and operate
 by filtering DNS responses. In a home network, DNS filtering is used for the
 same reasons as above and additionally for parental control. Internet
-Service Providers (ISPs) typically block access to some DNS domains to a
+Service Providers (ISPs) typically block access to some DNS domains due to a
 requirement imposed by an external entity (e.g., law enforcement
 agency) also performed using DNS-based content filtering.
 
