@@ -675,4 +675,4 @@ Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
 Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, and Bob
 Harold for the comments.
 
-Thanks to Ralf Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
+Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
