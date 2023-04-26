@@ -113,7 +113,7 @@ by filtering DNS responses. In a home network, DNS filtering is used for the
 same reasons as above and additionally for parental control. Internet
 Service Providers (ISPs) typically block access to some DNS domains to a
 requirement imposed by an external entity (e.g., law enforcement
-agency) also performed using DNS-based content filtering. 
+agency) also performed using DNS-based content filtering.
 
 Users of DNS services that perform filtering may wish to receive more
 explanatory information about such a filtering to resolve problems with the filter
