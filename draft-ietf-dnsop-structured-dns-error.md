@@ -364,12 +364,12 @@ JSON:
   discarded.
 
 * If a DNS client has enabled opportunistic privacy profile (Section 5
-  of {{!RFC8310}}) for DoT, the DNS client will either fallback to an
+  of {{!RFC8310}}) for DoT, the DNS client will either fall back to an
   encrypted connection without authenticating the DNS server provided
-  by the local network or fallback to clear text DNS, and cannot
+  by the local network or fall back to clear text DNS, and cannot
   exchange encrypted DNS messages. Both of these fallback mechanisms
   adversely impact security and privacy. If the DNS client has enabled
-  opportunistic privacy profile for DoT and the identify of the DNS server
+  opportunistic privacy profile for DoT and the identity of the DNS server
   cannot be verified, the DNS client MUST ignore the "c", "j", and "o" fields
   but MAY process the “s” field and other parts of the response.
 
@@ -377,16 +377,13 @@ JSON:
   validated, the DNS client MUST ignore the "c", "j", and "o" fields
   but MAY process the “s” field and other parts of the response.
 
-* If a DNS client has enabled strict privacy profile (Section 5 of
-  {{!RFC8310}}) for DoT, the DNS client requires an encrypted connection
-  and successful authentication of the DNS server; this mitigates both
+* If a DNS client has enabled strict privacy profile ({{Section 5 of !RFC8310}}) for DoT, the DNS client requires an encrypted connection
+  and successful authentication of the DNS server. In doing so, this mitigates both
   passive eavesdropping and client redirection (at the expense of
   providing no DNS service if an encrypted, authenticated connection
   is not available). If the DNS client has enabled strict privacy
-  profile for DoT, the client MAY process the EXTRA-TEXT field of the
-  DNS response. Note that the strict and opportunistic privacy
-  profiles as defined in {{!RFC8310}} only apply to DoT; there has been
-  no such distinction made for DoH.
+  profile for DoT, the DNS client MAY process the EXTRA-TEXT field of the
+  DNS response.
 
 * If the DNS client determines that the encrypted DNS server does not
   offer DNS filtering service, it MUST discard the EXTRA-TEXT field of
@@ -402,7 +399,12 @@ JSON:
   EDE option that conveys the information in the "c", "s", and "j"
   fields encoded in the JSON object.
 
+* If the local application that triggered the DNS request has more specific
+  context (e.g., contact information) that the DNS server, the content of
+  the "c" attribute can be ignored.
 
+> Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
+no such distinction made for DoH.
 
 # Interoperation with RPZ Servers
 
