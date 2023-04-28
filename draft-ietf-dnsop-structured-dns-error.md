@@ -88,12 +88,11 @@ informative:
 
 --- abstract
 
-DNS filtering is widely deployed for various reasons including
-network security, but filtered DNS responses lack information
-for the end user to understand the reason for the filtering.
-Existing mechanisms to provide detail to end users cause harm
-especially if the blocked DNS response is to an HTTPS
-website.
+DNS filtering is widely deployed for various reasons, including
+network security. However, filtered DNS responses lack information
+for end users to understand the reason for the filtering.
+Existing mechanisms to provide explanatory details to end users cause harm
+especially if the blocked DNS response is to an HTTPS server.
 
 This document updates RFC 8914 by structuring the EXTRA-TEXT field of
 the Extended DNS Error to provide details on the DNS filtering. Such
@@ -105,30 +104,30 @@ thing written in RFC 8914.
 
 # Introduction
 
-DNS filters are deployed for a variety of reasons including endpoint
+DNS filters are deployed for a variety of reasons, e.g., endpoint
 security, parental filtering, and filtering required by law
 enforcement. Network-based security solutions such as firewalls and
 Intrusion Prevention Systems (IPS) rely upon network traffic
 inspection to implement perimeter-based security policies and operate
-by filtering DNS responses. In a home, DNS filtering is used for the
+by filtering DNS responses. In a home network, DNS filtering is used for the
 same reasons as above and additionally for parental control. Internet
-Service Providers typically block access to some DNS domains due to a
+Service Providers (ISPs) typically block access to some DNS domains due to a
 requirement imposed by an external entity (e.g., law enforcement
 agency) also performed using DNS-based content filtering.
 
-Users of DNS services which perform filtering may wish to receive more
-information about such filtering to resolve problems with the filter
--- for example to contact the administrator to allowlist a domain that
+Users of DNS services that perform filtering may wish to receive more
+explanatory information about such a filtering to resolve problems with the filter
+-- for example to contact the administrator to allowlist a DNS domain that
 was erroneously filtered or to understand the reason a particular
-domain was filtered. With that information, the user can choose
+domain was filtered. With that information, a user can choose
 another network, open a trouble ticket with the DNS administrator to
 resolve erroneous filtering, log the information, or other uses.
 
 For the DNS filtering mechanisms described in {{existing-techniques}} the DNS
 server can return extended error codes Blocked, Filtered, or
-Forged Answer defined in Section 4 of {{!RFC8914}}. However, these codes
+Forged Answer defined in {{Section 4 of !RFC8914}}. However, these codes
 only explain that filtering occurred but lack detail for the user to
-diagnose erroneous filtering.
+diagnose erroneous filterings.
 
 No matter which type of response is generated (forged IP address(es),
 NXDOMAIN or empty answer, even with an extended error code), the user
@@ -137,7 +136,7 @@ entity filtered the query, how to report a mistake in the filter, or
 why the entity filtered it at all. This document describes a mechanism
 to provide such detail.
 
-One of the other benefits of this approach is to eliminate the need to
+One of the other benefits of the approach described in this document is to eliminate the need to
 "spoof" block pages for HTTPS resources. This is achieved since
 clients implementing this approach would be able to display a
 meaningful error message, and would not need to connect to such a
@@ -145,7 +144,7 @@ block page. This approach thus avoids the need to install a local root
 certificate authority on those IT-managed devices.
 
 This document describes a format for computer-parsable data in the
-EXTRA-TEXT field of {{!RFC8914}}. It updates Section 2 of {{!RFC8914}} which
+EXTRA-TEXT field of {{!RFC8914}}. It updates {{Section 2 of !RFC8914}} which
 says the information in EXTRA-TEXT field is intended for human
 consumption (not automated parsing).
 
@@ -163,8 +162,7 @@ This document uses terms defined in DNS Terminology {{?RFC8499}}.
 
 "Requestor" refers to the side that sends a request. "Responder"
 refers to an authoritative, recursive resolver or other DNS component
-that responds to questions. Other terminology is used here as defined
-in the RFCs cited by this document.
+that responds to questions.
 
 "Encrypted DNS" refers to any encrypted scheme to convey DNS messages,
 for example, DNS-over-HTTPS {{?RFC8484}}, DNS-over-TLS {{?RFC7858}}, or
@@ -258,7 +256,7 @@ the cause of the error.
 
 # I-JSON in EXTRA-TEXT Field {#name-spec}
 
-Servers that are compliant with this specification send I-JSON data in
+DNS servers that are compliant with this specification send I-JSON data in
 the EXTRA-TEXT field {{!RFC8914}} using the Internet JSON (I-JSON)
 message format {{!RFC7493}}.
 
@@ -358,7 +356,7 @@ JSON:
   both plaintext and JSON text in the EXTRA-TEXT field.
 
 * The DNS response MUST also contain an extended error code of
-  "Blocked by upstream server", "Blocked" or "Filtered" {{!RFC8914}}, otherwise
+  "Blocked by Upstream Server", "Blocked" or "Filtered" {{!RFC8914}}, otherwise
   the EXTRA-TEXT field is discarded.
 
 * If either of the mandatory JSON names "c" and "j" are missing or
@@ -493,24 +491,19 @@ DNS "A" record query for 'example.org' is provided in {{example-json}}.
   "o": "example.net Filtering Service"
 }
 ~~~~~
-{: #example-json title="JSON returned in EXTRA-TEXT field of Extended DNS Error response"}
+{: #example-json title="JSON Returned in EXTRA-TEXT Field of Extended DNS Error Response"}
 
 In {{example-json-minified}} the same content is shown with minified JSON (no
 whitespace, no blank lines) with '\' line wrapping per {{?RFC8792}}.
 
 ~~~~~
- ============== NOTE: '\' line wrapping per RFC 8792 ===============
-
-  {"c":["tel:+358-555-1234567","sips:bob@bobphone.example.com", \
-  "https://ticket.example.com?d=example.org&t=1650560748"],"s":1, \
-  "j":"malware present for 23 days","o":"example.net Filtering \
-  Service"}
+{::include-fold ./examples/minified.json}
 ~~~~~
-{: #example-json-minified title="Minified response"}
+{: #example-json-minified title="Minified Response"}
 
 # Security Considerations
 
-Security considerations in Section 6 of {{!RFC8914}} apply to this
+Security considerations in {{Section 6 of !RFC8914}} apply to this
 document.
 
 To minimize impact of active on-path attacks on the DNS channel, the
@@ -619,7 +612,7 @@ The registry is initially populated with the following values:
 | o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query | N | {{name-spec}} of RFCXXXX |
 {: #reg-names title='Initial JSON Names Rregistry'}
 
-New JSON names are registered via IETF Review (Section 4.8 of {{!RFC8126}}).
+New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
 
 ## New Registry for DNS SubError Codes
 
@@ -654,7 +647,7 @@ following suberror codes:
 | 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document | IETF |
 {: #reg title='Initial SubError Code Rregistry'}
 
-New SubError Codes are registered via IETF Review (Section 4.8 of {{!RFC8126}}).
+New SubError Codes are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
 
 ## New Extended DNS Error Code
 
