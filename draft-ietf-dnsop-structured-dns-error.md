@@ -400,7 +400,7 @@ JSON:
   fields encoded in the JSON object.
 
 * If the local application that triggered the DNS request has more specific
-  context (e.g., contact information) that the DNS server, the content of
+  context (e.g., contact information) than the DNS server, the content of
   the "c" attribute can be ignored.
 
 > Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
