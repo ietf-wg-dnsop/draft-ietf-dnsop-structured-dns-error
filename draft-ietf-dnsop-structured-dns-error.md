@@ -399,9 +399,9 @@ JSON:
   EDE option that conveys the information in the "c", "s", and "j"
   fields encoded in the JSON object.
 
-* If the local application that triggered the DNS request has more specific
-  context (e.g., contact information) than the DNS server, the content of
-  the "c" attribute can be ignored.
+* The application that triggered the DNS request may have a local policy to override the contact information
+ (e.g., redirect all complaint calls to a single contact point). In such a case, the content of the
+ "c" attribute can be ignored.
 
 > Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
 no such distinction made for DoH.
