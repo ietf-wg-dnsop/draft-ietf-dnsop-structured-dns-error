@@ -361,7 +361,7 @@ JSON:
 
 * The response MUST be received from a DNS server which advertised EDE
   support via a trusted channel, e.g., RESINFO
-  {{I-D.ietf-add-resolver-info}}.
+  {{?I-D.ietf-add-resolver-info}}.
 
 * Servers which don't support this specification might use plain text
   in the EXTRA-TEXT field so that requestors SHOULD properly handle
