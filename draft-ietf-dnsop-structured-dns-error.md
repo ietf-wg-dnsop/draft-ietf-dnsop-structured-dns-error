@@ -349,7 +349,7 @@ the drawbacks described in {{existing-techniques}}.
 ## Client Processing Response {#client-processing}
 
 On receipt of a DNS response with an EDE option from a
-DNS responder, if DNS responder did not indicate support for the EDE Option
+DNS responder, if that DNS responder did not indicate support for the EDE option
 pseudo-RR via {{I-D.ietf-add-resolver-info}}, the requestor MUST discard
 the data in the EDE OPT.
 
