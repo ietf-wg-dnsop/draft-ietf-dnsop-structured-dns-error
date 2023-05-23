@@ -313,7 +313,7 @@ described in {{security}}, the client MUST use
 {{!I-D.ietf-add-resolver-info}} to determine whether the DNS responder supports
 the EDE OPT pseudo-RR.  If the DNS responder does not support the EDE OPT pseudo-RR,
 the client MUST NOT include the EDE OPT pseudo-RR in its DNS query to that responder and MUST filter
-any EDE OPT that erronously appears in responses from that DNS responder.
+any EDE OPT that might erroneously appear in responses from that DNS responder.
 
 When generating a DNS query to a DNS responder that supports EDE OPT,
 the client includes the Extended DNS Error option Section 2 of
