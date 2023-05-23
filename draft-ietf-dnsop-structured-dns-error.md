@@ -350,7 +350,7 @@ the drawbacks described in {{existing-techniques}}.
 
 On receipt of a DNS response with an EDE option from a
 DNS responder, if that DNS responder did not indicate support for the EDE option
-pseudo-RR via {{I-D.ietf-add-resolver-info}}, the requestor MUST discard
+pseudo-RR via a mechanisms such as {{I-D.ietf-add-resolver-info}}, the requestor MUST discard
 the data in the EDE OPT.
 
 The following actions are performed if the EXTRA-TEXT field contains valid
