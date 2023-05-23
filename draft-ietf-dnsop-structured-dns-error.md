@@ -317,7 +317,7 @@ any EDE OPT that might erroneously appear in responses from that DNS responder.
 
 When generating a DNS query to a DNS responder that supports EDE OPT,
 the client includes the Extended DNS Error option (Section 2 of
-{{!RFC8914}} in the OPT pseudo-RR {{!RFC6891}} with option-length of 2
+{{!RFC8914}}) in the OPT pseudo-RR {{!RFC6891}} with the OPTION-LENGTH field set to 2,
 with the INFO-CODE value 0 ("Other Error") and empty EXTRA-TEXT.  This
 signal indicates the client desires the server respond in accordance
 with this specification.
