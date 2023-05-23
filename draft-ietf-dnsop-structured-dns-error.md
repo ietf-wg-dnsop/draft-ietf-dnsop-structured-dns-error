@@ -431,7 +431,7 @@ with NXDOMAIN and RA=0. An DNS client upgraded to support this
 specification can continue to accept responses with NXDOMAIN and RA=0
 from the RPZ server that does not support this specification.
 
-When the DNS client supports this specification and the server
+When the DNS client and the server
 supports this specification, the client learns of the server's support
 via {{I-D.ietf-add-resolver-info}} and the client includes the EDE OPT
 pseudo-RR in the query. This allows the server to differentiate
