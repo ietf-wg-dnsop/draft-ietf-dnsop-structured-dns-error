@@ -544,7 +544,7 @@ DNS forwarder will forward that attacker-controlled EDE option. To
 prevent such an attack, clients supporting this document MUST discard
 the EDE option if their DNS server does not signal EDE support via
 RESINFO {{I-D.ietf-add-resolver-info}}. As recommended in
-{{I-D.ietf-add-resolver-info}}, RESINFO should be retrieved over an
+{{?I-D.ietf-add-resolver-info}}, RESINFO should be retrieved over an
 encrypted DNS channel or integrity protected with DNSSEC.
 
 
