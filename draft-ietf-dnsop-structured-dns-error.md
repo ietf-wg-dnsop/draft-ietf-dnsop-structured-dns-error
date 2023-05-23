@@ -402,7 +402,7 @@ JSON:
   the EDE response. For example, the DNS client can learn whether the
   encrypted DNS resolver performs DNS-based content filtering or not
   by retrieving resolver information using the method defined in
-  {{I-D.ietf-add-resolver-info}}.
+  {{?I-D.ietf-add-resolver-info}}.
 
 * When a forwarder receives an EDE option, whether or not (and how) to
   pass along JSON information in the EXTRA-TEXT on to their client is
