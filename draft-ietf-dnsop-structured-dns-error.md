@@ -348,7 +348,7 @@ the drawbacks described in {{existing-techniques}}.
 
 ## Client Processing Response {#client-processing}
 
-On receipt of a DNS response with an Extended DNS Error option from a
+On receipt of a DNS response with an EDE option from a
 DNS responder, if DNS responder did not indicate support for the EDE Option
 pseudo-RR via {{I-D.ietf-add-resolver-info}}, the requestor MUST discard
 the data in the EDE OPT.
