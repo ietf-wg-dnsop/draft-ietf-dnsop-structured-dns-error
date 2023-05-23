@@ -308,11 +308,19 @@ and diagnosing the cause of the DNS filtering.
 
 ## Client Generating Request {#client-request}
 
-When generating a DNS query, the client includes the Extended DNS
-Error option Section 2 of {{!RFC8914}} in the OPT pseudo-RR {{!RFC6891}} to
-elicit the Extended DNS Error option in the DNS response. It SHOULD use an
-option-length of 0 (that is, omitting INFO-CODE and EXTRA-TEXT from
-{{!RFC8914}}).
+To prevent the EDE Option attacks to an EDE OPT-unaware DNS responder
+described in {{security}}, the client MUST use
+{{!I-D.ietf-add-resolver-info}} to determine the DNS responder supports
+the EDE OPT pseudo-RR.  If the DNS responder does not support the EDE OPT pseudo-RR,
+the client MUST NOT include the EDE OPT pseudo-RR in its DNS query and MUST filter
+any EDE OPT that erronously appears in responses from that DNS responder.
+
+When generating a DNS query to a DNS responder that supports EDE OPT,
+the client includes the Extended DNS Error option Section 2 of
+{{!RFC8914}} in the OPT pseudo-RR {{!RFC6891}} with option-length of 2
+with the INFO-CODE value 0 ("Other Error") and empty EXTRA-TEXT.  This
+signal indicates the client desires the server respond in accordance
+with this specification.
 
 ## Server Generating Response {#server-response}
 
@@ -340,8 +348,12 @@ the drawbacks described in {{existing-techniques}}.
 
 ## Client Processing Response {#client-processing}
 
-On receipt of a DNS response with an Extended DNS Error option, the
-following actions are performed if the EXTRA-TEXT field contains valid
+On receipt of a DNS response with an Extended DNS Error option from a
+DNS responder, if DNS responder did not indicate support for the EDE Option
+pseudo-RR via {{I-D.ietf-add-resolver-info}}, the requestor MUST discard
+the data in the EDE OPT.
+
+The following actions are performed if the EXTRA-TEXT field contains valid
 JSON:
 
 * The response MUST be received over an encrypted DNS channel. If not,
@@ -349,7 +361,7 @@ JSON:
 
 * The response MUST be received from a DNS server which advertised EDE
   support via a trusted channel, e.g., RESINFO
-  {{?I-D.ietf-add-resolver-info}}.
+  {{I-D.ietf-add-resolver-info}}.
 
 * Servers which don't support this specification might use plain text
   in the EXTRA-TEXT field so that requestors SHOULD properly handle
@@ -390,7 +402,7 @@ JSON:
   the EDE response. For example, the DNS client can learn whether the
   encrypted DNS resolver performs DNS-based content filtering or not
   by retrieving resolver information using the method defined in
-  {{?I-D.ietf-add-resolver-info}}.
+  {{I-D.ietf-add-resolver-info}}.
 
 * When a forwarder receives an EDE option, whether or not (and how) to
   pass along JSON information in the EXTRA-TEXT on to their client is
@@ -406,6 +418,7 @@ JSON:
 > Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
 no such distinction made for DoH.
 
+
 # Interoperation with RPZ Servers
 
 This section discusses operation with an RPZ server {{RPZ}} that
@@ -420,7 +433,7 @@ from the RPZ server that does not support this specification.
 
 When the DNS client supports this specification and the server
 supports this specification, the client learns of the server's support
-via {{?I-D.ietf-add-resolver-info}} and the client includes the EDE OPT
+via {{I-D.ietf-add-resolver-info}} and the client includes the EDE OPT
 pseudo-RR in the query. This allows the server to differentiate
 EDE-aware clients from EDE-unaware clients and respond appropriately.
 
@@ -503,7 +516,7 @@ whitespace, no blank lines) with '\' line wrapping per {{?RFC8792}}.
 ~~~~~
 {: #example-json-minified title="Minified Response"}
 
-# Security Considerations
+# Security Considerations {#security}
 
 Security considerations in {{Section 6 of !RFC8914}} apply to this
 document.
@@ -530,8 +543,8 @@ DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
 DNS forwarder will forward that attacker-controlled EDE option. To
 prevent such an attack, clients supporting this document MUST discard
 the EDE option if their DNS server does not signal EDE support via
-RESINFO {{?I-D.ietf-add-resolver-info}}. As recommended in
-{{?I-D.ietf-add-resolver-info}}, RESINFO should be retrieved over an
+RESINFO {{I-D.ietf-add-resolver-info}}. As recommended in
+{{I-D.ietf-add-resolver-info}}, RESINFO should be retrieved over an
 encrypted DNS channel or integrity protected with DNSSEC.
 
 
