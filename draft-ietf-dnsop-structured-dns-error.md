@@ -433,7 +433,7 @@ from the RPZ server that does not support this specification.
 
 When the DNS client and the server
 support this specification, the client learns of the server's support
-via {{I-D.ietf-add-resolver-info}} and the client includes the EDE OPT
+via a mechanism such as {{?I-D.ietf-add-resolver-info}} and the client includes the EDE OPT
 pseudo-RR in the query. This allows the server to differentiate
 EDE-aware clients from EDE-unaware clients and respond appropriately.
 
