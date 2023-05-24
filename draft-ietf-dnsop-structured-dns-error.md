@@ -308,7 +308,7 @@ and diagnosing the cause of the DNS filtering.
 
 ## Client Generating Request {#client-request}
 
-To prevent the EDE Option attacks to an EDE OPT-unaware DNS responder
+To prevent the EDE option attacks to an EDE OPT-unaware DNS responder
 described in {{security}}, the client MUST use
 {{!I-D.ietf-add-resolver-info}} to determine whether the DNS responder supports
 the EDE OPT pseudo-RR.  If the DNS responder does not support the EDE OPT pseudo-RR,
