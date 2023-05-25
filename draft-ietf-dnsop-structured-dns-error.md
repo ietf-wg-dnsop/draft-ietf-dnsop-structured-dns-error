@@ -496,7 +496,7 @@ DNS "A" record query for 'example.org' is provided in {{example-json}}.
 {: #example-json title="JSON Returned in EXTRA-TEXT Field of Extended DNS Error Response"}
 
 In {{example-json-minified}} the same content is shown with minified JSON (no
-whitespace, no blank lines) with '\' line wrapping per {{?RFC8792}}.
+whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 
 ~~~~~
 {::include-fold ./examples/minified.json}
