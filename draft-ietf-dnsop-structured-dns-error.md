@@ -308,13 +308,6 @@ and diagnosing the cause of the DNS filtering.
 
 ## Client Generating Request {#client-request}
 
-To prevent the EDE option attacks to an EDE OPT-unaware DNS responder
-described in {{security}}, the client MUST use
-{{!I-D.ietf-add-resolver-info}} to determine whether the DNS responder supports
-the EDE OPT pseudo-RR.  If the DNS responder does not support the EDE OPT pseudo-RR,
-the client MUST NOT include the EDE OPT pseudo-RR in its DNS query to that responder and MUST filter
-any EDE OPT that might erroneously appear in responses from that DNS responder.
-
 When generating a DNS query to a DNS responder that supports EDE OPT,
 the client includes the Extended DNS Error option (Section 2 of
 {{!RFC8914}}) in the OPT pseudo-RR {{!RFC6891}} with the OPTION-LENGTH field set to 2,
@@ -349,19 +342,14 @@ the drawbacks described in {{existing-techniques}}.
 ## Client Processing Response {#client-processing}
 
 On receipt of a DNS response with an EDE option from a
-DNS responder, if that DNS responder did not indicate support for the EDE option
-pseudo-RR via a mechanisms such as {{I-D.ietf-add-resolver-info}}, the requestor MUST discard
-the data in the EDE OPT.
+DNS responder, the following actions are performed on the EXTRA-TEXT
+field:
 
-The following actions are performed if the EXTRA-TEXT field contains valid
-JSON:
+* Verify the field contains valid JSON. If not, the requestor MUST
+  discard data in the EXTRA-TEXT field.
 
 * The response MUST be received over an encrypted DNS channel. If not,
   the requestor MUST discard data in the EXTRA-TEXT field.
-
-* The response MUST be received from a DNS server which advertised EDE
-  support via a trusted channel, e.g., RESINFO
-  {{?I-D.ietf-add-resolver-info}}.
 
 * Servers which don't support this specification might use plain text
   in the EXTRA-TEXT field so that requestors SHOULD properly handle
@@ -397,13 +385,6 @@ JSON:
   profile for DoT, the DNS client MAY process the EXTRA-TEXT field of the
   DNS response.
 
-* If the DNS client determines that the encrypted DNS server does not
-  offer DNS filtering service, it MUST discard the EXTRA-TEXT field of
-  the EDE response. For example, the DNS client can learn whether the
-  encrypted DNS resolver performs DNS-based content filtering or not
-  by retrieving resolver information using the method defined in
-  {{?I-D.ietf-add-resolver-info}}.
-
 * When a forwarder receives an EDE option, whether or not (and how) to
   pass along JSON information in the EXTRA-TEXT on to their client is
   implementation dependent {{?RFC5625}}. Implementations MAY choose to
@@ -425,18 +406,20 @@ This section discusses operation with an RPZ server {{RPZ}} that
 indicates filtering with a NXDOMAIN response with the Recursion
 Available bit cleared (RA=0).
 
-When the DNS client supports this specification but the server does
-not, the server will continue replying when a query is RPZ filtered
-with NXDOMAIN and RA=0. An DNS client upgraded to support this
+When the DNS client supports this specification it includes the
+EDT OPT pseudo-RR in the query.
+
+If the server does not support this specification and is performing
+RPZ filtering, the server ignores the pseudo-RR in the query
+and replies with NXDOMAIN and RA=0.  A DNS client upgraded to support this
 specification can continue to accept responses with NXDOMAIN and RA=0
-from the RPZ server that does not support this specification.
+from the RPZ server.
 
-When the DNS client and the server
-support this specification, the client learns of the server's support
-via a mechanism such as {{?I-D.ietf-add-resolver-info}} and the client includes the EDE OPT
-pseudo-RR in the query. This allows the server to differentiate
-EDE-aware clients from EDE-unaware clients and respond appropriately.
-
+If the server does support this specification and is performing RPZ
+filtering, the server can differentiate this EDE-aware client from an
+EDE-unaware clients and respond appropriately (that is, by generating
+a response described in {#server-response}) as NXDOMAIN and RA=0
+are not necessary when generating a response to such a client.
 
 # New Sub-Error Codes Definition
 
@@ -509,7 +492,7 @@ DNS "A" record query for 'example.org' is provided in {{example-json}}.
 {: #example-json title="JSON Returned in EXTRA-TEXT Field of Extended DNS Error Response"}
 
 In {{example-json-minified}} the same content is shown with minified JSON (no
-whitespace, no blank lines) with '\' line wrapping per {{?RFC8792}}.
+whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 
 ~~~~~
 {::include-fold ./examples/minified.json}
@@ -538,15 +521,12 @@ suberror description for the "s" field to the end-user.
 When displaying the free-form text of "j" and "o", the browser SHOULD
 NOT make any of those elements into actionable (clickable) links.
 
-An attacker might inject (or modify) the EDE EXTRA-TEXT field with an
+An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
-DNS forwarder will forward that attacker-controlled EDE option. To
-prevent such an attack, clients supporting this document MUST discard
-the EDE option if their DNS server does not signal EDE support via
-RESINFO {{I-D.ietf-add-resolver-info}}. As recommended in
-{{?I-D.ietf-add-resolver-info}}, RESINFO should be retrieved over an
-encrypted DNS channel or integrity protected with DNSSEC.
-
+DNS forwarder will forward that attacker-controlled EDE option.  To
+prevent such an attack, clients can be configured to process EDE from
+explicitly configured DNS servers or utilize RESINFO
+{{?I-D.ietf-add-resolver-info}}.
 
 # IANA Considerations {#IANA}
 
