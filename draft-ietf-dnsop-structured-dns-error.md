@@ -488,7 +488,7 @@ In {{example-json-minified}} the same content is shown with minified JSON (no
 whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 
 ~~~~~
-{::include-fold ./examples/minified.json}
+{::include-fold68left0 ./examples/minified.json}
 ~~~~~
 {: #example-json-minified title="Minified Response"}
 
