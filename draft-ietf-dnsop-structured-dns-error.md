@@ -287,7 +287,7 @@ RECOMMENDED they be as short as possible.
 The text in the "j" and "o" names can include international
 characters. If the text is displayed in a language not known to the
 end user, browser extensions to translate to user's native language
-can be used. 
+can be used.
 
 To reduce packet overhead the generated JSON SHOULD be as short as
 possible: short domain names, concise text in the values for the "j"
