@@ -81,8 +81,6 @@ informative:
      target: https://dnsrpz.info
      date: false
 
-
-
 --- abstract
 
 DNS filtering is widely deployed for various reasons, including
@@ -91,11 +89,10 @@ for end users to understand the reason for the filtering.
 Existing mechanisms to provide explanatory details to end users cause harm
 especially if the blocked DNS response is to an HTTPS server.
 
-This document updates RFC 8914 by structuring the EXTRA-TEXT field of
+This document updates RFC 8914 by signaling client support for structuring the EXTRA-TEXT field of
 the Extended DNS Error to provide details on the DNS filtering. Such
 details can be parsed by the client and displayed, logged, or used for
-other purposes. Other than that, this document does not change any
-thing written in RFC 8914.
+other purposes.
 
 --- middle
 
@@ -190,14 +187,14 @@ HTTPS. In order to return a block page over HTTPS, man in the middle
 (MITM) is enabled on endpoints by generating a local root certificate
 and an accompanying (local) public/private key pair. The local root
 certificate is installed on the endpoint while the network security
-devices store a copy of the private key. During the TLS handshake,
+device stores a copy of the private key. During the TLS handshake,
 the on-path network security device modifies the certificate provided by the
 server and (re)signs it using the private key from the local root
 certificate.
 
    * However, configuring the local root certificate on endpoints is
      not a viable option in several deployments like home networks,
-     schools, Small Office/Home Office (SOHO), or Small/ Medium
+     schools, Small Office/Home Office (SOHO), or Small/Medium
      Enterprise (SME). In these cases, the typical behavior is that
      the filtered DNS response points to a server that will display
      the block page. If the client is using HTTPS (via a web browser or
@@ -247,8 +244,8 @@ revealing sensitive information to the attacker, etc. A user needs to
 know the contact details of the IT/InfoSec team to raise a complaint.
 
 5. When a DNS resolver or forwarder forwards the received EDE option, the
-EXTRA-TEXT field only conveys the source of the error (
-{{Section 3 of !RFC8914}}) and does not provide additional textual information about
+EXTRA-TEXT field only conveys the source of the error ({{Section 3 of
+!RFC8914}}) and does not provide additional textual information about
 the cause of the error.
 
 # I-JSON in EXTRA-TEXT Field {#name-spec}
@@ -278,7 +275,7 @@ s: (suberror)
 o: (organization)
 : 'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query. This field is optional.
 
-New JSON names can be defined in the IANA registry introduced in ({{IANA-Names}}). Such names MUST
+New JSON names can be defined in the IANA registry introduced in {{IANA-Names}}. Such names MUST
 consist only of lower-case ASCII characters, digits, and hyphens (that
 is, Unicode characters U+0061 through 007A, U+0030 through U+0039, and
 U+002D). Also, these names MUST be 63 characters or shorter and it is
@@ -303,10 +300,12 @@ and diagnosing the cause of the DNS filtering.
 
 ## Client Generating Request {#client-request}
 
-When generating a DNS query, the client includes the EDE option Section 2 of {{!RFC8914}} in the OPT pseudo-RR {{!RFC6891}} to
+When generating a DNS query the client includes the EDE option ({{Section 2 of !RFC8914}}) in the OPT pseudo-RR {{!RFC6891}} to
 elicit the EDE option in the DNS response. It SHOULD use an
-option-length of 0 (that is, omitting INFO-CODE and EXTRA-TEXT from
-{{!RFC8914}}).
+OPTION-LENGTH of 2, the INFO-CODE field set to "0"
+(Other Error), and an empty EXTRA-TEXT field.  This signal indicates
+that the client desires that the server responds in accordance with
+the present specification.
 
 ## Server Generating Response {#server-response}
 
@@ -323,7 +322,7 @@ updates.
 
 Because the DNS client signals its EDE support ({{client-request}})
 and because EDE support is signaled via a non-cached OPT resource
-record (Section 6.2.1 of {{?RFC6891}}) the EDE-aware DNS server can
+record ({{Section 6.2.1 of ?RFC6891}}) the EDE-aware DNS server can
 tailor its filtered response to be most appropriate to that client's
 EDE support.  If EDE support is signaled in the query the server MUST
 NOT return the "Forged Answer" extended error code because the client
@@ -334,16 +333,16 @@ the drawbacks described in {{existing-techniques}}.
 
 ## Client Processing Response {#client-processing}
 
-On receipt of a DNS response with an EDE option, the
-following actions are performed if the EXTRA-TEXT field contains valid
-JSON:
+On receipt of a DNS response with an EDE option from a
+DNS responder, the following actions are performed on the EXTRA-TEXT
+field:
+
+* Verify the field contains valid JSON. If not, the requestor MUST
+  discard data in the EXTRA-TEXT field.
+
 
 * The response MUST be received over an encrypted DNS channel. If not,
   the requestor MUST discard data in the EXTRA-TEXT field.
-
-* The response MUST be received from a DNS server which advertised EDE
-  support via a trusted channel, e.g., RESINFO
-  {{?I-D.ietf-add-resolver-info}}.
 
 * Servers which don't support this specification might use plain text
   in the EXTRA-TEXT field so that requestors SHOULD properly handle
@@ -357,8 +356,9 @@ JSON:
   have empty values in the EXTRA-TEXT field, the entire JSON is
   discarded.
 
-* If a DNS client has enabled opportunistic privacy profile ({{Section 5 of !RFC8310}})
-  for DoT, the DNS client will either fall back to an
+* If a DNS client has enabled opportunistic privacy profile ({{Section 5
+  of !RFC8310}}) for DoT, the DNS client will either fall back to an
+
   encrypted connection without authenticating the DNS server provided
   by the local network or fall back to clear text DNS, and cannot
   exchange encrypted DNS messages. Both of these fallback mechanisms
@@ -379,13 +379,6 @@ JSON:
   profile for DoT, the DNS client MAY process the EXTRA-TEXT field of the
   DNS response.
 
-* If the DNS client determines that the encrypted DNS server does not
-  offer DNS filtering service, it MUST discard the EXTRA-TEXT field of
-  the EDE response. For example, the DNS client can learn whether the
-  encrypted DNS resolver performs DNS-based content filtering or not
-  by retrieving resolver information using the method defined in
-  {{?I-D.ietf-add-resolver-info}}.
-
 * When a forwarder receives an EDE option, whether or not (and how) to
   pass along JSON information in the EXTRA-TEXT on to their client is
   implementation dependent {{?RFC5625}}. Implementations MAY choose to
@@ -400,24 +393,26 @@ JSON:
 > Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
 no such distinction made for DoH.
 
+
 # Interoperation with RPZ Servers
 
 This section discusses operation with an RPZ server {{RPZ}} that
 indicates filtering with a NXDOMAIN response with the Recursion
 Available bit cleared (RA=0).
 
-When the DNS client supports this specification but the server does
-not, the server will continue replying when a query is RPZ filtered
-with NXDOMAIN and RA=0. An DNS client upgraded to support this
-specification can continue to accept responses with NXDOMAIN and RA=0
-from the RPZ server that does not support this specification.
+When a DNS client supports this specification it includes the
+EDE option in its DNS query.
 
-When the DNS client supports this specification and the server
-supports this specification, the client learns of the server's support
-via {{?I-D.ietf-add-resolver-info}} and the client includes the EDE OPT
-pseudo-RR in the query. This allows the server to differentiate
-EDE-aware clients from EDE-unaware clients and respond appropriately.
+If the server does not support this specification and is performing
+RPZ filtering, the server ignores the EDE option in the DNS query and
+replies with NXDOMAIN and RA=0.  The DNS client can continue to accept
+such responses.
 
+If the server does support this specification and is performing RPZ
+filtering, the server can use the EDE option in the query to identify
+an EDE-aware client and respond appropriately (that is, by generating
+a response described in {#server-response}) as NXDOMAIN and RA=0
+are not necessary when generating a response to such a client.
 
 # New Sub-Error Codes Definition
 
@@ -497,7 +492,7 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 ~~~~~
 {: #example-json-minified title="Minified Response"}
 
-# Security Considerations
+# Security Considerations {#security}
 
 Security considerations in {{Section 6 of !RFC8914}} apply to this
 document.
@@ -519,15 +514,12 @@ suberror description for the "s" field to the end-user.
 When displaying the free-form text of "j" and "o", the browser SHOULD
 NOT make any of those elements into actionable (clickable) links.
 
-An attacker might inject (or modify) the EDE EXTRA-TEXT field with an
+An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
-DNS forwarder will forward that attacker-controlled EDE option. To
-prevent such an attack, clients supporting this document MUST discard
-the EDE option if their DNS server does not signal EDE support via
-RESINFO {{?I-D.ietf-add-resolver-info}}. As recommended in
-{{?I-D.ietf-add-resolver-info}}, RESINFO should be retrieved over an
-encrypted DNS channel or integrity protected with DNSSEC.
-
+DNS forwarder will forward that attacker-controlled EDE option.  To
+prevent such an attack, clients can be configured to process EDE from
+explicitly configured DNS servers or utilize RESINFO
+{{?I-D.ietf-add-resolver-info}}.
 
 # IANA Considerations {#IANA}
 
@@ -553,7 +545,7 @@ procedures specified in {{!RFC6838}}:
 
    Encoding considerations: as defined in Section 4 of RFCXXXX.
 
-   Security considerations: See Section 9 of RFCXXXX.
+   Security considerations: See Section 10 of RFCXXXX.
 
    Interoperability considerations: N/A
 
