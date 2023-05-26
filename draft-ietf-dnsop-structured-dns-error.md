@@ -81,11 +81,6 @@ informative:
      target: https://dnsrpz.info
      date: false
 
-  Chrome-Translate:
-     title: "Change Chrome languages & translate webpages"
-     target: https://support.google.com/chrome/answer/173424
-     date: false
-
 --- abstract
 
 DNS filtering is widely deployed for various reasons, including
@@ -94,11 +89,10 @@ for end users to understand the reason for the filtering.
 Existing mechanisms to provide explanatory details to end users cause harm
 especially if the blocked DNS response is to an HTTPS server.
 
-This document updates RFC 8914 by structuring the EXTRA-TEXT field of
+This document updates RFC 8914 by signaling client support for structuring the EXTRA-TEXT field of
 the Extended DNS Error to provide details on the DNS filtering. Such
 details can be parsed by the client and displayed, logged, or used for
-other purposes. Other than that, this document does not change any
-thing written in RFC 8914.
+other purposes.
 
 --- middle
 
@@ -168,23 +162,23 @@ that responds to questions.
 for example, DNS-over-HTTPS {{?RFC8484}}, DNS-over-TLS {{?RFC7858}}, or
 DNS-over-QUIC {{?RFC9250}}.
 
-The document refers to an extended DNS error using its purpose, not its
+The document refers to an Extended DNS Error (EDE) using its purpose, not its
 INFO-CODE as per Table 3 of {{!RFC8914}}. "Forged Answer",
 "Blocked", and "Filtered" are thus used to refer to "Forged Answer (4)",
 "Blocked (15)", and "Filtered (17)".
 
 # DNS Filtering Techniques and Their Limitations {#existing-techniques}
 
-Today, DNS responses can be filtered by sending a bogus (also called
+DNS responses can be filtered by sending a bogus (also called
 "forged") A or AAAA response, NXDOMAIN error or empty answer, or an
-extended DNS error (EDE) code defined in {{!RFC8914}}. Each of these
+Extended DNS Error code defined in {{!RFC8914}}. Each of these
 methods have advantages and disadvantages that are discussed below:
 
 1. The DNS response is forged to provide a list of IP addresses that
 points to an HTTP(S) server alerting the end user about the reason for
 blocking access to the requested domain (e.g., malware). When an
 HTTP(S) enabled domain name is blocked, the network security device
-(e.g., CPE, firewall) presents a block page instead of the HTTP
+(e.g., Customer Premises Equipment (CPE), firewall) presents a block page instead of the HTTP
 response from the content provider hosting that domain. If an HTTP
 enabled domain name is blocked, the network security device intercepts
 the HTTP request and returns a block page over HTTP. If an HTTPS
@@ -193,14 +187,14 @@ HTTPS. In order to return a block page over HTTPS, man in the middle
 (MITM) is enabled on endpoints by generating a local root certificate
 and an accompanying (local) public/private key pair. The local root
 certificate is installed on the endpoint while the network security
-device(s) stores a copy of the private key. During the TLS handshake,
-the network security device modifies the certificate provided by the
+device stores a copy of the private key. During the TLS handshake,
+the on-path network security device modifies the certificate provided by the
 server and (re)signs it using the private key from the local root
 certificate.
 
    * However, configuring the local root certificate on endpoints is
      not a viable option in several deployments like home networks,
-     schools, Small Office/Home Office (SOHO), or Small/ Medium
+     schools, Small Office/Home Office (SOHO), or Small/Medium
      Enterprise (SME). In these cases, the typical behavior is that
      the filtered DNS response points to a server that will display
      the block page. If the client is using HTTPS (via a web browser or
@@ -237,8 +231,8 @@ insecure connections to reach the domain, potentially compromising
 both security and privacy.
 
 3. The extended error codes Blocked and Filtered defined in
-Section 4 of {{!RFC8914}} can be returned by a DNS server to provide
-additional information about the cause of an DNS error.
+{{Section 4 of !RFC8914}} can be returned by a DNS server to provide
+additional information about the cause of a DNS error.
 
 4. These extended error codes do not suffer from the limitations
 discussed in bullets (1) and (2), but the user still does not know the
@@ -249,9 +243,9 @@ endpoint from malicious software, "Phishing" to prevent the user from
 revealing sensitive information to the attacker, etc. A user needs to
 know the contact details of the IT/InfoSec team to raise a complaint.
 
-5. When a resolver or forwarder forwards the received EDE option, the
-EXTRA-TEXT field only conveys the source of the error (Section 3 of
-{{!RFC8914}}) and does not provide additional textual information about
+5. When a DNS resolver or forwarder forwards the received EDE option, the
+EXTRA-TEXT field only conveys the source of the error ({{Section 3 of
+!RFC8914}}) and does not provide additional textual information about
 the cause of the error.
 
 # I-JSON in EXTRA-TEXT Field {#name-spec}
@@ -271,7 +265,7 @@ DNS filtering. This field is structured as an array of contact URIs
 included. This field is mandatory.
 
 j: (justification)
-: UTF-8-encoded {{!RFC5198}} textual justification for this particular
+: 'UTF-8'-encoded {{!RFC5198}} textual justification for this particular
 DNS filtering. The field should be treated only as diagnostic
 information for IT staff. This field is mandatory.
 
@@ -279,9 +273,9 @@ s: (suberror)
 : the suberror code for this particular DNS filtering. This field is optional.
 
 o: (organization)
-: UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query. This field is optional.
+: 'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query. This field is optional.
 
-New JSON names can be defined in the IANA registry introduced in ({{IANA-Names}}). Such names MUST
+New JSON names can be defined in the IANA registry introduced in {{IANA-Names}}. Such names MUST
 consist only of lower-case ASCII characters, digits, and hyphens (that
 is, Unicode characters U+0061 through 007A, U+0030 through U+0039, and
 U+002D). Also, these names MUST be 63 characters or shorter and it is
@@ -290,9 +284,8 @@ RECOMMENDED they be as short as possible.
 The text in the "j" and "o" names can include international
 characters. If the text is displayed in a language not known to the
 end user, browser extensions to translate to user's native language
-can be used. For example, "Google Translate" extension
-{{Chrome-Translate}} provided by Google on Chrome can be used to
-translate the text.
+can be used.
+
 
 To reduce packet overhead the generated JSON SHOULD be as short as
 possible: short domain names, concise text in the values for the "j"
@@ -308,12 +301,12 @@ and diagnosing the cause of the DNS filtering.
 
 ## Client Generating Request {#client-request}
 
-When generating a DNS query to a DNS responder that supports EDE OPT,
-the client includes the Extended DNS Error option (Section 2 of
-{{!RFC8914}}) in the OPT pseudo-RR {{!RFC6891}} with the OPTION-LENGTH field set to 2,
-the INFO-CODE field set to "0" (Other Error), and an empty EXTRA-TEXT field.  This
-signal indicates that the client desires that the server responds in accordance
-with the present specification.
+When generating a DNS query the client includes the EDE option ({{Section 2 of !RFC8914}}) in the OPT pseudo-RR {{!RFC6891}} to
+elicit the EDE option in the DNS response. It SHOULD use an
+OPTION-LENGTH of 2, the INFO-CODE field set to "0"
+(Other Error), and an empty EXTRA-TEXT field.  This signal indicates
+that the client desires that the server responds in accordance with
+the present specification.
 
 ## Server Generating Response {#server-response}
 
@@ -330,7 +323,7 @@ updates.
 
 Because the DNS client signals its EDE support ({{client-request}})
 and because EDE support is signaled via a non-cached OPT resource
-record (Section 6.2.1 of {{?RFC6891}}) the EDE-aware DNS server can
+record ({{Section 6.2.1 of ?RFC6891}}) the EDE-aware DNS server can
 tailor its filtered response to be most appropriate to that client's
 EDE support.  If EDE support is signaled in the query the server MUST
 NOT return the "Forged Answer" extended error code because the client
@@ -363,8 +356,8 @@ field:
   have empty values in the EXTRA-TEXT field, the entire JSON is
   discarded.
 
-* If a DNS client has enabled opportunistic privacy profile (Section 5
-  of {{!RFC8310}}) for DoT, the DNS client will either fall back to an
+* If a DNS client has enabled opportunistic privacy profile ({{Section 5
+  of !RFC8310}}) for DoT, the DNS client will either fall back to an
   encrypted connection without authenticating the DNS server provided
   by the local network or fall back to clear text DNS, and cannot
   exchange encrypted DNS messages. Both of these fallback mechanisms
@@ -406,18 +399,17 @@ This section discusses operation with an RPZ server {{RPZ}} that
 indicates filtering with a NXDOMAIN response with the Recursion
 Available bit cleared (RA=0).
 
-When the DNS client supports this specification it includes the
-EDT OPT pseudo-RR in the query.
+When a DNS client supports this specification it includes the
+EDE option in its DNS query.
 
 If the server does not support this specification and is performing
-RPZ filtering, the server ignores the pseudo-RR in the query
-and replies with NXDOMAIN and RA=0.  A DNS client upgraded to support this
-specification can continue to accept responses with NXDOMAIN and RA=0
-from the RPZ server.
+RPZ filtering, the server ignores the EDE option in the DNS query and
+replies with NXDOMAIN and RA=0.  The DNS client can continue to accept
+such responses.
 
 If the server does support this specification and is performing RPZ
-filtering, the server can differentiate this EDE-aware client from an
-EDE-unaware clients and respond appropriately (that is, by generating
+filtering, the server can use the EDE option in the query to identify
+an EDE-aware client and respond appropriately (that is, by generating
 a response described in {#server-response}) as NXDOMAIN and RA=0
 are not necessary when generating a response to such a client.
 
@@ -552,7 +544,7 @@ procedures specified in {{!RFC6838}}:
 
    Encoding considerations: as defined in Section 4 of RFCXXXX.
 
-   Security considerations: See Section 9 of RFCXXXX.
+   Security considerations: See Section 10 of RFCXXXX.
 
    Interoperability considerations: N/A
 
