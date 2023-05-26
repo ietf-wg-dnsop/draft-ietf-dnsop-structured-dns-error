@@ -178,7 +178,7 @@ methods have advantages and disadvantages that are discussed below:
 points to an HTTP(S) server alerting the end user about the reason for
 blocking access to the requested domain (e.g., malware). When an
 HTTP(S) enabled domain name is blocked, the network security device
-(e.g., Customer Premises Equipment (CPE), firewall) presents a block page instead of the HTTP
+(e.g., Customer Premises Equipment (CPE) or firewall) presents a block page instead of the HTTP
 response from the content provider hosting that domain. If an HTTP
 enabled domain name is blocked, the network security device intercepts
 the HTTP request and returns a block page over HTTP. If an HTTPS
@@ -286,7 +286,6 @@ characters. If the text is displayed in a language not known to the
 end user, browser extensions to translate to user's native language
 can be used.
 
-
 To reduce packet overhead the generated JSON SHOULD be as short as
 possible: short domain names, concise text in the values for the "j"
 and "o" names, and minified JSON (that is, without spaces or line
@@ -341,6 +340,7 @@ field:
 * Verify the field contains valid JSON. If not, the requestor MUST
   discard data in the EXTRA-TEXT field.
 
+
 * The response MUST be received over an encrypted DNS channel. If not,
   the requestor MUST discard data in the EXTRA-TEXT field.
 
@@ -358,6 +358,7 @@ field:
 
 * If a DNS client has enabled opportunistic privacy profile ({{Section 5
   of !RFC8310}}) for DoT, the DNS client will either fall back to an
+
   encrypted connection without authenticating the DNS server provided
   by the local network or fall back to clear text DNS, and cannot
   exchange encrypted DNS messages. Both of these fallback mechanisms
