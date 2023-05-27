@@ -365,11 +365,11 @@ field:
   adversely impact security and privacy. If the DNS client has enabled
   opportunistic privacy profile for DoT and the identity of the DNS server
   cannot be verified, the DNS client MUST ignore the "c", "j", and "o" fields
-  but MAY process the “s” field and other parts of the response.
+  but MAY process the "s" field and other parts of the response.
 
 * Opportunistic discovery {{?I-D.ietf-add-ddr}}, where only the IP address is
   validated, the DNS client MUST ignore the "c", "j", and "o" fields
-  but MAY process the “s” field and other parts of the response.
+  but MAY process the "s" field and other parts of the response.
 
 * If a DNS client has enabled strict privacy profile ({{Section 5 of !RFC8310}}) for DoT, the DNS client requires an encrypted connection
   and successful authentication of the DNS server. In doing so, this mitigates both
