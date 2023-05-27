@@ -598,7 +598,7 @@ The registry is initially populated with the following values:
 | j | justification | UTF-8-encoded {{!RFC5198}} textual justification for a particular DNS filtering | Y | {{name-spec}} of RFCXXXX |
 | s | suberror | the suberror code for this particular DNS filtering | N | {{name-spec}} of RFCXXXX |
 | o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query | N | {{name-spec}} of RFCXXXX |
-{: #reg-names title='Initial JSON Names Rregistry'}
+{: #reg-names title='Initial JSON Names Registry'}
 
 New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
 
@@ -633,7 +633,7 @@ following suberror codes:
 | 4 | Spyware | "Blocked", "Blocked by Upstream Server", "Filtered" | Page 291 of {{!RFC4949}} | IETF |
 | 5 | Network operator policy | "Blocked" | {{policy-network}} of this document | IETF |
 | 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document | IETF |
-{: #reg title='Initial SubError Code Rregistry'}
+{: #reg title='Initial SubError Code Registry'}
 
 New SubError Codes are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
 
