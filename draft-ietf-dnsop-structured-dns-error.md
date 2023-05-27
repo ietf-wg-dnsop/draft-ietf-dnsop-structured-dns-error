@@ -35,7 +35,7 @@ author:
     organization: Citrix Systems, Inc.
     abbrev: Citrix
     country: United States of America
-    email: "dwing-ietf@fuggles.com"
+    email: "danwing@gmail.com"
  -
     fullname: Tirumaleswar Reddy
     organization: Nokia
