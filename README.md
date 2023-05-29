@@ -4,7 +4,7 @@ This is the working area for the IETF [DNSOP Working Group](https://datatracker.
 
 * [Editor's Copy](https://ietf-wg-dnsop.github.io/draft-ietf-dnsop-structured-dns-error/#go.draft-ietf-dnsop-dns-error.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-dnsop-dns-error)
-* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-dns-error)
+* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-structured-dns-error)
 * [Compare Editor's Copy to Working Group Draft](https://ietf-wg-dnsop.github.io/draft-ietf-dnsop-structured-dns-error/#go.draft-ietf-dnsop-dns-error.diff)
 
 
