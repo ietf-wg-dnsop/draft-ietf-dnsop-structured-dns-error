@@ -656,3 +656,5 @@ Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, and Bob
 Harold for the comments.
 
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
+
+Thanks Di Ma for the DNS directorate review.
