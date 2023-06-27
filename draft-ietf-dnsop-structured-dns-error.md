@@ -334,12 +334,11 @@ the drawbacks described in {{existing-techniques}}.
 ## Client Processing Response {#client-processing}
 
 On receipt of a DNS response with an EDE option from a
-DNS responder, the following actions are performed on the EXTRA-TEXT
+DNS responder, the following (unordered) actions are performed on the EXTRA-TEXT
 field:
 
 * Verify the field contains valid JSON. If not, the requestor MUST
   discard data in the EXTRA-TEXT field.
-
 
 * The response MUST be received over an encrypted DNS channel. If not,
   the requestor MUST discard data in the EXTRA-TEXT field.
