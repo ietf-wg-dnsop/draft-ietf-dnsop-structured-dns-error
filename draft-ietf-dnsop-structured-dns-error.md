@@ -261,7 +261,7 @@ This document defines the following JSON names:
 c: (contact)
 : The contact details of the IT/InfoSec team to report mis-classified
 DNS filtering. This field is structured as an array of contact URIs
-(e.g., tel, sips, https). At least one contact URI MUST be
+(e.g., tel {{?RFC3966}}, sips {{?RFC5630}}, https {{?RFC8615}}). At least one contact URI MUST be
 included. This field is mandatory.
 
 j: (justification)
@@ -337,7 +337,7 @@ On receipt of a DNS response with an EDE option from a
 DNS responder, the following actions are performed on the EXTRA-TEXT
 field:
 
-* Verify the field contains valid JSON. If not, the requestor MUST
+* The requestor verifies that the field contains valid JSON. If not, the requestor MUST
   discard data in the EXTRA-TEXT field.
 
 
@@ -358,7 +358,6 @@ field:
 
 * If a DNS client has enabled opportunistic privacy profile ({{Section 5
   of !RFC8310}}) for DoT, the DNS client will either fall back to an
-
   encrypted connection without authenticating the DNS server provided
   by the local network or fall back to clear text DNS, and cannot
   exchange encrypted DNS messages. Both of these fallback mechanisms
