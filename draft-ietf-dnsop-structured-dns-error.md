@@ -334,19 +334,18 @@ the drawbacks described in {{existing-techniques}}.
 ## Client Processing Response {#client-processing}
 
 On receipt of a DNS response with an EDE option from a
-DNS responder, the following actions are performed on the EXTRA-TEXT
+DNS responder, the following ordered actions are performed on the EXTRA-TEXT
 field:
-
-* Verify the field contains valid JSON. If not, the requestor MUST
-  discard data in the EXTRA-TEXT field.
-
-
-* The response MUST be received over an encrypted DNS channel. If not,
-  the requestor MUST discard data in the EXTRA-TEXT field.
 
 * Servers which don't support this specification might use plain text
   in the EXTRA-TEXT field so that requestors SHOULD properly handle
-  both plaintext and JSON text in the EXTRA-TEXT field.
+  both plaintext and JSON text in the EXTRA-TEXT field. The requestor verifies that 
+  the field contains valid JSON. If not, the requestor MUST consider
+  the server does not support this specification and stop processing 
+  rest of the actions defined in this section. 
+
+* The response MUST be received over an encrypted DNS channel. If not,
+  the requestor MUST discard data in the EXTRA-TEXT field.
 
 * The DNS response MUST also contain an extended error code of
   "Blocked by Upstream Server", "Blocked" or "Filtered" {{!RFC8914}}, otherwise
@@ -358,7 +357,6 @@ field:
 
 * If a DNS client has enabled opportunistic privacy profile ({{Section 5
   of !RFC8310}}) for DoT, the DNS client will either fall back to an
-
   encrypted connection without authenticating the DNS server provided
   by the local network or fall back to clear text DNS, and cannot
   exchange encrypted DNS messages. Both of these fallback mechanisms
