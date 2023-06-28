@@ -339,10 +339,10 @@ field:
 
 * Servers which don't support this specification might use plain text
   in the EXTRA-TEXT field so that requestors SHOULD properly handle
-  both plaintext and JSON text in the EXTRA-TEXT field. The requestor verifies that 
+  both plaintext and JSON text in the EXTRA-TEXT field. The requestor verifies that
   the field contains valid JSON. If not, the requestor MUST consider
-  the server does not support this specification and stop processing 
-  rest of the actions defined in this section. 
+  the server does not support this specification and stop processing
+  rest of the actions defined in this section.
 
 * The response MUST be received over an encrypted DNS channel. If not,
   the requestor MUST discard data in the EXTRA-TEXT field.
