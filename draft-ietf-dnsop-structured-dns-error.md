@@ -170,7 +170,7 @@ INFO-CODE as per Table 3 of {{!RFC8914}}. "Forged Answer",
 # DNS Filtering Techniques and Their Limitations {#existing-techniques}
 
 DNS responses can be filtered by sending a bogus (also called
-"forged") A or AAAA response, NXDOMAIN error or empty answer, or an
+"forged") A or AAAA response, NXDOMAIN error or empty answer. Also, clients can be informed that filtering has occured by sending an
 Extended DNS Error code defined in {{!RFC8914}}. Each of these
 methods have advantages and disadvantages that are discussed below:
 
