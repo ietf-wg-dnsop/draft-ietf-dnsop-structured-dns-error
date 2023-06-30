@@ -261,7 +261,7 @@ This document defines the following JSON names:
 c: (contact)
 : The contact details of the IT/InfoSec team to report mis-classified
 DNS filtering. This field is structured as an array of contact URIs
-(e.g., tel, sips, https). At least one contact URI MUST be
+(e.g., tel {{?RFC3966}}, sips {{?RFC5630}}, https {{?RFC8615}}). At least one contact URI MUST be
 included. This field is mandatory.
 
 j: (justification)
@@ -391,26 +391,6 @@ field:
 > Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
 no such distinction made for DoH.
 
-
-# Interoperation with RPZ Servers
-
-This section discusses operation with an RPZ server {{RPZ}} that
-indicates filtering with a NXDOMAIN response with the Recursion
-Available bit cleared (RA=0).
-
-When a DNS client supports this specification it includes the
-EDE option in its DNS query.
-
-If the server does not support this specification and is performing
-RPZ filtering, the server ignores the EDE option in the DNS query and
-replies with NXDOMAIN and RA=0.  The DNS client can continue to accept
-such responses.
-
-If the server does support this specification and is performing RPZ
-filtering, the server can use the EDE option in the query to identify
-an EDE-aware client and respond appropriately (that is, by generating
-a response described in {#server-response}) as NXDOMAIN and RA=0
-are not necessary when generating a response to such a client.
 
 # New Sub-Error Codes Definition
 
@@ -647,6 +627,26 @@ registry {{IANA-DNS}}:
 
 --- back
 
+# Interoperation with RPZ Servers
+
+This appendix discusses operation with an Response Policy Zones (RPZ) server {{RPZ}} that
+indicates filtering with a NXDOMAIN response with the Recursion
+Available bit cleared (RA=0).
+
+When a DNS client supports this specification, it includes the
+EDE option in its DNS query.
+
+If the server does not support this specification and is performing
+RPZ filtering, the server ignores the EDE option in the DNS query and
+replies with NXDOMAIN and RA=0.  The DNS client can continue to accept
+such responses.
+
+If the server does support this specification and is performing RPZ
+filtering, the server can use the EDE option in the query to identify
+an EDE-aware client and respond appropriately (that is, by generating
+a response described in {#server-response}) as NXDOMAIN and RA=0
+are not necessary when generating a response to such a client.
+
 # Acknowledgements
 {:numbered="false"}
 
@@ -655,3 +655,5 @@ Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, and Bob
 Harold for the comments.
 
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
+
+Thanks Di Ma for the DNS directorate review.
