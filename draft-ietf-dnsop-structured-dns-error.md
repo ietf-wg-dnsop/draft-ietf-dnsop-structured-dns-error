@@ -117,7 +117,7 @@ domain was filtered. With that information, a user can choose
 another network, open a trouble ticket with the DNS administrator to
 resolve erroneous filtering, log the information, or other uses.
 
-For the DNS filtering mechanisms described in {{existing-techniques}} the DNS
+For the DNS filtering mechanisms described in {{existing-techniques}}, the DNS
 server can return extended error codes Blocked, Filtered, or
 Forged Answer defined in {{Section 4 of !RFC8914}}. However, these codes
 only explain that filtering occurred but lack detail for the user to
@@ -261,7 +261,7 @@ This document defines the following JSON names:
 c: (contact)
 : The contact details of the IT/InfoSec team to report mis-classified
 DNS filtering. This field is structured as an array of contact URIs
-(e.g., tel {{?RFC3966}}, sips {{?RFC5630}}, https {{?RFC8615}}). At least one contact URI MUST be
+(e.g., 'tel' {{?RFC3966}}, 'sips' {{?RFC5630}}, 'https' {{?RFC8615}}). At least one contact URI MUST be
 included. This field is mandatory.
 
 j: (justification)
@@ -656,4 +656,4 @@ Harold for the comments.
 
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
 
-Thanks Di Ma for the DNS directorate review.
+Thanks Di Ma and Matt Brown for the DNS directorate reviews.
