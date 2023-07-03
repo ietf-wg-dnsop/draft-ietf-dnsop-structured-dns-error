@@ -644,7 +644,7 @@ such responses.
 If the server does support this specification and is performing RPZ
 filtering, the server can use the EDE option in the query to identify
 an EDE-aware client and respond appropriately (that is, by generating
-a response described in {#server-response}) as NXDOMAIN and RA=0
+a response described in {{server-response}}) as NXDOMAIN and RA=0
 are not necessary when generating a response to such a client.
 
 # Acknowledgements
