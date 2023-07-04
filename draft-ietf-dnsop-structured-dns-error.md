@@ -473,7 +473,9 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 # Security Considerations {#security}
 
 Security considerations in {{Section 6 of !RFC8914}} apply to this
-document.
+document, except the guard against using EDE content to alter DNS protocol
+processing. That guard is relaxed because the current specification mandates
+encryption, while {{!RFC8914}} assumes that EDE information is unauthenticated information.
 
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
