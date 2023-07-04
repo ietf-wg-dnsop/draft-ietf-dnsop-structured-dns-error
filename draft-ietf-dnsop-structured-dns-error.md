@@ -483,14 +483,19 @@ A client might choose to display the information in the "c", "j", and
 reputation, according to some local policy (e.g. user configuration,
 administrative configuration, or a built-in list of respectable
 resolvers). This limits the ability of a malicious encrypted resolver
-to cause harm. If the client decides not to display the all of the
+to cause harm. For example, an end user can use contact details in the "c" field to contact an attacker
+to solve the problem of being unable to reach a domain. The attacker can mislead the end user to
+install malware or spyware to compromise the device security posture or mislead the end user to reveal 
+Personally Identifiable Information (PII). 
+If the client decides not to display all of the
 information in the EXTRA-TEXT field, it can be logged for diagnostics
 purpose and the client can only display the resolver hostname that
 blocked the domain, error description for the EDE code and the
 suberror description for the "s" field to the end-user.
 
 When displaying the free-form text of "j" and "o", the browser SHOULD
-NOT make any of those elements into actionable (clickable) links.
+NOT make any of those elements into actionable (clickable) links and these
+fields need to be rendered as text and not as HTML.
 
 An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
@@ -657,3 +662,7 @@ Harold for the comments.
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
 
 Thanks Di Ma and Matt Brown for the DNS directorate reviews.
+
+Thanks Joseph Salowey for the Security directorate review.
+
+
