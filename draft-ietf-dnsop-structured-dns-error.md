@@ -495,7 +495,7 @@ suberror description for the "s" field to the end-user.
 
 When displaying the free-form text of "j" and "o", the browser SHOULD
 NOT make any of those elements into actionable (clickable) links and these
-fields need to be rendered as text and not as HTML.
+fields need to be rendered as text, not as HTML.
 
 An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
