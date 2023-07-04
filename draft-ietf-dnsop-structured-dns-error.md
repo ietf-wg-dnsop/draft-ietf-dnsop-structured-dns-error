@@ -661,7 +661,7 @@ Harold for the comments.
 
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
 
-Thanks Di Ma and Matt Brown for the DNS directorate reviews.
+Thanks Di Ma and Matt Brown for the DNS directorate reviews, and Joseph Salowey for the Security directorate review.
 
 Thanks Joseph Salowey for the Security directorate review.
 
