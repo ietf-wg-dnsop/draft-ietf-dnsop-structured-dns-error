@@ -483,7 +483,7 @@ A client might choose to display the information in the "c", "j", and
 reputation, according to some local policy (e.g. user configuration,
 administrative configuration, or a built-in list of respectable
 resolvers). This limits the ability of a malicious encrypted resolver
-to cause harm. For example, an end user can use contact details in the "c" field to contact an attacker
+to cause harm. For example, an end user can use the details in the "c" field to contact an attacker
 to solve the problem of being unable to reach a domain. The attacker can mislead the end user to
 install malware or spyware to compromise the device security posture or mislead the end user to reveal
 personal data.
