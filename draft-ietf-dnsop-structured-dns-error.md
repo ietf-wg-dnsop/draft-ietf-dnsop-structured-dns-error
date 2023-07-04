@@ -634,7 +634,7 @@ registry {{IANA-DNS}}:
 
 # Interoperation with RPZ Servers
 
-This appendix discusses operation with an Response Policy Zones (RPZ) server {{RPZ}} that
+This appendix provides a non-normative guidance for operation with an Response Policy Zones (RPZ) server {{RPZ}} that
 indicates filtering with a NXDOMAIN response with the Recursion
 Available bit cleared (RA=0).
 
