@@ -485,8 +485,8 @@ administrative configuration, or a built-in list of respectable
 resolvers). This limits the ability of a malicious encrypted resolver
 to cause harm. For example, an end user can use contact details in the "c" field to contact an attacker
 to solve the problem of being unable to reach a domain. The attacker can mislead the end user to
-install malware or spyware to compromise the device security posture or mislead the end user to reveal 
-Personally Identifiable Information (PII). 
+install malware or spyware to compromise the device security posture or mislead the end user to reveal
+personal data.
 If the client decides not to display all of the
 information in the EXTRA-TEXT field, it can be logged for diagnostics
 purpose and the client can only display the resolver hostname that
