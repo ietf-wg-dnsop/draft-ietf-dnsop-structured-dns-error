@@ -362,8 +362,9 @@ field:
   exchange encrypted DNS messages. Both of these fallback mechanisms
   adversely impact security and privacy. If the DNS client has enabled
   opportunistic privacy profile for DoT and the identity of the DNS server
-  cannot be verified, the DNS client MUST ignore the "c", "j", and "o" fields
-  but MAY process the "s" field and other parts of the response.
+  cannot be verified but the connection is encrypted, the DNS client MUST
+  ignore the "c", "j", and "o" fields but MAY process the "s" field
+  and other parts of the response.
 
 * Opportunistic discovery {{?I-D.ietf-add-ddr}}, where only the IP address is
   validated, the DNS client MUST ignore the "c", "j", and "o" fields
@@ -474,8 +475,10 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 
 Security considerations in {{Section 6 of !RFC8914}} apply to this
 document, except the guard against using EDE content to alter DNS protocol
-processing. That guard is relaxed because the current specification mandates
-encryption, while {{!RFC8914}} assumes that EDE information is unauthenticated information.
+processing. The guard is relaxed in the current specification as it mandates
+encryption and recommends the use of an authenticated connection to the DNS
+server, while {{!RFC8914}} assumes that EDE information is unauthenticated
+and sent over clear text.
 
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
