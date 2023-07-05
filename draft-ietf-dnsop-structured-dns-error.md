@@ -250,8 +250,7 @@ the cause of the error.
 
 # I-JSON in EXTRA-TEXT Field {#name-spec}
 
-DNS servers that are compliant with this specification send I-JSON data in
-the EXTRA-TEXT field {{!RFC8914}} using the Internet JSON (I-JSON)
+DNS servers that are compliant with this specification and have received an indication that the client also supports this specification as per {{client-request}} send I-JSON data in the EXTRA-TEXT field {{!RFC8914}} using the Internet JSON (I-JSON)
 message format {{!RFC7493}}.
 
 > Note that {{!RFC7493}} was based on {{!RFC7159}}, but {{!RFC7159}} was replaced by {{?RFC8259}}.
@@ -301,7 +300,7 @@ and diagnosing the cause of the DNS filtering.
 ## Client Generating Request {#client-request}
 
 When generating a DNS query the client includes the EDE option ({{Section 2 of !RFC8914}}) in the OPT pseudo-RR {{!RFC6891}} to
-elicit the EDE option in the DNS response. It SHOULD use an
+elicit the EDE option in the DNS response. It MUST use an
 OPTION-LENGTH of 2, the INFO-CODE field set to "0"
 (Other Error), and an empty EXTRA-TEXT field.  This signal indicates
 that the client desires that the server responds in accordance with
