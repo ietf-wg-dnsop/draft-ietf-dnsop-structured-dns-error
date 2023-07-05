@@ -269,7 +269,7 @@ DNS filtering. The field should be treated only as diagnostic
 information for IT staff. This field is mandatory.
 
 s: (suberror)
-: the suberror code for this particular DNS filtering. This field is optional.
+: The suberror code for this particular DNS filtering. This field is optional.
 
 o: (organization)
 : 'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query. This field is optional.
@@ -294,6 +294,7 @@ The JSON data can be parsed to display to the user, logged, or
 otherwise used to assist the end-user or IT staff with troubleshooting
 and diagnosing the cause of the DNS filtering.
 
+> An alternate design for conveying the suberror would be to define new EDE codes for these errors. However, such design is suboptimal because it requires replicating an error code for each EDE code to which the suberror applies (e.g., "Malware" suberror in {{reg}} would consume three EDE codes).
 
 # Protocol Operation
 
