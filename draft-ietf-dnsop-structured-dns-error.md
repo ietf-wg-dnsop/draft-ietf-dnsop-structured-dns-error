@@ -634,16 +634,16 @@ registry {{IANA-DNS}}:
 
 # Interoperation with RPZ Servers
 
-This appendix discusses operation with an Response Policy Zones (RPZ) server {{RPZ}} that
+This appendix provides a non-normative guidance for operation with an Response Policy Zones (RPZ) server {{RPZ}} that
 indicates filtering with a NXDOMAIN response with the Recursion
-Available bit cleared (RA=0).
+Available bit cleared (RA=0). This guidance is provided to ease interoperation with RPZ.
 
 When a DNS client supports this specification, it includes the
 EDE option in its DNS query.
 
 If the server does not support this specification and is performing
 RPZ filtering, the server ignores the EDE option in the DNS query and
-replies with NXDOMAIN and RA=0.  The DNS client can continue to accept
+replies with NXDOMAIN and RA=0. The DNS client can continue to accept
 such responses.
 
 If the server does support this specification and is performing RPZ
