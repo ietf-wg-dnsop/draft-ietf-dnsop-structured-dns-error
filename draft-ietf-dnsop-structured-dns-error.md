@@ -337,11 +337,12 @@ DNS responder, the following ordered actions are performed on the EXTRA-TEXT
 field:
 
 * Servers which don't support this specification might use plain text
-  in the EXTRA-TEXT field so that requestors SHOULD properly handle
+  in the EXTRA-TEXT field. Requestors SHOULD properly handle
   both plaintext and JSON text in the EXTRA-TEXT field. The requestor verifies that
   the field contains valid JSON. If not, the requestor MUST consider
   the server does not support this specification and stop processing
-  rest of the actions defined in this section.
+  rest of the actions defined in this section, but may instead choose
+  to treat EXTRA-TEXT as per {{!RFC8914}}.
 
 * The response MUST be received over an encrypted DNS channel. If not,
   the requestor MUST discard data in the EXTRA-TEXT field.
