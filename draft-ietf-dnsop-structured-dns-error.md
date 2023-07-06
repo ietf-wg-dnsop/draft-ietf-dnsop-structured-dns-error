@@ -254,20 +254,29 @@ This document defines the following JSON names:
 
 c: (contact)
 : The contact details of the IT/InfoSec team to report mis-classified
-DNS filtering. This field is structured as an array of contact URIs
+DNS filtering. This information is important for transparency and also to ease unblocking a legitimate domain name that got blocked due to wrong classification.
+: This field is structured as an array of contact URIs
 (e.g., 'tel' {{?RFC3966}}, 'sips' {{?RFC5630}}, 'https' {{?RFC8615}}). At least one contact URI MUST be
-included. This field is mandatory.
+included.
+: This field is mandatory.
 
 j: (justification)
 : 'UTF-8'-encoded {{!RFC5198}} textual justification for this particular
 DNS filtering. The field should be treated only as diagnostic
-information for IT staff. This field is mandatory.
+information for IT staff.
+: Whether the information provided in the "j" name is meaningful or considered as garbage data
+(including empty values) is local to each IT teams. Returning garbage data
+would indicate that a DNS server is misbehaving. Note also that that the provided
+justification is useful for cross-validation with another DNS server.
+: This field is mandatory.
 
 s: (suberror)
-: The suberror code for this particular DNS filtering. This field is optional.
+: The suberror code for this particular DNS filtering.
+: This field is optional.
 
 o: (organization)
-: 'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query. This field is optional.
+: 'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query.
+: This field is optional.
 
 New JSON names can be defined in the IANA registry introduced in {{IANA-Names}}. Such names MUST
 consist only of lower-case ASCII characters, digits, and hyphens (that
@@ -481,7 +490,7 @@ client validates the response as described in {{client-processing}}.
 
 A client might choose to display the information in the "c", "j", and
 "o" fields if and only if the encrypted resolver has sufficient
-reputation, according to some local policy (e.g. user configuration,
+reputation, according to some local policy (e.g., user configuration,
 administrative configuration, or a built-in list of respectable
 resolvers). This limits the ability of a malicious encrypted resolver
 to cause harm. For example, an end user can use the details in the "c" field to contact an attacker
