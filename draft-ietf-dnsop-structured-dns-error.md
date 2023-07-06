@@ -84,10 +84,10 @@ informative:
 --- abstract
 
 DNS filtering is widely deployed for various reasons, including
-network security. However, filtered DNS responses lack information
+network security. However, filtered DNS responses lack structured information
 for end users to understand the reason for the filtering.
 Existing mechanisms to provide explanatory details to end users cause harm
-especially if the blocked DNS response is to an HTTPS server.
+especially if the blocked DNS response is for HTTPS resources.
 
 This document updates RFC 8914 by signaling client support for structuring the EXTRA-TEXT field of
 the Extended DNS Error to provide details on the DNS filtering. Such
@@ -114,8 +114,8 @@ explanatory information about such a filtering to resolve problems with the filt
 -- for example to contact the administrator to allowlist a DNS domain that
 was erroneously filtered or to understand the reason a particular
 domain was filtered. With that information, a user can choose
-another network, open a trouble ticket with the DNS administrator to
-resolve erroneous filtering, log the information, or other uses.
+to use another network, open a trouble ticket with the DNS administrator to
+resolve erroneous filtering, log the information, etc.
 
 For the DNS filtering mechanisms described in {{existing-techniques}}, the DNS
 server can return extended error codes Blocked, Filtered, or
@@ -169,8 +169,8 @@ INFO-CODE as per Table 3 of {{!RFC8914}}. "Forged Answer",
 
 # DNS Filtering Techniques and Their Limitations {#existing-techniques}
 
-DNS responses can be filtered by sending a bogus (also called
-"forged") A or AAAA response, NXDOMAIN error or empty answer. Also, clients can be informed that filtering has occured by sending an
+DNS responses can be filtered by sending, e.g., a bogus (also called
+"forged") response, NXDOMAIN error, or empty answer. Also, clients can be informed that filtering has occured by sending an
 Extended DNS Error code defined in {{!RFC8914}}. Each of these
 methods have advantages and disadvantages that are discussed below:
 
@@ -236,21 +236,16 @@ additional information about the cause of a DNS error.
 
 4. These extended error codes do not suffer from the limitations
 discussed in bullets (1) and (2), but the user still does not know the
-exact reason nor he/she is aware of the exact entity blocking the
+exact reason nor is aware of the exact entity blocking the
 access to the domain. For example, a DNS server may block access to a
 domain based on the content category such as "Malware" to protect the
 endpoint from malicious software, "Phishing" to prevent the user from
-revealing sensitive information to the attacker, etc. A user needs to
+revealing sensitive information to the attacker, etc. A user may need to
 know the contact details of the IT/InfoSec team to raise a complaint.
-
-5. When a DNS resolver or forwarder forwards the received EDE option, the
-EXTRA-TEXT field only conveys the source of the error ({{Section 3 of
-!RFC8914}}) and does not provide additional textual information about
-the cause of the error.
 
 # I-JSON in EXTRA-TEXT Field {#name-spec}
 
-DNS servers that are compliant with this specification and have received an indication that the client also supports this specification as per {{client-request}} send I-JSON data in the EXTRA-TEXT field {{!RFC8914}} using the Internet JSON (I-JSON)
+DNS servers that are compliant with this specification and have received an indication that the client also supports this specification as per {{client-request}} send data in the EXTRA-TEXT field {{!RFC8914}} encoded using the Internet JSON (I-JSON)
 message format {{!RFC7493}}.
 
 > Note that {{!RFC7493}} was based on {{!RFC7159}}, but {{!RFC7159}} was replaced by {{?RFC8259}}.
@@ -285,7 +280,7 @@ characters. If the text is displayed in a language not known to the
 end user, browser extensions to translate to user's native language
 can be used.
 
-To reduce packet overhead the generated JSON SHOULD be as short as
+To reduce DNS message size the generated JSON SHOULD be as short as
 possible: short domain names, concise text in the values for the "j"
 and "o" names, and minified JSON (that is, without spaces or line
 breaks between JSON elements).
@@ -309,9 +304,9 @@ the present specification.
 
 ## Server Generating Response {#server-response}
 
-When the DNS server filters its DNS response to an A or AAAA record
-query, the DNS response MAY contain an empty answer, NXDOMAIN, or (less
-ideally) forged A or AAAA response, as desired by the DNS
+When the DNS server filters its DNS response to a
+query (e.g., A or AAAA record query), the DNS response MAY contain an empty answer, NXDOMAIN, or (less
+ideally) forged response, as desired by the DNS
 server. In addition, if the query contained the OPT pseudo-RR the DNS
 server MAY return more detail in the EXTRA-TEXT field as described in
 {{client-processing}}.
