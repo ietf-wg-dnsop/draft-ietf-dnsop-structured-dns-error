@@ -266,7 +266,7 @@ DNS filtering. The field should be treated only as diagnostic
 information for IT staff.
 : Whether the information provided in the "j" name is meaningful or considered as garbage data
 (including empty values) is local to each IT teams. Returning garbage data
-would indicate that a DNS server is misbehaving. Note also that that the provided
+would indicate that a DNS server is misbehaving. Note also that the provided
 justification is useful for cross-validation with another DNS server.
 : This field is mandatory.
 
