@@ -666,8 +666,8 @@ are not necessary when generating a response to such a client.
 {:numbered="false"}
 
 Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
-Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, and Bob
-Harold for the comments.
+Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, Bob
+Harold, and Mukund Sivaraman for the comments.
 
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
 
