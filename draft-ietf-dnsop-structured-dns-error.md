@@ -503,7 +503,7 @@ purpose and the client can only display the resolver hostname that
 blocked the domain, error description for the EDE code and the
 suberror description for the "s" field to the end-user.
 
-When displaying the free-form text of "j" and "o", the browser SHOULD
+When displaying the free-form text of "j" and "o", the browser MUST
 NOT make any of those elements into actionable (clickable) links and these
 fields need to be rendered as text, not as HTML.
 
