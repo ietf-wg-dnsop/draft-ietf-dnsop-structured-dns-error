@@ -503,9 +503,11 @@ purpose and the client can only display the resolver hostname that
 blocked the domain, error description for the EDE code and the
 suberror description for the "s" field to the end-user.
 
-When displaying the free-form text of "j" and "o", the browser SHOULD
+When displaying the free-form text of "j" and "o", the browser MUST
 NOT make any of those elements into actionable (clickable) links and these
-fields need to be rendered as text, not as HTML.
+fields need to be rendered as text, not as HTML. The contact details of "c" can be made
+into clickable links to provide a convenient way for users to initiate, e.g., voice calls. The client might
+choose to display the contact details only when the identity of the DNS server is verified.
 
 An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
