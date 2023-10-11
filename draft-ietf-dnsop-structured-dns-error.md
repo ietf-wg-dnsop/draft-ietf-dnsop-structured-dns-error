@@ -671,7 +671,7 @@ are not necessary when generating a response to such a client.
 
 # Implementation Status
 
-> Note to the RFC Editor: please remove this apendix prior publication.
+> Note to the RFC Editor: please remove this appendix prior publication.
 
 At IETF#116, Gianpaolo Scalone (Vodafone) and Ralf Weber (Akamai) presented an implementation of this specification. More details can be found at {{Impl-1}}.
 
