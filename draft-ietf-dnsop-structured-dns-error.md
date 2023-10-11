@@ -81,6 +81,12 @@ informative:
      target: https://dnsrpz.info
      date: false
 
+  Impl-1:
+     title: Use of DNS ErrorsTo improve Browsing User Experience With network based malware protection
+     target: [https://datatracker.ietf.org/meeting/116/materials/slides-116-dnsop-dns-errors-implementation-proposal-slides-116-dnsop-update-on-dns-errors-implementation-00](https://datatracker.ietf.org/meeting/116/materials/slides-116-dnsop-dns-errors-implementation-proposal-slides-116-dnsop-update-on-dns-errors-implementation-00)
+     date: 30-03-2023
+
+https://datatracker.ietf.org/meeting/116/materials/slides-116-dnsop-dns-errors-implementation-proposal-slides-116-dnsop-update-on-dns-errors-implementation-00
 --- abstract
 
 DNS filtering is widely deployed for various reasons, including
@@ -663,6 +669,14 @@ filtering, the server can use the EDE option in the query to identify
 an EDE-aware client and respond appropriately (that is, by generating
 a response described in {{server-response}}) as NXDOMAIN and RA=0
 are not necessary when generating a response to such a client.
+
+# Implementation Status
+
+> Note to the RFC Editor: please remove this apendix prior publication.
+
+At IETF#116, Gianpaolo Scalone (Vodafone) and Ralf Weber (Akamai) presented an implementation of this specification. More details can be found at {{Impl-1}}.
+
+
 
 # Acknowledgements
 {:numbered="false"}
