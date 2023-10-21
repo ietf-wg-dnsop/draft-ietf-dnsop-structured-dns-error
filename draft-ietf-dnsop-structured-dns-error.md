@@ -261,7 +261,7 @@ c: (contact)
 : The contact details of the IT/InfoSec team to report mis-classified
 DNS filtering. This information is important for transparency and also to ease unblocking a legitimate domain name that got blocked due to wrong classification.
 : This field is structured as an array of contact URIs
-(e.g., 'tel' {{?RFC3966}}, 'sips' {{?RFC5630}}, 'https' {{?RFC8615}}). At least one contact URI MUST be
+(e.g., 'tel' {{?RFC3966}} or 'sips' {{?RFC5630}}). At least one contact URI MUST be
 included.
 : This field is mandatory.
 
@@ -463,8 +463,7 @@ DNS "A" record query for 'example.org' is provided in {{example-json}}.
 {
   "c": [
     "tel:+358-555-1234567",
-    "sips:bob@bobphone.example.com",
-    "https://ticket.example.com?d=example.org&t=1650560748"
+    "sips:bob@bobphone.example.com"
   ],
   "j": "malware present for 23 days",
   "s": 1,
