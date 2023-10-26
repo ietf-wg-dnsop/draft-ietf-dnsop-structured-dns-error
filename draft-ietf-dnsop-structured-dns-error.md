@@ -260,8 +260,7 @@ This document defines the following JSON names:
 c: (contact)
 : The contact details of the IT/InfoSec team to report mis-classified
 DNS filtering. This information is important for transparency and also to ease unblocking a legitimate domain name that got blocked due to wrong classification.
-: This field is structured as an array of contact URIs, using 'tel' {{!RFC3966}} or 'sips' {{!RFC5630}} or
-  mailto {{!RFC3966}} schemes. At least one contact URI MUST be included. New contact URI schemes can be added to the IANA registry introduced in {{IANA-Contact}}. 
+: This field is structured as an array of contact URIs, using 'tel' {{!RFC3966}} or 'sips' {{!RFC5630}} or  'mailto' {{!RFC3966}} schemes. At least one contact URI MUST be included. New contact URI schemes can be added to the IANA registry introduced in {{IANA-Contact}}.
 : This field is mandatory.
 
 j: (justification)
@@ -494,8 +493,7 @@ and sent over clear text.
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
 
-The client MUST handle the display of an error page to the end-user. The "c," "j," and "o" 
-fields MUST NOT be used to display an error page.
+If the client can display an error page to the end-user, it MUST generate the error page. The "c," "j," and "o" fields MUST NOT be used to display an error page.
 
 A client might choose to display the information in the "c", "j", and
 "o" fields if and only if the encrypted resolver has sufficient
