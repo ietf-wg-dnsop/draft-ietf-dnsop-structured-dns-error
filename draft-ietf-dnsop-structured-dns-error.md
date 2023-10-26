@@ -260,9 +260,8 @@ This document defines the following JSON names:
 c: (contact)
 : The contact details of the IT/InfoSec team to report mis-classified
 DNS filtering. This information is important for transparency and also to ease unblocking a legitimate domain name that got blocked due to wrong classification.
-: This field is structured as an array of contact URIs
-(e.g., 'tel' {{?RFC3966}} or 'sips' {{?RFC5630}}). At least one contact URI MUST be
-included.
+: This field is structured as an array of contact URIs, using 'tel' {{!RFC3966}} or 'sips' {{!RFC5630}} or
+  mailto {{!RFC3966}} schemes. At least one contact URI MUST be included. New contact URI schemes can be added to the IANA registry introduced in {{IANA-Contact}}. 
 : This field is mandatory.
 
 j: (justification)
@@ -364,6 +363,9 @@ field:
 * If either of the mandatory JSON names "c" and "j" are missing or
   have empty values in the EXTRA-TEXT field, the entire JSON is
   discarded.
+  
+* If the "c" field contains any URI scheme not registered in the 
+  {{IANA-Contact}} registry, it MUST be discarded.
 
 * If a DNS client has enabled opportunistic privacy profile ({{Section 5
   of !RFC8310}}) for DoT, the DNS client will either fall back to an
@@ -492,6 +494,9 @@ and sent over clear text.
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
 
+The client MUST handle the display of an error page to the end-user. The "c," "j," and "o" 
+fields MUST NOT be used to display an error page.
+
 A client might choose to display the information in the "c", "j", and
 "o" fields if and only if the encrypted resolver has sufficient
 reputation, according to some local policy (e.g., user configuration,
@@ -600,6 +605,37 @@ The registry is initially populated with the following values:
 {: #reg-names title='Initial JSON Names Registry'}
 
 New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
+
+
+## New Registry for Contact URI scheme {#IANA-Contact}
+
+This document requests IANA to create a new registry, entitled "Contact URI schemes"
+under "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
+registry {{IANA-DNS}}. The registration request for a new Contact URI schemes MUST include the
+following fields:
+
+* Name: URI scheme name.
+
+* Meaning: Provides a short description of the sub-error.
+
+* Reference: Provides a pointer to an IETF-approved specification that registered
+  the contact URI scheme.
+
+* Change Controller: Indicates the person or entity, with contact information if appropriate.
+
+The Contact URI scheme registry is initially be populated with the
+following schemes:
+
+| Name      | Meaning           | Reference     | Change Controller |
+|:---------:|:------------------|:-------------:|:-----------------:|
+| sips      | SIP Call           | {{!RFC5630}} |     IETF          |
+| tel       | Telephone Number   | {{!RFC3966}} |     IETF          |
+| mailto    | Internet mail      | {{!RFC6068}} |     IETF          |
+
+{: #reg-contact='Initial Contact URI schemes Registry'}
+
+
+New Contact URI schemes are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
 
 ## New Registry for DNS SubError Codes
 
