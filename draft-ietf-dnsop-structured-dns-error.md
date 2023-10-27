@@ -362,8 +362,8 @@ field:
 * If either of the mandatory JSON names "c" and "j" are missing or
   have empty values in the EXTRA-TEXT field, the entire JSON is
   discarded.
-  
-* If the "c" field contains any URI scheme not registered in the 
+
+* If the "c" field contains any URI scheme not registered in the
   {{IANA-Contact}} registry, it MUST be discarded.
 
 * If a DNS client has enabled opportunistic privacy profile ({{Section 5
