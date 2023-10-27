@@ -619,7 +619,7 @@ following fields:
 * Meaning: Provides a short description of the scheme.
 
 * Reference: Provides a pointer to an IETF-approved specification that defines
-  the contact URI scheme.
+  the URI scheme.
 
 * Change Controller: Indicates the person or entity, with contact information if appropriate.
 
