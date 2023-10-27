@@ -607,7 +607,7 @@ The registry is initially populated with the following values:
 New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
 
 
-## New Registry for Contact URI scheme {#IANA-Contact}
+## New Registry for Contact URI Scheme {#IANA-Contact}
 
 This document requests IANA to create a new registry, entitled "Contact URI schemes"
 under "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
