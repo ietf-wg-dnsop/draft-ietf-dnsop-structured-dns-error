@@ -632,7 +632,7 @@ following schemes:
 | tel       | Telephone Number   | {{!RFC3966}} |     IETF          |
 | mailto    | Internet mail      | {{!RFC6068}} |     IETF          |
 
-{: #reg-contact='Initial Contact URI schemes Registry'}
+{: #reg-contact='Initial Contact URI Schemes Registry'}
 
 
 New Contact URI schemes are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
