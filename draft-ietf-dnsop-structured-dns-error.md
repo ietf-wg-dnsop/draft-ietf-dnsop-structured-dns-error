@@ -609,7 +609,7 @@ New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
 
 ## New Registry for Contact URI Scheme {#IANA-Contact}
 
-This document requests IANA to create a new registry, entitled "Contact URI schemes"
+This document requests IANA to create a new registry, entitled "Contact URI Schemes"
 under "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
 registry {{IANA-DNS}}. The registration request for a new Contact URI scheme MUST include the
 following fields:
