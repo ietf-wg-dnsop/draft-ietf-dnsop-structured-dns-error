@@ -495,8 +495,6 @@ and sent over clear text.
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
 
-If the client can display an error page to the end-user, it MUST generate the error page. The "c," "j", and "o" fields MUST NOT be used to display an error page.
-
 A client might choose to display the information in the "c", "j", and
 "o" fields if and only if the encrypted resolver has sufficient
 reputation, according to some local policy (e.g., user configuration,
