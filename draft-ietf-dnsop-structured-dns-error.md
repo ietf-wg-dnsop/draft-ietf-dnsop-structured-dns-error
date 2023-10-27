@@ -616,7 +616,7 @@ following fields:
 
 * Name: URI scheme name.
 
-* Meaning: Provides a short description of the sub-error.
+* Meaning: Provides a short description of the scheme.
 
 * Reference: Provides a pointer to an IETF-approved specification that registered
   the contact URI scheme.
