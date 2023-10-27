@@ -260,7 +260,9 @@ This document defines the following JSON names:
 c: (contact)
 : The contact details of the IT/InfoSec team to report mis-classified
 DNS filtering. This information is important for transparency and also to ease unblocking a legitimate domain name that got blocked due to wrong classification.
-: This field is structured as an array of contact URIs, using 'tel' {{!RFC3966}} or 'sips' {{!RFC5630}} or  'mailto' {{!RFC3966}} schemes. At least one contact URI MUST be included. New contact URI schemes can be added to the IANA registry introduced in {{IANA-Contact}}.
+: This field is structured as an array of contact URIs, using 'tel' {{!RFC3966}} or 'sips' {{!RFC5630}} or  'mailto' {{!RFC3966}} schemes. At least one contact URI MUST be included.
+
+: New contact URI schemes may be added to the IANA registry following the instructions in {{IANA-Contact}}.
 : This field is mandatory.
 
 j: (justification)
