@@ -1,0 +1,2712 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2023-07-16T00:39:57.887835+00:00",
+  "repo": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    },
+    {
+      "name": "Editorial",
+      "description": "",
+      "color": "c5def5"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOI6P3FM5d6d9J",
+      "title": "Rationale and References for assigning a suberror code",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/1",
+      "state": "CLOSED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add some text to clarify the reasoning for the listed suberrors. \r\n\r\nA proposal is to echo the following in the text:  say basically that we can accept registering suberrors:\r\n  *  for which a clear definition is provided and\r\n  *  which provide more characterization of an error vs a \u201cparent\u201d error (8914).\r\n \r\nMost of the current proposed entries in the draft have their counterparts defined in existing RFCs (RFC4949, RFC5901). These citations should be added to the draft.\r\n",
+      "createdAt": "2023-02-08T07:12:43Z",
+      "updatedAt": "2023-02-13T03:31:28Z",
+      "closedAt": "2023-02-13T03:31:28Z",
+      "comments": [
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I would say a clear definition in a specification accepted by IETF.",
+          "createdAt": "2023-02-08T10:09:02Z",
+          "updatedAt": "2023-02-08T10:09:02Z"
+        },
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "`7.  New Sub-Error Codes Definition\r\n\r\n   Subsequent documents defining new Sub-Error codes MUST be accepted by\r\n   IETF, MUST also provide a clear definition of the error code (in\r\n   their Reference text), and MUST also provide more characterization\r\n   than the [RFC8914] parent error.\r\n\r\n   This document defines new IANA-registered Sub-Error codes, below.\r\n\r\n7.1.  Reserved\r\n\r\n   *  Number: 0\r\n` ...\r\n\r\nPerhaps like that?",
+          "createdAt": "2023-02-08T17:08:35Z",
+          "updatedAt": "2023-02-08T17:08:35Z"
+        },
+        {
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks, Dan. I commented directly in #3 . BTW, it seems that we are mixing \"meaning vs name/label\". The details of provided in the subsections 7.x does not match what we have in the table and also the description right before that table. ",
+          "createdAt": "2023-02-09T07:44:13Z",
+          "updatedAt": "2023-02-09T07:44:20Z"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "I_kwDOI6P3FM5d85q2",
+      "title": "Add \"Policy imposed by the operator of the DNS server\" suberror",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/2",
+      "state": "CLOSED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "as per the discussion with Neil",
+      "createdAt": "2023-02-08T14:42:00Z",
+      "updatedAt": "2023-02-13T03:31:29Z",
+      "closedAt": "2023-02-13T03:31:29Z",
+      "comments": [
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ok.  I can add.  As this code point, and the previous one (network policy) are defined by our own document we need some explanatory text.  The only thing I had to say about 'network policy' is that it's a codepoint used if the network operator providing IP service wanted the filtering.  \r\n\r\n`7.  New Sub-Error Codes Definition\r\n\r\n   This document defines new IANA-registered Sub-Error codes, below.\r\n\r\n7.1.  Network Operator Policy\r\n\r\n   *  Number: 5\r\n\r\n   *  Meaning: Network Operator Policy\r\n\r\n   *  Applicability: Blocked, Forged\r\n\r\n   *  Reference: the operator providing IP connectivity filtered the\r\n      response\r\n\r\n   *  Change Controller: IETF\r\n\r\n7.2.  DNS Operator Policy\r\n\r\n   *  Number: 6\r\n\r\n   *  Meaning: DNS Operator Policy\r\n\r\n   *  Applicability: Blocked, Forged\r\n\r\n   *  Reference: the operator of the DNS server filtered the response\r\n\r\n   *  Change Controller: IETF\r\n`\r\n\r\nIt feels thin.  ",
+          "createdAt": "2023-02-08T17:00:21Z",
+          "updatedAt": "2023-02-08T17:00:21Z"
+        },
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Need to strengthen the text, else folks will righteously ask, \r\n\r\n  \"aren't all the RFC8914 errors 'by the DNS operator', thus all of them should use sub-error=6\".\r\n  \r\nIs sub-error=6 (DNS operator) intended to be a catch-all?  Do we want to just say 'catch-all' (or similar?) or perhaps allow the sub-error number to be omitted from the JSON?  \r\n\r\n\r\nI sort of consider \"network operator\" (sub-error=5) to be restrictions based on IP address or ASN or some-such, where the network operator sends a list of IP addresses (or perhaps subscriber ID's, if there is some secret decoration of the DNS query as done by Cisco's Umbrella and by some other DNS operators to differentiate \"kid's computer\" from \"parent's computer\" because obviously IP address is inadequate.  I did not yet add text explaining that to the pull-request I have on the table right now.",
+          "createdAt": "2023-02-08T18:04:37Z",
+          "updatedAt": "2023-02-08T18:04:37Z"
+        },
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Stepping back a bit:\r\n\r\nMany DNS servers will forge their answer, in an (old-school) attempt to point the browser at an error page explaining the reason for the block. This was useful in the days of HTTP and in the days of non-REST APIs.  However now with HTTPS and applications using HTTPS APIs (\"REST APIs\"), such forging won't cause the web page to be displayed to the user.  The user running a browser will see an invalid certificate warning or the user will need to a priori install an additional trusted CA; both of those are bad. The user running an application will see who-knows-what error from the application; likely some message indicating failure to establish a secure connection. \r\n\r\nWe can expect such DNS servers to continue their behavior.  If they add support for EDE and also for Structured DNS error, they may (or may not) use \"Forged Answer\" in their EDE response.  Afterall, \"forgery\" sounds bad, right?  Although the RFC8914 error codes Blocked, Filtered, and Censored make it clear which entity caused the filtering, the RFC8914 \"Forged Answer\" does not.  Thus, it becomes the responsibility of the sub-error code to explain why a Forged Answer occurred.\r\n\r\nI propose that we define 3 sub-error codes, to be used only when the RFC8914 error is \"Forged Answer\", and those three sub-errors mimic the RFC8914 answers, with identical meaning:\r\n\r\n  Blocked\r\n  Filtered\r\n  Censored\r\n\r\nThoughts?",
+          "createdAt": "2023-02-09T21:48:12Z",
+          "updatedAt": "2023-02-09T21:48:12Z"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOI6P3FM5gvJJO",
+      "title": "JSON names registry",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/11",
+      "state": "CLOSED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "boucadair"
+      ],
+      "labels": [],
+      "body": ">    New JSON names can be defined in the IANA \"application/\r\n>    json+structured-dns-error\" registry (Section 10).\r\n\r\nWe need a new IANA subsection to register the JSON names, not to point to the section where the media type is registered.\r\n",
+      "createdAt": "2023-03-14T08:27:45Z",
+      "updatedAt": "2023-04-06T06:56:13Z",
+      "closedAt": "2023-04-06T06:56:13Z",
+      "comments": []
+    },
+    {
+      "number": 13,
+      "id": "I_kwDOI6P3FM5iJ1Wc",
+      "title": "Should we remove the specific display error examples?",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/13",
+      "state": "CLOSED",
+      "author": "tfpauly",
+      "authorAssociation": "NONE",
+      "assignees": [
+        "boucadair"
+      ],
+      "labels": [],
+      "body": "Currently, the text says:\r\n\r\n> Browsers will display errors such as \"The security certificate presented by this website was not issued by a trusted certificate authority\" (Internet Explorer/Edge\"), \"The site's security certificate is not trusted\" (Chrome), \"This Connection is Untrusted\" (Firefox), \"Safari can't verify the identity of the website ...\" (Safari on MacOS). Applications might display even more cryptic error messages.\r\n\r\nI'd lean towards not including these specific examples in an RFC, since they are a single snapshot in time, and are liable to change. If we cite them, we should be more specific, but the point is also accurate to just explain that the certificate errors create a very poor user experience.",
+      "createdAt": "2023-03-30T01:00:20Z",
+      "updatedAt": "2023-04-06T06:45:10Z",
+      "closedAt": "2023-04-06T06:45:10Z",
+      "comments": [
+        {
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fair point, @tfpauly.",
+          "createdAt": "2023-03-30T01:03:22Z",
+          "updatedAt": "2023-03-30T01:03:22Z"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "id": "I_kwDOI6P3FM5iLqGI",
+      "title": "Requesting with EDE option is underspecified",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/14",
+      "state": "CLOSED",
+      "author": "tfpauly",
+      "authorAssociation": "NONE",
+      "assignees": [
+        "tireddy2"
+      ],
+      "labels": [],
+      "body": "The draft currently says this:\r\n\r\n> When generating a DNS query, the client includes the Extended DNS Error option Section 2 of [RFC8914] in the OPT pseudo-RR [RFC6891] to elicit the Extended DNS Error option in the DNS response.\r\n\r\nWhat exactly should a client put in this for a request?\r\n\r\n```\r\n     0   1   2   3   4   5   6   7   8   9   0   1   2   3   4   5\r\n   +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\r\n0: |                            OPTION-CODE                        |\r\n   +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\r\n2: |                           OPTION-LENGTH                       |\r\n   +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\r\n4: | INFO-CODE                                                     |\r\n   +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\r\n6: / EXTRA-TEXT ...                                                /\r\n   +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\r\n```\r\n\r\nI could imagine the following approaches:\r\n1. Set option code to 15 and option length to 0. However, RFC8914 says that the length \"should be 2 plus the length of the EXTRA-TEXT field\".\r\n2. Set option code to 15 and option length to 2 and info code to 0. However, RFC8914 says \"Implementations SHOULD include an EXTRA-TEXT value to augment this error code with additional information.\".\r\n3. Set option code to 15 and option length to 2 and info code to something other than 0, but there isn't a good option for requests.\r\n\r\nI think option 1 makes most sense, but we need to clarify that in the text and explain that it is OK to have an empty option.",
+      "createdAt": "2023-03-30T09:12:49Z",
+      "updatedAt": "2023-04-06T09:22:46Z",
+      "closedAt": "2023-04-06T09:22:46Z",
+      "comments": [
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "An empty option (your #1) is all we need.  RFC8914 has that \"2 plus\" because the INFO-CODE is mandatory in RFC8914 for responses.\n\nAs RFC8914 only defines its EDNS0 option for responses (in its last paragraph of its Section 2), and we are needing this for signaling in requests, we could re-define the whole thing for requests, such that INFO-CODE is optional in requests and its presence is indicated by length >= 2.  We might want to allow INFO-CODE to appear in requests so it can be a future extension for other signaling?  Something like:\n\n  \" The client MUST signaling its support for this specification by including the EDE EDNS0 option in its DNS request and SHOULD use an option-length of 0 (that is, omitting INFO-CODE and EXTRA-TEXT from [RFC8914]). \"\n\n-d\n\n\n> On Mar 30, 2023, at 2:13 AM, Tommy Pauly ***@***.***> wrote:\n> \n> \n> The draft currently says this:\n> \n> When generating a DNS query, the client includes the Extended DNS Error option Section 2 of [RFC8914] in the OPT pseudo-RR [RFC6891] to elicit the Extended DNS Error option in the DNS response.\n> \n> What exactly should a client put in this for a request?\n> \n>      0   1   2   3   4   5   6   7   8   9   0   1   2   3   4   5\n>    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n> 0: |                            OPTION-CODE                        |\n>    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n> 2: |                           OPTION-LENGTH                       |\n>    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n> 4: | INFO-CODE                                                     |\n>    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n> 6: / EXTRA-TEXT ...                                                /\n>    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+\n> I could imagine the following approaches:\n> \n> Set option code to 15 and option length to 0. However, RFC8914 says that the length \"should be 2 plus the length of the EXTRA-TEXT field\".\n> Set option code to 15 and option length to 2 and info code to 0. However, RFC8914 says \"Implementations SHOULD include an EXTRA-TEXT value to augment this error code with additional information.\".\n> Set option code to 15 and option length to 2 and info code to something other than 0, but there isn't a good option for requests.\n> I think option 1 makes most sense, but we need to clarify that in the text and explain that it is OK to have an empty option.\n> \n> \u2014\n> Reply to this email directly, view it on GitHub <https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/14>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/ABNZQVGT7X5HDIHC6GT4KRTW6VFBZANCNFSM6AAAAAAWM76BSU>.\n> You are receiving this because you are subscribed to this thread.\n> \n\n",
+          "createdAt": "2023-03-30T15:37:18Z",
+          "updatedAt": "2023-03-30T15:37:18Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed the above comment from Tommy.",
+          "createdAt": "2023-04-06T09:22:46Z",
+          "updatedAt": "2023-04-06T09:22:46Z"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "id": "I_kwDOI6P3FM5ikn7G",
+      "title": "IETF review required",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/15",
+      "state": "CLOSED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "boucadair"
+      ],
+      "labels": [],
+      "body": "Ben suggested that he would like to see the registries tightly controlled for sub-error codes and JSON attributes in EXTRA-TEXT. IETF review prevents the designated expert from being pressured for odd states.",
+      "createdAt": "2023-04-04T12:10:45Z",
+      "updatedAt": "2023-04-26T05:50:02Z",
+      "closedAt": "2023-04-26T05:50:02Z",
+      "comments": [
+        {
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "OK for JSON name. see #18 \r\n\r\nI'm afraid IETF review is too restrictive for the suberror codes. Let's have that discussion in the list before making changes.",
+          "createdAt": "2023-04-05T08:36:39Z",
+          "updatedAt": "2023-04-05T08:36:39Z"
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "id": "I_kwDOI6P3FM5ikoj4",
+      "title": "Contact info to be an optional attribute",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/16",
+      "state": "CLOSED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "@tfpauly suggested to make contact info to be marked as optional. There may be future cases which don't need contact info. Browser or OS may know better than the DNS about what to do because it has more context.",
+      "createdAt": "2023-04-04T12:12:18Z",
+      "updatedAt": "2023-04-29T05:01:08Z",
+      "closedAt": "2023-04-29T05:01:07Z",
+      "comments": [
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The DNS server would have no knowledge whether the client has context to display the contact info by itself or not. It has to be mandatory attribute, the client which has context can ignore the contact info.",
+          "createdAt": "2023-04-06T07:27:19Z",
+          "updatedAt": "2023-04-06T09:23:34Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Updated draft to say \"c\" can be ignored by the DNS client. ",
+          "createdAt": "2023-04-29T05:01:07Z",
+          "updatedAt": "2023-04-29T05:01:07Z"
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "id": "I_kwDOI6P3FM5mlRWe",
+      "title": "Client requests including empty EDE isn't currently interoperable",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/26",
+      "state": "CLOSED",
+      "author": "tfpauly",
+      "authorAssociation": "NONE",
+      "assignees": [
+        "danwing"
+      ],
+      "labels": [],
+      "body": "When sending an empty EDE option in client requests, I hit errors with both 8.8.8.8 and Ad Guard public DoH servers.\r\n\r\nI ran two other tests, and for both of these cases, all of the resolvers I tried did accept the request:\r\n- Choose a new EDNS option code point (I just tested 50, randomly)\r\n- Use EDE but set the length to 2 and the error to 0 (other error), rather than a length of 0",
+      "createdAt": "2023-05-23T02:46:06Z",
+      "updatedAt": "2023-05-28T23:58:33Z",
+      "closedAt": "2023-05-28T23:58:32Z",
+      "comments": [
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "EDE length=2 with INFO-CODE=0 works nicely.\r\n\r\nAlso because non-EDE-aware DNS responders can be vulnerable to attacks described in Security Considerations, the Security Considerations section currently suggests clients use draft-ietf-add-resolver-info to check if server supports EDE.  This needs better clarification in the document that client has to check draft-ietf-add-resolver-info before including EDE OPT in its DNS query.  This check will further help interop by only sending EDE in requests to servers that indicated support via draft-ietf-add-resolver-info.  However, it creates draft-ietf-add-resolver-info as another hurdle to deployment of Structured DNS error.",
+          "createdAt": "2023-05-23T16:50:03Z",
+          "updatedAt": "2023-05-23T16:50:03Z"
+        },
+        {
+          "author": "tfpauly",
+          "authorAssociation": "NONE",
+          "body": "Using length=2 and INFO-CODE=0 sounds fine to me.\r\n\r\nFor the dependency on draft-ietf-add-resolver-info, I don't think we need to impose that dependency. I'd much prefer to allow clients to look at that optionally, but still be able to include the hint and use the extra text if it parses correctly.",
+          "createdAt": "2023-05-23T20:17:52Z",
+          "updatedAt": "2023-05-23T20:17:52Z"
+        },
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The justification for signaling draft-ietf-add-resolver-info is in Security Considerations where it currently says:\r\n\r\n` An attacker might inject (or modify) the EDE EXTRA-TEXT field with an\r\n   DNS proxy or DNS forwarder that is unaware of EDE.  Such a DNS proxy\r\n   or DNS forwarder will forward that attacker-controlled EDE option.\r\n   To prevent such an attack, clients supporting this document MUST\r\n   discard the EDE option if their DNS server does not signal EDE\r\n   support via RESINFO [I-D.ietf-add-resolver-info].  As recommended in\r\n   [I-D.ietf-add-resolver-info], RESINFO should be retrieved over an\r\n   encrypted DNS channel or integrity protected with DNSSEC.`\r\n\r\nshould we soften that?  The authors have argued back and forth on the risk of this attack versus deployment, code, and operational complexity of draft-ietf-add-resolver-info signaling.",
+          "createdAt": "2023-05-23T21:25:46Z",
+          "updatedAt": "2023-05-23T21:25:46Z"
+        },
+        {
+          "author": "fl1ger",
+          "authorAssociation": "NONE",
+          "body": "Moin!\r\n\r\nWe already require an encrypted channel, so the chances of an attacker injecting something are minimal unless you connect to an attacker in which case all bets are off anyway. I don't think this RESINFO requirement is needed and would delete it all together, but at least change the MUST to a MAY or if you feel strong about it a SHOULD.\r\n\r\nSo long\r\n-Ralf\r\n",
+          "createdAt": "2023-05-24T03:12:58Z",
+          "updatedAt": "2023-05-24T03:12:58Z"
+        },
+        {
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I also don't think we need to have RESINFO as normative here. We can tweak the text, e.g.,\r\n\r\ns/MUST...RESINFO [I-D.ietf-add-resolver-info]/SHOULD ... a mechanism such as RESINFO [I-D.ietf-add-resolver-info]\r\n\r\nThis will be consistent with the other uses in https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/27/. \r\n\r\nThere are other ways to avoid \"trusting\" random resolvers.",
+          "createdAt": "2023-05-24T05:51:56Z",
+          "updatedAt": "2023-05-24T05:51:56Z"
+        },
+        {
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> but at least change the MUST to a MAY\r\n\r\nThis will still require listing RESINFO as normative as per \"[IESG statement](https://www.ietf.org/about/groups/iesg/statements/normative-informative-references/)\"\r\n\r\n> Note 1: Even references that are relevant only for optional features must be classified as normative if they meet the above conditions for normative references. \r\n\r\nWe need more text tweaking.",
+          "createdAt": "2023-05-24T05:55:37Z",
+          "updatedAt": "2023-05-24T05:55:37Z"
+        },
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "EDE length=2 with INFO-CODE=0 is now in -03.  RESINFO (I-D.ietf-add-resolver-info) is now significantly reduced in its importance and need in -03.",
+          "createdAt": "2023-05-28T23:58:32Z",
+          "updatedAt": "2023-05-28T23:58:32Z"
+        }
+      ]
+    },
+    {
+      "number": 37,
+      "id": "I_kwDOI6P3FM5qOgub",
+      "title": "Section 10: conflict with a MUST NOT in RFC8914",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/37",
+      "state": "CLOSED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": ", making it unclear the\r\n> strength of this instruction for compatible servers - I recommend\r\n> using an explicit MAY, SHOULD or MUST term here instead of the\r\n> ambiguous can. 2) (issue) regardless of the term used, the\r\n> implication that the presence of an EDE option can indeed alter\r\n> DNS processing behaviour on the server is in conflict with the\r\n> MUST NOT directive in section 6 of RFC8194, which section 10 of\r\n> this draft says still apply to this document. If this section 6\r\n> does indeed intend to override the MUST NOT security\r\n> considerations of section 6 in RFC8194 and allow a situation where\r\n> EDE can alter DNS processing behaviour for RPZ servers that should\r\n> be explicitly stated (both in this section) and also in the later\r\n> security considerations section. \r\n\r\n[Med] Good point. That MUST NOT was motivated because \"EDE information is unauthenticated information\" . \r\n\r\nThis spec requires: \"The response MUST be received over an encrypted DNS channel.\"\r\n\r\nWe need to better articulate the text in Section 10.\r\n",
+      "createdAt": "2023-06-30T09:16:09Z",
+      "updatedAt": "2023-07-05T09:03:20Z",
+      "closedAt": "2023-07-05T09:03:20Z",
+      "comments": []
+    }
+  ],
+  "pulls": [
+    {
+      "number": 3,
+      "id": "PR_kwDOI6P3FM5JjHnX",
+      "title": "refine IANA table, add definition of DNS operator policy and network \u2026",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/3",
+      "state": "MERGED",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026operator policy, remove Abuse",
+      "createdAt": "2023-02-08T17:57:30Z",
+      "updatedAt": "2023-02-13T03:31:27Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "142cb7c6dd71eed2d18e0c2d6849a75fc3b02c2b",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "refine-table",
+      "headRefOid": "179b25210ec83f807c0c8aa11d0d7bf593c783cb",
+      "closedAt": "2023-02-13T03:31:27Z",
+      "mergedAt": "2023-02-13T03:31:27Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "c90c4de005c16be54ab0f141777579ef1d027660"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5M4utU",
+          "commit": {
+            "abbreviatedOid": "84d2e55"
+          },
+          "author": "neilcook",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-02-08T20:17:47Z",
+          "updatedAt": "2023-02-08T20:17:48Z",
+          "comments": [
+            {
+              "originalPosition": 49,
+              "body": "```suggestion\r\n  * Reference: Filtered according to policy determined by the operator of the local network \r\n```",
+              "createdAt": "2023-02-08T20:17:47Z",
+              "updatedAt": "2023-02-08T20:17:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5M4u3B",
+          "commit": {
+            "abbreviatedOid": "84d2e55"
+          },
+          "author": "neilcook",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-02-08T20:18:15Z",
+          "updatedAt": "2023-02-08T20:18:16Z",
+          "comments": [
+            {
+              "originalPosition": 62,
+              "body": "```suggestion\r\n  * Reference:  Filtered according to policy determined by the operator of the DNS server\r\n```",
+              "createdAt": "2023-02-08T20:18:15Z",
+              "updatedAt": "2023-02-08T20:18:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5M7CbQ",
+          "commit": {
+            "abbreviatedOid": "ea8a8ea"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-02-09T07:15:00Z",
+          "updatedAt": "2023-02-09T07:15:01Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "This text conflicts with the policy set for the registry (expert review).  I think the intent here is not about the document that requests the new code but the reference that is provided to characterize the error. I agree that it is preferable  to \r\n have an IETF ref, but MUST is too strong here. \r\n\r\n",
+              "createdAt": "2023-02-09T07:15:00Z",
+              "updatedAt": "2023-02-09T07:15:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5M7Csj",
+          "commit": {
+            "abbreviatedOid": "ea8a8ea"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-02-09T07:16:04Z",
+          "updatedAt": "2023-02-09T07:16:05Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\r\nMeaning or Reference clauses), and MUST also provide more characterization than the\r\n```",
+              "createdAt": "2023-02-09T07:16:04Z",
+              "updatedAt": "2023-02-09T07:16:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5M7G6H",
+          "commit": {
+            "abbreviatedOid": "ea8a8ea"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-02-09T07:32:57Z",
+          "updatedAt": "2023-02-09T07:32:58Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "```suggestion\r\n  * Applicability: N/A. \r\n```\r\n\r\nThis code must not be used at all.",
+              "createdAt": "2023-02-09T07:32:57Z",
+              "updatedAt": "2023-02-09T07:32:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5M7HU8",
+          "commit": {
+            "abbreviatedOid": "ea8a8ea"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-02-09T07:34:35Z",
+          "updatedAt": "2023-02-09T07:34:35Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "This text should be under \"meaning\".",
+              "createdAt": "2023-02-09T07:34:35Z",
+              "updatedAt": "2023-02-09T07:34:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5M7ICS",
+          "commit": {
+            "abbreviatedOid": "ea8a8ea"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-02-09T07:37:19Z",
+          "updatedAt": "2023-02-09T07:37:20Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "```suggestion\r\n* Reference: A pointer to the specification that registered the code and/or an authoritative specification that describes the meaning of this code.\r\n```",
+              "createdAt": "2023-02-09T07:37:19Z",
+              "updatedAt": "2023-02-09T07:37:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5M7IaI",
+          "commit": {
+            "abbreviatedOid": "ea8a8ea"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-02-09T07:38:39Z",
+          "updatedAt": "2023-02-09T07:38:39Z",
+          "comments": [
+            {
+              "originalPosition": 90,
+              "body": "I would also list this document under Reference to keep track of documents that registered a code.",
+              "createdAt": "2023-02-09T07:38:39Z",
+              "updatedAt": "2023-02-09T07:38:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5NAvWg",
+          "commit": {
+            "abbreviatedOid": "ea8a8ea"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-02-09T21:24:07Z",
+          "updatedAt": "2023-02-09T21:24:08Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "I have removed my text which was intended as guidance to the expert reviewer.",
+              "createdAt": "2023-02-09T21:24:07Z",
+              "updatedAt": "2023-02-09T21:24:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5NAvlg",
+          "commit": {
+            "abbreviatedOid": "ea8a8ea"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-02-09T21:24:59Z",
+          "updatedAt": "2023-02-09T21:25:00Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "Ok, updating doc accordingly.",
+              "createdAt": "2023-02-09T21:24:59Z",
+              "updatedAt": "2023-02-09T21:25:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOI6P3FM5JjSBC",
+      "title": "Fix metadata",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/4",
+      "state": "CLOSED",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-02-08T18:34:09Z",
+      "updatedAt": "2023-02-08T18:36:05Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "879c663e84cb27f260ee8e2ccdd6739a41c1b9a3",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "fix-metadata",
+      "headRefOid": "fa184de7526a71eb72a69dcacd94263f51797eac",
+      "closedAt": "2023-02-08T18:35:57Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOI6P3FM5JjUjf",
+      "title": "fix metadata URL for ietf wg",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/5",
+      "state": "MERGED",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-02-08T18:45:05Z",
+      "updatedAt": "2023-02-08T18:54:39Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "879c663e84cb27f260ee8e2ccdd6739a41c1b9a3",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "correct-metadata",
+      "headRefOid": "9341ee684874f30ed64aedceb48ee7bb96bf1032",
+      "closedAt": "2023-02-08T18:47:51Z",
+      "mergedAt": "2023-02-08T18:47:51Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "142cb7c6dd71eed2d18e0c2d6849a75fc3b02c2b"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOI6P3FM5Jnm1u",
+      "title": "Add a note about how we refer to the EDEs",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/6",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Editorial"
+      ],
+      "body": "",
+      "createdAt": "2023-02-09T13:29:58Z",
+      "updatedAt": "2023-02-09T19:45:18Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "142cb7c6dd71eed2d18e0c2d6849a75fc3b02c2b",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-1",
+      "headRefOid": "b108f0a69936bb72ae16da74457e94069ae9df16",
+      "closedAt": "2023-02-09T19:45:18Z",
+      "mergedAt": "2023-02-09T19:45:18Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "5d04d5789a30ece9731a7bafca7421f3989bed3f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5NAIt9",
+          "commit": {
+            "abbreviatedOid": "b108f0a"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-02-09T19:45:09Z",
+          "updatedAt": "2023-02-09T19:45:09Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOI6P3FM5J2gFD",
+      "title": "remove duplicated para",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/7",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-02-13T13:44:19Z",
+      "updatedAt": "2023-02-13T16:55:23Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "c90c4de005c16be54ab0f141777579ef1d027660",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-2",
+      "headRefOid": "663a673b167fd5f2ae481c8f4f4e4bab68badb59",
+      "closedAt": "2023-02-13T16:55:23Z",
+      "mergedAt": "2023-02-13T16:55:23Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "8cc8bae92f4e272ca901bbf075be29ad03049820"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOI6P3FM5J2kum",
+      "title": "inadequate normative language for new names",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/8",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-02-13T13:58:50Z",
+      "updatedAt": "2023-02-13T16:55:55Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "c90c4de005c16be54ab0f141777579ef1d027660",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-3",
+      "headRefOid": "e478571b8889caa6a359aad62de724d6c1907d15",
+      "closedAt": "2023-02-13T16:55:55Z",
+      "mergedAt": "2023-02-13T16:55:55Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "981b1020d94c2ecb6e38e3e2f94a3439eb165944"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOI6P3FM5J2m94",
+      "title": "Consistency vs. \"New Registry for SubError Codes\" Section",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/9",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-02-13T14:04:49Z",
+      "updatedAt": "2023-02-13T16:56:45Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "c90c4de005c16be54ab0f141777579ef1d027660",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-4",
+      "headRefOid": "af7cddf61b1ba2bf68b63b5fd0b82284b12b8cd2",
+      "closedAt": "2023-02-13T16:56:45Z",
+      "mergedAt": "2023-02-13T16:56:45Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "98a850d1d0d55722abb53b0411f7d819d1bbc07f"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 10,
+      "id": "PR_kwDOI6P3FM5KMP9q",
+      "title": "Update add-resolver-info citations",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/10",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-02-17T06:57:53Z",
+      "updatedAt": "2023-02-17T23:00:53Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "98a850d1d0d55722abb53b0411f7d819d1bbc07f",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-5",
+      "headRefOid": "2ce13d90c1c9e5ca1e94bf1963229afdf4c20155",
+      "closedAt": "2023-02-17T23:00:53Z",
+      "mergedAt": "2023-02-17T23:00:53Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "b9af435141aeb341064c84e0594e0909f57a79aa"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 12,
+      "id": "PR_kwDOI6P3FM5MFAMj",
+      "title": "Fix text related to Forged Answer",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/12",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-03-15T08:22:06Z",
+      "updatedAt": "2023-03-26T21:44:43Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "b9af435141aeb341064c84e0594e0909f57a79aa",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-1",
+      "headRefOid": "22927516c3f65e12b7ebf2dc8908577c9b1c2cf5",
+      "closedAt": "2023-03-26T21:44:43Z",
+      "mergedAt": "2023-03-26T21:44:43Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "9f963df06d24e045a149781f373fdb3b4687d42e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5P7Oej",
+          "commit": {
+            "abbreviatedOid": "2292751"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-03-15T08:54:05Z",
+          "updatedAt": "2023-03-15T08:54:05Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "id": "PR_kwDOI6P3FM5NpMFZ",
+      "title": "remove the specific application errors",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/17",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-04-05T06:02:12Z",
+      "updatedAt": "2023-04-06T06:45:09Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "9f963df06d24e045a149781f373fdb3b4687d42e",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "remove-calling-specific-apps",
+      "headRefOid": "b693f002b6f700ddf6b673e6d4aa0bba3d1d1756",
+      "closedAt": "2023-04-06T06:45:09Z",
+      "mergedAt": "2023-04-06T06:45:09Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "fe2ac68a526d84350d2809b495db69828fd120ee"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 18,
+      "id": "PR_kwDOI6P3FM5Np0XF",
+      "title": "JSON Name registry",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/18",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-04-05T08:33:10Z",
+      "updatedAt": "2023-04-06T06:56:12Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "fe2ac68a526d84350d2809b495db69828fd120ee",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "json-name-registry",
+      "headRefOid": "017e47c6ffcb1dbfab32e052368ac7ce705e8faa",
+      "closedAt": "2023-04-06T06:56:12Z",
+      "mergedAt": "2023-04-06T06:56:12Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "3e09bdfe7b098ec9ec480c8fa2940ae4da3c1cd7"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 19,
+      "id": "PR_kwDOI6P3FM5NvP-O",
+      "title": "Fix issues in draft-ietf-dnsop-structured-dns-error",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/19",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-04-06T07:15:55Z",
+      "updatedAt": "2023-04-06T09:22:06Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "3e09bdfe7b098ec9ec480c8fa2940ae4da3c1cd7",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-2",
+      "headRefOid": "741748d500444839862b5151bbc569a8a67afa20",
+      "closedAt": "2023-04-06T09:22:06Z",
+      "mergedAt": "2023-04-06T09:22:06Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "3f1b0257416f86002fa984aa684733e970244d40"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 20,
+      "id": "PR_kwDOI6P3FM5NwKGq",
+      "title": "add a guard to prevent DEs touch entries created via IETF review",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/20",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-04-06T10:01:07Z",
+      "updatedAt": "2023-04-07T15:04:10Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "3f1b0257416f86002fa984aa684733e970244d40",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-6",
+      "headRefOid": "f537f1889dfeec6b653cf4a893d11c12c8890028",
+      "closedAt": "2023-04-07T15:04:09Z",
+      "mergedAt": "2023-04-07T15:04:09Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "9fbf56861cce0e8564e89804c46ea468a457fa70"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 21,
+      "id": "PR_kwDOI6P3FM5OjkFp",
+      "title": "tag suberrors whether they are set via IETF review or not",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/21",
+      "state": "CLOSED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-04-18T09:00:24Z",
+      "updatedAt": "2023-04-25T11:29:45Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "9fbf56861cce0e8564e89804c46ea468a457fa70",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "suberror-ietf-review-column",
+      "headRefOid": "9d52c46f7477fb9fd964debcd4b8b15f3e7ec533",
+      "closedAt": "2023-04-25T11:29:45Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 22,
+      "id": "PR_kwDOI6P3FM5O29_z",
+      "title": "Address comments to remove Censored and to add a new error code",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/22",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-04-21T12:37:48Z",
+      "updatedAt": "2023-04-26T05:22:07Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "9fbf56861cce0e8564e89804c46ea468a457fa70",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-1-1",
+      "headRefOid": "9e9c9833539b001d206b309b74637e439313e2f9",
+      "closedAt": "2023-04-26T05:22:06Z",
+      "mergedAt": "2023-04-26T05:22:06Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "30fed7a90bf727952f25e65550830785efeff6c4"
+      },
+      "comments": [
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "How can DNS operator implement 'Blocked by upstream server' -- that is, how does it detect that filtering occurred.  I don't see the need for this code, but especially don't understand how it could be implemented.",
+          "createdAt": "2023-04-21T15:20:16Z",
+          "updatedAt": "2023-04-21T15:20:16Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> \r\n\r\nIt is is useful in deployments where the network-provided DNS forwarder is configured to use a external resolver (e.g., Quad9/OpenDNS) that filters malicious domains. \r\n\r\nThe external resolver would set the error \"Blocked\" with relevant sub-error code and it would be modified by the DNS forwarder to 'Blocked by upstream server'. \r\n",
+          "createdAt": "2023-04-22T05:34:09Z",
+          "updatedAt": "2023-04-22T05:34:09Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5Tbn6o",
+          "commit": {
+            "abbreviatedOid": "ec2184d"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Added my changes at [ec2184d](https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/22/commits/ec2184dd8fd88014b7cd690f46d981c96922d4b0)",
+          "createdAt": "2023-04-25T11:54:17Z",
+          "updatedAt": "2023-04-25T11:54:17Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 23,
+      "id": "PR_kwDOI6P3FM5PKdsF",
+      "title": "Create minified.json",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/23",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-04-26T05:45:37Z",
+      "updatedAt": "2023-04-26T05:46:02Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "d189ae85bf487c26ebb2859ef52c8ca65187955f",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-7",
+      "headRefOid": "4ef8f220b07e75c867b7b6691ff3d74140f10156",
+      "closedAt": "2023-04-26T05:46:02Z",
+      "mergedAt": "2023-04-26T05:46:02Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "47476a804dddab90ac49266f9d7f8db9e101f8ea"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 24,
+      "id": "PR_kwDOI6P3FM5PKerH",
+      "title": "Minor edits",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/24",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-04-26T05:49:31Z",
+      "updatedAt": "2023-04-28T07:21:16Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "47476a804dddab90ac49266f9d7f8db9e101f8ea",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-7-1",
+      "headRefOid": "c842a4fcf780f5800b4bfb2e2a15fe77073563fe",
+      "closedAt": "2023-04-28T07:21:15Z",
+      "mergedAt": "2023-04-28T07:21:15Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "e80193f49137d08316721c3fd4a0697790c7050f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5ThN4r",
+          "commit": {
+            "abbreviatedOid": "1823a47"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-04-26T05:56:22Z",
+          "updatedAt": "2023-04-26T05:56:23Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "```suggestion\r\nService Providers (ISPs) typically block access to some DNS domains due to a\r\n```",
+              "createdAt": "2023-04-26T05:56:23Z",
+              "updatedAt": "2023-04-26T05:56:23Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "id": "PR_kwDOI6P3FM5PXSxn",
+      "title": "Ignore \"c\" if an app has more specific context",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/25",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/16",
+      "createdAt": "2023-04-28T08:28:45Z",
+      "updatedAt": "2023-04-28T13:00:58Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "e80193f49137d08316721c3fd4a0697790c7050f",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "local-c-context",
+      "headRefOid": "f3f2c32eef0bffd9b68e4ca74341184a37e1fa17",
+      "closedAt": "2023-04-28T13:00:57Z",
+      "mergedAt": "2023-04-28T13:00:57Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "1342197e699699867f4b31f70163128bc79bee0f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5Tx28_",
+          "commit": {
+            "abbreviatedOid": "5e7206c"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-04-28T09:28:10Z",
+          "updatedAt": "2023-04-28T09:28:26Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "I think you mean the following:\r\n\r\n\"If the local application that triggered the DNS request has more specific context (e.g., contact information) about the DNS server...\".",
+              "createdAt": "2023-04-28T09:28:10Z",
+              "updatedAt": "2023-04-28T09:28:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5Tx35Y",
+          "commit": {
+            "abbreviatedOid": "5e7206c"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-04-28T09:30:44Z",
+          "updatedAt": "2023-04-28T09:30:45Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "I meant \"than the DNS server\"",
+              "createdAt": "2023-04-28T09:30:44Z",
+              "updatedAt": "2023-04-28T09:30:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5Tx3-z",
+          "commit": {
+            "abbreviatedOid": "5e7206c"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-04-28T09:30:59Z",
+          "updatedAt": "2023-04-28T09:31:00Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "```suggestion\r\n  context (e.g., contact information) than the DNS server, the content of\r\n```",
+              "createdAt": "2023-04-28T09:30:59Z",
+              "updatedAt": "2023-04-28T09:31:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5Tx5Yi",
+          "commit": {
+            "abbreviatedOid": "5e7206c"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-04-28T09:34:56Z",
+          "updatedAt": "2023-04-28T09:34:56Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "I wonder how the application can have more context than the DNS server itself ! \r\nMy understanding is in scenarios where the application is pre-configured with the DNS server (e..g, TRR in browsers), it may have the contact information as part of the prior business agreement.  ",
+              "createdAt": "2023-04-28T09:34:56Z",
+              "updatedAt": "2023-04-28T09:34:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5Tx8cp",
+          "commit": {
+            "abbreviatedOid": "5e7206c"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-04-28T09:43:07Z",
+          "updatedAt": "2023-04-28T09:43:07Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "This may not be possible to all error types. For regulatory filtering for example, the app may have some context. ",
+              "createdAt": "2023-04-28T09:43:07Z",
+              "updatedAt": "2023-04-28T09:43:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5TyDiw",
+          "commit": {
+            "abbreviatedOid": "5e7206c"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-04-28T09:58:09Z",
+          "updatedAt": "2023-04-28T09:58:10Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "In case of regulatory filtering, error code will be set to \"Censored\" and the sub-error codes defined in the draft are not applicable. Even in this case, I don't get how the app would have more context about the contact information. \r\n\r\nWhy wouldn't the DNS server know the contact details in case of regulatory filtering ?\r\n\r\nI would stick to the generic use case (deployed today by all major browsers) of pre-configured resolvers that may have contact information. I propose the following update:\r\n\r\n\"If the DNS client has more specific context (e.g., contact information) about the DNS server...\".\r\n",
+              "createdAt": "2023-04-28T09:58:09Z",
+              "updatedAt": "2023-04-28T09:58:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5TyocX",
+          "commit": {
+            "abbreviatedOid": "5e7206c"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-04-28T11:40:19Z",
+          "updatedAt": "2023-04-28T11:40:20Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "Not sure to get your comment. The contact is not about the dns server, but whether an app can override for whatever reason the c reported by the DNS server.\r\n",
+              "createdAt": "2023-04-28T11:40:19Z",
+              "updatedAt": "2023-04-28T11:40:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5TyqOU",
+          "commit": {
+            "abbreviatedOid": "5e7206c"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-04-28T11:46:17Z",
+          "updatedAt": "2023-04-28T11:46:17Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "Please take an example to explain how the app would have specific context than the DNS server to override the c reported by the DNS server. ",
+              "createdAt": "2023-04-28T11:46:17Z",
+              "updatedAt": "2023-04-28T11:46:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5TyrqD",
+          "commit": {
+            "abbreviatedOid": "5e7206c"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-04-28T11:50:58Z",
+          "updatedAt": "2023-04-28T11:50:59Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "An app may decide to redirect all claim requests to a single contact point. The app client can supply the contact returned by the DNS server, if needed.\r\n\r\nI don't think we can mandate that if a contact is established, it MUST be with the info in the \"c\".",
+              "createdAt": "2023-04-28T11:50:58Z",
+              "updatedAt": "2023-04-28T11:50:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5TzE3V",
+          "commit": {
+            "abbreviatedOid": "f3f2c32"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-04-28T13:00:50Z",
+          "updatedAt": "2023-04-28T13:00:50Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 27,
+      "id": "PR_kwDOI6P3FM5RKsnm",
+      "title": "EDT OPT length=2, error=0; more clearly require draft-ietf-add-resolv\u2026",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/27",
+      "state": "MERGED",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "EDT OPT length=2, error=0\r\n\r\nmore clearly require draft-ietf-add-resolver-info",
+      "createdAt": "2023-05-23T16:56:03Z",
+      "updatedAt": "2023-05-26T18:14:15Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "9278914098021d369998b519872613dd4fb2ccd4",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tighten_signaling",
+      "headRefOid": "c66b361ad1d717e051ba574f307cf8972f73adc7",
+      "closedAt": "2023-05-26T18:14:15Z",
+      "mergedAt": "2023-05-26T18:14:15Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "c8006e60fab875ad1c4532a364ec88a7c000d2c0"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5V2K2l",
+          "commit": {
+            "abbreviatedOid": "18a74d6"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Thanks, Dan.\r\n\r\nI think we can still use resinfo as informative. ",
+          "createdAt": "2023-05-23T17:37:48Z",
+          "updatedAt": "2023-05-23T17:50:24Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "I don't parse this one.",
+              "createdAt": "2023-05-23T17:37:48Z",
+              "updatedAt": "2023-05-23T17:50:24Z"
+            },
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\r\n{{!I-D.ietf-add-resolver-info}} to determine whether the DNS responder supports\r\n```",
+              "createdAt": "2023-05-23T17:37:58Z",
+              "updatedAt": "2023-05-23T17:50:24Z"
+            },
+            {
+              "originalPosition": 13,
+              "body": "```suggestion\r\nthe client MUST NOT include the EDE OPT pseudo-RR in its DNS query to that responder and MUST filter\r\n```",
+              "createdAt": "2023-05-23T17:38:27Z",
+              "updatedAt": "2023-05-23T17:50:24Z"
+            },
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\nany EDE OPT that might erroneously appear in responses from that DNS responder.\r\n```",
+              "createdAt": "2023-05-23T17:39:11Z",
+              "updatedAt": "2023-05-23T17:50:24Z"
+            },
+            {
+              "originalPosition": 17,
+              "body": "```suggestion\r\nthe client includes the Extended DNS Error option (Section 2 of\r\n```",
+              "createdAt": "2023-05-23T17:39:41Z",
+              "updatedAt": "2023-05-23T17:50:24Z"
+            },
+            {
+              "originalPosition": 18,
+              "body": "```suggestion\r\n{{!RFC8914}}) in the OPT pseudo-RR {{!RFC6891}} with the OPTION-LENGTH field set to 2,\r\n```",
+              "createdAt": "2023-05-23T17:40:59Z",
+              "updatedAt": "2023-05-23T17:50:24Z"
+            },
+            {
+              "originalPosition": 19,
+              "body": "```suggestion\r\nthe INFO-CODE field set to \"0\" (Other Error), and an empty EXTRA-TEXT field.  This\r\n```",
+              "createdAt": "2023-05-23T17:43:25Z",
+              "updatedAt": "2023-05-23T17:50:24Z"
+            },
+            {
+              "originalPosition": 20,
+              "body": "```suggestion\r\nsignal indicates that the client desires that the server responds in accordance\r\n```",
+              "createdAt": "2023-05-23T17:43:58Z",
+              "updatedAt": "2023-05-23T17:50:24Z"
+            },
+            {
+              "originalPosition": 21,
+              "body": "```suggestion\r\nwith the present specification.\r\n```",
+              "createdAt": "2023-05-23T17:44:25Z",
+              "updatedAt": "2023-05-23T17:50:24Z"
+            },
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\nOn receipt of a DNS response with an EDE option from a\r\n```",
+              "createdAt": "2023-05-23T17:45:21Z",
+              "updatedAt": "2023-05-23T17:50:24Z"
+            },
+            {
+              "originalPosition": 32,
+              "body": "```suggestion\r\nDNS responder, if that DNS responder did not indicate support for the EDE option\r\n```",
+              "createdAt": "2023-05-23T17:45:29Z",
+              "updatedAt": "2023-05-23T17:50:24Z"
+            },
+            {
+              "originalPosition": 33,
+              "body": "```suggestion\r\npseudo-RR via a mechanisms such as {{I-D.ietf-add-resolver-info}}, the requestor MUST discard\r\n```",
+              "createdAt": "2023-05-23T17:46:16Z",
+              "updatedAt": "2023-05-23T17:50:24Z"
+            },
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\r\na mechanism such as {{?I-D.ietf-add-resolver-info}} to determine the DNS responder supports\r\n```",
+              "createdAt": "2023-05-23T17:47:17Z",
+              "updatedAt": "2023-05-23T17:50:25Z"
+            },
+            {
+              "originalPosition": 45,
+              "body": "```suggestion\r\n  {{?I-D.ietf-add-resolver-info}}.\r\n```",
+              "createdAt": "2023-05-23T17:47:44Z",
+              "updatedAt": "2023-05-23T17:50:25Z"
+            },
+            {
+              "originalPosition": 54,
+              "body": "```suggestion\r\n  {{?I-D.ietf-add-resolver-info}}.\r\n```",
+              "createdAt": "2023-05-23T17:47:57Z",
+              "updatedAt": "2023-05-23T17:50:25Z"
+            },
+            {
+              "originalPosition": 68,
+              "body": "```suggestion\r\nWhen the DNS client and the server\r\n```",
+              "createdAt": "2023-05-23T17:48:47Z",
+              "updatedAt": "2023-05-23T17:50:25Z"
+            },
+            {
+              "originalPosition": 69,
+              "body": "```suggestion\r\nsupport this specification, the client learns of the server's support\r\n```",
+              "createdAt": "2023-05-23T17:48:57Z",
+              "updatedAt": "2023-05-23T17:50:25Z"
+            },
+            {
+              "originalPosition": 71,
+              "body": "```suggestion\r\nvia a mechanism such as {{?I-D.ietf-add-resolver-info}} and the client includes the EDE OPT\r\n```",
+              "createdAt": "2023-05-23T17:49:20Z",
+              "updatedAt": "2023-05-23T17:50:25Z"
+            },
+            {
+              "originalPosition": 91,
+              "body": "```suggestion\r\n{{?I-D.ietf-add-resolver-info}}, RESINFO should be retrieved over an\r\n```",
+              "createdAt": "2023-05-23T17:49:31Z",
+              "updatedAt": "2023-05-23T17:50:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5V2ccb",
+          "commit": {
+            "abbreviatedOid": "18a74d6"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-05-23T18:27:50Z",
+          "updatedAt": "2023-05-23T18:27:50Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "it appears you added () in a later commit to clarify the confusion in this earlier commit, so I am marking this resolved.",
+              "createdAt": "2023-05-23T18:27:50Z",
+              "updatedAt": "2023-05-23T18:27:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5V47oF",
+          "commit": {
+            "abbreviatedOid": "295cd21"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-05-24T06:01:38Z",
+          "updatedAt": "2023-05-24T06:05:39Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\r\nTo prevent the EDE option attacks to an EDE OPT-unaware DNS responder\r\n```",
+              "createdAt": "2023-05-24T06:01:38Z",
+              "updatedAt": "2023-05-24T06:05:39Z"
+            },
+            {
+              "originalPosition": 11,
+              "body": "I still think this is too strong. resinfo should be listed as an example here.\r\n\r\nA client can have a policy to control the resolvers it communicates with.",
+              "createdAt": "2023-05-24T06:03:49Z",
+              "updatedAt": "2023-05-24T06:05:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5WI48i",
+          "commit": {
+            "abbreviatedOid": "9f739d0"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-05-26T05:53:01Z",
+          "updatedAt": "2023-05-26T05:53:01Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "id": "PR_kwDOI6P3FM5RVStQ",
+      "title": "line wrapping",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/28",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-05-25T11:00:00Z",
+      "updatedAt": "2023-05-25T11:01:37Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "1342197e699699867f4b31f70163128bc79bee0f",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-8",
+      "headRefOid": "4aebd2766ea8686ce9b161ee7fdf6d640c139a65",
+      "closedAt": "2023-05-25T11:01:37Z",
+      "mergedAt": "2023-05-25T11:01:37Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "ac1a293910ed8f0fdf3b7ca159df927cede247de"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 29,
+      "id": "PR_kwDOI6P3FM5RaNfH",
+      "title": "minor edits + remove product mention",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/29",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-05-26T07:12:22Z",
+      "updatedAt": "2023-05-26T16:07:41Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "ac1a293910ed8f0fdf3b7ca159df927cede247de",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-no-product-mention",
+      "headRefOid": "229f47b0861b4ac0f16a7f473a30277507cda4c6",
+      "closedAt": "2023-05-26T16:07:40Z",
+      "mergedAt": "2023-05-26T16:07:40Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "9278914098021d369998b519872613dd4fb2ccd4"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5WMX7g",
+          "commit": {
+            "abbreviatedOid": "229f47b"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-05-26T12:03:22Z",
+          "updatedAt": "2023-05-26T12:03:22Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5WNzBy",
+          "commit": {
+            "abbreviatedOid": "229f47b"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-05-26T15:15:42Z",
+          "updatedAt": "2023-05-26T15:15:42Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "id": "PR_kwDOI6P3FM5T_chn",
+      "title": "dns-dir-review-nits-part",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/30",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Covers this part of the review\r\n\r\nAnd I also have some editorial comments:\r\n\r\nIn section 4, \u201cThe contact details of the IT/InfoSec team to report mis-classified DNS filtering. This field is structured as an array of contact URIs (e.g., tel, sips, https). At least one contact URI MUST be included. This field is mandatory.\u201d It is necessary to reference RFCs to \u201ctel, sips, https\u201d.\r\n\r\nIn section 5.3, there is an in-paragraph long space breaking \u201cIf a DNS client has enabled opportunistic privacy profile (Section 5 of [RFC8310]) for DoT, the DNS client will either fall back to an...\u201d ...and \u201cencrypted connection without authenticating the DNS server...\u201d.\r\n\r\nIn section 5.3, the first action is described as \u201cVerify the field contains valid JSON.\u201d which is the only segment using a verb to describe the very action. I think it would be better to align all the action description wording.",
+      "createdAt": "2023-06-27T05:37:56Z",
+      "updatedAt": "2023-06-28T15:05:25Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "521d417bb436c9727a4419ba3abc644561b2f4e2",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "dns-dir-review-nits-part",
+      "headRefOid": "8d6d34d36572c5151003a6cd1029a0a341a39f97",
+      "closedAt": "2023-06-28T15:05:24Z",
+      "mergedAt": "2023-06-28T15:05:24Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "1f7c180c827fb01915b192c586a55598cb53b490"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 31,
+      "id": "PR_kwDOI6P3FM5T_dU4",
+      "title": "dns-dir-review-rpz",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/31",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Move RPZ to an appendix",
+      "createdAt": "2023-06-27T05:42:05Z",
+      "updatedAt": "2023-06-28T15:05:38Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "521d417bb436c9727a4419ba3abc644561b2f4e2",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "dns-dir-review-rpz",
+      "headRefOid": "4251009840e854b43faed199b59a52ff7a10ad17",
+      "closedAt": "2023-06-28T15:05:37Z",
+      "mergedAt": "2023-06-28T15:05:37Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "1153ee0656b8547c25e9812d82be2eedfd9a66f0"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 32,
+      "id": "PR_kwDOI6P3FM5T_fco",
+      "title": "actions are not listed in the execution order",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/32",
+      "state": "CLOSED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-06-27T05:52:53Z",
+      "updatedAt": "2023-06-30T08:32:37Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "521d417bb436c9727a4419ba3abc644561b2f4e2",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "dns-dir-unordered-actions",
+      "headRefOid": "df7025105930fa0dadc521b3b0411d5c1a1932a4",
+      "closedAt": "2023-06-30T08:32:37Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "See #33",
+          "createdAt": "2023-06-30T08:32:37Z",
+          "updatedAt": "2023-06-30T08:32:37Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 33,
+      "id": "PR_kwDOI6P3FM5UGmnp",
+      "title": "Add files via upload",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/33",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-06-28T05:18:26Z",
+      "updatedAt": "2023-06-30T08:34:54Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "1153ee0656b8547c25e9812d82be2eedfd9a66f0",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-3",
+      "headRefOid": "b54fbddfaae202cf3981f7a76ca36aba62ff2c9a",
+      "closedAt": "2023-06-30T08:34:54Z",
+      "mergedAt": "2023-06-30T08:34:54Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "3cdf4ee80fa0a9a957f6172995d52561bb53bfd6"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5Zm4Fg",
+          "commit": {
+            "abbreviatedOid": "a83fcdf"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-06-28T15:10:33Z",
+          "updatedAt": "2023-06-28T15:10:33Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "Not sure I get why these two are put in the same level?",
+              "createdAt": "2023-06-28T15:10:33Z",
+              "updatedAt": "2023-06-28T15:10:34Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 34,
+      "id": "PR_kwDOI6P3FM5UT5KI",
+      "title": "nits",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/34",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-06-30T08:41:17Z",
+      "updatedAt": "2023-06-30T08:41:56Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "3cdf4ee80fa0a9a957f6172995d52561bb53bfd6",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-nits",
+      "headRefOid": "d2ef76aec29afa1b2fe92a5d157be294b8169147",
+      "closedAt": "2023-06-30T08:41:56Z",
+      "mergedAt": "2023-06-30T08:41:56Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "d23674ae47210a54df61538dada20682adf9e502"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 35,
+      "id": "PR_kwDOI6P3FM5UT-3D",
+      "title": "EDE+willing to receive json",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/35",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "avoid that json is sent to non compliant clients",
+      "createdAt": "2023-06-30T08:58:37Z",
+      "updatedAt": "2023-07-03T07:22:04Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "d23674ae47210a54df61538dada20682adf9e502",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-9",
+      "headRefOid": "c20eb96dd5edea389287a84e310406b4949b949c",
+      "closedAt": "2023-07-03T07:22:04Z",
+      "mergedAt": "2023-07-03T07:22:04Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "9f8c7c80508a880ec1ee410dc8684f33cedecaa4"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5Z5n2G",
+          "commit": {
+            "abbreviatedOid": "b2cbb21"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-01T06:01:29Z",
+          "updatedAt": "2023-07-01T06:01:29Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 36,
+      "id": "PR_kwDOI6P3FM5UUDBw",
+      "title": "broken ref",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/36",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-06-30T09:11:37Z",
+      "updatedAt": "2023-07-03T07:22:19Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "d23674ae47210a54df61538dada20682adf9e502",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-10",
+      "headRefOid": "f68c3901ffba7bd8e6cad52827059e0f8a6f730f",
+      "closedAt": "2023-07-03T07:22:18Z",
+      "mergedAt": "2023-07-03T07:22:18Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "9450042d9763b7fc1e572536e53f25198d0c693e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5Z5nko",
+          "commit": {
+            "abbreviatedOid": "f68c390"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-01T05:59:40Z",
+          "updatedAt": "2023-07-01T05:59:40Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 38,
+      "id": "PR_kwDOI6P3FM5UUGKu",
+      "title": "clarify the intent of EDE",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/38",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-06-30T09:22:07Z",
+      "updatedAt": "2023-07-03T07:22:31Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "d23674ae47210a54df61538dada20682adf9e502",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-11",
+      "headRefOid": "b89b9206635c96fe13e9f76e35d9940b66248e49",
+      "closedAt": "2023-07-03T07:22:30Z",
+      "mergedAt": "2023-07-03T07:22:30Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "87f59da361911995796428f7879ac219c5036de4"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5Z5nyC",
+          "commit": {
+            "abbreviatedOid": "b89b920"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-01T06:00:57Z",
+          "updatedAt": "2023-07-01T06:00:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 39,
+      "id": "PR_kwDOI6P3FM5UniBm",
+      "title": "Add files via upload",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/39",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Address secdir comments",
+      "createdAt": "2023-07-04T13:18:48Z",
+      "updatedAt": "2023-07-04T13:44:55Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "87f59da361911995796428f7879ac219c5036de4",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-4",
+      "headRefOid": "5da09007e5e7e75695e00136d2e9c660300ee5b6",
+      "closedAt": "2023-07-04T13:44:54Z",
+      "mergedAt": "2023-07-04T13:44:54Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "28ad1175c9f9995aa277cf9b9ff9ecce2bdd29df"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5aLTZM",
+          "commit": {
+            "abbreviatedOid": "5926e8a"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2023-07-04T13:38:10Z",
+          "updatedAt": "2023-07-04T13:39:44Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\nto cause harm. For example, an end user can use the details in the \"c\" field to contact an attacker\r\n```",
+              "createdAt": "2023-07-04T13:38:10Z",
+              "updatedAt": "2023-07-04T13:39:44Z"
+            },
+            {
+              "originalPosition": 18,
+              "body": "```suggestion\r\nfields need to be rendered as text, not as HTML.\r\n```",
+              "createdAt": "2023-07-04T13:38:50Z",
+              "updatedAt": "2023-07-04T13:39:44Z"
+            },
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\r\nThanks Di Ma and Matt Brown for the DNS directorate reviews, and Joseph Salowey for the Security directorate review.\r\n```",
+              "createdAt": "2023-07-04T13:39:24Z",
+              "updatedAt": "2023-07-04T13:39:44Z"
+            },
+            {
+              "originalPosition": 27,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2023-07-04T13:39:38Z",
+              "updatedAt": "2023-07-04T13:39:44Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 40,
+      "id": "PR_kwDOI6P3FM5Un8aS",
+      "title": "explain-mustnot-alter-DNS-EDE",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/40",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-04T14:27:12Z",
+      "updatedAt": "2023-07-05T09:03:19Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "28ad1175c9f9995aa277cf9b9ff9ecce2bdd29df",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "explain-mustnot-alter-DNS-EDE",
+      "headRefOid": "4f978e4071acc392ae1c494ddb2deafc80c87178",
+      "closedAt": "2023-07-05T09:03:19Z",
+      "mergedAt": "2023-07-05T09:03:19Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "f04eaa1bf6ab8c84463c54c1fe706fe34f0a67e1"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5aO4Uu",
+          "commit": {
+            "abbreviatedOid": "9cb5477"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-05T07:28:49Z",
+          "updatedAt": "2023-07-05T07:28:50Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "The specification also allows opportunistic privacy profile. We can say: \r\n\r\nThe guard is relaxed in the current specification as it mandates encryption and recommends the use of an authenticated connection to the DNS server. However, {{!RFC8914}} assumes that EDE information is unauthenticated and sent over clear text.\r\n\r\nWe will also have to fix the following text:\r\nOLD:\r\nIf the DNS client has enabled opportunistic privacy profile for DoT and the identity of the DNS server\r\ncannot be verified, the DNS client MUST ignore the \"c\", \"j\", and \"o\" fields\r\nbut MAY process the \"s\" field and other parts of the response.\r\nNEW:\r\nIf the DNS client has enabled opportunistic privacy profile for DoT and the identity of the DNS server\r\ncannot be verified but the connection is encrypted, the DNS client MUST ignore the \"c\", \"j\", and \"o\" fields\r\nbut MAY process the \"s\" field and other parts of the response.\r\n",
+              "createdAt": "2023-07-05T07:28:50Z",
+              "updatedAt": "2023-07-05T07:28:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5aO8dx",
+          "commit": {
+            "abbreviatedOid": "9cb5477"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-05T07:36:48Z",
+          "updatedAt": "2023-07-05T07:36:48Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "Good catch. Updated the text with very minor edits.",
+              "createdAt": "2023-07-05T07:36:48Z",
+              "updatedAt": "2023-07-05T07:36:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5aPLKM",
+          "commit": {
+            "abbreviatedOid": "4f978e4"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-05T08:09:28Z",
+          "updatedAt": "2023-07-05T08:09:28Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 41,
+      "id": "PR_kwDOI6P3FM5UoCaF",
+      "title": "nit+fix odd causality effect",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/41",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-04T14:41:16Z",
+      "updatedAt": "2023-07-05T07:21:53Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "28ad1175c9f9995aa277cf9b9ff9ecce2bdd29df",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-12",
+      "headRefOid": "43ad9a4419af5ea4670f2a3797fea4a749fe0c24",
+      "closedAt": "2023-07-05T07:21:52Z",
+      "mergedAt": "2023-07-05T07:21:52Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "c7c3dcac6d9e6f407710a4f55b485477f8fd1d86"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5aOsim",
+          "commit": {
+            "abbreviatedOid": "43ad9a4"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-05T07:01:25Z",
+          "updatedAt": "2023-07-05T07:01:25Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5aOusR",
+          "commit": {
+            "abbreviatedOid": "43ad9a4"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-05T07:06:57Z",
+          "updatedAt": "2023-07-05T07:06:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 42,
+      "id": "PR_kwDOI6P3FM5UoDc7",
+      "title": "insist that RPZ is informative",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/42",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-04T14:43:23Z",
+      "updatedAt": "2023-07-05T07:37:17Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "28ad1175c9f9995aa277cf9b9ff9ecce2bdd29df",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-rpz-informative",
+      "headRefOid": "30881bc8105552804be9d2766dbd454088d7a771",
+      "closedAt": "2023-07-05T07:37:16Z",
+      "mergedAt": "2023-07-05T07:37:16Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "d0ada0d8ae0c2f22f216bc08d24598c1cdeeef8d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5aOuEs",
+          "commit": {
+            "abbreviatedOid": "9b398e2"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-05T07:05:14Z",
+          "updatedAt": "2023-07-05T07:05:20Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I understand IETF has not defined RPZ but it is a popular deployment. If the guidance given in this section is not followed, it will break interoperation with RPZ.",
+              "createdAt": "2023-07-05T07:05:14Z",
+              "updatedAt": "2023-07-05T07:05:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5aO2fO",
+          "commit": {
+            "abbreviatedOid": "9b398e2"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-05T07:25:03Z",
+          "updatedAt": "2023-07-05T07:25:03Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "True, but still the text is informative. Otherwise, we will need to be more precise and use the normative language for the behavior.\r\n\r\nI can change \"provides a non-normative guidance for\"  to \"provides a non-normative guidance for... This guidance is provide to ease interoperation with RPZ.\"",
+              "createdAt": "2023-07-05T07:25:03Z",
+              "updatedAt": "2023-07-05T07:25:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5aO5-6",
+          "commit": {
+            "abbreviatedOid": "9b398e2"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-05T07:31:38Z",
+          "updatedAt": "2023-07-05T07:31:39Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Works for me. Thanks. ",
+              "createdAt": "2023-07-05T07:31:38Z",
+              "updatedAt": "2023-07-05T07:31:39Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 43,
+      "id": "PR_kwDOI6P3FM5UoIup",
+      "title": "must-explicit-signal",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/43",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "It is safe to rely on explicit signals. If we maintain SHOULD, we have to explain when it is OK to not send the signal.\r\n\r\nThis change addresses a follow-up comment from the dns-dir reviewer",
+      "createdAt": "2023-07-04T14:58:38Z",
+      "updatedAt": "2023-07-05T07:21:29Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "28ad1175c9f9995aa277cf9b9ff9ecce2bdd29df",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "must-explicit-signal",
+      "headRefOid": "e9170b8462e91468eb16dd011950d73b66266f4c",
+      "closedAt": "2023-07-05T07:21:28Z",
+      "mergedAt": "2023-07-05T07:21:28Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "fa25150067f839a9c289269c55a20e9618263df0"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5aOrAa",
+          "commit": {
+            "abbreviatedOid": "e9170b8"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-05T06:58:16Z",
+          "updatedAt": "2023-07-05T06:58:16Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5aOre_",
+          "commit": {
+            "abbreviatedOid": "e9170b8"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-05T06:59:06Z",
+          "updatedAt": "2023-07-05T06:59:06Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 44,
+      "id": "PR_kwDOI6P3FM5UrlSt",
+      "title": "fix pointer to the I-D datatracker link",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/44",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-05T09:08:45Z",
+      "updatedAt": "2023-07-05T09:08:50Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "f04eaa1bf6ab8c84463c54c1fe706fe34f0a67e1",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-13",
+      "headRefOid": "ea21ba21a0ffc9c2fcb2a3ad3df72074087c64dd",
+      "closedAt": "2023-07-05T09:08:49Z",
+      "mergedAt": "2023-07-05T09:08:49Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "efe03dd47d315dcc68e7ea4900c8b613d068d795"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 45,
+      "id": "PR_kwDOI6P3FM5Us-DW",
+      "title": "part-of-Mukund Sivaraman review",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/45",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "boucadair"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-05T13:10:30Z",
+      "updatedAt": "2023-07-06T12:27:57Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "efe03dd47d315dcc68e7ea4900c8b613d068d795",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "Mukund-Sivaraman-review-part-I",
+      "headRefOid": "8d554329f9a3cabf72d6b79c4c9096f166fa194a",
+      "closedAt": "2023-07-06T12:27:56Z",
+      "mergedAt": "2023-07-06T12:27:56Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "787ba4ccf231cf354d352a0191d0792f4ba50d54"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5aRWJ3",
+          "commit": {
+            "abbreviatedOid": "8d55432"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-05T13:16:07Z",
+          "updatedAt": "2023-07-05T13:16:08Z",
+          "comments": [
+            {
+              "originalPosition": 52,
+              "body": "The current wording contradicts this part from the EDE spec:\r\n\r\n   When a resolver or forwarder receives an EDE option, whether or not\r\n   (and how) to pass along EDE information on to their original client\r\n   is implementation dependent.  Implementations MAY choose to not\r\n   forward information, or they MAY choose to create a new EDE option(s)\r\n   that conveys the information encoded in the received EDE.  When doing\r\n   so, the source of the error SHOULD be attributed in the EXTRA-TEXT\r\n   field, since an EDNS0 option received by the original client will\r\n   appear to have come from the resolver or forwarder sending it.\r\n\r\nThe spec does explain clearly how this will be \"attributed\" though. That's said, we do already have a fair list of motivations, no need to be exhaustive here.",
+              "createdAt": "2023-07-05T13:16:07Z",
+              "updatedAt": "2023-07-05T13:16:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5aSha9",
+          "commit": {
+            "abbreviatedOid": "8d55432"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-05T15:30:56Z",
+          "updatedAt": "2023-07-05T15:30:57Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "What is wrong with the previous line using \"HTTPS server\" ?",
+              "createdAt": "2023-07-05T15:30:56Z",
+              "updatedAt": "2023-07-05T15:30:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5aSkA7",
+          "commit": {
+            "abbreviatedOid": "8d55432"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-05T15:35:23Z",
+          "updatedAt": "2023-07-05T15:35:24Z",
+          "comments": [
+            {
+              "originalPosition": 52,
+              "body": "We don't have to delete the line, it can be fixed as follows:\r\nWhen a DNS resolver or forwarder forwards the received EDE option, the\r\nEXTRA-TEXT field can convey the source of the error ({{Section 3 of\r\n!RFC8914}}) and does not provide additional textual information about\r\nthe cause of the error.",
+              "createdAt": "2023-07-05T15:35:23Z",
+              "updatedAt": "2023-07-05T15:35:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5aW-Dv",
+          "commit": {
+            "abbreviatedOid": "8d55432"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-06T07:55:24Z",
+          "updatedAt": "2023-07-06T07:55:25Z",
+          "comments": [
+            {
+              "originalPosition": 52,
+              "body": "The point of the reviewer is that the EDE is an information about the cause itself. Which I think is OK. The key contrib of the spec is to structure the info and provide more details (c, j, etc.). \r\n\r\nThis bullet does not bring much, IMO ",
+              "createdAt": "2023-07-06T07:55:24Z",
+              "updatedAt": "2023-07-06T07:55:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5aW-rC",
+          "commit": {
+            "abbreviatedOid": "8d55432"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-06T07:56:53Z",
+          "updatedAt": "2023-07-06T07:56:53Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "This is to address this comment: \r\n\r\n> \"I suggest rewording this sentence as it reads as though the blocked DNS response is sent to a HTTPS server. Instead, I assume what the authors are attempting to state is that blocked DNS responses may cause harm if they contain address records that cause web traffic for a web-domain to be directed to a different local HTTPS server.\"",
+              "createdAt": "2023-07-06T07:56:53Z",
+              "updatedAt": "2023-07-06T07:56:54Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 46,
+      "id": "PR_kwDOI6P3FM5UtJbV",
+      "title": "explain-why-suberror-not-ede",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/46",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "boucadair"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-05T13:34:40Z",
+      "updatedAt": "2023-07-05T15:18:20Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "efe03dd47d315dcc68e7ea4900c8b613d068d795",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "explain-why-suberror-not-ede",
+      "headRefOid": "adcc25e5504202a9084d9f4c046395e2e015d35a",
+      "closedAt": "2023-07-05T15:18:19Z",
+      "mergedAt": "2023-07-05T15:18:19Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "376fbb70609a999d946d9121e5e334411da59da2"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5aSXEx",
+          "commit": {
+            "abbreviatedOid": "adcc25e"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-05T15:10:25Z",
+          "updatedAt": "2023-07-05T15:10:25Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 47,
+      "id": "PR_kwDOI6P3FM5UzsEd",
+      "title": "motivate-c-j-mandatory",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/47",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-06T12:46:25Z",
+      "updatedAt": "2023-07-07T07:49:42Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "787ba4ccf231cf354d352a0191d0792f4ba50d54",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "why-c-j-mandatory",
+      "headRefOid": "e702e19ce78df53df7275bac2554e24d96dbb4a5",
+      "closedAt": "2023-07-07T07:49:42Z",
+      "mergedAt": "2023-07-07T07:49:42Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "f66e907fbea246de99ee0332a19a1bfe72f47139"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5afM-e",
+          "commit": {
+            "abbreviatedOid": "7a97044"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-07T07:18:15Z",
+          "updatedAt": "2023-07-07T07:18:15Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "Looks good. Remove the duplicate \"that\".",
+              "createdAt": "2023-07-07T07:18:15Z",
+              "updatedAt": "2023-07-07T07:18:15Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 48,
+      "id": "PR_kwDOI6P3FM5U46nm",
+      "title": "ack Mukund Sivaraman",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/48",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-07T08:06:00Z",
+      "updatedAt": "2023-07-07T08:06:42Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "f66e907fbea246de99ee0332a19a1bfe72f47139",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "ack-Mukund-Sivaraman",
+      "headRefOid": "ea4cec78a5212637ba3fea16ea53cb46de1c145b",
+      "closedAt": "2023-07-07T08:06:42Z",
+      "mergedAt": "2023-07-07T08:06:42Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "2a85307d8d20ed115c030400fc6925346c0e072b"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 49,
+      "id": "PR_kwDOI6P3FM5VKag_",
+      "title": "Address pending comment from SECDIR review",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/49",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-11T06:19:32Z",
+      "updatedAt": "2023-07-13T14:09:26Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "2a85307d8d20ed115c030400fc6925346c0e072b",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-5",
+      "headRefOid": "01138a2b4285260be3f07f6af9edd3ed93d39949",
+      "closedAt": "2023-07-13T14:09:26Z",
+      "mergedAt": "2023-07-13T14:09:26Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "c2323632bbd872da2b8090359f4093c2edca69ad"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5azw1R",
+          "commit": {
+            "abbreviatedOid": "aef54ab"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-11T06:35:59Z",
+          "updatedAt": "2023-07-11T06:36:00Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "The exception I had in mind is when explicit trusted resolvers are configured by an end user. \r\n\r\nBTW, I think the text should cover \"c\" as well, given that the attack we describe in the text right before uses \"c\". No?",
+              "createdAt": "2023-07-11T06:35:59Z",
+              "updatedAt": "2023-07-11T06:36:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5az3Gs",
+          "commit": {
+            "abbreviatedOid": "aef54ab"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-11T06:53:09Z",
+          "updatedAt": "2023-07-11T06:53:10Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Even if it is explicitly trusted by the end-user, \"j\" and \"o\" fields need not be clickable. The information in \"c\" field can be used to make a VOIP call, hence it is clickable but only with trusted revolvers. ",
+              "createdAt": "2023-07-11T06:53:10Z",
+              "updatedAt": "2023-07-11T06:53:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5az5Hk",
+          "commit": {
+            "abbreviatedOid": "aef54ab"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-11T06:58:52Z",
+          "updatedAt": "2023-07-11T06:58:52Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "The text I was referring to is:\r\n\r\n   For example, an end user can use the details\r\n   in the \"c\" field to contact an attacker to solve the problem of being\r\n   unable to reach a domain.  The attacker can mislead the end user to\r\n   install malware or spyware to compromise the device security posture\r\n   or mislead the end user to reveal personal data.\r\n\r\n> The information in \"c\" field can be used to make a VOIP call, hence it is clickable but only with trusted revolvers.\r\n\r\nWorks for me. We don't have that explicitly mentioned in the text. Can you please update the PR to add a sentence for \"c\"? Thanks. ",
+              "createdAt": "2023-07-11T06:58:52Z",
+              "updatedAt": "2023-07-11T06:58:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5az9i0",
+          "commit": {
+            "abbreviatedOid": "aef54ab"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-11T07:09:19Z",
+          "updatedAt": "2023-07-11T07:09:20Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "It is already covered by the preceding text: \r\n\r\nA client might choose to display the information in the \"c\", \"j\", and \"o\" fields if and only if the encrypted resolver has sufficient reputation, according to some local policy (e.g., user configuration, administrative configuration, or a built-in list of respectable resolvers). This limits the ability of a malicious encrypted resolver\r\nto cause harm. ",
+              "createdAt": "2023-07-11T07:09:20Z",
+              "updatedAt": "2023-07-11T07:09:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5a0U2T",
+          "commit": {
+            "abbreviatedOid": "aef54ab"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-11T07:55:03Z",
+          "updatedAt": "2023-07-11T07:55:04Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "This is not the same point. This does not cover the rendering part/clickable or not.",
+              "createdAt": "2023-07-11T07:55:03Z",
+              "updatedAt": "2023-07-11T07:55:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5a04Vw",
+          "commit": {
+            "abbreviatedOid": "aef54ab"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-11T09:07:45Z",
+          "updatedAt": "2023-07-11T09:07:45Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I will add the following text:\r\nThe contact details of \"c\" can be made into clickable links to provide a convenient way for users to initiate voice calls.",
+              "createdAt": "2023-07-11T09:07:45Z",
+              "updatedAt": "2023-07-11T09:07:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5bFUNP",
+          "commit": {
+            "abbreviatedOid": "68871a7"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-13T10:26:39Z",
+          "updatedAt": "2023-07-13T10:26:39Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
+}
