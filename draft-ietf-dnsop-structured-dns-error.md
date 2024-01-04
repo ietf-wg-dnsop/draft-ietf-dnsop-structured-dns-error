@@ -402,6 +402,8 @@ field:
  (e.g., redirect all complaint calls to a single contact point). In such a case, the content of the
  "c" attribute can be ignored.
 
+* Unrecognized JSON names are ignored.
+
 > Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
 no such distinction made for DoH.
 
@@ -427,7 +429,7 @@ The document defines the following new IANA-registered Sub-Error codes.
 
   * Number: 5
 
-  * Meaning: Network Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the local network.
+  * Meaning: Network Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the local network (where local may be a relative term, i.e., it could refer to Local Area Network, or to the network of the ISP selected by the user).
 
   * Applicability: Blocked
 
@@ -440,7 +442,7 @@ The document defines the following new IANA-registered Sub-Error codes.
 
   * Number: 6
 
-  * Meaning: DNS Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the DNS server.
+  * Meaning: DNS Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the DNS server. This would be different from Network Operator Policy when a third-party or “over-the-top” DNS resolver is used.
 
   * Applicability: Blocked
 
