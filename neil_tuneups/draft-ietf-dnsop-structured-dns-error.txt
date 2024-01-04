@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 29 April 2024                                           N. Cook
+Expires: 7 July 2024                                             N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                         27 October 2023
+                                                          4 January 2024
 
 
                  Structured Error Data for Filtered DNS
@@ -63,11 +63,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 April 2024.
+   This Internet-Draft will expire on 7 July 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -442,6 +442,8 @@ Table of Contents
       complaint calls to a single contact point).  In such a case, the
       content of the "c" attribute can be ignored.
 
+   *  Unrecognized JSON names are ignored.
+
       Note that the strict and opportunistic privacy profiles as defined
       in [RFC8310] only apply to DoT; there has been no such distinction
       made for DoH.
@@ -470,7 +472,9 @@ Table of Contents
 
    *  Meaning: Network Operator Policy.  The code indicates that the
       request was filtered according to policy determined by the
-      operator of the local network.
+      operator of the local network (where local may be a relative term,
+      i.e., it could refer to Local Area Network, or to the network of
+      the ISP selected by the user).
 
    *  Applicability: Blocked
 
@@ -484,7 +488,8 @@ Table of Contents
 
    *  Meaning: DNS Operator Policy.  The code indicates that the request
       was filtered according to policy determined by the operator of the
-      DNS server.
+      DNS server.  This would be different from Network Operator Policy
+      when a third-party or “over-the-top” DNS resolver is used.
 
    *  Applicability: Blocked
 
@@ -888,9 +893,9 @@ Table of Contents
    [I-D.ietf-add-resolver-info]
               Reddy.K, T. and M. Boucadair, "DNS Resolver Information",
               Work in Progress, Internet-Draft, draft-ietf-add-resolver-
-              info-06, 4 October 2023,
+              info-08, 24 November 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-add-
-              resolver-info-06>.
+              resolver-info-08>.
 
    [IANA-DNS] IANA, "Domain Name System (DNS) Parameters, Extended DNS
               Error Codes", <https://www.iana.org/assignments/dns-
