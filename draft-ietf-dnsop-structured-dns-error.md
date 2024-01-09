@@ -284,7 +284,7 @@ o: (organization)
 : This field is optional.
 
 New JSON names can be defined in the IANA registry introduced in {{IANA-Names}}. Such names MUST
-consist only of lower-case ASCII characters, digits, and hyphens (that
+consist only of lower-case ASCII characters, digits, and hyphen-minus (that
 is, Unicode characters U+0061 through 007A, U+0030 through U+0039, and
 U+002D). Also, these names MUST be 63 characters or shorter and it is
 RECOMMENDED they be as short as possible.
