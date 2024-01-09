@@ -429,7 +429,7 @@ The document defines the following new IANA-registered Sub-Error codes.
 
   * Number: 5
 
-  * Meaning: Network Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the local network (where local may be a relative term, i.e., it could refer to Local Area Network, or to the network of the ISP selected by the user).
+  * Meaning: Network Operator Policy. The code indicates that the request was filtered according to a policy imposed by the operator of the local network (where local network is a relative term, e.g., it may refer to a Local Area Network or to the network of the ISP selected by the user).
 
   * Applicability: Blocked
 
