@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 7 July 2024                                             N. Cook
+Expires: 12 July 2024                                            N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                          4 January 2024
+                                                          9 January 2024
 
 
                  Structured Error Data for Filtered DNS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 July 2024.
+   This Internet-Draft will expire on 12 July 2024.
 
 Copyright Notice
 
@@ -471,9 +471,9 @@ Table of Contents
    *  Number: 5
 
    *  Meaning: Network Operator Policy.  The code indicates that the
-      request was filtered according to policy determined by the
-      operator of the local network (where local may be a relative term,
-      i.e., it could refer to Local Area Network, or to the network of
+      request was filtered according to a policy imposed by the operator
+      of the local network (where local network is a relative term,
+      e.g., it may refer to a Local Area Network or to the network of
       the ISP selected by the user).
 
    *  Applicability: Blocked
