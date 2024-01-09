@@ -391,6 +391,8 @@ field:
   profile for DoT, the DNS client MAY process the EXTRA-TEXT field of the
   DNS response.
 
+* The DNS client MUST ignore any other JSON names that it does not support.
+
 * When a forwarder receives an EDE option, whether or not (and how) to
   pass along JSON information in the EXTRA-TEXT on to their client is
   implementation dependent {{?RFC5625}}. Implementations MAY choose to
