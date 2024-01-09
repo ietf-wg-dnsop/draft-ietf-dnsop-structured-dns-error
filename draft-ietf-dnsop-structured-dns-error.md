@@ -442,7 +442,7 @@ The document defines the following new IANA-registered Sub-Error codes.
 
   * Number: 6
 
-  * Meaning: DNS Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the DNS server. This would be different from Network Operator Policy when a third-party or “over-the-top” DNS resolver is used.
+  * Meaning: DNS Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the DNS server. This is different from the "Network Operator Policy" code when a third-party DNS resolver is used.
 
   * Applicability: Blocked
 
