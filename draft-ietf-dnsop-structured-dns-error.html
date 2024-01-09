@@ -1639,6 +1639,9 @@ fields encoded in the JSON object.<a href="#section-5.3-2.10.1" class="pilcrow">
  (e.g., redirect all complaint calls to a single contact point). In such a case, the content of the
  "c" attribute can be ignored.<a href="#section-5.3-2.11.1" class="pilcrow">¶</a></p>
 </li>
+          <li class="normal" id="section-5.3-2.12">
+            <p id="section-5.3-2.12.1">Unrecognized JSON names are ignored.<a href="#section-5.3-2.12.1" class="pilcrow">¶</a></p>
+</li>
         </ul>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-5.3-3.1">
@@ -1690,7 +1693,7 @@ no such distinction made for DoH.<a href="#section-5.3-3.1.1" class="pilcrow">¶
             <p id="section-6.2-1.1.1">Number: 5<a href="#section-6.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-1.2">
-            <p id="section-6.2-1.2.1">Meaning: Network Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the local network.<a href="#section-6.2-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-1.2.1">Meaning: Network Operator Policy. The code indicates that the request was filtered according to a policy imposed by the operator of the local network (where local network is a relative term, e.g., it may refer to a Local Area Network or to the network of the ISP selected by the user).<a href="#section-6.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-1.3">
             <p id="section-6.2-1.3.1">Applicability: Blocked<a href="#section-6.2-1.3.1" class="pilcrow">¶</a></p>
@@ -1714,7 +1717,7 @@ no such distinction made for DoH.<a href="#section-5.3-3.1.1" class="pilcrow">¶
             <p id="section-6.3-1.1.1">Number: 6<a href="#section-6.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-1.2">
-            <p id="section-6.3-1.2.1">Meaning: DNS Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the DNS server.<a href="#section-6.3-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.3-1.2.1">Meaning: DNS Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the DNS server. This is different from the "Network Operator Policy" code when a third-party DNS resolver is used.<a href="#section-6.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-1.3">
             <p id="section-6.3-1.3.1">Applicability: Blocked<a href="#section-6.3-1.3.1" class="pilcrow">¶</a></p>
