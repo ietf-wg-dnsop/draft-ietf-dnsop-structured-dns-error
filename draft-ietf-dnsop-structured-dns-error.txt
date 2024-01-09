@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 8 May 2024                                              N. Cook
+Expires: 12 July 2024                                            N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                         5 November 2023
+                                                          9 January 2024
 
 
                  Structured Error Data for Filtered DNS
@@ -63,11 +63,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 May 2024.
+   This Internet-Draft will expire on 12 July 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -429,6 +429,9 @@ Table of Contents
       encrypted, authenticated connection is not available).  If the DNS
       client has enabled strict privacy profile for DoT, the DNS client
       MAY process the EXTRA-TEXT field of the DNS response.
+
+   *  The DNS client MUST ignore any other JSON names that it does not
+      support.
 
    *  When a forwarder receives an EDE option, whether or not (and how)
       to pass along JSON information in the EXTRA-TEXT on to their
@@ -888,9 +891,9 @@ Table of Contents
    [I-D.ietf-add-resolver-info]
               Reddy.K, T. and M. Boucadair, "DNS Resolver Information",
               Work in Progress, Internet-Draft, draft-ietf-add-resolver-
-              info-06, 4 October 2023,
+              info-08, 24 November 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-add-
-              resolver-info-06>.
+              resolver-info-08>.
 
    [IANA-DNS] IANA, "Domain Name System (DNS) Parameters, Extended DNS
               Error Codes", <https://www.iana.org/assignments/dns-
