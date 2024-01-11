@@ -404,7 +404,6 @@ field:
  (e.g., redirect all complaint calls to a single contact point). In such a case, the content of the
  "c" attribute can be ignored.
 
-* Unrecognized JSON names are ignored.
 
 > Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
 no such distinction made for DoH.
