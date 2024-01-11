@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 12 July 2024                                            N. Cook
+Expires: 14 July 2024                                            N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                          9 January 2024
+                                                         11 January 2024
 
 
                  Structured Error Data for Filtered DNS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 July 2024.
+   This Internet-Draft will expire on 14 July 2024.
 
 Copyright Notice
 
@@ -444,8 +444,6 @@ Table of Contents
       policy to override the contact information (e.g., redirect all
       complaint calls to a single contact point).  In such a case, the
       content of the "c" attribute can be ignored.
-
-   *  Unrecognized JSON names are ignored.
 
       Note that the strict and opportunistic privacy profiles as defined
       in [RFC8310] only apply to DoT; there has been no such distinction
