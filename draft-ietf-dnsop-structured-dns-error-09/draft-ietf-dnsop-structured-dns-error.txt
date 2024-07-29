@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 12 July 2024                                            N. Cook
+Expires: 30 January 2025                                         N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                          9 January 2024
+                                                            29 July 2024
 
 
                  Structured Error Data for Filtered DNS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 July 2024.
+   This Internet-Draft will expire on 30 January 2025.
 
 Copyright Notice
 
@@ -316,10 +316,10 @@ Table of Contents
 
    New JSON names can be defined in the IANA registry introduced in
    Section 10.2.  Such names MUST consist only of lower-case ASCII
-   characters, digits, and hyphens (that is, Unicode characters U+0061
-   through 007A, U+0030 through U+0039, and U+002D).  Also, these names
-   MUST be 63 characters or shorter and it is RECOMMENDED they be as
-   short as possible.
+   characters, digits, and hyphen-minus (that is, Unicode characters
+   U+0061 through 007A, U+0030 through U+0039, and U+002D).  Also, these
+   names MUST be 63 characters or shorter and it is RECOMMENDED they be
+   as short as possible.
 
    The text in the "j" and "o" names can include international
    characters.  If the text is displayed in a language not known to the
@@ -430,6 +430,9 @@ Table of Contents
       client has enabled strict privacy profile for DoT, the DNS client
       MAY process the EXTRA-TEXT field of the DNS response.
 
+   *  The DNS client MUST ignore any other JSON names that it does not
+      support.
+
    *  When a forwarder receives an EDE option, whether or not (and how)
       to pass along JSON information in the EXTRA-TEXT on to their
       client is implementation dependent [RFC5625].  Implementations MAY
@@ -441,8 +444,6 @@ Table of Contents
       policy to override the contact information (e.g., redirect all
       complaint calls to a single contact point).  In such a case, the
       content of the "c" attribute can be ignored.
-
-   *  Unrecognized JSON names are ignored.
 
       Note that the strict and opportunistic privacy profiles as defined
       in [RFC8310] only apply to DoT; there has been no such distinction
@@ -893,9 +894,9 @@ Table of Contents
    [I-D.ietf-add-resolver-info]
               Reddy.K, T. and M. Boucadair, "DNS Resolver Information",
               Work in Progress, Internet-Draft, draft-ietf-add-resolver-
-              info-08, 24 November 2023,
+              info-13, 26 April 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-add-
-              resolver-info-08>.
+              resolver-info-13>.
 
    [IANA-DNS] IANA, "Domain Name System (DNS) Parameters, Extended DNS
               Error Codes", <https://www.iana.org/assignments/dns-
@@ -930,8 +931,8 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc8484>.
 
    [RFC8499]  Hoffman, P., Sullivan, A., and K. Fujiwara, "DNS
-              Terminology", BCP 219, RFC 8499, DOI 10.17487/RFC8499,
-              January 2019, <https://www.rfc-editor.org/rfc/rfc8499>.
+              Terminology", RFC 8499, DOI 10.17487/RFC8499, January
+              2019, <https://www.rfc-editor.org/rfc/rfc8499>.
 
    [RFC8792]  Watsen, K., Auerswald, E., Farrel, A., and Q. Wu,
               "Handling Long Lines in Content of Internet-Drafts and
