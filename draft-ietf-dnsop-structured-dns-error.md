@@ -197,7 +197,15 @@ the on-path network security device modifies the certificate provided by the
 server and (re)signs it using the private key from the local root
 certificate.
 
-   * However, configuring the local root certificate on endpoints is
+   * However, this approach is ineffective when DNSSEC is deployed given that DNSSEC
+     ensures the integrity and authenticity of DNS responses, preventing forged DNS
+     responses from being accepted.
+
+   * The HTTPS server will have access to the client's IP address and the hostname being requested.
+     This information will be sensitive, as it will expose the user's identity and the
+     domain name that a user attempted to access.
+
+   * Configuring a local root certificate on endpoints is
      not a viable option in several deployments like home networks,
      schools, Small Office/Home Office (SOHO), or Small/Medium
      Enterprise (SME). In these cases, the typical behavior is that
@@ -229,11 +237,11 @@ certificate.
      new local root certificate.
 
 2. The DNS response is forged to provide a NXDOMAIN response to cause
-the DNS lookup to terminate in failure. In this case, an end user does
-not know why the domain cannot be reached and may repeatedly try to
-reach the domain but with no success. Frustrated, the end user may use
-insecure connections to reach the domain, potentially compromising
-both security and privacy.
+the DNS lookup to terminate in failure. However, this approach does not
+work with DNSSEC. In scenarios without DNSSEC, an end user does not know why
+a domain name cannot be reached and may repeatedly try to reach that domain name
+but without success. Frustrated, an end user may use insecure connections
+to reach the domain name, potentially compromising both security and privacy.
 
 3. The extended error codes Blocked and Filtered defined in
 {{Section 4 of !RFC8914}} can be returned by a DNS server to provide
@@ -283,6 +291,11 @@ o: (organization)
 : 'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query.
 : This field is optional.
 
+l: (language)
+: The "lang" field indicates the language used for the JSON-encoded "j" and "o" fields.  The value of this field MUST conform to the
+  language tag syntax specified in {{Section 2.1 of !RFC5646}}.
+: This field is optional but RECOMMENDED to aid in localization.
+
 New JSON names can be defined in the IANA registry introduced in {{IANA-Names}}. Such names MUST
 consist only of lower-case ASCII characters, digits, and hyphen-minus (that
 is, Unicode characters U+0061 through 007A, U+0030 through U+0039, and
@@ -290,9 +303,8 @@ U+002D). Also, these names MUST be 63 characters or shorter and it is
 RECOMMENDED they be as short as possible.
 
 The text in the "j" and "o" names can include international
-characters. If the text is displayed in a language not known to the
-end user, browser extensions to translate to user's native language
-can be used.
+characters. The text will be in natural language, chosen by the DNS administrator
+to match its expected audience.
 
 To reduce DNS message size the generated JSON SHOULD be as short as
 possible: short domain names, concise text in the values for the "j"
@@ -325,9 +337,12 @@ server. In addition, if the query contained the OPT pseudo-RR the DNS
 server MAY return more detail in the EXTRA-TEXT field as described in
 {{client-processing}}.
 
-Servers may decide to return small TTL values in filtered DNS
+Servers MAY decide to return small TTL values in filtered DNS
 responses (e.g., 2 seconds) to handle domain category and reputation
-updates.
+updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
+but can result in increased query traffic. In cases where updates are less frequent,
+TTL values of 30 to 60 seconds MAY provide a better balance, reducing server load while
+still ensuring reasonable flexibility for updates.
 
 Because the DNS client signals its EDE support ({{client-request}})
 and because EDE support is signaled via a non-cached OPT resource
@@ -474,6 +489,7 @@ DNS "A" record query for 'example.org' is provided in {{example-json}}.
   "j": "malware present for 23 days",
   "s": 1,
   "o": "example.net Filtering Service"
+  "l": "tzm",
 }
 ~~~~~
 {: #example-json title="JSON Returned in EXTRA-TEXT Field of Extended DNS Error Response"}
@@ -603,6 +619,7 @@ The registry is initially populated with the following values:
 | j | justification | UTF-8-encoded {{!RFC5198}} textual justification for a particular DNS filtering | Y | {{name-spec}} of RFCXXXX |
 | s | suberror | the suberror code for this particular DNS filtering | N | {{name-spec}} of RFCXXXX |
 | o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query | N | {{name-spec}} of RFCXXXX |
+| l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} | No | {{name-spec}} of RFCXXXX |
 {: #reg-names title='Initial JSON Names Registry'}
 
 New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
