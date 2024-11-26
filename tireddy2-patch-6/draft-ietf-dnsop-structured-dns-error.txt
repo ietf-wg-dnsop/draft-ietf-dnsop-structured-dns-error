@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 29 May 2025                                             N. Cook
+Expires: 30 May 2025                                             N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                        25 November 2024
+                                                        26 November 2024
 
 
                  Structured Error Data for Filtered DNS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 May 2025.
+   This Internet-Draft will expire on 30 May 2025.
 
 Copyright Notice
 
@@ -213,9 +213,9 @@ Table of Contents
        and (re)signs it using the private key from the local root
        certificate.
 
-       *  However, this approach is ineffective when DNSSEC is deployed,
-          as DNSSEC ensures the integrity and authenticity of DNS
-          responses, preventing forged DNS responses from being
+       *  However, this approach is ineffective when DNSSEC is deployed
+          given that DNSSEC ensures the integrity and authenticity of
+          DNS responses, preventing forged DNS responses from being
           accepted.
 
        *  The HTTPS server will have access to the client's IP address
