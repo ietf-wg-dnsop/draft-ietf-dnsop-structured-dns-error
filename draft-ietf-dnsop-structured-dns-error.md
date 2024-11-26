@@ -292,7 +292,7 @@ o: (organization)
 : This field is optional.
 
 l: (language)
-: The "lang" field indicates the language used for the JSON-encoded "j" and "o" fields.  The value of this field MUST conform to the
+: The "l" field indicates the language used for the JSON-encoded "j" and "o" fields.  The value of this field MUST conform to the
   language tag syntax specified in {{Section 2.1 of !RFC5646}}.
 : This field is optional but RECOMMENDED to aid in localization.
 
