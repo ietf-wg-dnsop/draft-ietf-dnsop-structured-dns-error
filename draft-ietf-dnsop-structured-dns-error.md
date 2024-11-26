@@ -240,7 +240,7 @@ certificate.
 the DNS lookup to terminate in failure. However, this approach does not
 work with DNSSEC. In scenarios without DNSSEC, an end user does not know why
 a domain name cannot be reached and may repeatedly try to reach that domain name
-but with no success. Frustrated, the end user may use insecure connections
+but without success. Frustrated, an end user may use insecure connections
 to reach the domain, potentially compromising both security and privacy.
 
 3. The extended error codes Blocked and Filtered defined in
