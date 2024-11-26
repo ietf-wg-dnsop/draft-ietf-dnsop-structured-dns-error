@@ -544,7 +544,7 @@ Table of Contents
      "j": "malware present for 23 days",
      "s": 1,
      "o": "example.net Filtering Service"
-     "l": "en-US",
+     "l": "tzm",
    }
 
      Figure 1: JSON Returned in EXTRA-TEXT Field of Extended DNS Error
