@@ -239,7 +239,7 @@ certificate.
 2. The DNS response is forged to provide a NXDOMAIN response to cause
 the DNS lookup to terminate in failure. However, this approach does not
 work with DNSSEC. In scenarios without DNSSEC, an end user does not know why
-the domain cannot be reached and may repeatedly try to reach the domain
+a domain name cannot be reached and may repeatedly try to reach that domain name
 but with no success. Frustrated, the end user may use insecure connections
 to reach the domain, potentially compromising both security and privacy.
 
