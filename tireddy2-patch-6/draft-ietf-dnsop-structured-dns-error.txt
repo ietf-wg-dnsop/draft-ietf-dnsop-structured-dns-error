@@ -713,8 +713,8 @@ Table of Contents
    |    |               | language of the  |           |    RFCXXXX    |
    |    |               | "j" and "o"      |           |               |
    |    |               | fields as        |           |               |
-   |    |               | defined in RFC   |           |               |
-   |    |               | 5646             |           |               |
+   |    |               | defined in       |           |               |
+   |    |               | [RFC5646]        |           |               |
    +----+---------------+------------------+-----------+---------------+
 
                     Table 1: Initial JSON Names Registry
