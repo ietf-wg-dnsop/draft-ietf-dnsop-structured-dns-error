@@ -203,7 +203,7 @@ certificate.
 
    * The HTTPS server will have access to the client's IP address and the hostname being requested.
      This information will be sensitive, as it will expose the user's identity and the
-     domain the user attempted to access.
+     domain name that a user attempted to access.
 
    * Configuring the local root certificate on endpoints is
      not a viable option in several deployments like home networks,
