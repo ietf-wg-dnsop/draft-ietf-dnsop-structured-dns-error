@@ -205,7 +205,7 @@ certificate.
      This information will be sensitive, as it will expose the user's identity and the
      domain name that a user attempted to access.
 
-   * Configuring the local root certificate on endpoints is
+   * Configuring a local root certificate on endpoints is
      not a viable option in several deployments like home networks,
      schools, Small Office/Home Office (SOHO), or Small/Medium
      Enterprise (SME). In these cases, the typical behavior is that
