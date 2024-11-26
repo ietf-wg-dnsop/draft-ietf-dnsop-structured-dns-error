@@ -197,7 +197,7 @@ the on-path network security device modifies the certificate provided by the
 server and (re)signs it using the private key from the local root
 certificate.
 
-   * However, this approach is ineffective when DNSSEC is deployed, as DNSSEC
+   * However, this approach is ineffective when DNSSEC is deployed given that DNSSEC
      ensures the integrity and authenticity of DNS responses, preventing forged DNS
      responses from being accepted.
 
