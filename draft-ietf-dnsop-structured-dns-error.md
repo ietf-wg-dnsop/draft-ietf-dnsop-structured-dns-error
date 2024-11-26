@@ -241,7 +241,7 @@ the DNS lookup to terminate in failure. However, this approach does not
 work with DNSSEC. In scenarios without DNSSEC, an end user does not know why
 a domain name cannot be reached and may repeatedly try to reach that domain name
 but without success. Frustrated, an end user may use insecure connections
-to reach the domain, potentially compromising both security and privacy.
+to reach the domain name, potentially compromising both security and privacy.
 
 3. The extended error codes Blocked and Filtered defined in
 {{Section 4 of !RFC8914}} can be returned by a DNS server to provide
