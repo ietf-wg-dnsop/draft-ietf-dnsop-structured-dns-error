@@ -619,7 +619,7 @@ The registry is initially populated with the following values:
 | j | justification | UTF-8-encoded {{!RFC5198}} textual justification for a particular DNS filtering | Y | {{name-spec}} of RFCXXXX |
 | s | suberror | the suberror code for this particular DNS filtering | N | {{name-spec}} of RFCXXXX |
 | o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query | N | {{name-spec}} of RFCXXXX |
-| l | language     | Indicates the language of the "j" and "o" fields as defined in RFC 5646 | No | {{name-spec}} of RFCXXXX |
+| l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} | No | {{name-spec}} of RFCXXXX |
 {: #reg-names title='Initial JSON Names Registry'}
 
 New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
