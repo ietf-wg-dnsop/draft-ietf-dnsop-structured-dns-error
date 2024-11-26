@@ -1384,7 +1384,7 @@ This information will be sensitive, as it will expose the user's identity and th
 domain name that a user attempted to access.<a href="#section-3-2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3-2.1.2.3">
-              <p id="section-3-2.1.2.3.1">Configuring the local root certificate on endpoints is
+              <p id="section-3-2.1.2.3.1">Configuring a local root certificate on endpoints is
 not a viable option in several deployments like home networks,
 schools, Small Office/Home Office (SOHO), or Small/Medium
 Enterprise (SME). In these cases, the typical behavior is that
@@ -1423,9 +1423,9 @@ new local root certificate.<a href="#section-3-2.1.2.5.1" class="pilcrow">¶</a>
           <p id="section-3-2.2.1">The DNS response is forged to provide a NXDOMAIN response to cause
 the DNS lookup to terminate in failure. However, this approach does not
 work with DNSSEC. In scenarios without DNSSEC, an end user does not know why
-the domain cannot be reached and may repeatedly try to reach the domain
-but with no success. Frustrated, the end user may use insecure connections
-to reach the domain, potentially compromising both security and privacy.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
+a domain name cannot be reached and may repeatedly try to reach that domain name
+but without success. Frustrated, an end user may use insecure connections
+to reach the domain name, potentially compromising both security and privacy.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-3-2.3">
           <p id="section-3-2.3.1">The extended error codes Blocked and Filtered defined in
@@ -1522,7 +1522,7 @@ justification is useful for cross-validation with another DNS server.<a href="#s
         <dd class="break"></dd>
 <dt id="section-4-4.23">l: (language)</dt>
         <dd style="margin-left: 1.5em" id="section-4-4.24">
-          <p id="section-4-4.24.1">The "lang" field indicates the language used for the JSON-encoded "j" and "o" fields  and <span class="bcp14">MUST</span> conform to the
+          <p id="section-4-4.24.1">The "lang" field indicates the language used for the JSON-encoded "j" and "o" fields.  The value of this field <span class="bcp14">MUST</span> conform to the
 language tag syntax specified in <span>[<a href="#RFC5646" class="cite xref">RFC5646</a>]</span>.<a href="#section-4-4.24.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
