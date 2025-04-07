@@ -60,13 +60,6 @@ author:
 normative:
 
 informative:
-  IANA-MediaTypes:
-     title: Media Types
-     author:
-       -
-         organization: "IANA"
-     target: https://www.iana.org/assignments/media-types
-     date: false
 
   IANA-DNS:
      title: Domain Name System (DNS) Parameters, Extended DNS Error Codes
@@ -538,50 +531,6 @@ explicitly configured DNS servers or utilize RESINFO
 This document requests four IANA actions as described in the following subsections.
 
 > Note to the RFC Editor: Please replace RFCXXXX with the RFC number assigned to this document and "TBA1" with the value assigned by IANA.
-
-## Media Type Registration
-
-This document requests IANA to register the
-"application/json+structured-dns-error" media type in the "Media
-Types" registry {{IANA-MediaTypes}}. This registration follows the
-procedures specified in {{!RFC6838}}:
-
-~~~~~
-   Type name: application
-
-   Subtype name: json+structured-dns-error
-
-   Required parameters: N/A
-
-   Optional parameters: N/A
-
-   Encoding considerations: as defined in Section 4 of RFCXXXX.
-
-   Security considerations: See Section 10 of RFCXXXX.
-
-   Interoperability considerations: N/A
-
-   Published specification: RFCXXXX
-
-   Applications that use this media type: Section 4 of RFCXXXX.
-
-   Fragment identifier considerations: N/A
-
-   Additional information: N/A
-
-   Person & email address to contact for further information: IETF,
-      iesg@ietf.org
-
-   Intended usage: COMMON
-
-   Restrictions on usage: none
-
-   Author: See Authors' Addresses section.
-
-   Change controller: IESG
-
-   Provisional registration?  No
-~~~~~
 
 ##  New Registry for JSON Names {#IANA-Names}
 
