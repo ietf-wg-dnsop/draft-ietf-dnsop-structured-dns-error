@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 30 May 2025                                             N. Cook
+Expires: 9 October 2025                                          N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                        26 November 2024
+                                                            7 April 2025
 
 
                  Structured Error Data for Filtered DNS
@@ -63,11 +63,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 May 2025.
+   This Internet-Draft will expire on 9 October 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
