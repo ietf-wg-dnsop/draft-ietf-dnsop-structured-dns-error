@@ -1293,12 +1293,12 @@ same reasons as above and additionally for parental control. Internet
 Service Providers (ISPs) typically block access to some DNS domains due to a
 requirement imposed by an external entity (e.g., law enforcement
 agency) also performed using DNS-based content filtering.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">Users of DNS services that perform filtering may wish to receive more
+<p id="section-1-2">End-users or network administrators leveraging DNS services that perform filtering may wish to receive more
 explanatory information about such a filtering to resolve problems with the filter
--- for example to contact the administrator to allowlist a DNS domain that
+-- for example to contact the DNS service administrator to allowlist a DNS domain that
 was erroneously filtered or to understand the reason a particular
-domain was filtered. With that information, a user can choose
-to use another network, open a trouble ticket with the DNS administrator to
+domain was filtered. With that information, they can choose
+to use another network, open a trouble ticket with the DNS service administrator to
 resolve erroneous filtering, log the information, etc.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">For the DNS filtering mechanisms described in <a href="#existing-techniques" class="auto internal xref">Section 3</a>, the DNS
 server can return extended error codes Blocked, Filtered, or
@@ -1335,7 +1335,7 @@ queries are filtered.<a href="#section-1-7" class="pilcrow">¶</a></p>
 "<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
 appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">This document uses terms defined in DNS Terminology <span>[<a href="#RFC8499" class="cite xref">RFC8499</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-2">This document uses terms defined in DNS Terminology <span>[<a href="#RFC9499" class="cite xref">RFC9499</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
 <p id="section-2-3">"Requestor" refers to the side that sends a request. "Responder"
 refers to an authoritative, recursive resolver or other DNS component
 that responds to questions.<a href="#section-2-3" class="pilcrow">¶</a></p>
@@ -1367,14 +1367,12 @@ HTTP(S) enabled domain name is blocked, the network security device
 response from the content provider hosting that domain. If an HTTP
 enabled domain name is blocked, the network security device intercepts
 the HTTP request and returns a block page over HTTP. If an HTTPS
-enabled domain is blocked, the block page is also served over
-HTTPS. In order to return a block page over HTTPS, man in the middle
-(MITM) is enabled on endpoints by generating a local root certificate
-and an accompanying (local) public/private key pair. The local root
-certificate is installed on the endpoint while the network security
-device stores a copy of the private key. During the TLS handshake,
-the on-path network security device modifies the certificate provided by the
-server and (re)signs it using the private key from the local root
+enabled domain is blocked, the network security device serves the block page over HTTPS.
+In order to return a block page over HTTPS, the network security device uses a locally
+generated root certificate and corresponding key pair. The local root certificate is
+installed on the endpoint while the network security device stores a copy of the private key.
+During the TLS handshake, the on-path network security device modifies the certificate
+provided by the server and (re)signs it using the private key from the local root
 certificate.<a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3-2.1.2.1">
@@ -1383,8 +1381,8 @@ ensures the integrity and authenticity of DNS responses, preventing forged DNS
 responses from being accepted.<a href="#section-3-2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3-2.1.2.2">
-              <p id="section-3-2.1.2.2.1">The HTTPS server will have access to the client's IP address and the hostname being requested.
-This information will be sensitive, as it will expose the user's identity and the
+              <p id="section-3-2.1.2.2.1">The HTTPS server hosted on the network security device will have access to the client's IP address and the
+hostname being requested. This information will be sensitive, as it will expose the user's identity and the
 domain name that a user attempted to access.<a href="#section-3-2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3-2.1.2.3">
@@ -1399,7 +1397,7 @@ error which gives no information to the end-user about the reason
 for the DNS filtering.<a href="#section-3-2.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3-2.1.2.4">
-              <p id="section-3-2.1.2.4.1">Enterprise networks do not assume that all the connected devices
+              <p id="section-3-2.1.2.4.1">Enterprise networks do not always assume that all the connected devices
 are managed by the IT team or Mobile Device Management (MDM)
 devices, especially in the quite common Bring Your Own Device
 (BYOD) scenario. In addition, the local root certificate cannot
@@ -1424,27 +1422,20 @@ new local root certificate.<a href="#section-3-2.1.2.5.1" class="pilcrow">¶</a>
           </ul>
 </li>
         <li id="section-3-2.2">
-          <p id="section-3-2.2.1">The DNS response is forged to provide a NXDOMAIN response to cause
-the DNS lookup to terminate in failure. However, this approach does not
-work with DNSSEC. In scenarios without DNSSEC, an end user does not know why
-a domain name cannot be reached and may repeatedly try to reach that domain name
-but without success. Frustrated, an end user may use insecure connections
-to reach the domain name, potentially compromising both security and privacy.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
+          <p id="section-3-2.2.1">The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-3-2.3">
           <p id="section-3-2.3.1">The extended error codes Blocked and Filtered defined in
 <span><a href="https://rfc-editor.org/rfc/rfc8914#section-4" class="relref">Section 4</a> of [<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> can be returned by a DNS server to provide
-additional information about the cause of a DNS error.<a href="#section-3-2.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li id="section-3-2.4">
-          <p id="section-3-2.4.1">These extended error codes do not suffer from the limitations
+additional information about the cause of a DNS error.
+These extended error codes do not suffer from the limitations
 discussed in bullets (1) and (2), but the user still does not know the
 exact reason nor is aware of the exact entity blocking the
 access to the domain. For example, a DNS server may block access to a
 domain based on the content category such as "Malware" to protect the
 endpoint from malicious software, "Phishing" to prevent the user from
 revealing sensitive information to the attacker, etc. A user may need to
-know the contact details of the IT/InfoSec team to raise a complaint.<a href="#section-3-2.4.1" class="pilcrow">¶</a></p>
+know the contact details of the IT/InfoSec team to raise a complaint.<a href="#section-3-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
 </section>
@@ -1471,7 +1462,7 @@ DNS filtering. This information is important for transparency and also to ease u
         <dd class="break"></dd>
 <dt id="section-4-4.3"></dt>
         <dd style="margin-left: 1.5em" id="section-4-4.4">
-          <p id="section-4-4.4.1">This field is structured as an array of contact URIs, using 'tel' <span>[<a href="#RFC3966" class="cite xref">RFC3966</a>]</span> or 'sips' <span>[<a href="#RFC5630" class="cite xref">RFC5630</a>]</span> or  'mailto' <span>[<a href="#RFC3966" class="cite xref">RFC3966</a>]</span> schemes. At least one contact URI <span class="bcp14">MUST</span> be included.<a href="#section-4-4.4.1" class="pilcrow">¶</a></p>
+          <p id="section-4-4.4.1">This field is structured as an array of contact URIs that <span class="bcp14">MUST</span> use 'tel' <span>[<a href="#RFC3966" class="cite xref">RFC3966</a>]</span> or 'sips' <span>[<a href="#RFC5630" class="cite xref">RFC5630</a>]</span> or  'mailto' <span>[<a href="#RFC3966" class="cite xref">RFC3966</a>]</span> schemes. At least one contact URI <span class="bcp14">MUST</span> be included.<a href="#section-4-4.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-4.5"></dt>
@@ -1588,7 +1579,7 @@ server. In addition, if the query contained the OPT pseudo-RR the DNS
 server <span class="bcp14">MAY</span> return more detail in the EXTRA-TEXT field as described in
 <a href="#client-processing" class="auto internal xref">Section 5.3</a>.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2-2">Servers <span class="bcp14">MAY</span> decide to return small TTL values in filtered DNS
-responses (e.g., 2 seconds) to handle domain category and reputation
+responses (e.g., 10 seconds) to handle domain category and reputation
 updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
 but can result in increased query traffic. In cases where updates are less frequent,
 TTL values of 30 to 60 seconds <span class="bcp14">MAY</span> provide a better balance, reducing server load while
@@ -1652,7 +1643,7 @@ ignore the "c", "j", and "o" fields but <span class="bcp14">MAY</span> process t
 and other parts of the response.<a href="#section-5.3-2.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-2.7">
-            <p id="section-5.3-2.7.1">Opportunistic discovery <span>[<a href="#I-D.ietf-add-ddr" class="cite xref">I-D.ietf-add-ddr</a>]</span>, where only the IP address is
+            <p id="section-5.3-2.7.1">Opportunistic discovery <span>[<a href="#RFC9462" class="cite xref">RFC9462</a>]</span>, where only the IP address is
 validated, the DNS client <span class="bcp14">MUST</span> ignore the "c", "j", and "o" fields
 but <span class="bcp14">MAY</span> process the "s" field and other parts of the response.<a href="#section-5.3-2.7.1" class="pilcrow">¶</a></p>
 </li>
@@ -1782,7 +1773,7 @@ because the domain is on a blocklist due to an internal security policy
 imposed by an upstream DNS server. This error code
 is useful in deployments where a network-provided DNS forwarder
 is configured to use an external resolver that filters malicious
-domains. Typically, when the DNS forwarder receives a Blocked (15) error code from the upstream DNS server, it will replace it with "Blocked by Upstream DNS Server" (TBA1) before forwarding the reply to the DNS client.<a href="#section-7-1" class="pilcrow">¶</a></p>
+domains. Typically, when the DNS forwarder receives a Blocked (15) error code from the upstream DNS server, it will replace it with "Blocked by Upstream DNS Server" (TBA1) before forwarding the reply to the DNS client. Additionally, the EXTRA-TEXT field is forwarded to the DNS client.<a href="#section-7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="examples">
@@ -1867,7 +1858,7 @@ DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
 DNS forwarder will forward that attacker-controlled EDE option.  To
 prevent such an attack, clients can be configured to process EDE from
 explicitly configured DNS servers or utilize RESINFO
-<span>[<a href="#I-D.ietf-add-resolver-info" class="cite xref">I-D.ietf-add-resolver-info</a>]</span>.<a href="#section-9-5" class="pilcrow">¶</a></p>
+<span>[<a href="#RFC9606" class="cite xref">RFC9606</a>]</span>.<a href="#section-9-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="IANA">
@@ -2316,14 +2307,6 @@ registry <span>[<a href="#IANA-DNS" class="cite xref">IANA-DNS</a>]</span>:<a hr
 <a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="I-D.ietf-add-ddr">[I-D.ietf-add-ddr]</dt>
-        <dd>
-<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Kinnear, E.</span>, <span class="refAuthor">Wood, C. A.</span>, <span class="refAuthor">McManus, P.</span>, and <span class="refAuthor">T. Jensen</span>, <span class="refTitle">"Discovery of Designated Resolvers"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-add-ddr-10</span>, <time datetime="2022-08-05" class="refDate">5 August 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-add-ddr-10">https://datatracker.ietf.org/doc/html/draft-ietf-add-ddr-10</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="I-D.ietf-add-resolver-info">[I-D.ietf-add-resolver-info]</dt>
-        <dd>
-<span class="refAuthor">Reddy.K, T.</span> and <span class="refAuthor">M. Boucadair</span>, <span class="refTitle">"DNS Resolver Information"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-add-resolver-info-13</span>, <time datetime="2024-04-26" class="refDate">26 April 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-add-resolver-info-13">https://datatracker.ietf.org/doc/html/draft-ietf-add-resolver-info-13</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="IANA-DNS">[IANA-DNS]</dt>
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"Domain Name System (DNS) Parameters, Extended DNS Error Codes"</span>, <span>&lt;<a href="https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#extended-dns-error-codes">https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#extended-dns-error-codes</a>&gt;</span>. </dd>
@@ -2352,10 +2335,6 @@ registry <span>[<a href="#IANA-DNS" class="cite xref">IANA-DNS</a>]</span>:<a hr
         <dd>
 <span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">P. McManus</span>, <span class="refTitle">"DNS Queries over HTTPS (DoH)"</span>, <span class="seriesInfo">RFC 8484</span>, <span class="seriesInfo">DOI 10.17487/RFC8484</span>, <time datetime="2018-10" class="refDate">October 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8484">https://www.rfc-editor.org/rfc/rfc8484</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC8499">[RFC8499]</dt>
-        <dd>
-<span class="refAuthor">Hoffman, P.</span>, <span class="refAuthor">Sullivan, A.</span>, and <span class="refAuthor">K. Fujiwara</span>, <span class="refTitle">"DNS Terminology"</span>, <span class="seriesInfo">RFC 8499</span>, <span class="seriesInfo">DOI 10.17487/RFC8499</span>, <time datetime="2019-01" class="refDate">January 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8499">https://www.rfc-editor.org/rfc/rfc8499</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC8792">[RFC8792]</dt>
         <dd>
 <span class="refAuthor">Watsen, K.</span>, <span class="refAuthor">Auerswald, E.</span>, <span class="refAuthor">Farrel, A.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Handling Long Lines in Content of Internet-Drafts and RFCs"</span>, <span class="seriesInfo">RFC 8792</span>, <span class="seriesInfo">DOI 10.17487/RFC8792</span>, <time datetime="2020-06" class="refDate">June 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8792">https://www.rfc-editor.org/rfc/rfc8792</a>&gt;</span>. </dd>
@@ -2363,6 +2342,18 @@ registry <span>[<a href="#IANA-DNS" class="cite xref">IANA-DNS</a>]</span>:<a hr
 <dt id="RFC9250">[RFC9250]</dt>
         <dd>
 <span class="refAuthor">Huitema, C.</span>, <span class="refAuthor">Dickinson, S.</span>, and <span class="refAuthor">A. Mankin</span>, <span class="refTitle">"DNS over Dedicated QUIC Connections"</span>, <span class="seriesInfo">RFC 9250</span>, <span class="seriesInfo">DOI 10.17487/RFC9250</span>, <time datetime="2022-05" class="refDate">May 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9250">https://www.rfc-editor.org/rfc/rfc9250</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9462">[RFC9462]</dt>
+        <dd>
+<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Kinnear, E.</span>, <span class="refAuthor">Wood, C. A.</span>, <span class="refAuthor">McManus, P.</span>, and <span class="refAuthor">T. Jensen</span>, <span class="refTitle">"Discovery of Designated Resolvers"</span>, <span class="seriesInfo">RFC 9462</span>, <span class="seriesInfo">DOI 10.17487/RFC9462</span>, <time datetime="2023-11" class="refDate">November 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9462">https://www.rfc-editor.org/rfc/rfc9462</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9499">[RFC9499]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">K. Fujiwara</span>, <span class="refTitle">"DNS Terminology"</span>, <span class="seriesInfo">BCP 219</span>, <span class="seriesInfo">RFC 9499</span>, <span class="seriesInfo">DOI 10.17487/RFC9499</span>, <time datetime="2024-03" class="refDate">March 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9499">https://www.rfc-editor.org/rfc/rfc9499</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9606">[RFC9606]</dt>
+        <dd>
+<span class="refAuthor">Reddy.K, T.</span> and <span class="refAuthor">M. Boucadair</span>, <span class="refTitle">"DNS Resolver Information"</span>, <span class="seriesInfo">RFC 9606</span>, <span class="seriesInfo">DOI 10.17487/RFC9606</span>, <time datetime="2024-06" class="refDate">June 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9606">https://www.rfc-editor.org/rfc/rfc9606</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RPZ">[RPZ]</dt>
       <dd>
@@ -2417,6 +2408,7 @@ Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, Bob
 Harold, Mukund Sivaraman, Stephane Bortzmeyer, Gianpaolo Angelo Scalone, and Daniel Migault for the comments.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <p id="appendix-C-2">Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
 <p id="appendix-C-3">Thanks Di Ma and Matt Brown for the DNS directorate reviews, and Joseph Salowey for the Security directorate review.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
+<p id="appendix-C-4">Thanks for Éric Vyncke for the AD review.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
