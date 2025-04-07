@@ -353,44 +353,45 @@ On receipt of a DNS response with an EDE option from a
 DNS responder, the following ordered actions are performed on the EXTRA-TEXT
 field:
 
-* Servers which don't support this specification might use plain text
-  in the EXTRA-TEXT field. Requestors SHOULD properly handle
-  both plaintext and JSON text in the EXTRA-TEXT field. The requestor verifies that
-  the field contains valid JSON. If not, the requestor MUST consider
-  the server does not support this specification and stop processing
-  rest of the actions defined in this section, but may instead choose
-  to treat EXTRA-TEXT as per {{!RFC8914}}.
+1. Servers which don't support this specification might use plain text
+   in the EXTRA-TEXT field. Requestors SHOULD properly handle
+   both plaintext and JSON text in the EXTRA-TEXT field. The requestor verifies that
+   the field contains valid JSON. If not, the requestor MUST consider
+   the server does not support this specification and stop processing
+   rest of the actions defined in this section, but may instead choose
+   to treat EXTRA-TEXT as per {{!RFC8914}}.
 
-* The response MUST be received over an encrypted DNS channel. If not,
-  the requestor MUST discard data in the EXTRA-TEXT field.
+2. The response MUST be received over an encrypted DNS channel. If not,
+   the requestor MUST discard data in the EXTRA-TEXT field.
 
-* The DNS response MUST also contain an extended error code of
-  "Blocked by Upstream Server", "Blocked" or "Filtered" {{!RFC8914}}, otherwise
-  the EXTRA-TEXT field is discarded.
+3. The DNS response MUST also contain an extended error code of
+   "Blocked by Upstream Server", "Blocked" or "Filtered" {{!RFC8914}}, otherwise
+   the EXTRA-TEXT field is discarded.
 
-* If either of the mandatory JSON names "c" and "j" are missing or
-  have empty values in the EXTRA-TEXT field, the entire JSON is
-  discarded.
+4. If either of the mandatory JSON names "c" and "j" are missing or
+   have empty values in the EXTRA-TEXT field, the entire JSON is
+   discarded.
 
-* If the "c" field contains any URI scheme not registered in the
-  {{IANA-Contact}} registry, it MUST be discarded.
+5. If the "c" field contains any URI scheme not registered in the
+   {{IANA-Contact}} registry, that field MUST be discarded.
 
-* If a DNS client has enabled opportunistic privacy profile ({{Section 5
-  of !RFC8310}}) for DoT, the DNS client will either fall back to an
-  encrypted connection without authenticating the DNS server provided
-  by the local network or fall back to clear text DNS, and cannot
-  exchange encrypted DNS messages. Both of these fallback mechanisms
-  adversely impact security and privacy. If the DNS client has enabled
-  opportunistic privacy profile for DoT and the identity of the DNS server
-  cannot be verified but the connection is encrypted, the DNS client MUST
-  ignore the "c", "j", and "o" fields but MAY process the "s" field
-  and other parts of the response.
+6. If a DNS client has enabled opportunistic privacy profile ({{Section 5
+   of !RFC8310}}) for DoT, the DNS client will either fall back to an
+   encrypted connection without authenticating the DNS server provided
+   by the local network or fall back to clear text DNS, and cannot
+   exchange encrypted DNS messages. Both of these fallback mechanisms
+   adversely impact security and privacy. If the DNS client has enabled
+   opportunistic privacy profile for DoT and the identity of the DNS server
+   cannot be verified but the connection is encrypted, the DNS client MUST
+   ignore the "c", "j", and "o" fields but MAY process the "s" field
+   and other parts of the response.
 
-* Opportunistic discovery {{?RFC9462}}, where only the IP address is
-  validated, the DNS client MUST ignore the "c", "j", and "o" fields
-  but MAY process the "s" field and other parts of the response.
+ 7. Opportunistic discovery {{?RFC9462}}, where only the IP address is
+    validated, the DNS client MUST ignore the "c", "j", and "o" fields
+    but MAY process the "s" field and other parts of the response.
 
-* If a DNS client has enabled strict privacy profile ({{Section 5 of !RFC8310}}) for DoT, the DNS client requires an encrypted connection
+ 8. If a DNS client has enabled strict privacy profile ({{Section 5 of !RFC8310}}) for DoT, the DNS client
+    requires an encrypted connection
   and successful authentication of the DNS server. In doing so, this mitigates both
   passive eavesdropping and client redirection (at the expense of
   providing no DNS service if an encrypted, authenticated connection
@@ -398,23 +399,21 @@ field:
   profile for DoT, the DNS client MAY process the EXTRA-TEXT field of the
   DNS response.
 
-* The DNS client MUST ignore any other JSON names that it does not support.
-
-* When a forwarder receives an EDE option, whether or not (and how) to
-  pass along JSON information in the EXTRA-TEXT on to their client is
-  implementation dependent {{?RFC5625}}. Implementations MAY choose to
-  not forward the JSON information, or they MAY choose to create a new
-  EDE option that conveys the information in the "c", "s", and "j"
-  fields encoded in the JSON object.
-
-* The application that triggered the DNS request may have a local policy to override the contact information
- (e.g., redirect all complaint calls to a single contact point). In such a case, the content of the
- "c" attribute can be ignored.
-
+9. The DNS client MUST ignore any other JSON names that it does not support.
 
 > Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
 no such distinction made for DoH.
 
+# Deployment Considerations
+
+When a forwarder receives an EDE option, whether or not (and how) to pass along JSON information in the
+EXTRA-TEXT field to its client is implementation-dependent {{?RFC5625}}. Implementations MAY choose not to
+forward the JSON information, or they MAY choose to create a new EDE option that conveys the information in the
+"c", "s", and "j" fields encoded in the JSON object.
+
+The application that triggered the DNS request may have a local policy to override the contact information (e.g.,
+redirect all complaint calls to a single contact point). In such cases, the content of the "c" attribute MAY be
+ignored.
 
 # New Sub-Error Codes Definition
 
