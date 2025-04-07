@@ -114,12 +114,12 @@ Service Providers (ISPs) typically block access to some DNS domains due to a
 requirement imposed by an external entity (e.g., law enforcement
 agency) also performed using DNS-based content filtering.
 
-Users of DNS services that perform filtering may wish to receive more
+End-users or network administrators leveraging DNS services that perform filtering may wish to receive more
 explanatory information about such a filtering to resolve problems with the filter
--- for example to contact the administrator to allowlist a DNS domain that
+-- for example to contact the DNS service administrator to allowlist a DNS domain that
 was erroneously filtered or to understand the reason a particular
-domain was filtered. With that information, a user can choose
-to use another network, open a trouble ticket with the DNS administrator to
+domain was filtered. With that information, they can choose
+to use another network, open a trouble ticket with the DNS service administrator to
 resolve erroneous filtering, log the information, etc.
 
 For the DNS filtering mechanisms described in {{existing-techniques}}, the DNS
@@ -157,7 +157,7 @@ queries are filtered.
 
 {::boilerplate bcp14-tagged}
 
-This document uses terms defined in DNS Terminology {{?RFC8499}}.
+This document uses terms defined in DNS Terminology {{?RFC9499}}.
 
 "Requestor" refers to the side that sends a request. "Responder"
 refers to an authoritative, recursive resolver or other DNS component
@@ -187,22 +187,20 @@ HTTP(S) enabled domain name is blocked, the network security device
 response from the content provider hosting that domain. If an HTTP
 enabled domain name is blocked, the network security device intercepts
 the HTTP request and returns a block page over HTTP. If an HTTPS
-enabled domain is blocked, the block page is also served over
-HTTPS. In order to return a block page over HTTPS, man in the middle
-(MITM) is enabled on endpoints by generating a local root certificate
-and an accompanying (local) public/private key pair. The local root
-certificate is installed on the endpoint while the network security
-device stores a copy of the private key. During the TLS handshake,
-the on-path network security device modifies the certificate provided by the
-server and (re)signs it using the private key from the local root
+enabled domain is blocked, the network security device serves the block page over HTTPS.
+In order to return a block page over HTTPS, the network security device uses a locally
+generated root certificate and corresponding key pair. The local root certificate is
+installed on the endpoint while the network security device stores a copy of the private key.
+During the TLS handshake, the on-path network security device modifies the certificate
+provided by the server and (re)signs it using the private key from the local root
 certificate.
 
    * However, this approach is ineffective when DNSSEC is deployed given that DNSSEC
      ensures the integrity and authenticity of DNS responses, preventing forged DNS
      responses from being accepted.
 
-   * The HTTPS server will have access to the client's IP address and the hostname being requested.
-     This information will be sensitive, as it will expose the user's identity and the
+   * The HTTPS server hosted on the network security device will have access to the client's IP address and the
+     hostname being requested. This information will be sensitive, as it will expose the user's identity and the
      domain name that a user attempted to access.
 
    * Configuring a local root certificate on endpoints is
@@ -215,7 +213,7 @@ certificate.
      error which gives no information to the end-user about the reason
      for the DNS filtering.
 
-   * Enterprise networks do not assume that all the connected devices
+   * Enterprise networks do not always assume that all the connected devices
      are managed by the IT team or Mobile Device Management (MDM)
      devices, especially in the quite common Bring Your Own Device
      (BYOD) scenario. In addition, the local root certificate cannot
@@ -236,18 +234,12 @@ certificate.
      certificate expires, the user has to (again) manually install the
      new local root certificate.
 
-2. The DNS response is forged to provide a NXDOMAIN response to cause
-the DNS lookup to terminate in failure. However, this approach does not
-work with DNSSEC. In scenarios without DNSSEC, an end user does not know why
-a domain name cannot be reached and may repeatedly try to reach that domain name
-but without success. Frustrated, an end user may use insecure connections
-to reach the domain name, potentially compromising both security and privacy.
+2. The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.
 
 3. The extended error codes Blocked and Filtered defined in
 {{Section 4 of !RFC8914}} can be returned by a DNS server to provide
 additional information about the cause of a DNS error.
-
-4. These extended error codes do not suffer from the limitations
+These extended error codes do not suffer from the limitations
 discussed in bullets (1) and (2), but the user still does not know the
 exact reason nor is aware of the exact entity blocking the
 access to the domain. For example, a DNS server may block access to a
@@ -268,7 +260,7 @@ This document defines the following JSON names:
 c: (contact)
 : The contact details of the IT/InfoSec team to report mis-classified
 DNS filtering. This information is important for transparency and also to ease unblocking a legitimate domain name that got blocked due to wrong classification.
-: This field is structured as an array of contact URIs, using 'tel' {{!RFC3966}} or 'sips' {{!RFC5630}} or  'mailto' {{!RFC3966}} schemes. At least one contact URI MUST be included.
+: This field is structured as an array of contact URIs that MUST use 'tel' {{!RFC3966}} or 'sips' {{!RFC5630}} or  'mailto' {{!RFC3966}} schemes. At least one contact URI MUST be included.
 
 : New contact URI schemes may be added to the IANA registry following the instructions in {{IANA-Contact}}.
 : This field is mandatory.
@@ -338,7 +330,7 @@ server MAY return more detail in the EXTRA-TEXT field as described in
 {{client-processing}}.
 
 Servers MAY decide to return small TTL values in filtered DNS
-responses (e.g., 2 seconds) to handle domain category and reputation
+responses (e.g., 10 seconds) to handle domain category and reputation
 updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
 but can result in increased query traffic. In cases where updates are less frequent,
 TTL values of 30 to 60 seconds MAY provide a better balance, reducing server load while
@@ -394,7 +386,7 @@ field:
   ignore the "c", "j", and "o" fields but MAY process the "s" field
   and other parts of the response.
 
-* Opportunistic discovery {{?I-D.ietf-add-ddr}}, where only the IP address is
+* Opportunistic discovery {{?RFC9462}}, where only the IP address is
   validated, the DNS client MUST ignore the "c", "j", and "o" fields
   but MAY process the "s" field and other parts of the response.
 
@@ -473,7 +465,7 @@ because the domain is on a blocklist due to an internal security policy
 imposed by an upstream DNS server. This error code
 is useful in deployments where a network-provided DNS forwarder
 is configured to use an external resolver that filters malicious
-domains. Typically, when the DNS forwarder receives a Blocked (15) error code from the upstream DNS server, it will replace it with "Blocked by Upstream DNS Server" (TBA1) before forwarding the reply to the DNS client.
+domains. Typically, when the DNS forwarder receives a Blocked (15) error code from the upstream DNS server, it will replace it with "Blocked by Upstream DNS Server" (TBA1) before forwarding the reply to the DNS client. Additionally, the EXTRA-TEXT field is forwarded to the DNS client.
 
 # Examples
 
@@ -540,7 +532,7 @@ DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
 DNS forwarder will forward that attacker-controlled EDE option.  To
 prevent such an attack, clients can be configured to process EDE from
 explicitly configured DNS servers or utilize RESINFO
-{{?I-D.ietf-add-resolver-info}}.
+{{?RFC9606}}.
 
 # IANA Considerations {#IANA}
 
@@ -740,6 +732,8 @@ Harold, Mukund Sivaraman, Stephane Bortzmeyer, Gianpaolo Angelo Scalone, and Dan
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
 
 Thanks Di Ma and Matt Brown for the DNS directorate reviews, and Joseph Salowey for the Security directorate review.
+
+Thanks for Éric Vyncke for the AD review.
 
 
 
