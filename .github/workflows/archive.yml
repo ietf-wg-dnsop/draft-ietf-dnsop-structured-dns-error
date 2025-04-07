@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: "Checkout"
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     # Note: No caching for this build!
 
@@ -31,12 +31,12 @@ jobs:
         token: ${{ github.token }}
 
     - name: "Update GitHub Pages"
-      uses: martinthomson/i-d-template@v1
+      uses: martinthomson/i-d-template@v4
       with:
         make: gh-archive
         token: ${{ github.token }}
 
     - name: "Save Archive"
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: archive.json
