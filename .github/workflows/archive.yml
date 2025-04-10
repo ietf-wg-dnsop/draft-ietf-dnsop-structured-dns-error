@@ -31,7 +31,7 @@ jobs:
         token: ${{ github.token }}
 
     - name: "Update GitHub Pages"
-      uses: martinthomson/i-d-template@v4
+      uses: martinthomson/i-d-template@v1
       with:
         make: gh-archive
         token: ${{ github.token }}
