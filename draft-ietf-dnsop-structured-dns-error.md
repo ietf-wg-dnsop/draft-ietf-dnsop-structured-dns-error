@@ -165,6 +165,9 @@ INFO-CODE as per Table 3 of {{!RFC8914}}. "Forged Answer",
 "Blocked", and "Filtered" are thus used to refer to "Forged Answer (4)",
 "Blocked (15)", and "Filtered (17)".
 
+In this document, the term "DNS server" refers to a DNS recursive resolver or 
+a DNS forwarder that generates DNS structured error responses.
+
 # DNS Filtering Techniques and Their Limitations {#existing-techniques}
 
 DNS responses can be filtered by sending, e.g., a bogus (also called
@@ -289,7 +292,9 @@ RECOMMENDED they be as short as possible.
 
 The text in the "j" and "o" names can include international
 characters. The text will be in natural language, chosen by the DNS administrator
-to match its expected audience.
+to match its expected audience. If the text is in a language not known to the end-user, 
+the client can use the "l" (language) field to identify the language of the text 
+and translate it to the user's preferred language.
 
 To reduce DNS message size the generated JSON SHOULD be as short as
 possible: short domain names, concise text in the values for the "j"
@@ -316,7 +321,7 @@ the present specification.
 ## Server Generating Response {#server-response}
 
 When the DNS server filters its DNS response to a
-query (e.g., A or AAAA record query), the DNS response MAY contain an empty answer, NXDOMAIN, or (less
+query (e.g., A or AAAA resource record query), the DNS response MAY contain an empty answer, NXDOMAIN, or (less
 ideally) forged response, as desired by the DNS
 server. In addition, if the query contained the OPT pseudo-RR the DNS
 server MAY return more detail in the EXTRA-TEXT field as described in
