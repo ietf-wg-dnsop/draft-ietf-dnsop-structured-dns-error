@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 12 October 2025                                         N. Cook
+Expires: 15 October 2025                                         N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                           10 April 2025
+                                                           13 April 2025
 
 
                  Structured Error Data for Filtered DNS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 October 2025.
+   This Internet-Draft will expire on 15 October 2025.
 
 Copyright Notice
 
@@ -174,8 +174,8 @@ Table of Contents
    This document uses terms defined in DNS Terminology [RFC9499].
 
    "Requestor" refers to the side that sends a request.  "Responder"
-   refers to an authoritative, recursive resolver or other DNS component
-   that responds to questions.
+   refers to an authoritative, recursive resolver, or other DNS
+   component that responds to questions.
 
    "Encrypted DNS" refers to any encrypted scheme to convey DNS
    messages, for example, DNS-over-HTTPS [RFC8484], DNS-over-TLS
@@ -185,6 +185,9 @@ Table of Contents
    not its INFO-CODE as per Table 3 of [RFC8914].  "Forged Answer",
    "Blocked", and "Filtered" are thus used to refer to "Forged Answer
    (4)", "Blocked (15)", and "Filtered (17)".
+
+   The term "DNS server" refers to a DNS recursive resolver or a DNS
+   forwarder that generates DNS structured error responses.
 
 3.  DNS Filtering Techniques and Their Limitations
 
@@ -347,7 +350,10 @@ Table of Contents
 
    The text in the "j" and "o" names can include international
    characters.  The text will be in natural language, chosen by the DNS
-   administrator to match its expected audience.
+   administrator to match its expected audience.  If the text is
+   provided in a language not known to the end-user, the client can use
+   the "l" (language) field to identify the language of the text and
+   translate it to the user's preferred language.
 
    To reduce DNS message size the generated JSON SHOULD be as short as
    possible: short domain names, concise text in the values for the "j"
@@ -378,10 +384,10 @@ Table of Contents
 5.2.  Server Generating Response
 
    When the DNS server filters its DNS response to a query (e.g., A or
-   AAAA record query), the DNS response MAY contain an empty answer,
-   NXDOMAIN, or (less ideally) forged response, as desired by the DNS
-   server.  In addition, if the query contained the OPT pseudo-RR the
-   DNS server MAY return more detail in the EXTRA-TEXT field as
+   AAAA resource record query), the DNS response MAY contain an empty
+   answer, NXDOMAIN, or (less ideally) forged response, as desired by
+   the DNS server.  In addition, if the query contained the OPT pseudo-
+   RR the DNS server MAY return more detail in the EXTRA-TEXT field as
    described in Section 5.3.
 
    Servers MAY decide to return small TTL values in filtered DNS
@@ -974,7 +980,7 @@ Acknowledgements
    Thanks Di Ma and Matt Brown for the DNS directorate reviews, and
    Joseph Salowey for the Security directorate review.
 
-   Thanks for Éric Vyncke for the AD review.
+   Thanks to Éric Vyncke for the AD review.
 
 Authors' Addresses
 
