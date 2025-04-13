@@ -477,8 +477,8 @@ DNS "A" record query for 'example.org' is provided in {{example-json}}.
   ],
   "j": "malware present for 23 days",
   "s": 1,
-  "o": "example.net Filtering Service"
-  "l": "tzm",
+  "o": "example.net Filtering Service",
+  "l": "tzm"
 }
 ~~~~~
 {: #example-json title="JSON Returned in EXTRA-TEXT Field of Extended DNS Error Response"}
