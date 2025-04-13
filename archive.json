@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-07-16T00:39:57.887835+00:00",
+  "timestamp": "2025-04-13T02:06:59.280745+00:00",
   "repo": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
   "labels": [
     {
@@ -348,6 +348,30 @@
       "updatedAt": "2023-07-05T09:03:20Z",
       "closedAt": "2023-07-05T09:03:20Z",
       "comments": []
+    },
+    {
+      "number": 55,
+      "id": "I_kwDOI6P3FM57z0rg",
+      "title": "redundant item",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/issues/55",
+      "state": "CLOSED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/blob/8dffcaf2031284ec3c40b114e8d2145ff57fc620/draft-ietf-dnsop-structured-dns-error.md?plain=1#L407C1-L407C39\r\n\r\nIsn't this redundant with \"The DNS client MUST ignore any other JSON names that it does not support.\" or the intent here is to cover the forwarder case? \r\n\r\nAlso, remember that the actions are \"ordered\":\r\n\r\n>    On receipt of a DNS response with an EDE option from a DNS responder,\r\n>    the following ordered actions are performed on the EXTRA-TEXT field:",
+      "createdAt": "2024-01-11T17:04:35Z",
+      "updatedAt": "2024-01-11T17:15:38Z",
+      "closedAt": "2024-01-11T17:15:38Z",
+      "comments": [
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Removed PR #56 ",
+          "createdAt": "2024-01-11T17:15:38Z",
+          "updatedAt": "2024-01-11T17:15:38Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -2704,6 +2728,804 @@
           "body": "",
           "createdAt": "2023-07-13T10:26:39Z",
           "updatedAt": "2023-07-13T10:26:39Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 50,
+      "id": "PR_kwDOI6P3FM5chX3V",
+      "title": "Implementation Status",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/50",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-11T14:14:42Z",
+      "updatedAt": "2023-10-11T14:24:02Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "c2323632bbd872da2b8090359f4093c2edca69ad",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-14",
+      "headRefOid": "0eb118e563cd0ce58d1536576fb450f4ad5cd193",
+      "closedAt": "2023-10-11T14:24:02Z",
+      "mergedAt": "2023-10-11T14:24:02Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "e295de2a8e81c7f458f257b671e4dbac86a28618"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 51,
+      "id": "PR_kwDOI6P3FM5dcJ4G",
+      "title": "remove https in the example",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/51",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-21T07:51:20Z",
+      "updatedAt": "2023-11-05T15:26:57Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "e295de2a8e81c7f458f257b671e4dbac86a28618",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-15",
+      "headRefOid": "8be08244160193430a7cadd63348de9ae0643eee",
+      "closedAt": "2023-11-05T15:26:57Z",
+      "mergedAt": "2023-11-05T15:26:57Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "e9187e7cc94e9a69fc2d07f1b15ce02254b0cec7"
+      },
+      "comments": [
+        {
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "body": "On Oct 21, 2023, at 6:32\u202fAM, Tirumaleswar Reddy ***@***.***> wrote:\r\n> \r\n> \r\n> @tireddy2 commented on this pull request.\r\n> \r\n> In draft-ietf-dnsop-structured-dns-error.md <https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/51#discussion_r1367730710>:\r\n> \r\n> > @@ -261,7 +261,7 @@ c: (contact)\r\n>  : The contact details of the IT/InfoSec team to report mis-classified\r\n>  DNS filtering. This information is important for transparency and also to ease unblocking a legitimate domain name that got blocked due to wrong classification.\r\n>  : This field is structured as an array of contact URIs\r\n> -(e.g., 'tel' {{?RFC3966}}, 'sips' {{?RFC5630}}, 'https' {{?RFC8615}}). At least one contact URI MUST be\r\n> +(e.g., 'tel' {{?RFC3966}} or 'sips' {{?RFC5630}}). At least one contact URI MUST be\r\n>  included.\r\n> we need text to say that only \"mail\", \"sips\" and \"tel\" URI schemes will be allowed by this specification and an IANA registry with specification required will be required to allow new URI schemes. This way new schemes can be created without bis document.\r\n> \r\n\r\nWith all the concern on the list over having \"http\" on the list, extending such a registry would need a higher bar than 'designated expert'.  Would need at *least* specification required but that's probably too low a bar, as well.  The choices are at https://www.ietf.org/rfc/bcp/bcp26.html for easy reference.   I would say it needs IETF Review.  If that is the bar, though, I wouldn't bother with an IANA registry.  Someone who wants to extend the list can just write an RFC that adds \"http\" (or whatever schema they like).\r\n\r\nOr do we now need to IANA registry All The Things?\r\n\r\n-d\r\n\r\n\r\n",
+          "createdAt": "2023-10-21T16:51:25Z",
+          "updatedAt": "2023-10-21T16:51:25Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> On Oct 21, 2023, at 6:32\u202fAM, Tirumaleswar Reddy ***@***.***> wrote: @tireddy2 commented on this pull request. In draft-ietf-dnsop-structured-dns-error.md <[#51 (comment)](https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/51#discussion_r1367730710)>: > @@ -261,7 +261,7 @@ c: (contact) : The contact details of the IT/InfoSec team to report mis-classified DNS filtering. This information is important for transparency and also to ease unblocking a legitimate domain name that got blocked due to wrong classification. : This field is structured as an array of contact URIs -(e.g., 'tel' {{?RFC3966}}, 'sips' {{?RFC5630}}, 'https' {{?RFC8615}}). At least one contact URI MUST be +(e.g., 'tel' {{?RFC3966}} or 'sips' {{?RFC5630}}). At least one contact URI MUST be included. we need text to say that only \"mail\", \"sips\" and \"tel\" URI schemes will be allowed by this specification and an IANA registry with specification required will be required to allow new URI schemes. This way new schemes can be created without bis document.\r\n> With all the concern on the list over having \"http\" on the list, extending such a registry would need a higher bar than 'designated expert'. Would need at *least* specification required but that's probably too low a bar, as well. The choices are at https://www.ietf.org/rfc/bcp/bcp26.html for easy reference. I would say it needs IETF Review. \r\nIf that is the bar, though, I wouldn't bother with an IANA registry. Someone who wants to extend the list can just write an RFC that adds \"http\" (or whatever schema they like). Or do we now need to IANA registry All The Things?\r\n\r\n\r\n> [\u2026](#)\r\n> -d\r\n\r\n\r\n\r\n> On Oct 21, 2023, at 6:32\u202fAM, Tirumaleswar Reddy ***@***.***> wrote: @tireddy2 commented on this pull request. In draft-ietf-dnsop-structured-dns-error.md <[#51 (comment)](https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/51#discussion_r1367730710)>: > @@ -261,7 +261,7 @@ c: (contact) : The contact details of the IT/InfoSec team to report mis-classified DNS filtering. This information is important for transparency and also to ease unblocking a legitimate domain name that got blocked due to wrong classification. : This field is structured as an array of contact URIs -(e.g., 'tel' {{?RFC3966}}, 'sips' {{?RFC5630}}, 'https' {{?RFC8615}}). At least one contact URI MUST be +(e.g., 'tel' {{?RFC3966}} or 'sips' {{?RFC5630}}). At least one contact URI MUST be included. we need text to say that only \"mail\", \"sips\" and \"tel\" URI schemes will be allowed by this specification and an IANA registry with specification required will be required to allow new URI schemes. This way new schemes can be created without bis document.\r\n> With all the concern on the list over having \"http\" on the list, extending such a registry would need a higher bar than 'designated expert'. Would need at *least* specification required but that's probably too low a bar, as well. The choices are at https://www.ietf.org/rfc/bcp/bcp26.html for easy reference. I would say it needs IETF Review. If that is the bar, though, I wouldn't bother with an IANA registry. Someone who wants to extend the list can just write an RFC that adds \"http\" (or whatever schema they like). Or do we now need to IANA registry All The Things?\r\n> [\u2026](#)\r\n> -d\r\n\r\nGood points, IETF review sounds good to me. IANA registry helps avoid the need to for an implementer to follow multiple documents to support this specification. We can also add a \"Recommended\" column to indicate the schemes that implementations are recommended to support.",
+          "createdAt": "2023-10-22T05:15:54Z",
+          "updatedAt": "2023-10-22T05:15:54Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> `If the client can display an error page to the end-user, it MUST generate the error page. The \"c,\" \"j,\" and \"o\" fields MUST NOT be used to display an error page.`\r\n> \r\n> Wording of the first sentence is improved, but I don't get why we're stating that. I mean, a browser _could_ display an error page. But it still may have reasons not to, including a configuration setting! Which means it violated the MUST. And maybe it never had code to display anything to the user, but rather just to report back to IT (so IT can automatically fix mis-classified filters now that IT can correlate the DNS query to the user and probably the user's URL, all automatically with cooperating software on the client).\r\n> \r\n> I am still confused by \"The ... fields MUST NOT be used to display an error\". Why have that constraint? Is mailto: not safe enough to show the user? And still not safe enough for the user to click on it? If those fields aren't displayed, what _would_ be displayed to the user, nothing from this I-D?\r\n\r\nI raised this text to address the comment from the WG that \"https:\" field could be misused by the DNS operator to display a fancy error page with advertisements or a phishing page similar to the one provided by the origin server. I would like to convey the message that \"c\", \"o\" and \"j\" fields must not be used to generate a error page but the contents of these fields can possibility be displayed in the error page generated by the client. How about the following text ? \r\n\r\nIt is important to clarify that the 'c,' 'o,' and 'j' fields MUST NOT be utilized for generating an error page. However, it is worth noting that the content of these fields could be incorporated into error page generated by the client.\r\n\r\n\r\n",
+          "createdAt": "2023-10-27T09:56:30Z",
+          "updatedAt": "2023-10-27T09:56:30Z"
+        },
+        {
+          "author": "bemasc",
+          "authorAssociation": "NONE",
+          "body": "Personally, I don't like having an IANA registry for this.  I would prefer to leave the text as previously, with no particular limitation on the schemes in use, and simply change the examples to replace \"https\" (which is a strange example for a \"contact URI\") with \"mailto\" (which is the most obvious example).\r\n\r\nWe could also add some text noting that clients MAY ignore any schemes that they do not feel are safe to support, and SHOULD exercise caution before adding support for new schemes.",
+          "createdAt": "2023-10-31T18:08:56Z",
+          "updatedAt": "2023-10-31T18:08:56Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Personally, I don't like having an IANA registry for this. I would prefer to leave the text as previously, with no particular limitation on the schemes in use, and simply change the examples to replace \"https\" (which is a strange example for a \"contact URI\") with \"mailto\" (which is the most obvious example).\r\n\r\nThis would allow any other scheme like 'https' scheme to be used. The revised draft ensures that only safe schemes are permitted.\r\n\r\n> \r\n> We could also add some text noting that clients MAY ignore any schemes that they do not feel are safe to support, and SHOULD exercise caution before adding support for new schemes.\r\n\r\nThe client may not know whether a new scheme is safe or not. The IETF review process ensures that only safe schemes are permitted, relieving clients from the need to perform threat analysis.\r\n",
+          "createdAt": "2023-11-01T13:19:41Z",
+          "updatedAt": "2023-11-01T13:19:41Z"
+        },
+        {
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> `If the client can display an error page to the end-user, it MUST generate the error page. The \"c,\" \"j,\" and \"o\" fields MUST NOT be used to display an error page.`\r\n> \r\n> Wording of the first sentence is improved, but I don't get why we're stating that. I mean, a browser _could_ display an error page. But it still may have reasons not to, including a configuration setting! Which means it violated the MUST. And maybe it never had code to display anything to the user, but rather just to report back to IT (so IT can automatically fix mis-classified filters now that IT can correlate the DNS query to the user and probably the user's URL, all automatically with cooperating software on the client).\r\n> \r\n> I am still confused by \"The ... fields MUST NOT be used to display an error\". Why have that constraint? Is mailto: not safe enough to show the user? And still not safe enough for the user to click on it? If those fields aren't displayed, what _would_ be displayed to the user, nothing from this I-D?\r\n\r\nThe comment is addressed. ",
+          "createdAt": "2023-11-05T15:24:59Z",
+          "updatedAt": "2023-11-05T15:24:59Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5kzpEi",
+          "commit": {
+            "abbreviatedOid": "4e658d2"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-21T13:31:43Z",
+          "updatedAt": "2023-10-21T13:31:56Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "we need text to say that only \"mail\", \"sips\" and \"tel\" URI schemes will be allowed by this specification and an IANA registry with specification required will be required to allow new URI schemes. This way new schemes can be created without bis document. ",
+              "createdAt": "2023-10-21T13:31:43Z",
+              "updatedAt": "2023-10-21T13:31:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5lUayb",
+          "commit": {
+            "abbreviatedOid": "01fb5e3"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "New in this edit I see:\r\n\r\n`The client MUST handle the display of an error page to the end-user. The \"c,\" \"j,\" and \"o\" \r\n fields MUST NOT be used to display an error page.`\r\n\r\nThe client might not want to generate an error page at all; maybe it just wants to log to a file.  Who knows.  I also disagree with \"The ... fields MUST NOT be used\", well, then, what is supposed to be used??  I don't get this edit at all.  I mean, the intent of eliminating https from \"c\" was so that sip/tel/mailto would be 'safer' to show to the user.  But now we can't show?\r\n\r\nI would just delete this new paragraph (\"The client MUST handle the display...\") starting on line 497 of the version I see here on Github.\r\n",
+          "createdAt": "2023-10-26T14:45:20Z",
+          "updatedAt": "2023-10-26T14:45:20Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5lUdA5",
+          "commit": {
+            "abbreviatedOid": "01fb5e3"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "`If the client can display an error page to the end-user, it MUST generate the error page. The \"c,\" \"j,\" and \"o\" fields MUST NOT be used to display an error page.`\r\n\r\nWording of the first sentence is improved, but I don't get why we're stating that.  I mean, a browser *could* display an error page.  But it still may have reasons not to, including a configuration setting!  Which means it violated the MUST.  And maybe it never had code to display anything to the user, but rather just to report back to IT (so IT can automatically fix mis-classified filters now that IT can correlate the DNS query to the user and probably the user's URL, all automatically with cooperating software on the client).\r\n\r\nI am still confused by \"The ... fields MUST NOT be used to display an error\".  Why have that constraint?  Is mailto: not safe enough to show the user?  And still not safe enough for the user to click on it?  If those fields aren't displayed, what *would* be displayed to the user, nothing from this I-D?\r\n\r\n",
+          "createdAt": "2023-10-26T14:49:15Z",
+          "updatedAt": "2023-10-26T14:49:15Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5lY6xn",
+          "commit": {
+            "abbreviatedOid": "01fb5e3"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-27T05:41:28Z",
+          "updatedAt": "2023-10-27T05:50:18Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\n: This field is structured as an array of contact URIs, using 'tel' {{!RFC3966}} or 'sips' {{!RFC5630}} or  'mailto' {{!RFC3966}} schemes. At least one contact URI MUST be included.\r\n\r\n: New contact URI schemes may be added to the IANA registry following the instructions in {{IANA-Contact}}.\r\n```",
+              "createdAt": "2023-10-27T05:41:28Z",
+              "updatedAt": "2023-10-27T05:50:18Z"
+            },
+            {
+              "originalPosition": 35,
+              "body": "```suggestion\r\nIf the client can display an error page to the end-user, it MUST generate the error page. The \"c,\" \"j\", and \"o\" fields MUST NOT be used to display an error page.\r\n```",
+              "createdAt": "2023-10-27T05:43:08Z",
+              "updatedAt": "2023-10-27T05:50:18Z"
+            },
+            {
+              "originalPosition": 45,
+              "body": "```suggestion\r\n## New Registry for Contact URI Scheme {#IANA-Contact}\r\n```",
+              "createdAt": "2023-10-27T05:43:33Z",
+              "updatedAt": "2023-10-27T05:50:18Z"
+            },
+            {
+              "originalPosition": 47,
+              "body": "```suggestion\r\nThis document requests IANA to create a new registry, entitled \"Contact URI Schemes\"\r\n```",
+              "createdAt": "2023-10-27T05:43:53Z",
+              "updatedAt": "2023-10-27T05:50:18Z"
+            },
+            {
+              "originalPosition": 49,
+              "body": "```suggestion\r\nregistry {{IANA-DNS}}. The registration request for a new Contact URI scheme MUST include the\r\n```",
+              "createdAt": "2023-10-27T05:44:35Z",
+              "updatedAt": "2023-10-27T05:50:18Z"
+            },
+            {
+              "originalPosition": 54,
+              "body": "```suggestion\r\n* Meaning: Provides a short description of the scheme.\r\n```",
+              "createdAt": "2023-10-27T05:45:52Z",
+              "updatedAt": "2023-10-27T05:50:18Z"
+            },
+            {
+              "originalPosition": 57,
+              "body": "```suggestion\r\n  the URI scheme.\r\n```",
+              "createdAt": "2023-10-27T05:47:19Z",
+              "updatedAt": "2023-10-27T05:50:18Z"
+            },
+            {
+              "originalPosition": 56,
+              "body": "```suggestion\r\n* Reference: Provides a pointer to an IETF-approved specification that defines\r\n```",
+              "createdAt": "2023-10-27T05:47:31Z",
+              "updatedAt": "2023-10-27T05:50:18Z"
+            },
+            {
+              "originalPosition": 70,
+              "body": "```suggestion\r\n{: #reg-contact='Initial Contact URI Schemes Registry'}\r\n```",
+              "createdAt": "2023-10-27T05:47:55Z",
+              "updatedAt": "2023-10-27T05:50:18Z"
+            },
+            {
+              "originalPosition": 35,
+              "body": "Not sure to get what is the purpose of:\r\n\r\n\"If the client can display an error page to the end-user, it MUST generate the error page\"",
+              "createdAt": "2023-10-27T05:50:08Z",
+              "updatedAt": "2023-10-27T05:50:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5laZS6",
+          "commit": {
+            "abbreviatedOid": "01fb5e3"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-27T09:57:15Z",
+          "updatedAt": "2023-10-27T09:57:15Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "I will remove this line.",
+              "createdAt": "2023-10-27T09:57:15Z",
+              "updatedAt": "2023-10-27T09:57:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5laZaP",
+          "commit": {
+            "abbreviatedOid": "a74fc0d"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-27T09:57:33Z",
+          "updatedAt": "2023-10-27T09:57:33Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5lcvrm",
+          "commit": {
+            "abbreviatedOid": "3d25f5a"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-27T15:19:50Z",
+          "updatedAt": "2023-10-27T15:19:51Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "```suggestion\r\nregistry {{IANA-DNS}}. The registration request for a new Contact URI scheme has to include the\r\n```",
+              "createdAt": "2023-10-27T15:19:51Z",
+              "updatedAt": "2023-10-27T15:19:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5lcwHH",
+          "commit": {
+            "abbreviatedOid": "01fb5e3"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-27T15:20:53Z",
+          "updatedAt": "2023-10-27T15:20:53Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "> I will remove this line.\r\n\r\nThanks, Tiru\r\n",
+              "createdAt": "2023-10-27T15:20:53Z",
+              "updatedAt": "2023-10-27T15:20:53Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 52,
+      "id": "PR_kwDOI6P3FM5jP8xv",
+      "title": "Neil's suggestions:  ignore unrecognized JSON names, and longer expla\u2026",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/52",
+      "state": "MERGED",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026nation of DNS Operator vs Network Operator policy differences",
+      "createdAt": "2024-01-04T18:28:06Z",
+      "updatedAt": "2024-01-09T19:10:07Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "e9187e7cc94e9a69fc2d07f1b15ce02254b0cec7",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "neil_tuneups",
+      "headRefOid": "17a11e87e3cdfa082a98e704d48f485da6784a54",
+      "closedAt": "2024-01-09T19:10:07Z",
+      "mergedAt": "2024-01-09T19:10:07Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "f5c7ae696a6ea135c3b49fdd4bd605f01442b333"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5rm_y_",
+          "commit": {
+            "abbreviatedOid": "5f1ada7"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-05T05:59:24Z",
+          "updatedAt": "2024-01-05T05:59:24Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI6P3FM5r9sG6",
+          "commit": {
+            "abbreviatedOid": "5f1ada7"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2024-01-09T14:57:07Z",
+          "updatedAt": "2024-01-09T14:58:59Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\n  * Meaning: Network Operator Policy. The code indicates that the request was filtered according to a policy imposed by the operator of the local network (where local network is a relative term, e.g., it may refer to a Local Area Network or to the network of the ISP selected by the user).\r\n```",
+              "createdAt": "2024-01-09T14:57:07Z",
+              "updatedAt": "2024-01-09T14:58:59Z"
+            },
+            {
+              "originalPosition": 23,
+              "body": "```suggestion\r\n  * Meaning: DNS Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the DNS server. This is different from the \"Network Operator Policy\" code when a third-party DNS resolver is used.\r\n```\r\n\r\nThird-party is generic enough",
+              "createdAt": "2024-01-09T14:57:51Z",
+              "updatedAt": "2024-01-09T14:58:59Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 53,
+      "id": "PR_kwDOI6P3FM5jlqui",
+      "title": "use unicode name",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/53",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-01-09T15:10:56Z",
+      "updatedAt": "2024-01-09T19:10:39Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "e9187e7cc94e9a69fc2d07f1b15ce02254b0cec7",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-16",
+      "headRefOid": "31a3c5c1961446ccc9157e4a123d009f1412f143",
+      "closedAt": "2024-01-09T19:10:39Z",
+      "mergedAt": "2024-01-09T19:10:39Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "8dffcaf2031284ec3c40b114e8d2145ff57fc620"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM5r_jHK",
+          "commit": {
+            "abbreviatedOid": "31a3c5c"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-09T19:10:33Z",
+          "updatedAt": "2024-01-09T19:10:33Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 54,
+      "id": "PR_kwDOI6P3FM5jlvDU",
+      "title": "unsupported JSON names",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/54",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-01-09T15:21:13Z",
+      "updatedAt": "2024-01-09T18:21:10Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "e9187e7cc94e9a69fc2d07f1b15ce02254b0cec7",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-17",
+      "headRefOid": "c12a06a2f1349484c1ba60f15da8dadff6b14758",
+      "closedAt": "2024-01-09T18:21:10Z",
+      "mergedAt": "2024-01-09T18:21:10Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "a1c912aeabcd124a3ae9738ca03bc772b331e920"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 56,
+      "id": "PR_kwDOI6P3FM5j1mfE",
+      "title": "remove redundant 'Unrecognized JSON names are ignored'",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/56",
+      "state": "MERGED",
+      "author": "danwing",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-01-11T17:15:03Z",
+      "updatedAt": "2024-01-11T17:16:00Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "8dffcaf2031284ec3c40b114e8d2145ff57fc620",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "remove-redundancy",
+      "headRefOid": "9183433f77f63c484d46f711def986925be3460a",
+      "closedAt": "2024-01-11T17:16:00Z",
+      "mergedAt": "2024-01-11T17:16:00Z",
+      "mergedBy": "danwing",
+      "mergeCommit": {
+        "oid": "02e27668fb9fe4a2a5c4981e22ba1e024bdba63c"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 57,
+      "id": "PR_kwDOI6P3FM6DC-yR",
+      "title": "Address WGLC comments",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/57",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-11-25T14:30:39Z",
+      "updatedAt": "2024-11-26T12:45:49Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "02e27668fb9fe4a2a5c4981e22ba1e024bdba63c",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-6",
+      "headRefOid": "21cd702b694dc7950acc7b7fa2fb7bc403a159a2",
+      "closedAt": "2024-11-26T12:45:49Z",
+      "mergedAt": "2024-11-26T12:45:49Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "2888402be1b13b6826633320bab66b3dc101a4ec"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM6Sj2Bh",
+          "commit": {
+            "abbreviatedOid": "0a9708f"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Thanks for taking care of this.",
+          "createdAt": "2024-11-25T16:01:39Z",
+          "updatedAt": "2024-11-25T16:10:52Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n   * However, this approach is ineffective when DNSSEC is deployed given that DNSSEC\r\n```",
+              "createdAt": "2024-11-25T16:01:39Z",
+              "updatedAt": "2024-11-25T16:10:53Z"
+            },
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\r\n     domain name that a user attempted to access.\r\n```",
+              "createdAt": "2024-11-25T16:02:11Z",
+              "updatedAt": "2024-11-25T16:10:53Z"
+            },
+            {
+              "originalPosition": 13,
+              "body": "```suggestion\r\n   * Configuring a local root certificate on endpoints is\r\n```",
+              "createdAt": "2024-11-25T16:02:41Z",
+              "updatedAt": "2024-11-25T16:10:53Z"
+            },
+            {
+              "originalPosition": 28,
+              "body": "```suggestion\r\na domain name cannot be reached and may repeatedly try to reach that domain name\r\n```",
+              "createdAt": "2024-11-25T16:03:31Z",
+              "updatedAt": "2024-11-25T16:10:53Z"
+            },
+            {
+              "originalPosition": 29,
+              "body": "```suggestion\r\nbut without success. Frustrated, an end user may use insecure connections\r\n```",
+              "createdAt": "2024-11-25T16:03:58Z",
+              "updatedAt": "2024-11-25T16:10:53Z"
+            },
+            {
+              "originalPosition": 30,
+              "body": "```suggestion\r\nto reach the domain name, potentially compromising both security and privacy.\r\n```",
+              "createdAt": "2024-11-25T16:04:40Z",
+              "updatedAt": "2024-11-25T16:10:53Z"
+            },
+            {
+              "originalPosition": 39,
+              "body": "```suggestion\r\n: The \"lang\" field indicates the language used for the JSON-encoded \"j\" and \"o\" fields.  The value of this field MUST conform to the\r\n```",
+              "createdAt": "2024-11-25T16:06:22Z",
+              "updatedAt": "2024-11-25T16:10:53Z"
+            },
+            {
+              "originalPosition": 40,
+              "body": "```suggestion\r\n  language tag syntax specified in {{Section 2.1 of !RFC5646}}.\r\n```",
+              "createdAt": "2024-11-25T16:06:41Z",
+              "updatedAt": "2024-11-25T16:10:53Z"
+            },
+            {
+              "originalPosition": 77,
+              "body": "```suggestion\r\n  \"l\": \"tzm\",\r\n```",
+              "createdAt": "2024-11-25T16:09:53Z",
+              "updatedAt": "2024-11-25T16:10:53Z"
+            },
+            {
+              "originalPosition": 77,
+              "body": "for more diversity and localization",
+              "createdAt": "2024-11-25T16:10:09Z",
+              "updatedAt": "2024-11-25T16:10:53Z"
+            },
+            {
+              "originalPosition": 85,
+              "body": "```suggestion\r\n| l | language     | Indicates the language of the \"j\" and \"o\" fields as defined in {{!RFC5646}} | No | {{name-spec}} of RFCXXXX |\r\n```",
+              "createdAt": "2024-11-25T16:10:32Z",
+              "updatedAt": "2024-11-25T16:10:53Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 58,
+      "id": "PR_kwDOI6P3FM6DL_3-",
+      "title": "ACK WGLC reviewers",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/58",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-11-26T13:10:38Z",
+      "updatedAt": "2024-11-26T13:46:32Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "94eb637f48ea311060b668893aa83d558a90cbf6",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "ACK-WGLC-reviewers",
+      "headRefOid": "b4c41bd62dfcb7874439dd1933fd90bf78416eb6",
+      "closedAt": "2024-11-26T13:46:32Z",
+      "mergedAt": "2024-11-26T13:46:32Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "580b0aace7ad5ddbcefceb4a5eac0a0b0ac52b7c"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM6SuOV0",
+          "commit": {
+            "abbreviatedOid": "b4c41bd"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-11-26T13:46:25Z",
+          "updatedAt": "2024-11-26T13:46:25Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 59,
+      "id": "PR_kwDOI6P3FM6Rn8gr",
+      "title": "Address comments from AD",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/59",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-07T12:26:45Z",
+      "updatedAt": "2025-04-07T12:49:17Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "5947be7407efdd82a9c521754163c7c010127ecd",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-7",
+      "headRefOid": "2959709c25f6335b9728d04af79ec8ed3f9c4ff1",
+      "closedAt": "2025-04-07T12:49:17Z",
+      "mergedAt": "2025-04-07T12:49:17Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "17b2dce7ca8ccc08794da034e20daf2070075345"
+      },
+      "comments": [
+        {
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "All is OK now, Tiru.",
+          "createdAt": "2025-04-07T12:34:46Z",
+          "updatedAt": "2025-04-07T12:34:46Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM6jtoKc",
+          "commit": {
+            "abbreviatedOid": "2959709"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks, Tiru.",
+          "createdAt": "2025-04-07T12:29:47Z",
+          "updatedAt": "2025-04-07T12:34:11Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 60,
+      "id": "PR_kwDOI6P3FM6Rn_Dr",
+      "title": "Update action version",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/60",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-07T12:31:06Z",
+      "updatedAt": "2025-04-07T12:32:41Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "580b0aace7ad5ddbcefceb4a5eac0a0b0ac52b7c",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-18",
+      "headRefOid": "19d4eb6a04e3b3f62fc7efde257a36620b94d299",
+      "closedAt": "2025-04-07T12:32:41Z",
+      "mergedAt": "2025-04-07T12:32:41Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "5947be7407efdd82a9c521754163c7c010127ecd"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 61,
+      "id": "PR_kwDOI6P3FM6RoAtd",
+      "title": "sync with base",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/61",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-07T12:33:55Z",
+      "updatedAt": "2025-04-07T12:34:09Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "tireddy2-patch-7",
+      "baseRefOid": "3e152672fe22656e5a8c5022280e72769632aecb",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "main",
+      "headRefOid": "5947be7407efdd82a9c521754163c7c010127ecd",
+      "closedAt": "2025-04-07T12:34:09Z",
+      "mergedAt": "2025-04-07T12:34:09Z",
+      "mergedBy": "boucadair",
+      "mergeCommit": {
+        "oid": "2959709c25f6335b9728d04af79ec8ed3f9c4ff1"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 62,
+      "id": "PR_kwDOI6P3FM6RoNOE",
+      "title": "Addressed couple of other comments from AD",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/62",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-07T12:54:31Z",
+      "updatedAt": "2025-04-08T05:27:30Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "17b2dce7ca8ccc08794da034e20daf2070075345",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-8",
+      "headRefOid": "3b6dd83b980e7b371e1e8b2dee119ad66b3187fa",
+      "closedAt": "2025-04-08T05:27:30Z",
+      "mergedAt": "2025-04-08T05:27:30Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "c75423750cdfa6c2ae8292823da9991f01f8e126"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM6jvyrn",
+          "commit": {
+            "abbreviatedOid": "3b6dd83"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-04-07T15:16:09Z",
+          "updatedAt": "2025-04-07T15:16:09Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 63,
+      "id": "PR_kwDOI6P3FM6SWfDg",
+      "title": "Address pending comments from AD",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/63",
+      "state": "OPEN",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-12T10:54:35Z",
+      "updatedAt": "2025-04-12T16:38:58Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "64fb18cef86232d2278223194cc282f52c4b99c0",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-9",
+      "headRefOid": "f219562aeabbc7e92c4470c22806e423c7a21dc5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM6ko8B_",
+          "commit": {
+            "abbreviatedOid": "f219562"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-04-12T16:38:58Z",
+          "updatedAt": "2025-04-12T16:38:58Z",
           "comments": []
         }
       ]
