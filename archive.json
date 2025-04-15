@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-13T02:06:59.280745+00:00",
+  "timestamp": "2025-04-15T00:41:13.590979+00:00",
   "repo": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
   "labels": [
     {
@@ -3495,24 +3495,26 @@
       "id": "PR_kwDOI6P3FM6SWfDg",
       "title": "Address pending comments from AD",
       "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/63",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tireddy2",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-04-12T10:54:35Z",
-      "updatedAt": "2025-04-12T16:38:58Z",
+      "updatedAt": "2025-04-13T09:03:39Z",
       "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
       "baseRefName": "main",
       "baseRefOid": "64fb18cef86232d2278223194cc282f52c4b99c0",
       "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
       "headRefName": "tireddy2-patch-9",
       "headRefOid": "f219562aeabbc7e92c4470c22806e423c7a21dc5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-04-13T09:03:39Z",
+      "mergedAt": "2025-04-13T09:03:39Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "c6df58a1988a8f37954df5edc4321a0794bcb3da"
+      },
       "comments": [],
       "reviews": [
         {
@@ -3529,6 +3531,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 64,
+      "id": "PR_kwDOI6P3FM6SY5nC",
+      "title": "fix json example",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/64",
+      "state": "OPEN",
+      "author": "boucadair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-13T09:41:49Z",
+      "updatedAt": "2025-04-13T09:41:59Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "c6df58a1988a8f37954df5edc4321a0794bcb3da",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "boucadair-patch-19",
+      "headRefOid": "8a3a08fec1080d4e56ad5c82501c20f60d92a2ff",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
