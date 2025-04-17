@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 15 October 2025                                         N. Cook
+Expires: 19 October 2025                                         N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                           13 April 2025
+                                                           17 April 2025
 
 
                  Structured Error Data for Filtered DNS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 October 2025.
+   This Internet-Draft will expire on 19 October 2025.
 
 Copyright Notice
 
@@ -558,8 +558,8 @@ Table of Contents
      ],
      "j": "malware present for 23 days",
      "s": 1,
-     "o": "example.net Filtering Service"
-     "l": "tzm",
+     "o": "example.net Filtering Service",
+     "l": "tzm"
    }
 
      Figure 1: JSON Returned in EXTRA-TEXT Field of Extended DNS Error
