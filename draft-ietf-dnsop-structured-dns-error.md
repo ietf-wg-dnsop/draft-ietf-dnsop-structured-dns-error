@@ -177,13 +177,13 @@ methods have advantages and disadvantages that are discussed below:
 
 1. The DNS response is forged to provide a list of IP addresses that
 points to an HTTP(S) server alerting the end user about the reason for
-blocking access to the requested domain (e.g., malware). When an
-HTTP(S) enabled domain name is blocked, the network security device
+blocking access to the requested domain (e.g., malware). If the authority component
+of an HTTP(S) URL is blocked, the network security device
 (e.g., Customer Premises Equipment (CPE) or firewall) presents a block page instead of the HTTP
-response from the content provider hosting that domain. If an HTTP
-enabled domain name is blocked, the network security device intercepts
-the HTTP request and returns a block page over HTTP. If an HTTPS
-enabled domain is blocked, the network security device serves the block page over HTTPS.
+response from the content provider hosting that domain. If the authority component
+of an HTTP URL is blocked, the network security device intercepts
+the HTTP request and returns a block page over HTTP. If the authority component
+of an HTTPS URL is blocked, the network security device serves the block page over HTTPS.
 In order to return a block page over HTTPS, the network security device uses a locally
 generated root certificate and corresponding key pair. The local root certificate is
 installed on the endpoint while the network security device stores a copy of the private key.
@@ -191,7 +191,7 @@ During the TLS handshake, the on-path network security device modifies the certi
 provided by the server and (re)signs it using the private key from the local root
 certificate.
 
-   * However, this approach is ineffective when DNSSEC is deployed given that DNSSEC
+   * However, in deployments where DNSSEC is used, this approach becomes ineffective because DNSSEC
      ensures the integrity and authenticity of DNS responses, preventing forged DNS
      responses from being accepted.
 
@@ -305,7 +305,11 @@ The JSON data can be parsed to display to the user, logged, or
 otherwise used to assist the end-user or IT staff with troubleshooting
 and diagnosing the cause of the DNS filtering.
 
+The sub-error codes provide a structured way to communicate more detailed and precise communication of the cause of an error (e.g., distinguishing between malware-related blocking and phishing-related blocking under the general blocked error).
+
 > An alternate design for conveying the suberror would be to define new EDE codes for these errors. However, such design is suboptimal because it requires replicating an error code for each EDE code to which the suberror applies (e.g., "Malware" suberror in {{reg}} would consume three EDE codes).
+
+
 
 # Protocol Operation
 
@@ -680,7 +684,7 @@ At IETF#116, Gianpaolo Scalone (Vodafone) and Ralf Weber (Akamai) presented an i
 
 Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
 Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, Bob
-Harold, Mukund Sivaraman, Stephane Bortzmeyer, Gianpaolo Angelo Scalone, and Daniel Migault for the comments.
+Harold, Mukund Sivaraman, Stephane Bortzmeyer, Gianpaolo Angelo Scalone, Mark Nottingham, and Daniel Migault for the comments.
 
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
 
