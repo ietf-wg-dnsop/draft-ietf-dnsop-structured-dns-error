@@ -177,12 +177,12 @@ methods have advantages and disadvantages that are discussed below:
 
 1. The DNS response is forged to provide a list of IP addresses that
 points to an HTTP(S) server alerting the end user about the reason for
-blocking access to the requested domain (e.g., malware). If the authority component 
+blocking access to the requested domain (e.g., malware). If the authority component
 of an HTTP(S) URL is blocked, the network security device
 (e.g., Customer Premises Equipment (CPE) or firewall) presents a block page instead of the HTTP
-response from the content provider hosting that domain. If the authority component 
+response from the content provider hosting that domain. If the authority component
 of an HTTP URL is blocked, the network security device intercepts
-the HTTP request and returns a block page over HTTP. If the authority component 
+the HTTP request and returns a block page over HTTP. If the authority component
 of an HTTPS URL is blocked, the network security device serves the block page over HTTPS.
 In order to return a block page over HTTPS, the network security device uses a locally
 generated root certificate and corresponding key pair. The local root certificate is
