@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-15T00:41:13.590979+00:00",
+  "timestamp": "2025-04-20T00:44:01.310138+00:00",
   "repo": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
   "labels": [
     {
@@ -3537,26 +3537,110 @@
       "id": "PR_kwDOI6P3FM6SY5nC",
       "title": "fix json example",
       "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/64",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "boucadair",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-04-13T09:41:49Z",
-      "updatedAt": "2025-04-13T09:41:59Z",
+      "updatedAt": "2025-04-17T12:12:32Z",
       "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
       "baseRefName": "main",
       "baseRefOid": "c6df58a1988a8f37954df5edc4321a0794bcb3da",
       "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
       "headRefName": "boucadair-patch-19",
       "headRefOid": "8a3a08fec1080d4e56ad5c82501c20f60d92a2ff",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-04-17T12:12:32Z",
+      "mergedAt": "2025-04-17T12:12:32Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "d5575b087bd4b1e32ca2f9863d98e690d7f674e1"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM6lbyRn",
+          "commit": {
+            "abbreviatedOid": "8a3a08f"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-04-17T12:12:26Z",
+          "updatedAt": "2025-04-17T12:12:26Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 65,
+      "id": "PR_kwDOI6P3FM6S-0Gk",
+      "title": "Address comments from Mark",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/65",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-17T12:14:48Z",
+      "updatedAt": "2025-04-18T06:12:24Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "d5575b087bd4b1e32ca2f9863d98e690d7f674e1",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-11",
+      "headRefOid": "f04353f11e99636416c28e9e532d437424ac0eb3",
+      "closedAt": "2025-04-18T06:12:24Z",
+      "mergedAt": "2025-04-18T06:12:24Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "42f30a2ccd71936d76f35e0f48bef3333498199c"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM6leFkE",
+          "commit": {
+            "abbreviatedOid": "434e65e"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "looks good after 'fix-lint' to remove trailing whitespace.",
+          "createdAt": "2025-04-17T15:11:00Z",
+          "updatedAt": "2025-04-17T15:11:00Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI6P3FM6leJEM",
+          "commit": {
+            "abbreviatedOid": "434e65e"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-04-17T15:16:27Z",
+          "updatedAt": "2025-04-17T15:16:27Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI6P3FM6lkDKU",
+          "commit": {
+            "abbreviatedOid": "f04353f"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-04-18T06:09:47Z",
+          "updatedAt": "2025-04-18T06:09:47Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
