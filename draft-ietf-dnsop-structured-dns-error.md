@@ -628,7 +628,7 @@ following fields:
 * Change Controller: Indicates the person or entity, with contact information if appropriate.
 
 The Sub-Error Code registry is initially be populated with the
-following sub-error codes:
+following values:
 
 | Number | Meaning | Extended DNS Error Codes applicability | Reference |  Change Controller |
 |:------:|:--------|:---------------------------------------|:----------|:------------------:|
