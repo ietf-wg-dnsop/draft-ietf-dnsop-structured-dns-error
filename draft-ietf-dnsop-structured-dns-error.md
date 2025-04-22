@@ -630,7 +630,7 @@ following fields:
 The Sub-Error Code registry is initially be populated with the
 following values:
 
-| Number | Meaning | Extended DNS Error Codes applicability | Reference |  Change Controller |
+| Number | Meaning | EDE Codes Applicability | Reference |  Change Controller |
 |:------:|:--------|:---------------------------------------|:----------|:------------------:|
 | 0 | Reserved| Not used | {{policy-reserved}} of this document | IETF |
 | 1 | Malware | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
