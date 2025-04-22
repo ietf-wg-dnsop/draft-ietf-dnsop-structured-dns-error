@@ -763,7 +763,7 @@ Table of Contents
       information if appropriate.
 
    The Sub-Error Code registry is initially be populated with the
-   following sub-error codes:
+   following values:
 
    +========+==========+===================+=============+============+
    | Number | Meaning  | Extended DNS      | Reference   |   Change   |
