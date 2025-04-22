@@ -766,9 +766,8 @@ Table of Contents
    following values:
 
    +========+==========+===================+=============+============+
-   | Number | Meaning  | Extended DNS      | Reference   |   Change   |
-   |        |          | Error Codes       |             | Controller |
-   |        |          | applicability     |             |            |
+   | Number | Meaning  | EDE Codes         | Reference   |   Change   |
+   |        |          | Applicability     |             | Controller |
    +========+==========+===================+=============+============+
    |   0    | Reserved | Not used          | Section 7.1 |    IETF    |
    |        |          |                   | of this     |            |
