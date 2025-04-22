@@ -756,8 +756,8 @@ Table of Contents
 
    *  Meaning: Provides a short description of the sub-error.
 
-   *  Applicability: Indicates which Extended DNS Error Codes apply to
-      this sub-error code.
+   *  Applicability: Indicates which Extended DNS Error (EDE) Codes
+      apply to this sub-error code.
 
    *  Reference: Provides a pointer to an IETF-approved specification
       that registered the code and/or an authoritative specification
@@ -767,12 +767,11 @@ Table of Contents
       information if appropriate.
 
    The Sub-Error Code registry is initially be populated with the
-   following sub-error codes:
+   following values:
 
    +========+==========+===================+=============+============+
-   | Number | Meaning  | Extended DNS      | Reference   |   Change   |
-   |        |          | Error Codes       |             | Controller |
-   |        |          | applicability     |             |            |
+   | Number | Meaning  | EDE Codes         | Reference   |   Change   |
+   |        |          | Applicability     |             | Controller |
    +========+==========+===================+=============+============+
    |   0    | Reserved | Not used          | Section 7.1 |    IETF    |
    |        |          |                   | of this     |            |
