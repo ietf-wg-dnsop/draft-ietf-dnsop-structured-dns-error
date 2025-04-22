@@ -271,8 +271,9 @@ would indicate that a DNS server is misbehaving. Note also that the provided
 justification is useful for cross-validation with another DNS server.
 : This field is mandatory.
 
-s: (suberror)
-: The suberror code for this particular DNS filtering.
+s: (sub-error)
+: An integer representing the sub-error code for this particular DNS filtering case.
+: The integer values are defined in the IANA-managed registry for DNS Sub-Error Codes {{IANA-SubError}}.
 : This field is optional.
 
 o: (organization)
@@ -307,7 +308,7 @@ and diagnosing the cause of the DNS filtering.
 
 The sub-error codes provide a structured way to communicate more detailed and precise communication of the cause of an error (e.g., distinguishing between malware-related blocking and phishing-related blocking under the general blocked error).
 
-> An alternate design for conveying the suberror would be to define new EDE codes for these errors. However, such design is suboptimal because it requires replicating an error code for each EDE code to which the suberror applies (e.g., "Malware" suberror in {{reg}} would consume three EDE codes).
+> An alternate design for conveying the sub-error would be to define new EDE codes for these errors. However, such design is suboptimal because it requires replicating an error code for each EDE code to which the sub-error applies (e.g., "Malware" sub-error in {{reg}} would consume three EDE codes).
 
 
 
@@ -491,7 +492,7 @@ In {{example-json-minified}} the same content is shown with minified JSON (no
 whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 
 ~~~~~
-{::include-fold68left0 ./examples/minified.json}
+{"c":["tel:+358-555-1234567","sips:bob@bobphone.example.com","https://ticket.example.com?d=example.org&t=1650560748"],"j":"malware present for 23 days","s":1,"o":"example.net Filtering Service"}
 ~~~~~
 {: #example-json-minified title="Minified Response"}
 
@@ -520,7 +521,7 @@ If the client decides not to display all of the
 information in the EXTRA-TEXT field, it can be logged for diagnostics
 purpose and the client can only display the resolver hostname that
 blocked the domain, error description for the EDE code and the
-suberror description for the "s" field to the end-user.
+sub-error description for the "s" field to the end-user.
 
 When displaying the free-form text of "j" and "o", the browser MUST
 NOT make any of those elements into actionable (clickable) links and these
@@ -551,6 +552,9 @@ following fields:
 JSON Name:
 : Specifies the name of an attribute that is present in the JSON data enclosed in EXTRA-TEXT field. The name must follow the guidelines in {{name-spec}}.
 
+Field Meaning:
+: Provides a brief, human-readable label summarizing the purpose of the JSON attribute.
+
 Short description:
 : Includes a short description of the requested JSON name.
 
@@ -562,11 +566,11 @@ Specification:
 
 The registry is initially populated with the following values:
 
-| JSON Name | Full JSON Name | Description                      | Mandatory |  Specification |
+| JSON Name | Field Meaning  | Description                      | Mandatory |  Specification |
 |:---------:|:---------------|:---------------------------------|:----------|:------------------:|
 | c | contact| The contact details of the IT/InfoSec team to report mis-classified DNS filtering | Y | {{name-spec}} of RFCXXXX |
 | j | justification | UTF-8-encoded {{!RFC5198}} textual justification for a particular DNS filtering | Y | {{name-spec}} of RFCXXXX |
-| s | suberror | the suberror code for this particular DNS filtering | N | {{name-spec}} of RFCXXXX |
+| s | sub-error | Integer representing the sub-error code for this DNS filtering case | N | {{name-spec}} of RFCXXXX |
 | o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query | N | {{name-spec}} of RFCXXXX |
 | l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} | No | {{name-spec}} of RFCXXXX |
 {: #reg-names title='Initial JSON Names Registry'}
@@ -604,18 +608,18 @@ following schemes:
 
 New Contact URI schemes are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
 
-## New Registry for DNS SubError Codes
+## New Registry for DNS Sub-Error Codes {#IANA-SubError}
 
-This document requests IANA to create a new registry, entitled "SubError Codes"
+This document requests IANA to create a new registry, entitled "Sub-Error Codes"
 under "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
-registry {{IANA-DNS}}. The registration request for a new suberror codes MUST include the
+registry {{IANA-DNS}}. The registration request for a new sub-error codes MUST include the
 following fields:
 
-* Number: Is the wire format suberror code (range 0-255).
+* Number: Is the wire format sub-error code (range 0-255).
 
 * Meaning: Provides a short description of the sub-error.
 
-* Applicability: Indicates which RFC8914 error codes apply to this sub-error code.
+* Applicability: Indicates which Extended DNS Error Codes apply to this sub-error code.
 
 * Reference: Provides a pointer to an IETF-approved specification that registered
   the code and/or an authoritative specification that describes the
@@ -623,11 +627,11 @@ following fields:
 
 * Change Controller: Indicates the person or entity, with contact information if appropriate.
 
-The SubError Code registry is initially be populated with the
-following suberror codes:
+The Sub-Error Code registry is initially be populated with the
+following sub-error codes:
 
-| Number | Meaning | RFC8914 error code applicability | Reference |  Change Controller |
-|:------:|:--------|:---------------------------------|:----------|:------------------:|
+| Number | Meaning | Extended DNS Error Codes applicability | Reference |  Change Controller |
+|:------:|:--------|:---------------------------------------|:----------|:------------------:|
 | 0 | Reserved| Not used | {{policy-reserved}} of this document | IETF |
 | 1 | Malware | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
 | 2 | Phishing | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
@@ -635,9 +639,9 @@ following suberror codes:
 | 4 | Spyware | "Blocked", "Blocked by Upstream Server", "Filtered" | Page 291 of {{!RFC4949}} | IETF |
 | 5 | Network operator policy | "Blocked" | {{policy-network}} of this document | IETF |
 | 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document | IETF |
-{: #reg title='Initial SubError Code Registry'}
+{: #reg title='Initial Sub-Error Code Registry'}
 
-New SubError Codes are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
+New Sub-Error Codes are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
 
 ## New Extended DNS Error Code
 
@@ -689,6 +693,8 @@ Harold, Mukund Sivaraman, Stephane Bortzmeyer, Gianpaolo Angelo Scalone, Mark No
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
 
 Thanks Di Ma and Matt Brown for the DNS directorate reviews, and Joseph Salowey for the Security directorate review.
+
+Thanks Paul Kyzivat for the Art review.
 
 Thanks to Éric Vyncke for the AD review.
 
