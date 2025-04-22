@@ -578,9 +578,13 @@ Table of Contents
    In Figure 2 the same content is shown with minified JSON (no
    whitespace, no blank lines) with '\' line wrapping per [RFC8792].
 
-{"c":["tel:+358-555-1234567","sips:bob@bobphone.example.com","https://ticket.example.com?d=example.org&t=1650560748"],"j":"malware present for 23 days","s":1,"o":"example.net Filtering Service"}
+   { "c":["tel:+358-555-1234567","sips:bob@bobphone.example.com"],\
+   "j":"malware present for 23 days",\
+   "s":1,\
+   "o":"example.net Filtering Service",\
+   "l":"tzm" }
 
-                     Figure 2: Minified Response
+                        Figure 2: Minified Response
 
 10.  Security Considerations
 
@@ -752,8 +756,8 @@ Table of Contents
 
    *  Meaning: Provides a short description of the sub-error.
 
-   *  Applicability: Indicates which Extended DNS Error (EDE) Codes
-      apply to this sub-error code.
+   *  Applicability: Indicates which Extended DNS Error Codes apply to
+      this sub-error code.
 
    *  Reference: Provides a pointer to an IETF-approved specification
       that registered the code and/or an authoritative specification
@@ -763,11 +767,12 @@ Table of Contents
       information if appropriate.
 
    The Sub-Error Code registry is initially be populated with the
-   following values:
+   following sub-error codes:
 
    +========+==========+===================+=============+============+
-   | Number | Meaning  | EDE Codes         | Reference   |   Change   |
-   |        |          | Applicability     |             | Controller |
+   | Number | Meaning  | Extended DNS      | Reference   |   Change   |
+   |        |          | Error Codes       |             | Controller |
+   |        |          | applicability     |             |            |
    +========+==========+===================+=============+============+
    |   0    | Reserved | Not used          | Section 7.1 |    IETF    |
    |        |          |                   | of this     |            |
