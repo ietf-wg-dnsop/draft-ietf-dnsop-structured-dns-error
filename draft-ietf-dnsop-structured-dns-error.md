@@ -623,7 +623,7 @@ following fields:
 
 * Meaning: Provides a short description of the sub-error.
 
-* Applicability: Indicates which Extended DNS Error Codes apply to this sub-error code.
+* Applicability: Indicates which Extended DNS Error (EDE) Codes apply to this sub-error code.
 
 * Reference: Provides a pointer to an IETF-approved specification that registered
   the code and/or an authoritative specification that describes the
@@ -632,10 +632,10 @@ following fields:
 * Change Controller: Indicates the person or entity, with contact information if appropriate.
 
 The Sub-Error Code registry is initially be populated with the
-following sub-error codes:
+following values:
 
-| Number | Meaning | Extended DNS Error Codes applicability | Reference |  Change Controller |
-|:------:|:--------|:---------------------------------------|:----------|:------------------:|
+| Number | Meaning | EDE Codes Applicability | Reference |  Change Controller |
+|:------:|:--------|:------------------------|:----------|:------------------:|
 | 0 | Reserved| Not used | {{policy-reserved}} of this document | IETF |
 | 1 | Malware | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
 | 2 | Phishing | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
