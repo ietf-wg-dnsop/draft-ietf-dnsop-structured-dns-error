@@ -619,7 +619,7 @@ following fields:
 
 * Meaning: Provides a short description of the sub-error.
 
-* Applicability: Indicates which Extended DNS Error Codes apply to this sub-error code.
+* Applicability: Indicates which Extended DNS Error (EDE) Codes apply to this sub-error code.
 
 * Reference: Provides a pointer to an IETF-approved specification that registered
   the code and/or an authoritative specification that describes the
