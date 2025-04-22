@@ -492,7 +492,11 @@ In {{example-json-minified}} the same content is shown with minified JSON (no
 whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 
 ~~~~~
-{"c":["tel:+358-555-1234567","sips:bob@bobphone.example.com","https://ticket.example.com?d=example.org&t=1650560748"],"j":"malware present for 23 days","s":1,"o":"example.net Filtering Service"}
+{ "c":["tel:+358-555-1234567","sips:bob@bobphone.example.com"],\
+"j":"malware present for 23 days",\
+"s":1,\
+"o":"example.net Filtering Service",\
+"l":"tzm" }
 ~~~~~
 {: #example-json-minified title="Minified Response"}
 
@@ -619,7 +623,7 @@ following fields:
 
 * Meaning: Provides a short description of the sub-error.
 
-* Applicability: Indicates which Extended DNS Error (EDE) Codes apply to this sub-error code.
+* Applicability: Indicates which Extended DNS Error Codes apply to this sub-error code.
 
 * Reference: Provides a pointer to an IETF-approved specification that registered
   the code and/or an authoritative specification that describes the
@@ -628,9 +632,9 @@ following fields:
 * Change Controller: Indicates the person or entity, with contact information if appropriate.
 
 The Sub-Error Code registry is initially be populated with the
-following values:
+following sub-error codes:
 
-| Number | Meaning | EDE Codes Applicability | Reference |  Change Controller |
+| Number | Meaning | Extended DNS Error Codes applicability | Reference |  Change Controller |
 |:------:|:--------|:---------------------------------------|:----------|:------------------:|
 | 0 | Reserved| Not used | {{policy-reserved}} of this document | IETF |
 | 1 | Malware | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
