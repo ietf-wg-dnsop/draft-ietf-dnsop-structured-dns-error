@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 20 October 2025                                         N. Cook
+Expires: 25 October 2025                                         N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                           18 April 2025
+                                                           23 April 2025
 
 
                  Structured Error Data for Filtered DNS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 October 2025.
+   This Internet-Draft will expire on 25 October 2025.
 
 Copyright Notice
 
@@ -100,7 +100,7 @@ Table of Contents
    11. IANA Considerations
      11.1.  New Registry for JSON Names
      11.2.  New Registry for Contact URI Scheme
-     11.3.  New Registry for DNS SubError Codes
+     11.3.  New Registry for DNS Sub-Error Codes
      11.4.  New Extended DNS Error Code
    12. References
      12.1.  Normative References
@@ -326,7 +326,11 @@ Table of Contents
 
       This field is mandatory.
 
-   s: (suberror)  The suberror code for this particular DNS filtering.
+   s: (sub-error)  An integer representing the sub-error code for this
+      particular DNS filtering case.
+
+      The integer values are defined in the IANA-managed registry for
+      DNS Sub-Error Codes Section 11.3.
 
       This field is optional.
 
@@ -370,10 +374,10 @@ Table of Contents
    distinguishing between malware-related blocking and phishing-related
    blocking under the general blocked error).
 
-      An alternate design for conveying the suberror would be to define
+      An alternate design for conveying the sub-error would be to define
       new EDE codes for these errors.  However, such design is
       suboptimal because it requires replicating an error code for each
-      EDE code to which the suberror applies (e.g., "Malware" suberror
+      EDE code to which the sub-error applies (e.g., "Malware" sub-error
       in Table 3 would consume three EDE codes).
 
 5.  Protocol Operation
@@ -574,11 +578,11 @@ Table of Contents
    In Figure 2 the same content is shown with minified JSON (no
    whitespace, no blank lines) with '\' line wrapping per [RFC8792].
 
-   =============== NOTE: '\' line wrapping per RFC 8792 ===============
-
-   {"c":["tel:+358-555-1234567","sips:bob@bobphone.example.com","https\
-   ://ticket.example.com?d=example.org&t=1650560748"],"j":"malware \
-   present for 23 days","s":1,"o":"example.net Filtering Service"}
+   { "c":["tel:+358-555-1234567","sips:bob@bobphone.example.com"],\
+   "j":"malware present for 23 days",\
+   "s":1,\
+   "o":"example.net Filtering Service",\
+   "l":"tzm" }
 
                         Figure 2: Minified Response
 
@@ -607,8 +611,8 @@ Table of Contents
    decides not to display all of the information in the EXTRA-TEXT
    field, it can be logged for diagnostics purpose and the client can
    only display the resolver hostname that blocked the domain, error
-   description for the EDE code and the suberror description for the "s"
-   field to the end-user.
+   description for the EDE code and the sub-error description for the
+   "s" field to the end-user.
 
    When displaying the free-form text of "j" and "o", the browser MUST
    NOT make any of those elements into actionable (clickable) links and
@@ -644,6 +648,9 @@ Table of Contents
       JSON data enclosed in EXTRA-TEXT field.  The name must follow the
       guidelines in Section 4.
 
+   Field Meaning:  Provides a brief, human-readable label summarizing
+      the purpose of the JSON attribute.
+
    Short description:  Includes a short description of the requested
       JSON name.
 
@@ -656,8 +663,8 @@ Table of Contents
    The registry is initially populated with the following values:
 
    +====+===============+==================+===========+===============+
-   |JSON| Full JSON     | Description      | Mandatory | Specification |
-   |Name| Name          |                  |           |               |
+   |JSON| Field Meaning | Description      | Mandatory | Specification |
+   |Name|               |                  |           |               |
    +====+===============+==================+===========+===============+
    | c  | contact       | The contact      | Y         |  Section 4 of |
    |    |               | details of the   |           |    RFCXXXX    |
@@ -674,10 +681,12 @@ Table of Contents
    |    |               | particular DNS   |           |               |
    |    |               | filtering        |           |               |
    +----+---------------+------------------+-----------+---------------+
-   | s  | suberror      | the suberror     | N         |  Section 4 of |
-   |    |               | code for this    |           |    RFCXXXX    |
-   |    |               | particular DNS   |           |               |
-   |    |               | filtering        |           |               |
+   | s  | sub-error     | Integer          | N         |  Section 4 of |
+   |    |               | representing     |           |    RFCXXXX    |
+   |    |               | the sub-error    |           |               |
+   |    |               | code for this    |           |               |
+   |    |               | DNS filtering    |           |               |
+   |    |               | case             |           |               |
    +----+---------------+------------------+-----------+---------------+
    | o  | organization  | UTF-8-encoded    | N         |  Section 4 of |
    |    |               | human-friendly   |           |    RFCXXXX    |
@@ -736,19 +745,19 @@ Table of Contents
    New Contact URI schemes are registered via IETF Review (Section 4.8
    of [RFC8126]).
 
-11.3.  New Registry for DNS SubError Codes
+11.3.  New Registry for DNS Sub-Error Codes
 
-   This document requests IANA to create a new registry, entitled
-   "SubError Codes" under "Domain Name System (DNS) Parameters, Extended
-   DNS Error Codes" registry [IANA-DNS].  The registration request for a
-   new suberror codes MUST include the following fields:
+   This document requests IANA to create a new registry, entitled "Sub-
+   Error Codes" under "Domain Name System (DNS) Parameters, Extended DNS
+   Error Codes" registry [IANA-DNS].  The registration request for a new
+   sub-error codes MUST include the following fields:
 
-   *  Number: Is the wire format suberror code (range 0-255).
+   *  Number: Is the wire format sub-error code (range 0-255).
 
    *  Meaning: Provides a short description of the sub-error.
 
-   *  Applicability: Indicates which RFC8914 error codes apply to this
-      sub-error code.
+   *  Applicability: Indicates which Extended DNS Error (EDE) Codes
+      apply to this sub-error code.
 
    *  Reference: Provides a pointer to an IETF-approved specification
       that registered the code and/or an authoritative specification
@@ -757,13 +766,12 @@ Table of Contents
    *  Change Controller: Indicates the person or entity, with contact
       information if appropriate.
 
-   The SubError Code registry is initially be populated with the
-   following suberror codes:
+   The Sub-Error Code registry is initially be populated with the
+   following values:
 
    +========+==========+===================+=============+============+
-   | Number | Meaning  | RFC8914 error     | Reference   |   Change   |
-   |        |          | code              |             | Controller |
-   |        |          | applicability     |             |            |
+   | Number | Meaning  | EDE Codes         | Reference   |   Change   |
+   |        |          | Applicability     |             | Controller |
    +========+==========+===================+=============+============+
    |   0    | Reserved | Not used          | Section 7.1 |    IETF    |
    |        |          |                   | of this     |            |
@@ -798,9 +806,9 @@ Table of Contents
    |        | policy   |                   | document    |            |
    +--------+----------+-------------------+-------------+------------+
 
-                 Table 3: Initial SubError Code Registry
+                 Table 3: Initial Sub-Error Code Registry
 
-   New SubError Codes are registered via IETF Review (Section 4.8 of
+   New Sub-Error Codes are registered via IETF Review (Section 4.8 of
    [RFC8126]).
 
 11.4.  New Extended DNS Error Code
@@ -985,6 +993,8 @@ Acknowledgements
 
    Thanks Di Ma and Matt Brown for the DNS directorate reviews, and
    Joseph Salowey for the Security directorate review.
+
+   Thanks Paul Kyzivat for the Art review.
 
    Thanks to Éric Vyncke for the AD review.
 
