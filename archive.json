@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-20T00:44:01.310138+00:00",
+  "timestamp": "2025-04-24T00:40:44.949153+00:00",
   "repo": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
   "labels": [
     {
@@ -3639,6 +3639,93 @@
           "createdAt": "2025-04-18T06:09:47Z",
           "updatedAt": "2025-04-18T06:09:47Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 66,
+      "id": "PR_kwDOI6P3FM6TaxCJ",
+      "title": "Address comments from Art review",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/66",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-22T10:40:38Z",
+      "updatedAt": "2025-04-23T05:43:15Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "42f30a2ccd71936d76f35e0f48bef3333498199c",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-12",
+      "headRefOid": "b1f7d524849e0d5fedf1405a995fd2e8c06ef334",
+      "closedAt": "2025-04-23T05:43:15Z",
+      "mergedAt": "2025-04-23T05:43:15Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "b0a407107913407652e047180e403fc1103bf79a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM6l7CEk",
+          "commit": {
+            "abbreviatedOid": "98c2fe0"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2025-04-22T11:01:24Z",
+          "updatedAt": "2025-04-22T11:03:35Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "We should remove the 8792 trailing note if we don't use it in the example",
+              "createdAt": "2025-04-22T11:01:24Z",
+              "updatedAt": "2025-04-22T11:03:35Z"
+            },
+            {
+              "originalPosition": 83,
+              "body": "```suggestion\r\n* Applicability: Indicates which Extended DNS Error (EDE) Codes apply to this sub-error code.\r\n```",
+              "createdAt": "2025-04-22T11:02:26Z",
+              "updatedAt": "2025-04-22T11:03:35Z"
+            },
+            {
+              "originalPosition": 94,
+              "body": "```suggestion\r\nfollowing values:\r\n```",
+              "createdAt": "2025-04-22T11:02:41Z",
+              "updatedAt": "2025-04-22T11:03:35Z"
+            },
+            {
+              "originalPosition": 98,
+              "body": "```suggestion\r\n| Number | Meaning | EDE Codes Applicability | Reference |  Change Controller |\r\n```",
+              "createdAt": "2025-04-22T11:03:19Z",
+              "updatedAt": "2025-04-22T11:03:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI6P3FM6mDuaX",
+          "commit": {
+            "abbreviatedOid": "98c2fe0"
+          },
+          "author": "tireddy2",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-23T05:43:00Z",
+          "updatedAt": "2025-04-23T05:43:00Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "Fixed, updated draft to use '\\'",
+              "createdAt": "2025-04-23T05:43:00Z",
+              "updatedAt": "2025-04-23T05:43:01Z"
+            }
+          ]
         }
       ]
     }
