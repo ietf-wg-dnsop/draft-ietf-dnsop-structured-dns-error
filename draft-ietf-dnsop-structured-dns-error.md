@@ -460,7 +460,11 @@ The document defines the following new IANA-registered Sub-Error codes.
 
   * Change Controller: IETF
 
-# Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
+# New Extended DNS Errors
+
+This document defines an addition to the EDE codes defined in {{RFC8914}}.
+
+## Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
 
 The DNS server (e.g., a DNS forwarder) is unable to respond to the request
 because the domain is on a blocklist due to an internal security policy
@@ -596,21 +600,19 @@ following fields:
 * Reference: Provides a pointer to an IETF-approved specification that defines
   the URI scheme.
 
-* Change Controller: Indicates the person or entity, with contact information if appropriate.
-
 The Contact URI scheme registry is initially be populated with the
 following schemes:
 
-| Name      | Meaning           | Reference     | Change Controller |
-|:---------:|:------------------|:-------------:|:-----------------:|
-| sips      | SIP Call           | {{!RFC5630}} |     IETF          |
-| tel       | Telephone Number   | {{!RFC3966}} |     IETF          |
-| mailto    | Internet mail      | {{!RFC6068}} |     IETF          |
+| Name      | Meaning           | Reference     | 
+|:---------:|:------------------|:-------------:|
+| sips      | SIP Call           | {{!RFC5630}} |
+| tel       | Telephone Number   | {{!RFC3966}} |
+| mailto    | Internet mail      | {{!RFC6068}} |
 
 {: #reg-contact='Initial Contact URI Schemes Registry'}
 
-
-New Contact URI schemes are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
+The registration procedure for adding new Contact URI schemes to the "Contact URI Schemes" registry is "IETF
+Review" as defined in {{Section 4.8 of !RFC8126}}.
 
 ## New Registry for DNS Sub-Error Codes {#IANA-SubError}
 
@@ -629,23 +631,21 @@ following fields:
   the code and/or an authoritative specification that describes the
   meaning of this code.
 
-* Change Controller: Indicates the person or entity, with contact information if appropriate.
-
 The Sub-Error Code registry is initially be populated with the
 following values:
 
-| Number | Meaning | EDE Codes Applicability | Reference |  Change Controller |
-|:------:|:--------|:------------------------|:----------|:------------------:|
-| 0 | Reserved| Not used | {{policy-reserved}} of this document | IETF |
-| 1 | Malware | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
-| 2 | Phishing | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | IETF |
-| 3 | Spam | "Blocked", "Blocked by Upstream Server", "Filtered" | Page 289 of {{?RFC4949}} | IETF |
-| 4 | Spyware | "Blocked", "Blocked by Upstream Server", "Filtered" | Page 291 of {{!RFC4949}} | IETF |
-| 5 | Network operator policy | "Blocked" | {{policy-network}} of this document | IETF |
-| 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document | IETF |
+| Number | Meaning | EDE Codes Applicability | Reference |  
+|:------:|:--------|:------------------------|:----------|
+| 0 | Reserved| Not used | {{policy-reserved}} of this document | 
+| 1 | Malware | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | 
+| 2 | Phishing | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | 
+| 3 | Spam | "Blocked", "Blocked by Upstream Server", "Filtered" | Page 289 of {{?RFC4949}} | 
+| 4 | Spyware | "Blocked", "Blocked by Upstream Server", "Filtered" | Page 291 of {{!RFC4949}} | 
+| 5 | Network operator policy | "Blocked" | {{policy-network}} of this document | 
+| 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document | 
 {: #reg title='Initial Sub-Error Code Registry'}
 
-New Sub-Error Codes are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
+The registration procedure to add New Sub-Error Codes are registered via IETF Review as defined in {{Section 4.8 of !RFC8126}}.
 
 ## New Extended DNS Error Code
 
