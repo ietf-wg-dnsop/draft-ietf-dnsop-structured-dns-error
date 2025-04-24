@@ -273,7 +273,7 @@ justification is useful for cross-validation with another DNS server.
 
 s: (sub-error)
 : An integer representing the sub-error code for this particular DNS filtering case.
-: The integer values are defined in the IANA-managed registry for DNS Sub-Error Codes in {{IANA-SubError}}.
+: The integer values are defined in the IANA-managed registry for DNS Sub-Error Codes {{IANA-SubError}}.
 : This field is optional.
 
 o: (organization)
