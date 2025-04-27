@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-24T00:40:44.949153+00:00",
+  "timestamp": "2025-04-27T00:43:56.285193+00:00",
   "repo": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
   "labels": [
     {
@@ -3724,6 +3724,55 @@
               "body": "Fixed, updated draft to use '\\'",
               "createdAt": "2025-04-23T05:43:00Z",
               "updatedAt": "2025-04-23T05:43:01Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 67,
+      "id": "PR_kwDOI6P3FM6TwJej",
+      "title": "Address further comments from Art review",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/67",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-24T11:45:11Z",
+      "updatedAt": "2025-04-24T15:31:01Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "b0a407107913407652e047180e403fc1103bf79a",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-13",
+      "headRefOid": "b8e247b7225820bf1390df0a5536bb15e6bab214",
+      "closedAt": "2025-04-24T15:31:01Z",
+      "mergedAt": "2025-04-24T15:31:01Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "44a5fd963ec311a663b94935048bd05567b32049"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM6mWp3U",
+          "commit": {
+            "abbreviatedOid": "a954ffd"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-04-24T12:32:30Z",
+          "updatedAt": "2025-04-24T12:33:49Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n: The integer values are defined in the IANA-managed registry for DNS Sub-Error Codes {{IANA-SubError}}.\r\n```",
+              "createdAt": "2025-04-24T12:32:30Z",
+              "updatedAt": "2025-04-24T12:33:49Z"
             }
           ]
         }
