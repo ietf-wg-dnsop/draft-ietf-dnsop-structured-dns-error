@@ -116,7 +116,7 @@ to use another network, open a trouble ticket with the DNS service administrator
 resolve erroneous filtering, log the information, etc.
 
 For the DNS filtering mechanisms described in {{existing-techniques}}, the DNS
-server can return extended error codes Blocked, Filtered, or
+server can return extended error codes Blocked, Filtered, Censored, or
 Forged Answer defined in {{Section 4 of !RFC8914}}. However, these codes
 only explain that filtering occurred but lack detail for the user to
 diagnose erroneous filterings.
@@ -162,8 +162,8 @@ DNS-over-QUIC {{?RFC9250}}.
 
 The document refers to an Extended DNS Error (EDE) using its purpose, not its
 INFO-CODE as per Table 3 of {{!RFC8914}}. "Forged Answer",
-"Blocked", and "Filtered" are thus used to refer to "Forged Answer (4)",
-"Blocked (15)", and "Filtered (17)".
+"Blocked", "Censored", and "Filtered" are thus used to refer to "Forged Answer (4)",
+"Blocked (15)", "Censored (16)",and "Filtered (17)".
 
 The term "DNS server" refers to a DNS recursive resolver or
 a DNS forwarder that generates DNS structured error responses.
@@ -273,7 +273,7 @@ justification is useful for cross-validation with another DNS server.
 
 s: (sub-error)
 : An integer representing the sub-error code for this particular DNS filtering case.
-: The integer values are defined in the IANA-managed registry for DNS Sub-Error Codes {{IANA-SubError}}.
+: The integer values are defined in the IANA-managed registry for DNS Sub-Error Codes in {{IANA-SubError}}.
 : This field is optional.
 
 o: (organization)
@@ -350,6 +350,9 @@ can take advantage of EDE's more sophisticated error reporting (e.g.,
 Answer" even to an EDE-supporting client will cause the persistence of
 the drawbacks described in {{existing-techniques}}.
 
+When the "Censored" extended error code is included in the DNS response,
+the "c", "j", "o", and "l" fields may be conveyed in the EXTRA-TEXT field.
+
 ## Client Processing Response {#client-processing}
 
 On receipt of a DNS response with an EDE option from a
@@ -373,10 +376,11 @@ field:
 
 4. If either of the mandatory JSON names "c" and "j" are missing or
    have empty values in the EXTRA-TEXT field, the entire JSON is
-   discarded.
+   discarded. 
 
-5. If the "c" field contains any URI scheme not registered in the
-   {{IANA-Contact}} registry, that field MUST be discarded.
+5. If the "c" field contains any contact URIs that use a scheme not registered
+   in the {{IANA-Contact}} registry, only those URIs MUST be discarded. Contact
+   URIs using registered schemes can be processed.
 
 6. If a DNS client has enabled opportunistic privacy profile ({{Section 5
    of !RFC8310}}) for DoT, the DNS client will either fall back to an
@@ -487,7 +491,7 @@ DNS "A" record query for 'example.org' is provided in {{example-json}}.
   "j": "malware present for 23 days",
   "s": 1,
   "o": "example.net Filtering Service",
-  "l": "tzm"
+  "l": "en"
 }
 ~~~~~
 {: #example-json title="JSON Returned in EXTRA-TEXT Field of Extended DNS Error Response"}
@@ -500,7 +504,7 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 "j":"malware present for 23 days",\
 "s":1,\
 "o":"example.net Filtering Service",\
-"l":"tzm" }
+"l":"en" }
 ~~~~~
 {: #example-json-minified title="Minified Response"}
 
@@ -580,7 +584,7 @@ The registry is initially populated with the following values:
 | j | justification | UTF-8-encoded {{!RFC5198}} textual justification for a particular DNS filtering | Y | {{name-spec}} of RFCXXXX |
 | s | sub-error | Integer representing the sub-error code for this DNS filtering case | N | {{name-spec}} of RFCXXXX |
 | o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query | N | {{name-spec}} of RFCXXXX |
-| l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} | No | {{name-spec}} of RFCXXXX |
+| l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} | N | {{name-spec}} of RFCXXXX |
 {: #reg-names title='Initial JSON Names Registry'}
 
 New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
@@ -692,7 +696,7 @@ At IETF#116, Gianpaolo Scalone (Vodafone) and Ralf Weber (Akamai) presented an i
 
 Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
 Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, Bob
-Harold, Mukund Sivaraman, Stephane Bortzmeyer, Gianpaolo Angelo Scalone, Mark Nottingham, and Daniel Migault for the comments.
+Harold, Mukund Sivaraman, Stephane Bortzmeyer, Gianpaolo Angelo Scalone, Mark Nottingham, Stephane Bortzmeyer, and Daniel Migault for the comments.
 
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
 
