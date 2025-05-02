@@ -78,6 +78,10 @@ informative:
      title: "Use of DNS Errors To improve Browsing User Experience With network based malware protection"
      target: https://datatracker.ietf.org/meeting/116/materials/slides-116-dnsop-dns-errors-implementation-proposal-slides-116-dnsop-update-on-dns-errors-implementation-00
      date: 30-03-2023
+  IANA-Enterprise:
+     title: "Private Enterprise Numbers (PENs)"
+     target: https://www.iana.org/assignments/enterprise-numbers/
+     date: false
 
 --- abstract
 
@@ -293,9 +297,14 @@ RECOMMENDED they be as short as possible.
 
 The text in the "j" and "o" names can include international
 characters. The text will be in natural language, chosen by the DNS administrator
-to match its expected audience. If the text is provided in a language not known to the end-user,
-the client can use the "l" (language) field to identify the language of the text
-and translate it to the user's preferred language.
+to match its expected audience.
+
+If the client supports diagnostic interfaces, it MAY use the "l" field to identify
+the language of the "j" text and optionally translate it for IT administrators.
+
+The "o" field MAY be displayed to end users, subject to the conditions described in {{security}}.
+If the text is in a language not understood by the end-user, the "l" field can be used
+to identify the language and support translation into the end-user's preferred language.
 
 To reduce DNS message size the generated JSON SHOULD be as short as
 possible: short domain names, concise text in the values for the "j"
@@ -376,7 +385,7 @@ field:
 
 4. If either of the mandatory JSON names "c" and "j" are missing or
    have empty values in the EXTRA-TEXT field, the entire JSON is
-   discarded. 
+   discarded.
 
 5. If the "c" field contains any contact URIs that use a scheme not registered
    in the {{IANA-Contact}} registry, only those URIs MUST be discarded. Contact
@@ -520,8 +529,8 @@ and sent over clear text.
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
 
-A client might choose to display the information in the "c", "j", and
-"o" fields if and only if the encrypted resolver has sufficient
+A client might choose to display the information in the "c" field
+to the end-user if and only if the encrypted resolver has sufficient
 reputation, according to some local policy (e.g., user configuration,
 administrative configuration, or a built-in list of respectable
 resolvers). This limits the ability of a malicious encrypted resolver
@@ -535,11 +544,18 @@ purpose and the client can only display the resolver hostname that
 blocked the domain, error description for the EDE code and the
 sub-error description for the "s" field to the end-user.
 
-When displaying the free-form text of "j" and "o", the browser MUST
+When displaying the free-form text of "o", the browser MUST
 NOT make any of those elements into actionable (clickable) links and these
 fields need to be rendered as text, not as HTML. The contact details of "c" can be made
 into clickable links to provide a convenient way for users to initiate, e.g., voice calls. The client might
 choose to display the contact details only when the identity of the DNS server is verified.
+
+Further, clients MUST NOT display the value of the `"o"` field to the end-user unless one of the following
+conditions is met:
+
+  * The value matches a registered organization name listed in the {{IANA-Enterprise}} OR
+  * The value consists solely of an organization name and does not contain any additional free-form
+    content such as instructions, URLs, or messaging intended to influence the end-user behavior.
 
 An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
@@ -607,7 +623,7 @@ following fields:
 The Contact URI scheme registry is initially be populated with the
 following schemes:
 
-| Name      | Meaning           | Reference     | 
+| Name      | Meaning           | Reference     |
 |:---------:|:------------------|:-------------:|
 | sips      | SIP Call           | {{!RFC5630}} |
 | tel       | Telephone Number   | {{!RFC3966}} |
@@ -638,15 +654,15 @@ following fields:
 The Sub-Error Code registry is initially be populated with the
 following values:
 
-| Number | Meaning | EDE Codes Applicability | Reference |  
+| Number | Meaning | EDE Codes Applicability | Reference |
 |:------:|:--------|:------------------------|:----------|
-| 0 | Reserved| Not used | {{policy-reserved}} of this document | 
-| 1 | Malware | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | 
-| 2 | Phishing | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} | 
-| 3 | Spam | "Blocked", "Blocked by Upstream Server", "Filtered" | Page 289 of {{?RFC4949}} | 
-| 4 | Spyware | "Blocked", "Blocked by Upstream Server", "Filtered" | Page 291 of {{!RFC4949}} | 
-| 5 | Network operator policy | "Blocked" | {{policy-network}} of this document | 
-| 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document | 
+| 0 | Reserved| Not used | {{policy-reserved}} of this document |
+| 1 | Malware | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} |
+| 2 | Phishing | "Blocked", "Blocked by Upstream Server", "Filtered" | Section 5.5 of {{!RFC5901}} |
+| 3 | Spam | "Blocked", "Blocked by Upstream Server", "Filtered" | Page 289 of {{?RFC4949}} |
+| 4 | Spyware | "Blocked", "Blocked by Upstream Server", "Filtered" | Page 291 of {{!RFC4949}} |
+| 5 | Network operator policy | "Blocked" | {{policy-network}} of this document |
+| 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document |
 {: #reg title='Initial Sub-Error Code Registry'}
 
 The registration procedure to add New Sub-Error Codes are registered via IETF Review as defined in {{Section 4.8 of !RFC8126}}.
