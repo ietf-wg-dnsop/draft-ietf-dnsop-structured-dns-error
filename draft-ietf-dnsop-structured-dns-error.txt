@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 25 October 2025                                         N. Cook
+Expires: 3 November 2025                                         N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                           23 April 2025
+                                                              2 May 2025
 
 
                  Structured Error Data for Filtered DNS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 October 2025.
+   This Internet-Draft will expire on 3 November 2025.
 
 Copyright Notice
 
@@ -94,7 +94,9 @@ Table of Contents
      7.1.  Reserved
      7.2.  Network Operator Policy
      7.3.  DNS Operator Policy
-   8.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
+   8.  New Extended DNS Errors
+     8.1.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS
+           Server
    9.  Examples
    10. Security Considerations
    11. IANA Considerations
@@ -134,10 +136,10 @@ Table of Contents
    information, etc.
 
    For the DNS filtering mechanisms described in Section 3, the DNS
-   server can return extended error codes Blocked, Filtered, or Forged
-   Answer defined in Section 4 of [RFC8914].  However, these codes only
-   explain that filtering occurred but lack detail for the user to
-   diagnose erroneous filterings.
+   server can return extended error codes Blocked, Filtered, Censored,
+   or Forged Answer defined in Section 4 of [RFC8914].  However, these
+   codes only explain that filtering occurred but lack detail for the
+   user to diagnose erroneous filterings.
 
    No matter which type of response is generated (forged IP address(es),
    NXDOMAIN or empty answer, even with an extended error code), the user
@@ -183,8 +185,9 @@ Table of Contents
 
    The document refers to an Extended DNS Error (EDE) using its purpose,
    not its INFO-CODE as per Table 3 of [RFC8914].  "Forged Answer",
-   "Blocked", and "Filtered" are thus used to refer to "Forged Answer
-   (4)", "Blocked (15)", and "Filtered (17)".
+   "Blocked", "Censored", and "Filtered" are thus used to refer to
+   "Forged Answer (4)", "Blocked (15)", "Censored (16)",and "Filtered
+   (17)".
 
    The term "DNS server" refers to a DNS recursive resolver or a DNS
    forwarder that generates DNS structured error responses.
@@ -330,7 +333,7 @@ Table of Contents
       particular DNS filtering case.
 
       The integer values are defined in the IANA-managed registry for
-      DNS Sub-Error Codes Section 11.3.
+      DNS Sub-Error Codes in Section 11.3.
 
       This field is optional.
 
@@ -355,10 +358,17 @@ Table of Contents
 
    The text in the "j" and "o" names can include international
    characters.  The text will be in natural language, chosen by the DNS
-   administrator to match its expected audience.  If the text is
-   provided in a language not known to the end-user, the client can use
-   the "l" (language) field to identify the language of the text and
-   translate it to the user's preferred language.
+   administrator to match its expected audience.
+
+   If the client supports diagnostic interfaces, it MAY use the "l"
+   field to identify the language of the "j" text and optionally
+   translate it for IT administrators.
+
+   The "o" field MAY be displayed to end users, subject to the
+   conditions described in Section 10.  If the text is in a language not
+   understood by the end-user, the "l" field can be used to identify the
+   language and support translation into the end-user's preferred
+   language.
 
    To reduce DNS message size the generated JSON SHOULD be as short as
    possible: short domain names, concise text in the values for the "j"
@@ -419,6 +429,10 @@ Table of Contents
    "Forged Answer" even to an EDE-supporting client will cause the
    persistence of the drawbacks described in Section 3.
 
+   When the "Censored" extended error code is included in the DNS
+   response, the "c", "j", "o", and "l" fields may be conveyed in the
+   EXTRA-TEXT field.
+
 5.3.  Client Processing Response
 
    On receipt of a DNS response with an EDE option from a DNS responder,
@@ -444,8 +458,10 @@ Table of Contents
        have empty values in the EXTRA-TEXT field, the entire JSON is
        discarded.
 
-   5.  If the "c" field contains any URI scheme not registered in the
-       Section 11.2 registry, that field MUST be discarded.
+   5.  If the "c" field contains any contact URIs that use a scheme not
+       registered in the Section 11.2 registry, only those URIs MUST be
+       discarded.  Contact URIs using registered schemes can be
+       processed.
 
    6.  If a DNS client has enabled opportunistic privacy profile
        (Section 5 of [RFC8310]) for DoT, the DNS client will either fall
@@ -543,7 +559,12 @@ Table of Contents
 
    *  Change Controller: IETF
 
-8.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
+8.  New Extended DNS Errors
+
+   This document defines an addition to the EDE codes defined in
+   [RFC8914].
+
+8.1.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
 
    The DNS server (e.g., a DNS forwarder) is unable to respond to the
    request because the domain is on a blocklist due to an internal
@@ -569,7 +590,7 @@ Table of Contents
      "j": "malware present for 23 days",
      "s": 1,
      "o": "example.net Filtering Service",
-     "l": "tzm"
+     "l": "en"
    }
 
      Figure 1: JSON Returned in EXTRA-TEXT Field of Extended DNS Error
@@ -582,7 +603,7 @@ Table of Contents
    "j":"malware present for 23 days",\
    "s":1,\
    "o":"example.net Filtering Service",\
-   "l":"tzm" }
+   "l":"en" }
 
                         Figure 2: Minified Response
 
@@ -598,8 +619,8 @@ Table of Contents
    To minimize impact of active on-path attacks on the DNS channel, the
    client validates the response as described in Section 5.3.
 
-   A client might choose to display the information in the "c", "j", and
-   "o" fields if and only if the encrypted resolver has sufficient
+   A client might choose to display the information in the "c" field to
+   the end-user if and only if the encrypted resolver has sufficient
    reputation, according to some local policy (e.g., user configuration,
    administrative configuration, or a built-in list of respectable
    resolvers).  This limits the ability of a malicious encrypted
@@ -614,13 +635,23 @@ Table of Contents
    description for the EDE code and the sub-error description for the
    "s" field to the end-user.
 
-   When displaying the free-form text of "j" and "o", the browser MUST
-   NOT make any of those elements into actionable (clickable) links and
-   these fields need to be rendered as text, not as HTML.  The contact
-   details of "c" can be made into clickable links to provide a
-   convenient way for users to initiate, e.g., voice calls.  The client
-   might choose to display the contact details only when the identity of
-   the DNS server is verified.
+   When displaying the free-form text of "o", the browser MUST NOT make
+   any of those elements into actionable (clickable) links and these
+   fields need to be rendered as text, not as HTML.  The contact details
+   of "c" can be made into clickable links to provide a convenient way
+   for users to initiate, e.g., voice calls.  The client might choose to
+   display the contact details only when the identity of the DNS server
+   is verified.
+
+   Further, clients MUST NOT display the value of the "o" field to the
+   end-user unless one of the following conditions is met:
+
+   *  The value matches a registered organization name listed in the
+      [IANA-Enterprise] OR
+
+   *  The value consists solely of an organization name and does not
+      contain any additional free-form content such as instructions,
+      URLs, or messaging intended to influence the end-user behavior.
 
    An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
    DNS proxy or DNS forwarder that is unaware of EDE.  Such a DNS proxy
@@ -696,7 +727,7 @@ Table of Contents
    |    |               | this particular  |           |               |
    |    |               | DNS query        |           |               |
    +----+---------------+------------------+-----------+---------------+
-   | l  | language      | Indicates the    | No        |  Section 4 of |
+   | l  | language      | Indicates the    | N         |  Section 4 of |
    |    |               | language of the  |           |    RFCXXXX    |
    |    |               | "j" and "o"      |           |               |
    |    |               | fields as        |           |               |
@@ -724,26 +755,24 @@ Table of Contents
    *  Reference: Provides a pointer to an IETF-approved specification
       that defines the URI scheme.
 
-   *  Change Controller: Indicates the person or entity, with contact
-      information if appropriate.
-
    The Contact URI scheme registry is initially be populated with the
    following schemes:
 
-       +========+==================+===========+===================+
-       |  Name  | Meaning          | Reference | Change Controller |
-       +========+==================+===========+===================+
-       |  sips  | SIP Call         | [RFC5630] |        IETF       |
-       +--------+------------------+-----------+-------------------+
-       |  tel   | Telephone Number | [RFC3966] |        IETF       |
-       +--------+------------------+-----------+-------------------+
-       | mailto | Internet mail    | [RFC6068] |        IETF       |
-       +--------+------------------+-----------+-------------------+
+                 +========+==================+===========+
+                 |  Name  | Meaning          | Reference |
+                 +========+==================+===========+
+                 |  sips  | SIP Call         | [RFC5630] |
+                 +--------+------------------+-----------+
+                 |  tel   | Telephone Number | [RFC3966] |
+                 +--------+------------------+-----------+
+                 | mailto | Internet mail    | [RFC6068] |
+                 +--------+------------------+-----------+
 
                                   Table 2
 
-   New Contact URI schemes are registered via IETF Review (Section 4.8
-   of [RFC8126]).
+   The registration procedure for adding new Contact URI schemes to the
+   "Contact URI Schemes" registry is "IETF Review" as defined in
+   Section 4.8 of [RFC8126].
 
 11.3.  New Registry for DNS Sub-Error Codes
 
@@ -763,53 +792,45 @@ Table of Contents
       that registered the code and/or an authoritative specification
       that describes the meaning of this code.
 
-   *  Change Controller: Indicates the person or entity, with contact
-      information if appropriate.
-
    The Sub-Error Code registry is initially be populated with the
    following values:
 
-   +========+==========+===================+=============+============+
-   | Number | Meaning  | EDE Codes         | Reference   |   Change   |
-   |        |          | Applicability     |             | Controller |
-   +========+==========+===================+=============+============+
-   |   0    | Reserved | Not used          | Section 7.1 |    IETF    |
-   |        |          |                   | of this     |            |
-   |        |          |                   | document    |            |
-   +--------+----------+-------------------+-------------+------------+
-   |   1    | Malware  | "Blocked",        | Section 5.5 |    IETF    |
-   |        |          | "Blocked by       | of          |            |
-   |        |          | Upstream Server", | [RFC5901]   |            |
-   |        |          | "Filtered"        |             |            |
-   +--------+----------+-------------------+-------------+------------+
-   |   2    | Phishing | "Blocked",        | Section 5.5 |    IETF    |
-   |        |          | "Blocked by       | of          |            |
-   |        |          | Upstream Server", | [RFC5901]   |            |
-   |        |          | "Filtered"        |             |            |
-   +--------+----------+-------------------+-------------+------------+
-   |   3    | Spam     | "Blocked",        | Page 289 of |    IETF    |
-   |        |          | "Blocked by       | [RFC4949]   |            |
-   |        |          | Upstream Server", |             |            |
-   |        |          | "Filtered"        |             |            |
-   +--------+----------+-------------------+-------------+------------+
-   |   4    | Spyware  | "Blocked",        | Page 291 of |    IETF    |
-   |        |          | "Blocked by       | [RFC4949]   |            |
-   |        |          | Upstream Server", |             |            |
-   |        |          | "Filtered"        |             |            |
-   +--------+----------+-------------------+-------------+------------+
-   |   5    | Network  | "Blocked"         | Section 7.2 |    IETF    |
-   |        | operator |                   | of this     |            |
-   |        | policy   |                   | document    |            |
-   +--------+----------+-------------------+-------------+------------+
-   |   6    | DNS      | "Blocked"         | Section 7.3 |    IETF    |
-   |        | operator |                   | of this     |            |
-   |        | policy   |                   | document    |            |
-   +--------+----------+-------------------+-------------+------------+
+   +========+==========+==============================+================+
+   | Number | Meaning  | EDE Codes                    | Reference      |
+   |        |          | Applicability                |                |
+   +========+==========+==============================+================+
+   |   0    | Reserved | Not used                     | Section 7.1 of |
+   |        |          |                              | this document  |
+   +--------+----------+------------------------------+----------------+
+   |   1    | Malware  | "Blocked", "Blocked          | Section 5.5 of |
+   |        |          | by Upstream                  | [RFC5901]      |
+   |        |          | Server", "Filtered"          |                |
+   +--------+----------+------------------------------+----------------+
+   |   2    | Phishing | "Blocked", "Blocked          | Section 5.5 of |
+   |        |          | by Upstream                  | [RFC5901]      |
+   |        |          | Server", "Filtered"          |                |
+   +--------+----------+------------------------------+----------------+
+   |   3    | Spam     | "Blocked", "Blocked          | Page 289 of    |
+   |        |          | by Upstream                  | [RFC4949]      |
+   |        |          | Server", "Filtered"          |                |
+   +--------+----------+------------------------------+----------------+
+   |   4    | Spyware  | "Blocked", "Blocked          | Page 291 of    |
+   |        |          | by Upstream                  | [RFC4949]      |
+   |        |          | Server", "Filtered"          |                |
+   +--------+----------+------------------------------+----------------+
+   |   5    | Network  | "Blocked"                    | Section 7.2 of |
+   |        | operator |                              | this document  |
+   |        | policy   |                              |                |
+   +--------+----------+------------------------------+----------------+
+   |   6    | DNS      | "Blocked"                    | Section 7.3 of |
+   |        | operator |                              | this document  |
+   |        | policy   |                              |                |
+   +--------+----------+------------------------------+----------------+
 
-                 Table 3: Initial Sub-Error Code Registry
+                  Table 3: Initial Sub-Error Code Registry
 
-   New Sub-Error Codes are registered via IETF Review (Section 4.8 of
-   [RFC8126]).
+   The registration procedure to add New Sub-Error Codes are registered
+   via IETF Review as defined in Section 4.8 of [RFC8126].
 
 11.4.  New Extended DNS Error Code
 
@@ -902,6 +923,10 @@ Table of Contents
               Error Codes", <https://www.iana.org/assignments/dns-
               parameters/dns-parameters.xhtml#extended-dns-error-codes>.
 
+   [IANA-Enterprise]
+              "Private Enterprise Numbers (PENs)",
+              <https://www.iana.org/assignments/enterprise-numbers/>.
+
    [Impl-1]   "Use of DNS Errors To improve Browsing User Experience
               With network based malware protection", March 2023,
               <https://datatracker.ietf.org/meeting/116/materials/
@@ -986,7 +1011,8 @@ Acknowledgements
    Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
    Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, Bob
    Harold, Mukund Sivaraman, Stephane Bortzmeyer, Gianpaolo Angelo
-   Scalone, Mark Nottingham, and Daniel Migault for the comments.
+   Scalone, Mark Nottingham, Stephane Bortzmeyer, and Daniel Migault for
+   the comments.
 
    Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about
    their implementation.
