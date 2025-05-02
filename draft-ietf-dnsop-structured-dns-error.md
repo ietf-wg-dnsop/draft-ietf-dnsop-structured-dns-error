@@ -361,6 +361,8 @@ the drawbacks described in {{existing-techniques}}.
 
 When the "Censored" extended error code is included in the DNS response,
 the "c", "j", "o", and "l" fields may be conveyed in the EXTRA-TEXT field.
+The sub-error codes defined in this specification are not applicable to
+the "Censored" extended error code and MUST NOT be used in conjunction with it.
 
 ## Client Processing Response {#client-processing}
 
