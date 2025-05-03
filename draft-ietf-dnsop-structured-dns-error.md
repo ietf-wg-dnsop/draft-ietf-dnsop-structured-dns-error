@@ -521,6 +521,8 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 
 # Security Considerations {#security}
 
+## Authentication and Confidentiality
+
 Security considerations in {{Section 6 of !RFC8914}} apply to this
 document, except the guard against using EDE content to alter DNS protocol
 processing. The guard is relaxed in the current specification as it mandates
@@ -530,6 +532,8 @@ and sent over clear text.
 
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
+
+## Restrictions on Display of "c" and "o" Fields
 
 A client might choose to display the information in the "c" field
 to the end-user if and only if the encrypted resolver has sufficient
@@ -558,6 +562,8 @@ conditions is met:
   * The value matches a registered organization name listed in the {{IANA-Enterprise}} OR
   * The value consists solely of an organization name and does not contain any additional free-form
     content such as instructions, URLs, or messaging intended to influence the end-user behavior.
+
+## Security Risks from Legacy DNS Forwarders
 
 An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
