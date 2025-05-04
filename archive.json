@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-27T00:43:56.285193+00:00",
+  "timestamp": "2025-05-04T00:45:59.039303+00:00",
   "repo": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
   "labels": [
     {
@@ -3777,6 +3777,116 @@
           ]
         }
       ]
+    },
+    {
+      "number": 68,
+      "id": "PR_kwDOI6P3FM6UnL1r",
+      "title": "Address comments from Stephane",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/68",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-05-01T07:10:07Z",
+      "updatedAt": "2025-05-02T08:31:52Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "44a5fd963ec311a663b94935048bd05567b32049",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-14",
+      "headRefOid": "566f1e8b5afb24b56b2039ceac3b6fca1b71734d",
+      "closedAt": "2025-05-02T08:31:52Z",
+      "mergedAt": "2025-05-02T08:31:52Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "d0f9f30cffc30eb96656ed6aa2e7693b9f30e1fb"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM6ncxgs",
+          "commit": {
+            "abbreviatedOid": "566f1e8"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-01T08:12:04Z",
+          "updatedAt": "2025-05-01T08:12:04Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 69,
+      "id": "PR_kwDOI6P3FM6Uu_AJ",
+      "title": "Fix inconsistences in the draft",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/69",
+      "state": "MERGED",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-05-02T10:04:03Z",
+      "updatedAt": "2025-05-02T14:03:05Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "d0f9f30cffc30eb96656ed6aa2e7693b9f30e1fb",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-15",
+      "headRefOid": "efebf95e2c7f0142d11c9b1eb08c60ee17aa7725",
+      "closedAt": "2025-05-02T14:03:05Z",
+      "mergedAt": "2025-05-02T14:03:05Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "28e30e86f43f6bd8d875f9faf6fe8e3d2e61a9b7"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM6nnAQC",
+          "commit": {
+            "abbreviatedOid": "efebf95"
+          },
+          "author": "danwing",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Changes could be smaller to get the point across\u2026  sorry I don\u2019t have laptop with me to shorten. ",
+          "createdAt": "2025-05-02T13:30:19Z",
+          "updatedAt": "2025-05-02T13:30:19Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 70,
+      "id": "PR_kwDOI6P3FM6Uwl29",
+      "title": "clarity on use of Censored",
+      "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/70",
+      "state": "OPEN",
+      "author": "tireddy2",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-05-02T14:09:04Z",
+      "updatedAt": "2025-05-03T10:43:18Z",
+      "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "baseRefName": "main",
+      "baseRefOid": "28e30e86f43f6bd8d875f9faf6fe8e3d2e61a9b7",
+      "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
+      "headRefName": "tireddy2-patch-16",
+      "headRefOid": "10168c7c587b5db52e1b45f8ca823a176c2e8ab8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
