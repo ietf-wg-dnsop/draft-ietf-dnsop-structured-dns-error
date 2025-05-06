@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-04T00:45:59.039303+00:00",
+  "timestamp": "2025-05-06T00:42:05.911255+00:00",
   "repo": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
   "labels": [
     {
@@ -3867,26 +3867,42 @@
       "id": "PR_kwDOI6P3FM6Uwl29",
       "title": "clarity on use of Censored",
       "url": "https://github.com/ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error/pull/70",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tireddy2",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-05-02T14:09:04Z",
-      "updatedAt": "2025-05-03T10:43:18Z",
+      "updatedAt": "2025-05-05T11:10:54Z",
       "baseRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
       "baseRefName": "main",
       "baseRefOid": "28e30e86f43f6bd8d875f9faf6fe8e3d2e61a9b7",
       "headRepository": "ietf-wg-dnsop/draft-ietf-dnsop-structured-dns-error",
       "headRefName": "tireddy2-patch-16",
       "headRefOid": "10168c7c587b5db52e1b45f8ca823a176c2e8ab8",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-05T11:10:54Z",
+      "mergedAt": "2025-05-05T11:10:54Z",
+      "mergedBy": "tireddy2",
+      "mergeCommit": {
+        "oid": "9ef6662dd41c94591c5a9f60b350f5e0de8ade3e"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOI6P3FM6nvU3H",
+          "commit": {
+            "abbreviatedOid": "10168c7"
+          },
+          "author": "boucadair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-05T08:57:15Z",
+          "updatedAt": "2025-05-05T08:57:15Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
