@@ -172,9 +172,9 @@ INFO-CODE as per Table 3 of {{!RFC8914}}. "Forged Answer",
 The term "DNS server" refers to a DNS recursive resolver or
 a DNS forwarder that generates DNS structured error responses.
 
-In this document, "client security policy evaluation" refers to implementation-defined 
-decision-making performed by the DNS client or consuming application to 
-determine how, or whether, structured error information is used, displayed, 
+In this document, "client security policy evaluation" refers to implementation-defined
+decision-making performed by the DNS client or consuming application to
+determine how, or whether, structured error information is used, displayed,
 or acted upon.
 
 # DNS Filtering Techniques and Their Limitations {#existing-techniques}
@@ -330,9 +330,9 @@ When generating a DNS query, a client that supports this specification
 MUST include the Structured DNS Error (SDE) option in the OPT pseudo-RR.
 
 The presence of the SDE option indicates that the client desires the
-DNS server to include an EDE option in the DNS response when DNS 
-filtering is performed, and that any data conveyed in the EXTRA-TEXT 
-field of the EDE option is encoded and processed in accordance with 
+DNS server to include an EDE option in the DNS response when DNS
+filtering is performed, and that any data conveyed in the EXTRA-TEXT
+field of the EDE option is encoded and processed in accordance with
 this specification.
 
 ## Server Generating Response {#server-response}
@@ -340,13 +340,13 @@ this specification.
 When the DNS server filters its DNS response to a
 query (e.g., A or AAAA resource record query), the DNS response MAY contain an empty answer, NXDOMAIN, or (less
 ideally) forged response, as desired by the DNS
-server. 
+server.
 
 If the query contained the SDE EDNS option
 ({{client-request}}), the DNS server MAY return more detail in the
 EXTRA-TEXT field encoded as structured and machine-readable data.
-If the SDE option is not present, the DNS server MUST NOT include 
-structured JSON data and MUST convey the EXTRA-TEXT field as 
+If the SDE option is not present, the DNS server MUST NOT include
+structured JSON data and MUST convey the EXTRA-TEXT field as
 human-readable text in accordance with {{!RFC8914}}.
 
 Servers MAY decide to return small TTL values in filtered DNS
@@ -358,11 +358,11 @@ still ensuring reasonable flexibility for updates.
 
 Because the DNS client explicitly signals support for structured error
 information using the SDE option ({{client-request}}), and because the
-EDE option is carried in the non-cached OPT pseudo-RR 
+EDE option is carried in the non-cached OPT pseudo-RR
 ({{Section 6.2.1 of ?RFC6891}}), the DNS server can tailor its
 filtered response to the capabilities of the client.
 
-If the query includes the SDE option as per {{client-request}}, the server MUST 
+If the query includes the SDE option as per {{client-request}}, the server MUST
 NOT return the "Forged Answer" extended error code because the client
 can take advantage of EDE's more sophisticated error reporting (e.g.,
 "Filtered", "Blocked").  Continuing to send "Forged
@@ -373,7 +373,7 @@ When the "Censored" extended error code is included in the DNS response,
 the "c", "j", "o", and "l" fields may be conveyed in the EXTRA-TEXT field.
 The sub-error codes defined in this specification are not applicable to
 the "Censored" extended error code and MUST NOT be used in conjunction with it.
-Future specifications may update this behavior by defining sub-error codes 
+Future specifications may update this behavior by defining sub-error codes
 applicable to "Censored".
 
 ## Client Processing Response {#client-processing}
@@ -394,7 +394,7 @@ field:
    requestor MUST NOT act upon data in the EXTRA-TEXT field, as there is no
    mechanism to verify the integrity of such data and it is vulnerable to
    modification by an on-path attacker. The data MAY be retained for
-   diagnostic or client security policy evaluation purposes. 
+   diagnostic or client security policy evaluation purposes.
 
 3. The DNS response MUST also contain an extended error code of
    "Blocked by Upstream Server", "Blocked" or "Filtered" {{!RFC8914}}, otherwise
@@ -409,16 +409,16 @@ field:
    URIs using registered schemes can be processed.
 
 6. If the DNS client has enabled the opportunistic privacy profile for DoT
-   ({{Section 5 of !RFC8310}}) and the identity of the DNS server cannot be 
-   verified, the DNS client MUST ignore the "c", "j", and "o" fields, as 
-   these fields may influence user behavior and are vulnerable to active 
-   attacks in the absence of resolver authentication. The client MAY 
-   process the "s" field and other parts of the response. 
+   ({{Section 5 of !RFC8310}}) and the identity of the DNS server cannot be
+   verified, the DNS client MUST ignore the "c", "j", and "o" fields, as
+   these fields may influence user behavior and are vulnerable to active
+   attacks in the absence of resolver authentication. The client MAY
+   process the "s" field and other parts of the response.
 
 7. In opportunistic discovery {{?RFC9462}}, where only the IP address of the
     DNS server is validated and the server identity is not authenticated,
-    the DNS client MUST ignore the "c", "j", and "o" fields. 
-    The DNS client MAY process the "s" field and other parts of the response. 
+    the DNS client MUST ignore the "c", "j", and "o" fields.
+    The DNS client MAY process the "s" field and other parts of the response.
 
 8. If a DNS client has enabled strict privacy profile ({{Section 5 of !RFC8310}}) for DoT, the DNS client
     requires an encrypted connection
@@ -431,9 +431,9 @@ field:
 
 9. The DNS client MUST ignore any other JSON names that it does not support.
 
-10. If the EXTRA-TEXT field does not conform to the I-JSON requirements {{!RFC7493}}, 
-    the client MUST treat the data as invalid and MUST NOT process it according to this 
-    specification. The client MAY process the EXTRA-TEXT field as unstructured text 
+10. If the EXTRA-TEXT field does not conform to the I-JSON requirements {{!RFC7493}},
+    the client MUST treat the data as invalid and MUST NOT process it according to this
+    specification. The client MAY process the EXTRA-TEXT field as unstructured text
     as specified in {{!RFC8914}}.
 
 > Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
@@ -575,7 +575,7 @@ Further, clients MUST NOT display the value of the `"o"` field to the end-user u
 conditions is met:
 
   * The value matches a registered organization name listed in the {{IANA-Enterprise}} OR
-  * The value consists solely of an organization name and does not contain any additional free-form content such 
+  * The value consists solely of an organization name and does not contain any additional free-form content such
     as instructions, URLs, or messaging intended to influence end-user behavior, as determined by client security policy or heuristics.
 
 DNS clients MAY keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data MUST NOT be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.
@@ -602,7 +602,7 @@ IANA is requested to assign a new EDNS(0) Option Code from the
 
 | Name                 | Value | Description                                                   | Reference |
 |----------------------|-------|---------------------------------------------------------------|-----------|
-| Structured DNS Error | TBD   | Signals client support for structured JSON in EDE EXTRA-TEXT  | RFCXXXX   | 
+| Structured DNS Error | TBD   | Signals client support for structured JSON in EDE EXTRA-TEXT  | RFCXXXX   |
 
 ##  New Registry for JSON Names {#IANA-Names}
 
