@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 30 July 2026                                            N. Cook
+Expires: 31 July 2026                                            N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                         26 January 2026
+                                                         27 January 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 July 2026.
+   This Internet-Draft will expire on 31 July 2026.
 
 Copyright Notice
 
@@ -421,7 +421,7 @@ Table of Contents
    structured and machine-readable data.  If the SDE option is not
    present, the DNS server MUST NOT include structured JSON data and
    MUST convey the EXTRA-TEXT field as human-readable text in accordance
-   with [RFC8914].
+   with [RFC8914] if filtering is used when replying to the query.
 
    Servers MAY decide to return small TTL values in filtered DNS
    responses (e.g., 10 seconds) to handle domain category and reputation
