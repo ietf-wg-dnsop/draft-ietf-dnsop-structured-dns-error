@@ -1505,8 +1505,7 @@ DNS filtering. The field should be treated only as diagnostic information.<a hre
         <dd style="margin-left: 1.5em" id="section-4-4.10">
           <p id="section-4-4.10.1">Whether the information provided in the "j" name is meaningful or considered as garbage data
 (including empty values) is local to each IT team. Returning garbage data
-would indicate that a DNS server is misbehaving. Note also that the provided
-justification is useful for cross-validation with another DNS server.<a href="#section-4-4.10.1" class="pilcrow">¶</a></p>
+would indicate that a DNS server is misbehaving.<a href="#section-4-4.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-4.11"></dt>
@@ -1606,13 +1605,13 @@ this specification.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 query (e.g., A or AAAA resource record query), the DNS response <span class="bcp14">MAY</span> contain an empty answer, NXDOMAIN, or (less
 ideally) forged response, as desired by the DNS
 server.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.2-2">If the query contained the SDE EDNS option
-(<a href="#client-request" class="auto internal xref">Section 5.1</a>), the DNS server <span class="bcp14">MAY</span> return more detail in the
-EXTRA-TEXT field encoded as structured and machine-readable data.
+<p id="section-5.2-2">If the query contained the SDE EDNS option (<a href="#client-request" class="auto internal xref">Section 5.1</a>), and the
+DNS server performs filtering when replying to the query, the DNS server
+<span class="bcp14">MUST</span> include additional detail in the EXTRA-TEXT field encoded as
+structured and machine-readable data.
 If the SDE option is not present, the DNS server <span class="bcp14">MUST NOT</span> include
 structured JSON data and <span class="bcp14">MUST</span> convey the EXTRA-TEXT field as
-human-readable text in accordance with <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> if filtering is used when replying to the
-query.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+human-readable text in accordance with <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2-3">Servers <span class="bcp14">MAY</span> decide to return small TTL values in filtered DNS
 responses (e.g., 10 seconds) to handle domain category and reputation
 updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
