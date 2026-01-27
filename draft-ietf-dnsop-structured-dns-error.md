@@ -273,8 +273,7 @@ j: (justification)
 DNS filtering. The field should be treated only as diagnostic information.
 : Whether the information provided in the "j" name is meaningful or considered as garbage data
 (including empty values) is local to each IT team. Returning garbage data
-would indicate that a DNS server is misbehaving. Note also that the provided
-justification is useful for cross-validation with another DNS server.
+would indicate that a DNS server is misbehaving.
 : This field is optional.
 
 s: (sub-error)
@@ -342,13 +341,13 @@ query (e.g., A or AAAA resource record query), the DNS response MAY contain an e
 ideally) forged response, as desired by the DNS
 server.
 
-If the query contained the SDE EDNS option
-({{client-request}}), the DNS server MAY return more detail in the
-EXTRA-TEXT field encoded as structured and machine-readable data.
+If the query contained the SDE EDNS option ({{client-request}}), and the
+DNS server performs filtering when replying to the query, the DNS server
+MUST include additional detail in the EXTRA-TEXT field encoded as
+structured and machine-readable data.
 If the SDE option is not present, the DNS server MUST NOT include
 structured JSON data and MUST convey the EXTRA-TEXT field as
-human-readable text in accordance with {{!RFC8914}} if filtering is used when replying to the
-query.
+human-readable text in accordance with {{!RFC8914}}.
 
 Servers MAY decide to return small TTL values in filtered DNS
 responses (e.g., 10 seconds) to handle domain category and reputation
