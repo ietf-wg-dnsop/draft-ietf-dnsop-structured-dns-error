@@ -265,6 +265,8 @@ This document defines the following JSON names:
 c: (contact)
 : The contact details of the IT/InfoSec team to report misclassified
 DNS filtering. This information is important for transparency and also to ease unblocking a legitimate domain name that got blocked due to wrong classification.
+: The field is a JSON array of contact URIs. When multiple contact details are provided, each contact URI is
+represented as a separate array element in the JSON array.
 : Contact URIs conveyed in the "c" field MUST use URI schemes registered in {{IANA-Contact}}.
 : This field is optional.
 
