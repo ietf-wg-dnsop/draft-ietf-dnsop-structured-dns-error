@@ -347,7 +347,8 @@ If the query contained the SDE EDNS option
 EXTRA-TEXT field encoded as structured and machine-readable data.
 If the SDE option is not present, the DNS server MUST NOT include
 structured JSON data and MUST convey the EXTRA-TEXT field as
-human-readable text in accordance with {{!RFC8914}}.
+human-readable text in accordance with {{!RFC8914}} if filtering is used when replying to the
+query.
 
 Servers MAY decide to return small TTL values in filtered DNS
 responses (e.g., 10 seconds) to handle domain category and reputation
