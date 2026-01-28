@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 6 November 2025                                         N. Cook
+Expires: 1 August 2026                                           N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                              5 May 2025
+                                                         28 January 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -63,11 +63,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 November 2025.
+   This Internet-Draft will expire on 1 August 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -103,10 +103,11 @@ Table of Contents
      10.2.  Restrictions on Display of "c" and "o" Fields
      10.3.  Security Risks from Legacy DNS Forwarders
    11. IANA Considerations
-     11.1.  New Registry for JSON Names
-     11.2.  New Registry for Contact URI Scheme
-     11.3.  New Registry for DNS Sub-Error Codes
-     11.4.  New Extended DNS Error Code
+     11.1.  Structured DNS Error EDNS Option
+     11.2.  New Registry for JSON Names
+     11.3.  New Registry for Contact URI Scheme
+     11.4.  New Registry for DNS Sub-Error Codes
+     11.5.  New Extended DNS Error Code
    12. References
      12.1.  Normative References
      12.2.  Informative References
@@ -142,7 +143,7 @@ Table of Contents
    server can return extended error codes Blocked, Filtered, Censored,
    or Forged Answer defined in Section 4 of [RFC8914].  However, these
    codes only explain that filtering occurred but lack detail for the
-   user to diagnose erroneous filterings.
+   user to diagnose erroneous filtering.
 
    No matter which type of response is generated (forged IP address(es),
    NXDOMAIN or empty answer, even with an extended error code), the user
@@ -159,7 +160,7 @@ Table of Contents
    install a local root certificate authority on those IT-managed
    devices.
 
-   This document describes a format for computer-parsable data in the
+   This document describes a format for machine-readable data in the
    EXTRA-TEXT field of [RFC8914].  It updates Section 2 of [RFC8914]
    which says the information in EXTRA-TEXT field is intended for human
    consumption (not automated parsing).
@@ -195,11 +196,16 @@ Table of Contents
    The term "DNS server" refers to a DNS recursive resolver or a DNS
    forwarder that generates DNS structured error responses.
 
+   In this document, "client security policy evaluation" refers to
+   implementation-defined decision-making performed by the DNS client or
+   consuming application to determine how, or whether, structured error
+   information is used, displayed, or acted upon.
+
 3.  DNS Filtering Techniques and Their Limitations
 
    DNS responses can be filtered by sending, e.g., a bogus (also called
    "forged") response, NXDOMAIN error, or empty answer.  Also, clients
-   can be informed that filtering has occured by sending an Extended DNS
+   can be informed that filtering occurred by sending an Extended DNS
    Error code defined in [RFC8914].  Each of these methods have
    advantages and disadvantages that are discussed below:
 
@@ -307,36 +313,35 @@ Table of Contents
    This document defines the following JSON names:
 
    c: (contact)  The contact details of the IT/InfoSec team to report
-      mis-classified DNS filtering.  This information is important for
+      misclassified DNS filtering.  This information is important for
       transparency and also to ease unblocking a legitimate domain name
       that got blocked due to wrong classification.
 
-      This field is structured as an array of contact URIs that MUST use
-      'tel' [RFC3966] or 'sips' [RFC5630] or 'mailto' [RFC3966] schemes.
-      At least one contact URI MUST be included.
+      The field is a JSON array of contact URIs.  When multiple contact
+      details are provided, each contact URI is represented as a
+      separate array element in the JSON array.
 
-      New contact URI schemes may be added to the IANA registry
-      following the instructions in Section 11.2.
+      Contact URIs conveyed in the "c" field MUST use URI schemes
+      registered in Section 11.3.
 
-      This field is mandatory.
+      This field is optional.
 
    j: (justification)  'UTF-8'-encoded [RFC5198] textual justification
       for this particular DNS filtering.  The field should be treated
-      only as diagnostic information for IT staff.
+      only as diagnostic information.
 
       Whether the information provided in the "j" name is meaningful or
       considered as garbage data (including empty values) is local to
-      each IT teams.  Returning garbage data would indicate that a DNS
-      server is misbehaving.  Note also that the provided justification
-      is useful for cross-validation with another DNS server.
+      each IT team.  Returning garbage data would indicate that a DNS
+      server is misbehaving.
 
-      This field is mandatory.
+      This field is optional.
 
    s: (sub-error)  An integer representing the sub-error code for this
       particular DNS filtering case.
 
       The integer values are defined in the IANA-managed registry for
-      DNS Sub-Error Codes in Section 11.3.
+      DNS Sub-Error Codes in Section 11.4.
 
       This field is optional.
 
@@ -353,7 +358,7 @@ Table of Contents
       This field is optional but RECOMMENDED to aid in localization.
 
    New JSON names can be defined in the IANA registry introduced in
-   Section 11.1.  Such names MUST consist only of lower-case ASCII
+   Section 11.2.  Such names MUST consist only of lower-case ASCII
    characters, digits, and hyphen-minus (that is, Unicode characters
    U+0061 through 007A, U+0030 through U+0039, and U+002D).  Also, these
    names MUST be 63 characters or shorter and it is RECOMMENDED they be
@@ -379,11 +384,11 @@ Table of Contents
    breaks between JSON elements).
 
    The JSON data can be parsed to display to the user, logged, or
-   otherwise used to assist the end-user or IT staff with
-   troubleshooting and diagnosing the cause of the DNS filtering.
+   otherwise used to assist troubleshooting and diagnosis of DNS
+   filtering.
 
    The sub-error codes provide a structured way to communicate more
-   detailed and precise communication of the cause of an error (e.g.,
+   detailed and precise description of the cause of an error (e.g.,
    distinguishing between malware-related blocking and phishing-related
    blocking under the general blocked error).
 
@@ -391,27 +396,36 @@ Table of Contents
       new EDE codes for these errors.  However, such design is
       suboptimal because it requires replicating an error code for each
       EDE code to which the sub-error applies (e.g., "Malware" sub-error
-      in Table 3 would consume three EDE codes).
+      in Table 4 would consume three EDE codes).
 
 5.  Protocol Operation
 
 5.1.  Client Generating Request
 
-   When generating a DNS query the client includes the EDE option
-   (Section 2 of [RFC8914]) in the OPT pseudo-RR [RFC6891] to elicit the
-   EDE option in the DNS response.  It MUST use an OPTION-LENGTH of 2,
-   the INFO-CODE field set to "0" (Other Error), and an empty EXTRA-TEXT
-   field.  This signal indicates that the client desires that the server
-   responds in accordance with the present specification.
+   When generating a DNS query, a client that supports this
+   specification MUST include the Structured DNS Error (SDE) option in
+   the OPT pseudo-RR.
+
+   The presence of the SDE option indicates that the client desires the
+   DNS server to include an EDE option in the DNS response when DNS
+   filtering is performed, and that any data conveyed in the EXTRA-TEXT
+   field of the EDE option is encoded and processed in accordance with
+   this specification.
 
 5.2.  Server Generating Response
 
    When the DNS server filters its DNS response to a query (e.g., A or
    AAAA resource record query), the DNS response MAY contain an empty
    answer, NXDOMAIN, or (less ideally) forged response, as desired by
-   the DNS server.  In addition, if the query contained the OPT pseudo-
-   RR the DNS server MAY return more detail in the EXTRA-TEXT field as
-   described in Section 5.3.
+   the DNS server.
+
+   If the query contained the SDE EDNS option (Section 5.1), and the DNS
+   server performs filtering when replying to the query, the DNS server
+   MUST include additional detail in the EXTRA-TEXT field encoded as
+   structured and machine-readable data.  If the SDE option is not
+   present, the DNS server MUST NOT include structured JSON data and
+   MUST convey the EXTRA-TEXT field as human-readable text in accordance
+   with [RFC8914].
 
    Servers MAY decide to return small TTL values in filtered DNS
    responses (e.g., 10 seconds) to handle domain category and reputation
@@ -421,81 +435,92 @@ Table of Contents
    to 60 seconds MAY provide a better balance, reducing server load
    while still ensuring reasonable flexibility for updates.
 
-   Because the DNS client signals its EDE support (Section 5.1) and
-   because EDE support is signaled via a non-cached OPT resource record
-   (Section 6.2.1 of [RFC6891]) the EDE-aware DNS server can tailor its
-   filtered response to be most appropriate to that client's EDE
-   support.  If EDE support is signaled in the query as per Section 5.1,
-   the server MUST NOT return the "Forged Answer" extended error code
-   because the client can take advantage of EDE's more sophisticated
-   error reporting (e.g., "Filtered", "Blocked").  Continuing to send
-   "Forged Answer" even to an EDE-supporting client will cause the
-   persistence of the drawbacks described in Section 3.
+   Because the DNS client explicitly signals support for structured
+   error information using the SDE option (Section 5.1), and because the
+   EDE option is carried in the non-cached OPT pseudo-RR (Section 6.2.1
+   of [RFC6891]), the DNS server can tailor its filtered response to the
+   capabilities of the client.
+
+   If the query includes the SDE option as per Section 5.1, the server
+   MUST NOT return the "Forged Answer" extended error code because the
+   client can take advantage of EDE's more sophisticated error reporting
+   (e.g., "Filtered", "Blocked").  Continuing to send "Forged Answer"
+   even to an EDE-supporting client will cause the persistence of the
+   drawbacks described in Section 3.
 
    When the "Censored" extended error code is included in the DNS
    response, the "c", "j", "o", and "l" fields may be conveyed in the
    EXTRA-TEXT field.  The sub-error codes defined in this specification
    are not applicable to the "Censored" extended error code and MUST NOT
-   be used in conjunction with it.
+   be used in conjunction with it.  Future specifications may update
+   this behavior by defining sub-error codes applicable to "Censored".
 
 5.3.  Client Processing Response
 
    On receipt of a DNS response with an EDE option from a DNS responder,
    the following ordered actions are performed on the EXTRA-TEXT field:
 
-   1.  Servers which don't support this specification might use plain
-       text in the EXTRA-TEXT field.  Requestors SHOULD properly handle
-       both plaintext and JSON text in the EXTRA-TEXT field.  The
-       requestor verifies that the field contains valid JSON.  If not,
-       the requestor MUST consider the server does not support this
-       specification and stop processing rest of the actions defined in
-       this section, but may instead choose to treat EXTRA-TEXT as per
-       [RFC8914].
+   1.   Servers which don't support this specification might use plain
+        text in the EXTRA-TEXT field.  Requestors SHOULD properly handle
+        both plaintext and JSON text in the EXTRA-TEXT field.  The
+        requestor verifies that the field contains valid JSON.  If not,
+        the requestor MUST consider the server does not support this
+        specification and stop processing rest of the actions defined in
+        this section, but may instead choose to treat EXTRA-TEXT as per
+        [RFC8914].
 
-   2.  The response MUST be received over an encrypted DNS channel.  If
-       not, the requestor MUST discard data in the EXTRA-TEXT field.
+   2.   If the DNS response is not received over an encrypted DNS
+        channel, the requestor MUST NOT act upon data in the EXTRA-TEXT
+        field, as there is no mechanism to verify the integrity of such
+        data and it is vulnerable to modification by an on-path
+        attacker.  The data MAY be retained for diagnostic or client
+        security policy evaluation purposes.
 
-   3.  The DNS response MUST also contain an extended error code of
-       "Blocked by Upstream Server", "Blocked" or "Filtered" [RFC8914],
-       otherwise the EXTRA-TEXT field is discarded.
+   3.   The DNS response MUST also contain an extended error code of
+        "Blocked by Upstream Server", "Blocked" or "Filtered" [RFC8914],
+        otherwise the EXTRA-TEXT field is discarded.
 
-   4.  If either of the mandatory JSON names "c" and "j" are missing or
-       have empty values in the EXTRA-TEXT field, the entire JSON is
-       discarded.
+   4.   If the EXTRA-TEXT field does not contain at least one of the
+        JSON names "c", "j", or "s", or if all of the fields that are
+        present have empty values, the entire JSON object MUST be
+        discarded.
 
-   5.  If the "c" field contains any contact URIs that use a scheme not
-       registered in the Section 11.2 registry, only those URIs MUST be
-       discarded.  Contact URIs using registered schemes can be
-       processed.
+   5.   If the "c" field contains any contact URIs that use a scheme not
+        registered in the Section 11.3 registry, only those URIs MUST be
+        discarded.  Contact URIs using registered schemes can be
+        processed.
 
-   6.  If a DNS client has enabled opportunistic privacy profile
-       (Section 5 of [RFC8310]) for DoT, the DNS client will either fall
-       back to an encrypted connection without authenticating the DNS
-       server provided by the local network or fall back to clear text
-       DNS, and cannot exchange encrypted DNS messages.  Both of these
-       fallback mechanisms adversely impact security and privacy.  If
-       the DNS client has enabled opportunistic privacy profile for DoT
-       and the identity of the DNS server cannot be verified but the
-       connection is encrypted, the DNS client MUST ignore the "c", "j",
-       and "o" fields but MAY process the "s" field and other parts of
-       the response.
+   6.   If the DNS client has enabled the opportunistic privacy profile
+        for DoT (Section 5 of [RFC8310]) and the identity of the DNS
+        server cannot be verified, the DNS client MUST ignore the "c",
+        "j", and "o" fields, as these fields may influence user behavior
+        and are vulnerable to active attacks in the absence of resolver
+        authentication.  The client MAY process the "s" field and other
+        parts of the response.
 
-   7.  Opportunistic discovery [RFC9462], where only the IP address is
-       validated, the DNS client MUST ignore the "c", "j", and "o"
-       fields but MAY process the "s" field and other parts of the
-       response.
+   7.   In opportunistic discovery [RFC9462], where only the IP address
+        of the DNS server is validated and the server identity is not
+        authenticated, the DNS client MUST ignore the "c", "j", and "o"
+        fields.  The DNS client MAY process the "s" field and other
+        parts of the response.
 
-   8.  If a DNS client has enabled strict privacy profile (Section 5 of
-       [RFC8310]) for DoT, the DNS client requires an encrypted
-       connection and successful authentication of the DNS server.  In
-       doing so, this mitigates both passive eavesdropping and client
-       redirection (at the expense of providing no DNS service if an
-       encrypted, authenticated connection is not available).  If the
-       DNS client has enabled strict privacy profile for DoT, the DNS
-       client MAY process the EXTRA-TEXT field of the DNS response.
+   8.   If a DNS client has enabled strict privacy profile (Section 5 of
+        [RFC8310]) for DoT, the DNS client requires an encrypted
+        connection and successful authentication of the DNS server.  In
+        doing so, this mitigates both passive eavesdropping and client
+        redirection (at the expense of providing no DNS service if an
+        encrypted, authenticated connection is not available).  If the
+        DNS client has enabled strict privacy profile for DoT, the DNS
+        client MAY process the EXTRA-TEXT field of the DNS response.
 
-   9.  The DNS client MUST ignore any other JSON names that it does not
-       support.
+   9.   The DNS client MUST ignore any other JSON names that it does not
+        support.
+
+   10.  If the EXTRA-TEXT field does not conform to the I-JSON
+        requirements [RFC7493], the client MUST treat the data as
+        invalid and MUST NOT process it according to this specification.
+        The client MAY process the EXTRA-TEXT field as unstructured text
+        as specified in [RFC8914].
 
       Note that the strict and opportunistic privacy profiles as defined
       in [RFC8310] only apply to DoT; there has been no such distinction
@@ -510,9 +535,9 @@ Table of Contents
    EDE option that conveys the information in the "c", "s", and "j"
    fields encoded in the JSON object.
 
-   The application that triggered the DNS request may have a local
-   policy to override the contact information (e.g., redirect all
-   complaint calls to a single contact point).  In such cases, the
+   The application that triggered the DNS request may have a client
+   security policy to override the contact information (e.g., redirect
+   all complaint calls to a single contact point).  In such cases, the
    content of the "c" attribute MAY be ignored.
 
 7.  New Sub-Error Codes Definition
@@ -630,21 +655,21 @@ Table of Contents
 
    A client might choose to display the information in the "c" field to
    the end-user if and only if the encrypted resolver has sufficient
-   reputation, according to some local policy (e.g., user configuration,
-   administrative configuration, or a built-in list of respectable
-   resolvers).  This limits the ability of a malicious encrypted
-   resolver to cause harm.  For example, an end user can use the details
-   in the "c" field to contact an attacker to solve the problem of being
-   unable to reach a domain.  The attacker can mislead the end user to
-   install malware or spyware to compromise the device security posture
-   or mislead the end user to reveal personal data.  If the client
-   decides not to display all of the information in the EXTRA-TEXT
-   field, it can be logged for diagnostics purpose and the client can
-   only display the resolver hostname that blocked the domain, error
-   description for the EDE code and the sub-error description for the
-   "s" field to the end-user.
+   reputation, according to some client security policy (e.g., user
+   configuration, administrative configuration, or a built-in list of
+   respectable resolvers).  This limits the ability of a malicious
+   encrypted resolver to cause harm.  For example, an end user can use
+   the details in the "c" field to contact an attacker to solve the
+   problem of being unable to reach a domain.  The attacker can mislead
+   the end user to install malware or spyware to compromise the device
+   security posture or mislead the end user to reveal personal data.  If
+   the client decides not to display all of the information in the
+   EXTRA-TEXT field, it can be logged for diagnostics purpose and the
+   client can only display the resolver hostname that blocked the
+   domain, error description for the EDE code and the sub-error
+   description for the "s" field to the end-user.
 
-   When displaying the free-form text of "o", the browser MUST NOT make
+   When displaying the free-form text of "o", the client MUST NOT make
    any of those elements into actionable (clickable) links and these
    fields need to be rendered as text, not as HTML.  The contact details
    of "c" can be made into clickable links to provide a convenient way
@@ -660,7 +685,13 @@ Table of Contents
 
    *  The value consists solely of an organization name and does not
       contain any additional free-form content such as instructions,
-      URLs, or messaging intended to influence the end-user behavior.
+      URLs, or messaging intended to influence end-user behavior, as
+      determined by client security policy or heuristics.
+
+   DNS clients MAY keep all fields conveyed in the EXTRA-TEXT field for
+   evaluation according to the client security policy.  Such data MUST
+   NOT be automatically trusted, displayed to end users, or used to
+   influence security decisions without appropriate validation.
 
 10.3.  Security Risks from Legacy DNS Forwarders
 
@@ -672,14 +703,29 @@ Table of Contents
 
 11.  IANA Considerations
 
-   This document requests four IANA actions as described in the
+   This document requests five IANA actions as described in the
    following subsections.
 
       Note to the RFC Editor: Please replace RFCXXXX with the RFC number
       assigned to this document and "TBA1" with the value assigned by
       IANA.
 
-11.1.  New Registry for JSON Names
+11.1.  Structured DNS Error EDNS Option
+
+   IANA is requested to assign a new EDNS(0) Option Code from the "DNS
+   EDNS0 Option Codes" registry with the following properties:
+
+        +============+=======+========================+===========+
+        | Name       | Value | Description            | Reference |
+        +============+=======+========================+===========+
+        | Structured | TBD   | Signals client support | RFCXXXX   |
+        | DNS Error  |       | for structured JSON in |           |
+        |            |       | EDE EXTRA-TEXT         |           |
+        +------------+-------+------------------------+-----------+
+
+                                  Table 1
+
+11.2.  New Registry for JSON Names
 
    This document requests IANA to create a new registry, entitled
    "EXTRA-TEXT JSON Names" under "Domain Name System (DNS) Parameters,
@@ -708,14 +754,14 @@ Table of Contents
    |JSON| Field Meaning | Description      | Mandatory | Specification |
    |Name|               |                  |           |               |
    +====+===============+==================+===========+===============+
-   | c  | contact       | The contact      | Y         |  Section 4 of |
+   | c  | contact       | The contact      | N         |  Section 4 of |
    |    |               | details of the   |           |    RFCXXXX    |
    |    |               | IT/InfoSec team  |           |               |
-   |    |               | to report mis-   |           |               |
-   |    |               | classified DNS   |           |               |
-   |    |               | filtering        |           |               |
+   |    |               | to report        |           |               |
+   |    |               | misclassified    |           |               |
+   |    |               | DNS filtering    |           |               |
    +----+---------------+------------------+-----------+---------------+
-   | j  | justification | UTF-8-encoded    | Y         |  Section 4 of |
+   | j  | justification | UTF-8-encoded    | N         |  Section 4 of |
    |    |               | [RFC5198]        |           |    RFCXXXX    |
    |    |               | textual          |           |               |
    |    |               | justification    |           |               |
@@ -746,12 +792,15 @@ Table of Contents
    |    |               | [RFC5646]        |           |               |
    +----+---------------+------------------+-----------+---------------+
 
-                    Table 1: Initial JSON Names Registry
+                    Table 2: Initial JSON Names Registry
 
    New JSON names are registered via IETF Review (Section 4.8 of
    [RFC8126]).
 
-11.2.  New Registry for Contact URI Scheme
+   The "Mandatory" column is informational only.  This specification
+   does not define any mandatory JSON names.
+
+11.3.  New Registry for Contact URI Scheme
 
    This document requests IANA to create a new registry, entitled
    "Contact URI Schemes" under "Domain Name System (DNS) Parameters,
@@ -779,13 +828,13 @@ Table of Contents
                  | mailto | Internet mail    | [RFC6068] |
                  +--------+------------------+-----------+
 
-                                  Table 2
+                                  Table 3
 
    The registration procedure for adding new Contact URI schemes to the
    "Contact URI Schemes" registry is "IETF Review" as defined in
    Section 4.8 of [RFC8126].
 
-11.3.  New Registry for DNS Sub-Error Codes
+11.4.  New Registry for DNS Sub-Error Codes
 
    This document requests IANA to create a new registry, entitled "Sub-
    Error Codes" under "Domain Name System (DNS) Parameters, Extended DNS
@@ -838,24 +887,24 @@ Table of Contents
    |        | policy   |                              |                |
    +--------+----------+------------------------------+----------------+
 
-                  Table 3: Initial Sub-Error Code Registry
+                  Table 4: Initial Sub-Error Code Registry
 
    The registration procedure to add New Sub-Error Codes are registered
    via IETF Review as defined in Section 4.8 of [RFC8126].
 
-11.4.  New Extended DNS Error Code
+11.5.  New Extended DNS Error Code
 
    IANA is requested to assign the following Extended DNS Error code
    from the "Domain Name System (DNS) Parameters, Extended DNS Error
    Codes" registry [IANA-DNS]:
 
           +===========+============================+===========+
-          | INFO-CODE | Purose                     | Reference |
+          | INFO-CODE | Purpose                    | Reference |
           +===========+============================+===========+
           |    TBA1   | Blocked by Upstream Server |  RFCXXXX  |
           +-----------+----------------------------+-----------+
 
-                       Table 4: New DNS Error Code
+                       Table 5: New DNS Error Code
 
 12.  References
 
@@ -895,11 +944,6 @@ Table of Contents
    [RFC6068]  Duerst, M., Masinter, L., and J. Zawinski, "The 'mailto'
               URI Scheme", RFC 6068, DOI 10.17487/RFC6068, October 2010,
               <https://www.rfc-editor.org/rfc/rfc6068>.
-
-   [RFC6891]  Damas, J., Graff, M., and P. Vixie, "Extension Mechanisms
-              for DNS (EDNS(0))", STD 75, RFC 6891,
-              DOI 10.17487/RFC6891, April 2013,
-              <https://www.rfc-editor.org/rfc/rfc6891>.
 
    [RFC7159]  Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
               Interchange Format", RFC 7159, DOI 10.17487/RFC7159, March
@@ -948,6 +992,11 @@ Table of Contents
               BCP 152, RFC 5625, DOI 10.17487/RFC5625, August 2009,
               <https://www.rfc-editor.org/rfc/rfc5625>.
 
+   [RFC6891]  Damas, J., Graff, M., and P. Vixie, "Extension Mechanisms
+              for DNS (EDNS(0))", STD 75, RFC 6891,
+              DOI 10.17487/RFC6891, April 2013,
+              <https://www.rfc-editor.org/rfc/rfc6891>.
+
    [RFC7858]  Hu, Z., Zhu, L., Heidemann, J., Mankin, A., Wessels, D.,
               and P. Hoffman, "Specification for DNS over Transport
               Layer Security (TLS)", RFC 7858, DOI 10.17487/RFC7858, May
@@ -989,22 +1038,22 @@ Table of Contents
 
 Appendix A.  Interoperation with RPZ Servers
 
-   This appendix provides a non-normative guidance for operation with an
+   This appendix provides a non-normative guidance for operation with a
    Response Policy Zones (RPZ) server [RPZ] that indicates filtering
    with a NXDOMAIN response with the Recursion Available bit cleared
    (RA=0).  This guidance is provided to ease interoperation with RPZ.
 
-   When a DNS client supports this specification, it includes the EDE
+   When a DNS client supports this specification, it includes the SDE
    option in its DNS query.
 
    If the server does not support this specification and is performing
-   RPZ filtering, the server ignores the EDE option in the DNS query and
+   RPZ filtering, the server ignores the SDE option in the DNS query and
    replies with NXDOMAIN and RA=0.  The DNS client can continue to
    accept such responses.
 
    If the server does support this specification and is performing RPZ
-   filtering, the server can use the EDE option in the query to identify
-   an EDE-aware client and respond appropriately (that is, by generating
+   filtering, the server can use the SDE option in the query to identify
+   an SDE-aware client and respond appropriately (that is, by generating
    a response described in Section 5.2) as NXDOMAIN and RA=0 are not
    necessary when generating a response to such a client.
 
@@ -1021,9 +1070,8 @@ Acknowledgements
 
    Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
    Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, Bob
-   Harold, Mukund Sivaraman, Stephane Bortzmeyer, Gianpaolo Angelo
-   Scalone, Mark Nottingham, Stephane Bortzmeyer, and Daniel Migault for
-   the comments.
+   Harold, Mukund Sivaraman, Gianpaolo Angelo Scalone, Mark Nottingham,
+   Stephane Bortzmeyer, and Daniel Migault for the comments.
 
    Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about
    their implementation.
