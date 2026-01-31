@@ -271,11 +271,19 @@ represented as a separate array element in the JSON array.
 : This field is optional.
 
 j: (justification)
-: 'UTF-8'-encoded {{!RFC5198}} textual justification for this particular
-DNS filtering. The field should be treated only as diagnostic information.
-: Whether the information provided in the "j" name is meaningful or considered as garbage data
-(including empty values) is local to each IT team. Returning garbage data
-would indicate that a DNS server is misbehaving.
+: 'UTF-8'-encoded {{!RFC5198}} human-readable explanation for the DNS
+filtering decision.
+: This field is particularly useful when no applicable sub-error code
+is defined or provided for the returned Extended DNS Error.
+: The information conveyed in this field MUST NOT be used as input to
+automated processing that affects security policy enforcement or DNS
+protocol behavior.
+: The DNS client determines, according to its client security policy,
+whether the contents of this field are displayed to the end user,
+logged, or ignored.
+: Returning non-UTF-8 data, syntactically invalid content, or
+deliberately meaningless values (including empty strings) indicates that
+a DNS server is misbehaving.
 : This field is optional.
 
 s: (sub-error)
@@ -344,9 +352,10 @@ ideally) forged response, as desired by the DNS
 server.
 
 If the query contained the SDE EDNS option ({{client-request}}), and the
-DNS server performs filtering when replying to the query, the DNS server
-MUST include additional detail in the EXTRA-TEXT field encoded as
-structured and machine-readable data.
+DNS server returns an EDE indicating blocking or modification of the response,
+the DNS server MUST include additional detail in the EXTRA-TEXT field encoded
+as structured and machine-readable data.
+
 If the SDE option is not present, the DNS server MUST NOT include
 structured JSON data and MUST convey the EXTRA-TEXT field as
 human-readable text in accordance with {{!RFC8914}}.
@@ -550,7 +559,7 @@ and sent over clear text.
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
 
-## Restrictions on Display of "c" and "o" Fields
+## Restrictions on Display of "c", "o", and "j" Fields
 
 A client might choose to display the information in the "c" field
 to the end-user if and only if the encrypted resolver has sufficient
@@ -566,6 +575,9 @@ information in the EXTRA-TEXT field, it can be logged for diagnostics
 purpose and the client can only display the resolver hostname that
 blocked the domain, error description for the EDE code and the
 sub-error description for the "s" field to the end-user.
+
+The same client security policy considerations apply to the display of the "j" field, as it
+contains free-form, human-readable text that may influence end-user behavior.
 
 When displaying the free-form text of "o", the client MUST
 NOT make any of those elements into actionable (clickable) links and these
