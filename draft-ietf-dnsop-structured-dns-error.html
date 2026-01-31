@@ -1062,7 +1062,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Wing, et al.</td>
-<td class="center">Expires 1 August 2026</td>
+<td class="center">Expires 4 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1078,12 +1078,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc8914" class="eref">8914</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-28" class="published">28 January 2026</time>
+<time datetime="2026-01-31" class="published">31 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-01">1 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-04">4 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1153,7 +1153,7 @@ other purposes.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1243,7 +1243,7 @@ other purposes.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
                 <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-authentication-and-confiden" class="internal xref">Authentication and Confidentiality</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
-                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-restrictions-on-display-of-" class="internal xref">Restrictions on Display of "c" and "o" Fields</a></p>
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-restrictions-on-display-of-" class="internal xref">Restrictions on Display of "c", "o", and "j" Fields</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3">
                 <p id="section-toc.1-1.10.2.3.1"><a href="#section-10.3" class="auto internal xref">10.3</a>.  <a href="#name-security-risks-from-legacy-" class="internal xref">Security Risks from Legacy DNS Forwarders</a></p>
@@ -1503,30 +1503,35 @@ represented as a separate array element in the JSON array.<a href="#section-4-4.
         <dd class="break"></dd>
 <dt id="section-4-4.9">j: (justification)</dt>
         <dd style="margin-left: 1.5em" id="section-4-4.10">
-          <p id="section-4-4.10.1">'UTF-8'-encoded <span>[<a href="#RFC5198" class="cite xref">RFC5198</a>]</span> textual justification for this particular
-DNS filtering. The field should be treated only as diagnostic information.<a href="#section-4-4.10.1" class="pilcrow">¶</a></p>
+          <p id="section-4-4.10.1">'UTF-8'-encoded <span>[<a href="#RFC5198" class="cite xref">RFC5198</a>]</span> human-readable explanation for the DNS
+filtering decision.<a href="#section-4-4.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-4.11"></dt>
         <dd style="margin-left: 1.5em" id="section-4-4.12">
-          <p id="section-4-4.12.1">Whether the information provided in the "j" name is meaningful or considered as garbage data
-(including empty values) is local to each IT team. Returning garbage data
-would indicate that a DNS server is misbehaving.<a href="#section-4-4.12.1" class="pilcrow">¶</a></p>
+          <p id="section-4-4.12.1">This field is particularly useful when no applicable sub-error code
+is defined or provided for the returned Extended DNS Error.<a href="#section-4-4.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-4.13"></dt>
         <dd style="margin-left: 1.5em" id="section-4-4.14">
-          <p id="section-4-4.14.1">This field is optional.<a href="#section-4-4.14.1" class="pilcrow">¶</a></p>
+          <p id="section-4-4.14.1">The information conveyed in this field <span class="bcp14">MUST NOT</span> be used as input to
+automated processing that affects security policy enforcement or DNS
+protocol behavior.<a href="#section-4-4.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-4-4.15">s: (sub-error)</dt>
+<dt id="section-4-4.15"></dt>
         <dd style="margin-left: 1.5em" id="section-4-4.16">
-          <p id="section-4-4.16.1">An integer representing the sub-error code for this particular DNS filtering case.<a href="#section-4-4.16.1" class="pilcrow">¶</a></p>
+          <p id="section-4-4.16.1">The DNS client determines, according to its client security policy,
+whether the contents of this field are displayed to the end user,
+logged, or ignored.<a href="#section-4-4.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-4.17"></dt>
         <dd style="margin-left: 1.5em" id="section-4-4.18">
-          <p id="section-4-4.18.1">The integer values are defined in the IANA-managed registry for DNS Sub-Error Codes in <a href="#IANA-SubError" class="auto internal xref">Section 11.4</a>.<a href="#section-4-4.18.1" class="pilcrow">¶</a></p>
+          <p id="section-4-4.18.1">Returning non-UTF-8 data, syntactically invalid content, or
+deliberately meaningless values (including empty strings) indicates that
+a DNS server is misbehaving.<a href="#section-4-4.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-4.19"></dt>
@@ -1534,25 +1539,40 @@ would indicate that a DNS server is misbehaving.<a href="#section-4-4.12.1" clas
           <p id="section-4-4.20.1">This field is optional.<a href="#section-4-4.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-4-4.21">o: (organization)</dt>
+<dt id="section-4-4.21">s: (sub-error)</dt>
         <dd style="margin-left: 1.5em" id="section-4-4.22">
-          <p id="section-4-4.22.1">'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query.<a href="#section-4-4.22.1" class="pilcrow">¶</a></p>
+          <p id="section-4-4.22.1">An integer representing the sub-error code for this particular DNS filtering case.<a href="#section-4-4.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-4.23"></dt>
         <dd style="margin-left: 1.5em" id="section-4-4.24">
-          <p id="section-4-4.24.1">This field is optional.<a href="#section-4-4.24.1" class="pilcrow">¶</a></p>
+          <p id="section-4-4.24.1">The integer values are defined in the IANA-managed registry for DNS Sub-Error Codes in <a href="#IANA-SubError" class="auto internal xref">Section 11.4</a>.<a href="#section-4-4.24.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-4-4.25">l: (language)</dt>
+<dt id="section-4-4.25"></dt>
         <dd style="margin-left: 1.5em" id="section-4-4.26">
-          <p id="section-4-4.26.1">The "l" field indicates the language used for the JSON-encoded "j" and "o" fields.  The value of this field <span class="bcp14">MUST</span> conform to the
-language tag syntax specified in <span><a href="https://rfc-editor.org/rfc/rfc5646#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC5646" class="cite xref">RFC5646</a>]</span>.<a href="#section-4-4.26.1" class="pilcrow">¶</a></p>
+          <p id="section-4-4.26.1">This field is optional.<a href="#section-4-4.26.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-4-4.27"></dt>
+<dt id="section-4-4.27">o: (organization)</dt>
         <dd style="margin-left: 1.5em" id="section-4-4.28">
-          <p id="section-4-4.28.1">This field is optional but <span class="bcp14">RECOMMENDED</span> to aid in localization.<a href="#section-4-4.28.1" class="pilcrow">¶</a></p>
+          <p id="section-4-4.28.1">'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query.<a href="#section-4-4.28.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-4.29"></dt>
+        <dd style="margin-left: 1.5em" id="section-4-4.30">
+          <p id="section-4-4.30.1">This field is optional.<a href="#section-4-4.30.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-4.31">l: (language)</dt>
+        <dd style="margin-left: 1.5em" id="section-4-4.32">
+          <p id="section-4-4.32.1">The "l" field indicates the language used for the JSON-encoded "j" and "o" fields.  The value of this field <span class="bcp14">MUST</span> conform to the
+language tag syntax specified in <span><a href="https://rfc-editor.org/rfc/rfc5646#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC5646" class="cite xref">RFC5646</a>]</span>.<a href="#section-4-4.32.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-4.33"></dt>
+        <dd style="margin-left: 1.5em" id="section-4-4.34">
+          <p id="section-4-4.34.1">This field is optional but <span class="bcp14">RECOMMENDED</span> to aid in localization.<a href="#section-4-4.34.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1612,34 +1632,34 @@ query (e.g., A or AAAA resource record query), the DNS response <span class="bcp
 ideally) forged response, as desired by the DNS
 server.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2-2">If the query contained the SDE EDNS option (<a href="#client-request" class="auto internal xref">Section 5.1</a>), and the
-DNS server performs filtering when replying to the query, the DNS server
-<span class="bcp14">MUST</span> include additional detail in the EXTRA-TEXT field encoded as
-structured and machine-readable data.
-If the SDE option is not present, the DNS server <span class="bcp14">MUST NOT</span> include
+DNS server returns an EDE indicating blocking or modification of the response,
+the DNS server <span class="bcp14">MUST</span> include additional detail in the EXTRA-TEXT field encoded
+as structured and machine-readable data.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2-3">If the SDE option is not present, the DNS server <span class="bcp14">MUST NOT</span> include
 structured JSON data and <span class="bcp14">MUST</span> convey the EXTRA-TEXT field as
-human-readable text in accordance with <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
-<p id="section-5.2-3">Servers <span class="bcp14">MAY</span> decide to return small TTL values in filtered DNS
+human-readable text in accordance with <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.2-4">Servers <span class="bcp14">MAY</span> decide to return small TTL values in filtered DNS
 responses (e.g., 10 seconds) to handle domain category and reputation
 updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
 but can result in increased query traffic. In cases where updates are less frequent,
 TTL values of 30 to 60 seconds <span class="bcp14">MAY</span> provide a better balance, reducing server load while
-still ensuring reasonable flexibility for updates.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
-<p id="section-5.2-4">Because the DNS client explicitly signals support for structured error
+still ensuring reasonable flexibility for updates.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
+<p id="section-5.2-5">Because the DNS client explicitly signals support for structured error
 information using the SDE option (<a href="#client-request" class="auto internal xref">Section 5.1</a>), and because the
 EDE option is carried in the non-cached OPT pseudo-RR
 (<span><a href="https://rfc-editor.org/rfc/rfc6891#section-6.2.1" class="relref">Section 6.2.1</a> of [<a href="#RFC6891" class="cite xref">RFC6891</a>]</span>), the DNS server can tailor its
-filtered response to the capabilities of the client.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
-<p id="section-5.2-5">If the query includes the SDE option as per <a href="#client-request" class="auto internal xref">Section 5.1</a>, the server <span class="bcp14">MUST NOT</span> return the "Forged Answer" extended error code because the client
+filtered response to the capabilities of the client.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
+<p id="section-5.2-6">If the query includes the SDE option as per <a href="#client-request" class="auto internal xref">Section 5.1</a>, the server <span class="bcp14">MUST NOT</span> return the "Forged Answer" extended error code because the client
 can take advantage of EDE's more sophisticated error reporting (e.g.,
 "Filtered", "Blocked").  Continuing to send "Forged
 Answer" even to an EDE-supporting client will cause the persistence of
-the drawbacks described in <a href="#existing-techniques" class="auto internal xref">Section 3</a>.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
-<p id="section-5.2-6">When the "Censored" extended error code is included in the DNS response,
+the drawbacks described in <a href="#existing-techniques" class="auto internal xref">Section 3</a>.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
+<p id="section-5.2-7">When the "Censored" extended error code is included in the DNS response,
 the "c", "j", "o", and "l" fields may be conveyed in the EXTRA-TEXT field.
 The sub-error codes defined in this specification are not applicable to
 the "Censored" extended error code and <span class="bcp14">MUST NOT</span> be used in conjunction with it.
 Future specifications may update this behavior by defining sub-error codes
-applicable to "Censored".<a href="#section-5.2-6" class="pilcrow">¶</a></p>
+applicable to "Censored".<a href="#section-5.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="client-processing">
@@ -1905,10 +1925,10 @@ and sent over clear text.<a href="#section-10.1-1" class="pilcrow">¶</a></p>
 client validates the response as described in <a href="#client-processing" class="auto internal xref">Section 5.3</a>.<a href="#section-10.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="restrictions-on-display-of-c-and-o-fields">
+<div id="restrictions-on-display-of-c-o-and-j-fields">
 <section id="section-10.2">
         <h3 id="name-restrictions-on-display-of-">
-<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-restrictions-on-display-of-" class="section-name selfRef">Restrictions on Display of "c" and "o" Fields</a>
+<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-restrictions-on-display-of-" class="section-name selfRef">Restrictions on Display of "c", "o", and "j" Fields</a>
         </h3>
 <p id="section-10.2-1">A client might choose to display the information in the "c" field
 to the end-user if and only if the encrypted resolver has sufficient
@@ -1924,22 +1944,24 @@ information in the EXTRA-TEXT field, it can be logged for diagnostics
 purpose and the client can only display the resolver hostname that
 blocked the domain, error description for the EDE code and the
 sub-error description for the "s" field to the end-user.<a href="#section-10.2-1" class="pilcrow">¶</a></p>
-<p id="section-10.2-2">When displaying the free-form text of "o", the client <span class="bcp14">MUST NOT</span> make any of those elements into actionable (clickable) links and these
+<p id="section-10.2-2">The same client security policy considerations apply to the display of the "j" field, as it
+contains free-form, human-readable text that may influence end-user behavior.<a href="#section-10.2-2" class="pilcrow">¶</a></p>
+<p id="section-10.2-3">When displaying the free-form text of "o", the client <span class="bcp14">MUST NOT</span> make any of those elements into actionable (clickable) links and these
 fields need to be rendered as text, not as HTML. The contact details of "c" can be made
 into clickable links to provide a convenient way for users to initiate, e.g., voice calls. The client might
-choose to display the contact details only when the identity of the DNS server is verified.<a href="#section-10.2-2" class="pilcrow">¶</a></p>
-<p id="section-10.2-3">Further, clients <span class="bcp14">MUST NOT</span> display the value of the <code>"o"</code> field to the end-user unless one of the following
-conditions is met:<a href="#section-10.2-3" class="pilcrow">¶</a></p>
+choose to display the contact details only when the identity of the DNS server is verified.<a href="#section-10.2-3" class="pilcrow">¶</a></p>
+<p id="section-10.2-4">Further, clients <span class="bcp14">MUST NOT</span> display the value of the <code>"o"</code> field to the end-user unless one of the following
+conditions is met:<a href="#section-10.2-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-10.2-4.1">
-            <p id="section-10.2-4.1.1">The value matches a registered organization name listed in the <span>[<a href="#IANA-Enterprise" class="cite xref">IANA-Enterprise</a>]</span> OR<a href="#section-10.2-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-10.2-5.1">
+            <p id="section-10.2-5.1.1">The value matches a registered organization name listed in the <span>[<a href="#IANA-Enterprise" class="cite xref">IANA-Enterprise</a>]</span> OR<a href="#section-10.2-5.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-10.2-4.2">
-            <p id="section-10.2-4.2.1">The value consists solely of an organization name and does not contain any additional free-form content such
-as instructions, URLs, or messaging intended to influence end-user behavior, as determined by client security policy or heuristics.<a href="#section-10.2-4.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-10.2-5.2">
+            <p id="section-10.2-5.2.1">The value consists solely of an organization name and does not contain any additional free-form content such
+as instructions, URLs, or messaging intended to influence end-user behavior, as determined by client security policy or heuristics.<a href="#section-10.2-5.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-10.2-5">DNS clients <span class="bcp14">MAY</span> keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data <span class="bcp14">MUST NOT</span> be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.<a href="#section-10.2-5" class="pilcrow">¶</a></p>
+<p id="section-10.2-6">DNS clients <span class="bcp14">MAY</span> keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data <span class="bcp14">MUST NOT</span> be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.<a href="#section-10.2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-risks-from-legacy-dns-forwarders">
