@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 4 August 2026                                           N. Cook
+Expires: 27 August 2026                                          N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                         31 January 2026
+                                                        23 February 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 August 2026.
+   This Internet-Draft will expire on 27 August 2026.
 
 Copyright Notice
 
@@ -89,15 +89,15 @@ Table of Contents
      5.1.  Client Generating Request
      5.2.  Server Generating Response
      5.3.  Client Processing Response
-   6.  Deployment Considerations
-   7.  New Sub-Error Codes Definition
-     7.1.  Reserved
-     7.2.  Network Operator Policy
-     7.3.  DNS Operator Policy
-   8.  New Extended DNS Errors
-     8.1.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS
+   6.  New Sub-Error Codes Definition
+     6.1.  Reserved
+     6.2.  Network Operator Policy
+     6.3.  DNS Operator Policy
+   7.  New Extended DNS Errors
+     7.1.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS
            Server
-   9.  Examples
+   8.  Examples
+   9.  Operational Considerations
    10. Security Considerations
      10.1.  Authentication and Confidentiality
      10.2.  Restrictions on Display of "c", "o", and "j" Fields
@@ -405,7 +405,7 @@ Table of Contents
       new EDE codes for these errors.  However, such design is
       suboptimal because it requires replicating an error code for each
       EDE code to which the sub-error applies (e.g., "Malware" sub-error
-      in Table 4 would consume three EDE codes).
+      in Table 3 would consume three EDE codes).
 
 5.  Protocol Operation
 
@@ -536,26 +536,12 @@ Table of Contents
       in [RFC8310] only apply to DoT; there has been no such distinction
       made for DoH.
 
-6.  Deployment Considerations
-
-   When a forwarder receives an EDE option, whether or not (and how) to
-   pass along JSON information in the EXTRA-TEXT field to its client is
-   implementation-dependent [RFC5625].  Implementations MAY choose not
-   to forward the JSON information, or they MAY choose to create a new
-   EDE option that conveys the information in the "c", "s", and "j"
-   fields encoded in the JSON object.
-
-   The application that triggered the DNS request may have a client
-   security policy to override the contact information (e.g., redirect
-   all complaint calls to a single contact point).  In such cases, the
-   content of the "c" attribute MAY be ignored.
-
-7.  New Sub-Error Codes Definition
+6.  New Sub-Error Codes Definition
 
    The document defines the following new IANA-registered Sub-Error
    codes.
 
-7.1.  Reserved
+6.1.  Reserved
 
    *  Number: 0
 
@@ -568,7 +554,7 @@ Table of Contents
 
    *  Change Controller: IETF
 
-7.2.  Network Operator Policy
+6.2.  Network Operator Policy
 
    *  Number: 5
 
@@ -584,7 +570,7 @@ Table of Contents
 
    *  Change Controller: IETF
 
-7.3.  DNS Operator Policy
+6.3.  DNS Operator Policy
 
    *  Number: 6
 
@@ -599,12 +585,12 @@ Table of Contents
 
    *  Change Controller: IETF
 
-8.  New Extended DNS Errors
+7.  New Extended DNS Errors
 
    This document defines an addition to the EDE codes defined in
    [RFC8914].
 
-8.1.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
+7.1.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
 
    The DNS server (e.g., a DNS forwarder) is unable to respond to the
    request because the domain is on a blocklist due to an internal
@@ -617,7 +603,7 @@ Table of Contents
    to the DNS client.  Additionally, the EXTRA-TEXT field is forwarded
    to the DNS client.
 
-9.  Examples
+8.  Examples
 
    An example showing the nameserver at 'ns.example.net' that filtered a
    DNS "A" record query for 'example.org' is provided in Figure 1.
@@ -646,6 +632,21 @@ Table of Contents
    "l":"en" }
 
                         Figure 2: Minified Response
+
+9.  Operational Considerations
+
+   When a forwarder receives an EDE option, whether or not (and how) to
+   pass along JSON information in the EXTRA-TEXT field to its client is
+   implementation-dependent [RFC5625] and depends on operator policy.
+   Implementations MAY choose not to forward the JSON information, or
+   they MAY choose to create a new EDE option that conveys the
+   information in the "c", "s", and "j" fields encoded in the JSON
+   object.
+
+   The application that triggered the DNS request may have a client
+   security policy to override the contact information (e.g., redirect
+   all complaint calls to a single contact point).  In such cases, the
+   content of the "c" attribute MAY be ignored.
 
 10.  Security Considerations
 
@@ -726,25 +727,25 @@ Table of Contents
 
 11.1.  Structured DNS Error EDNS Option
 
-   IANA is requested to assign a new EDNS(0) Option Code from the "DNS
-   EDNS0 Option Codes" registry with the following properties:
+   IANA is requested to register the following new EDNS(0) Option Code
+   in the "DNS EDNS0 Option Codes (OPT)" registry under the "Domain Name
+   System (DNS) Parameters" registry group [IANA-DNS]:
 
-        +============+=======+========================+===========+
-        | Name       | Value | Description            | Reference |
-        +============+=======+========================+===========+
-        | Structured | TBD   | Signals client support | RFCXXXX   |
-        | DNS Error  |       | for structured JSON in |           |
-        |            |       | EDE EXTRA-TEXT         |           |
-        +------------+-------+------------------------+-----------+
+   Value:  TBD
 
-                                  Table 1
+   Name:  Structured DNS Error
+
+   Status:  Standard
+
+   Reference:  RFC XXXX
 
 11.2.  New Registry for JSON Names
 
    This document requests IANA to create a new registry, entitled
-   "EXTRA-TEXT JSON Names" under "Domain Name System (DNS) Parameters,
-   Extended DNS Error Codes" registry [IANA-DNS].  The registration
-   request for a new JSON name must include the following fields:
+   "EXTRA-TEXT JSON Names" under "Extended DNS Error Codes" registry,
+   which is under the "Domain Name System (DNS) Parameters" registry
+   group [IANA-DNS].  The registration request for a new JSON name must
+   include the following fields:
 
    JSON Name:  Specifies the name of an attribute that is present in the
       JSON data enclosed in EXTRA-TEXT field.  The name must follow the
@@ -806,7 +807,7 @@ Table of Contents
    |    |               | [RFC5646]        |           |               |
    +----+---------------+------------------+-----------+---------------+
 
-                    Table 2: Initial JSON Names Registry
+                    Table 1: Initial JSON Names Registry
 
    New JSON names are registered via IETF Review (Section 4.8 of
    [RFC8126]).
@@ -817,10 +818,10 @@ Table of Contents
 11.3.  New Registry for Contact URI Scheme
 
    This document requests IANA to create a new registry, entitled
-   "Contact URI Schemes" under "Domain Name System (DNS) Parameters,
-   Extended DNS Error Codes" registry [IANA-DNS].  The registration
-   request for a new Contact URI scheme has to include the following
-   fields:
+   "Contact URI Schemes" under "Extended DNS Error Codes" registry,
+   which is under the "Domain Name System (DNS) Parameters" registry
+   group [IANA-DNS].  The registration request for a new Contact URI
+   scheme has to include the following fields:
 
    *  Name: URI scheme name.
 
@@ -842,7 +843,7 @@ Table of Contents
                  | mailto | Internet mail    | [RFC6068] |
                  +--------+------------------+-----------+
 
-                                  Table 3
+                                  Table 2
 
    The registration procedure for adding new Contact URI schemes to the
    "Contact URI Schemes" registry is "IETF Review" as defined in
@@ -851,9 +852,10 @@ Table of Contents
 11.4.  New Registry for DNS Sub-Error Codes
 
    This document requests IANA to create a new registry, entitled "Sub-
-   Error Codes" under "Domain Name System (DNS) Parameters, Extended DNS
-   Error Codes" registry [IANA-DNS].  The registration request for a new
-   sub-error codes MUST include the following fields:
+   Error Codes" under "Extended DNS Error Codes" registry, which is
+   under the "Domain Name System (DNS) Parameters" registry group
+   [IANA-DNS].  The registration request for a new sub-error codes must
+   include the following fields:
 
    *  Number: Is the wire format sub-error code (range 0-255).
 
@@ -873,7 +875,7 @@ Table of Contents
    | Number | Meaning  | EDE Codes                    | Reference      |
    |        |          | Applicability                |                |
    +========+==========+==============================+================+
-   |   0    | Reserved | Not used                     | Section 7.1 of |
+   |   0    | Reserved | Not used                     | Section 6.1 of |
    |        |          |                              | this document  |
    +--------+----------+------------------------------+----------------+
    |   1    | Malware  | "Blocked", "Blocked          | Section 5.5 of |
@@ -892,16 +894,16 @@ Table of Contents
    |        |          | by Upstream                  | [RFC4949]      |
    |        |          | Server", "Filtered"          |                |
    +--------+----------+------------------------------+----------------+
-   |   5    | Network  | "Blocked"                    | Section 7.2 of |
+   |   5    | Network  | "Blocked"                    | Section 6.2 of |
    |        | operator |                              | this document  |
    |        | policy   |                              |                |
    +--------+----------+------------------------------+----------------+
-   |   6    | DNS      | "Blocked"                    | Section 7.3 of |
+   |   6    | DNS      | "Blocked"                    | Section 6.3 of |
    |        | operator |                              | this document  |
    |        | policy   |                              |                |
    +--------+----------+------------------------------+----------------+
 
-                  Table 4: Initial Sub-Error Code Registry
+                  Table 3: Initial Sub-Error Code Registry
 
    The registration procedure to add New Sub-Error Codes are registered
    via IETF Review as defined in Section 4.8 of [RFC8126].
@@ -909,8 +911,8 @@ Table of Contents
 11.5.  New Extended DNS Error Code
 
    IANA is requested to assign the following Extended DNS Error code
-   from the "Domain Name System (DNS) Parameters, Extended DNS Error
-   Codes" registry [IANA-DNS]:
+   from the "Extended DNS Error Codes" registry under the "Domain Name
+   System (DNS) Parameters" registry group [IANA-DNS]:
 
           +===========+============================+===========+
           | INFO-CODE | Purpose                    | Reference |
@@ -918,7 +920,7 @@ Table of Contents
           |    TBA1   | Blocked by Upstream Server |  RFCXXXX  |
           +-----------+----------------------------+-----------+
 
-                       Table 5: New DNS Error Code
+                       Table 4: New DNS Error Code
 
 12.  References
 
