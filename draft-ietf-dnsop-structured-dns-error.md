@@ -450,15 +450,6 @@ field:
 > Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
 no such distinction made for DoH.
 
-# Deployment Considerations
-
-When a forwarder receives an EDE option, whether or not (and how) to pass along JSON information in the
-EXTRA-TEXT field to its client is implementation-dependent {{?RFC5625}}. Implementations MAY choose not to
-forward the JSON information, or they MAY choose to create a new EDE option that conveys the information in the
-"c", "s", and "j" fields encoded in the JSON object.
-
-The application that triggered the DNS request may have a client security policy to override the contact information (e.g., redirect all complaint calls to a single contact point). In such cases, the content of the "c" attribute MAY be ignored.
-
 # New Sub-Error Codes Definition
 
 The document defines the following new IANA-registered Sub-Error codes.
@@ -545,6 +536,15 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 ~~~~~
 {: #example-json-minified title="Minified Response"}
 
+# Operational Considerations
+
+When a forwarder receives an EDE option, whether or not (and how) to pass along JSON information in the
+EXTRA-TEXT field to its client is implementation-dependent {{?RFC5625}} and depends on operator policy. Implementations MAY choose not to
+forward the JSON information, or they MAY choose to create a new EDE option that conveys the information in the
+"c", "s", and "j" fields encoded in the JSON object.
+
+The application that triggered the DNS request may have a client security policy to override the contact information (e.g., redirect all complaint calls to a single contact point). In such cases, the content of the "c" attribute MAY be ignored.
+
 # Security Considerations {#security}
 
 ## Authentication and Confidentiality
@@ -611,18 +611,25 @@ This document requests five IANA actions as described in the following subsectio
 
 ### Structured DNS Error EDNS Option
 
-IANA is requested to assign a new EDNS(0) Option Code from the
-"DNS EDNS0 Option Codes" registry with the following properties:
+IANA is requested to register the following new EDNS(0) Option Code in the
+"DNS EDNS0 Option Codes  (OPT)" registry under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}:
 
-| Name                 | Value | Description                                                   | Reference |
-|----------------------|-------|---------------------------------------------------------------|-----------|
-| Structured DNS Error | TBD   | Signals client support for structured JSON in EDE EXTRA-TEXT  | RFCXXXX   |
+Value:
+: TBD
+
+Name:
+: Structured DNS Error
+
+Status:
+: Standard
+
+Reference:
+: RFC XXXX
 
 ##  New Registry for JSON Names {#IANA-Names}
 
 This document requests IANA to create a new registry, entitled "EXTRA-TEXT JSON Names"
-under "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
-registry {{IANA-DNS}}. The registration request for a new JSON name must include the
+under "Extended DNS Error Codes" registry, which is under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}. The registration request for a new JSON name must include the
 following fields:
 
 JSON Name:
@@ -659,8 +666,8 @@ The "Mandatory" column is informational only. This specification does not define
 ## New Registry for Contact URI Scheme {#IANA-Contact}
 
 This document requests IANA to create a new registry, entitled "Contact URI Schemes"
-under "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
-registry {{IANA-DNS}}. The registration request for a new Contact URI scheme has to include the
+under "Extended DNS Error Codes"
+registry, which is under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}. The registration request for a new Contact URI scheme has to include the
 following fields:
 
 * Name: URI scheme name.
@@ -687,8 +694,7 @@ Review" as defined in {{Section 4.8 of !RFC8126}}.
 ## New Registry for DNS Sub-Error Codes {#IANA-SubError}
 
 This document requests IANA to create a new registry, entitled "Sub-Error Codes"
-under "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
-registry {{IANA-DNS}}. The registration request for a new sub-error codes MUST include the
+under "Extended DNS Error Codes" registry, which is under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}. The registration request for a new sub-error codes must include the
 following fields:
 
 * Number: Is the wire format sub-error code (range 0-255).
@@ -719,8 +725,8 @@ The registration procedure to add New Sub-Error Codes are registered via IETF Re
 
 ## New Extended DNS Error Code
 
-IANA is requested to assign the following Extended DNS Error code from the "Domain Name System (DNS) Parameters, Extended DNS Error Codes"
-registry {{IANA-DNS}}:
+IANA is requested to assign the following Extended DNS Error code from the "Extended DNS Error Codes"
+registry under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}:
 
 | INFO-CODE | Purpose                          | Reference |
 |:---------:|:---------------------------------|:---------:|
