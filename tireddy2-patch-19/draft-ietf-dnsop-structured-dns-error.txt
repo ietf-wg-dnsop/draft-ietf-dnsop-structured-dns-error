@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 28 August 2026                                          N. Cook
+Expires: 29 August 2026                                          N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                        24 February 2026
+                                                        25 February 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 August 2026.
+   This Internet-Draft will expire on 29 August 2026.
 
 Copyright Notice
 
@@ -512,10 +512,9 @@ Table of Contents
         present have empty values, the entire JSON object MUST be
         discarded.
 
-   7.   If the "c" field contains any contact URIs that use a scheme not
-        registered in the Section 11.3 registry, only those URIs MUST be
-        discarded.  Contact URIs using registered schemes can be
-        processed.
+   7.   If a Contact URI in the "c" field uses a scheme not registered
+        in the Section 11.3 registry, those URIs are discarded.  Contact
+        URIs using registered schemes can be processed.
 
    8.   If the DNS client has enabled the opportunistic privacy profile
         for DoT (Section 5 of [RFC8310]) and the identity of the DNS
