@@ -416,8 +416,8 @@ field:
    the EXTRA-TEXT field as unstructured text as specified in {{!RFC8914}}.
 
 4. The DNS response MUST also contain an extended error code of
-   "Blocked by Upstream DNS Server", "Blocked" or "Filtered" {{!RFC8914}}, otherwise
-   the EXTRA-TEXT field is discarded.
+   "Blocked by Upstream DNS Server", "Blocked", "Censored" or "Filtered" {{!RFC8914}},
+   otherwise the EXTRA-TEXT field is discarded.
 
 5. If the JSON object contains an "s" field and the sub-error code
    is not defined as applicable to the accompanying Extended DNS Error
@@ -430,8 +430,8 @@ field:
    empty values, the entire JSON object MUST be discarded.
 
 7. If a Contact URI in the "c" field uses a scheme not registered
-in the {{IANA-Contact}} registry, those URIs are discarded. Contact
-URIs using registered schemes can be processed.
+   in the {{IANA-Contact}} registry, those URIs are discarded. Contact
+   URIs using registered schemes can be processed.
 
 8. If the DNS client has enabled the opportunistic privacy profile for DoT
    ({{Section 5 of !RFC8310}}) and the identity of the DNS server cannot be
@@ -582,7 +582,7 @@ The application that triggered the DNS request may have a client security policy
 Security considerations in {{Section 6 of !RFC8914}} apply to this
 document, except the guard against using EDE content to alter DNS protocol
 processing. The guard is relaxed in the current specification as it mandates
-encryption and recommends the use of an authenticated connection to the DNS
+DNS encryption and recommends the use of an authenticated connection to the DNS
 server, while {{!RFC8914}} assumes that EDE information is unauthenticated
 and sent over clear text.
 
