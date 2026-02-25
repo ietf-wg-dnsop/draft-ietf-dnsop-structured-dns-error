@@ -498,8 +498,9 @@ Table of Contents
         unstructured text as specified in [RFC8914].
 
    4.   The DNS response MUST also contain an extended error code of
-        "Blocked by Upstream DNS Server", "Blocked" or "Filtered"
-        [RFC8914], otherwise the EXTRA-TEXT field is discarded.
+        "Blocked by Upstream DNS Server", "Blocked", "Censored" or
+        "Filtered" [RFC8914], otherwise the EXTRA-TEXT field is
+        discarded.
 
    5.   If the JSON object contains an "s" field and the sub-error code
         is not defined as applicable to the accompanying Extended DNS
@@ -682,9 +683,10 @@ Table of Contents
    Security considerations in Section 6 of [RFC8914] apply to this
    document, except the guard against using EDE content to alter DNS
    protocol processing.  The guard is relaxed in the current
-   specification as it mandates encryption and recommends the use of an
-   authenticated connection to the DNS server, while [RFC8914] assumes
-   that EDE information is unauthenticated and sent over clear text.
+   specification as it mandates DNS encryption and recommends the use of
+   an authenticated connection to the DNS server, while [RFC8914]
+   assumes that EDE information is unauthenticated and sent over clear
+   text.
 
    To minimize impact of active on-path attacks on the DNS channel, the
    client validates the response as described in Section 5.3.
