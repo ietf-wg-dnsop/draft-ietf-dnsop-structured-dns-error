@@ -641,7 +641,7 @@ This document requests five IANA actions as described in the following subsectio
 
 > Note to the RFC Editor: Please replace RFCXXXX with the RFC number assigned to this document and "TBA1" with the value assigned by IANA.
 
-### Structured DNS Error EDNS Option
+## Structured DNS Error EDNS Option
 
 IANA is requested to register the following new EDNS(0) Option Code in the
 "DNS EDNS0 Option Codes  (OPT)" registry under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}:
