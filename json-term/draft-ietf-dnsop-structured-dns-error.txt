@@ -180,10 +180,6 @@ Table of Contents
 
    This document uses terms defined in DNS Terminology [RFC9499].
 
-   "Requestor" refers to the side that sends a request.  "Responder"
-   refers to an authoritative, recursive resolver, or other DNS
-   component that responds to questions.
-
    "Encrypted DNS" refers to any encrypted scheme to convey DNS
    messages, for example, DNS-over-HTTPS [RFC8484], DNS-over-TLS
    [RFC7858], or DNS-over-QUIC [RFC9250].
@@ -194,13 +190,11 @@ Table of Contents
    "Forged Answer (4)", "Blocked (15)", "Censored (16)",and "Filtered
    (17)".
 
-   The term "DNS server" refers to a DNS recursive resolver or a DNS
-   forwarder that generates DNS structured error responses.
-
    In this document, "client security policy evaluation" refers to
    implementation-defined decision-making performed by the DNS client or
-   consuming application to determine how, or whether, structured error
-   information is used, displayed, or acted upon.
+   consuming application (e.g., web browser) to determine how, or
+   whether, structured error information is used, displayed, or acted
+   upon.
 
 3.  DNS Filtering Techniques and Their Limitations
 
@@ -213,25 +207,24 @@ Table of Contents
    1.  The DNS response is forged to provide a list of IP addresses that
        points to an HTTP(S) server alerting the end user about the
        reason for blocking access to the requested domain (e.g.,
-       malware).  If the authority component of an HTTP(S) URL is
+       malware).  If the host component [RFC3986] of an HTTP URL is
        blocked, the network security device (e.g., Customer Premises
        Equipment (CPE) or firewall) presents a block page instead of the
-       HTTP response from the content provider hosting that domain.  If
-       the authority component of an HTTP URL is blocked, the network
-       security device intercepts the HTTP request and returns a block
-       page over HTTP.  If the authority component of an HTTPS URL is
-       blocked, the network security device serves the block page over
-       HTTPS.  In order to return a block page over HTTPS, the network
-       security device uses a locally generated root certificate and
-       corresponding key pair.  The local root certificate is installed
-       on the endpoint while the network security device stores a copy
-       of the private key.  During the TLS handshake, the on-path
-       network security device modifies the certificate provided by the
-       server and (re)signs it using the private key from the local root
-       certificate.
+       HTTP response from the content provider hosting that domain.
+       This works succesfully with HTTP.
 
-       *  However, in deployments where DNSSEC is used, this approach
-          becomes ineffective because DNSSEC ensures the integrity and
+       If this is an HTTPS URL, the network security device attempts to
+       serve the block page over HTTPS.  In order to return a block page
+       over HTTPS, the network security device uses a locally generated
+       root certificate and corresponding key pair.  The local root
+       certificate is installed on the endpoint while the network
+       security device stores a copy of the private key.  During the TLS
+       handshake, the on-path network security device modifies the
+       certificate provided by the server and (re)signs it using the
+       private key from the local root certificate.
+
+       *  In deployments where DNSSEC is used, this approach becomes
+          ineffective because DNSSEC ensures the integrity and
           authenticity of DNS responses, preventing forged DNS responses
           from being accepted.
 
@@ -308,10 +301,7 @@ Table of Contents
    [RFC8914] encoded using the Internet JSON (I-JSON) message format
    [RFC7493].
 
-      Note that [RFC7493] was based on [RFC7159], but [RFC7159] was
-      replaced by [RFC8259].
-
-   This document defines the following [JSON] object members:
+   This document defines the following JSON names:
 
    c: (contact)  The contact details of the IT/InfoSec team to report
       misclassified DNS filtering.  This information is important for
@@ -468,11 +458,11 @@ Table of Contents
 
 5.3.  Client Processing Response
 
-   On receipt of a DNS response with an EDE option from a DNS responder,
+   On receipt of a DNS response with an EDE option from a DNS server,
    the following ordered actions are performed on the EXTRA-TEXT field:
 
    1.   If the DNS response is not received over an encrypted DNS
-        channel, the requestor MUST NOT act upon data in the EXTRA-TEXT
+        channel, the DNS client MUST NOT act upon data in the EXTRA-TEXT
         field, as there is no mechanism to verify the integrity of such
         data and it is vulnerable to modification by an on-path
         attacker.  An attacker can inject or modify a structured DNS
@@ -483,11 +473,11 @@ Table of Contents
         diagnostic or client security policy evaluation purposes.
 
    2.   Servers which don't support this specification might use plain
-        text in the EXTRA-TEXT field.  Requestors SHOULD properly handle
-        both plaintext and JSON text in the EXTRA-TEXT field.  The
-        requestor verifies that the field contains valid JSON.  If not,
-        the requestor MUST consider the server does not support this
-        specification and stop processing the rest of the actions
+        text in the EXTRA-TEXT field.  DNS clients SHOULD properly
+        handle both plaintext and JSON text in the EXTRA-TEXT field.
+        The DNS client verifies that the field contains valid JSON.  If
+        not, the DNS client MUST consider the server does not support
+        this specification and stop processing the rest of the actions
         defined in this section, but may instead choose to treat EXTRA-
         TEXT as per [RFC8914].
 
@@ -620,16 +610,15 @@ Table of Contents
 
 7.1.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
 
-   The DNS server (e.g., a DNS forwarder) is unable to respond to the
-   request because the domain is on a blocklist due to an internal
-   security policy imposed by an upstream DNS server.  This error code
-   is useful in deployments where a network-provided DNS forwarder is
-   configured to use an external resolver that filters malicious
-   domains.  When the DNS forwarder receives a Blocked (15) error code
-   from the upstream DNS server, it can replace it with "Blocked by
-   Upstream DNS Server" (TBA1) before forwarding the reply to the DNS
-   client.  Additionally, the EXTRA-TEXT field may be forwarded to the
-   DNS client.
+   The DNS server is unable to respond to the request because the domain
+   is on a blocklist due to an internal security policy imposed by an
+   upstream DNS server.  This error code is useful in deployments where
+   a network-provided DNS forwarder is configured to use an external
+   resolver that filters malicious domains.  When the DNS forwarder
+   receives a Blocked (15) error code from the upstream DNS server, it
+   can replace it with "Blocked by Upstream DNS Server" (TBA1) before
+   forwarding the reply to the DNS client.  Additionally, the EXTRA-TEXT
+   field may be forwarded to the DNS client.
 
 8.  Examples
 
@@ -964,11 +953,6 @@ Table of Contents
 
 12.1.  Normative References
 
-   [JSON]     Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
-              Interchange Format", STD 90, RFC 8259,
-              DOI 10.17487/RFC8259, December 2017,
-              <https://www.rfc-editor.org/rfc/rfc8259>.
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -1004,10 +988,6 @@ Table of Contents
               URI Scheme", RFC 6068, DOI 10.17487/RFC6068, October 2010,
               <https://www.rfc-editor.org/rfc/rfc6068>.
 
-   [RFC7159]  Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
-              Interchange Format", RFC 7159, DOI 10.17487/RFC7159, March
-              2014, <https://www.rfc-editor.org/rfc/rfc7159>.
-
    [RFC7493]  Bray, T., Ed., "The I-JSON Message Format", RFC 7493,
               DOI 10.17487/RFC7493, March 2015,
               <https://www.rfc-editor.org/rfc/rfc7493>.
@@ -1031,6 +1011,10 @@ Table of Contents
               DOI 10.17487/RFC8914, October 2020,
               <https://www.rfc-editor.org/rfc/rfc8914>.
 
+   [RFC9499]  Hoffman, P. and K. Fujiwara, "DNS Terminology", BCP 219,
+              RFC 9499, DOI 10.17487/RFC9499, March 2024,
+              <https://www.rfc-editor.org/rfc/rfc9499>.
+
 12.2.  Informative References
 
    [IANA-DNS] IANA, "Domain Name System (DNS) Parameters, Extended DNS
@@ -1047,6 +1031,11 @@ Table of Contents
               slides-116-dnsop-dns-errors-implementation-proposal-
               slides-116-dnsop-update-on-dns-errors-implementation-00>.
 
+   [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
+              Resource Identifier (URI): Generic Syntax", STD 66,
+              RFC 3986, DOI 10.17487/RFC3986, January 2005,
+              <https://www.rfc-editor.org/rfc/rfc3986>.
+
    [RFC5625]  Bellis, R., "DNS Proxy Implementation Guidelines",
               BCP 152, RFC 5625, DOI 10.17487/RFC5625, August 2009,
               <https://www.rfc-editor.org/rfc/rfc5625>.
@@ -1060,11 +1049,6 @@ Table of Contents
               and P. Hoffman, "Specification for DNS over Transport
               Layer Security (TLS)", RFC 7858, DOI 10.17487/RFC7858, May
               2016, <https://www.rfc-editor.org/rfc/rfc7858>.
-
-   [RFC8259]  Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
-              Interchange Format", STD 90, RFC 8259,
-              DOI 10.17487/RFC8259, December 2017,
-              <https://www.rfc-editor.org/rfc/rfc8259>.
 
    [RFC8484]  Hoffman, P. and P. McManus, "DNS Queries over HTTPS
               (DoH)", RFC 8484, DOI 10.17487/RFC8484, October 2018,
@@ -1084,10 +1068,6 @@ Table of Contents
               Jensen, "Discovery of Designated Resolvers", RFC 9462,
               DOI 10.17487/RFC9462, November 2023,
               <https://www.rfc-editor.org/rfc/rfc9462>.
-
-   [RFC9499]  Hoffman, P. and K. Fujiwara, "DNS Terminology", BCP 219,
-              RFC 9499, DOI 10.17487/RFC9499, March 2024,
-              <https://www.rfc-editor.org/rfc/rfc9499>.
 
    [RFC9606]  Reddy.K, T. and M. Boucadair, "DNS Resolver Information",
               RFC 9606, DOI 10.17487/RFC9606, June 2024,
