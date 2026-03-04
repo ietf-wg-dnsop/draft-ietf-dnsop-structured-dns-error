@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 4 September 2026                                        N. Cook
+Expires: 5 September 2026                                        N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                            3 March 2026
+                                                            4 March 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 September 2026.
+   This Internet-Draft will expire on 5 September 2026.
 
 Copyright Notice
 
@@ -180,10 +180,6 @@ Table of Contents
 
    This document uses terms defined in DNS Terminology [RFC9499].
 
-   "Requestor" refers to the side that sends a request.  "Responder"
-   refers to an authoritative, recursive resolver, or other DNS
-   component that responds to questions.
-
    "Encrypted DNS" refers to any encrypted scheme to convey DNS
    messages, for example, DNS-over-HTTPS [RFC8484], DNS-over-TLS
    [RFC7858], or DNS-over-QUIC [RFC9250].
@@ -194,13 +190,11 @@ Table of Contents
    "Forged Answer (4)", "Blocked (15)", "Censored (16)",and "Filtered
    (17)".
 
-   The term "DNS server" refers to a DNS recursive resolver or a DNS
-   forwarder that generates DNS structured error responses.
-
    In this document, "client security policy evaluation" refers to
    implementation-defined decision-making performed by the DNS client or
-   consuming application to determine how, or whether, structured error
-   information is used, displayed, or acted upon.
+   consuming application (e.g., web browser) to determine how, or
+   whether, structured error information is used, displayed, or acted
+   upon.
 
 3.  DNS Filtering Techniques and Their Limitations
 
@@ -468,11 +462,11 @@ Table of Contents
 
 5.3.  Client Processing Response
 
-   On receipt of a DNS response with an EDE option from a DNS responder,
+   On receipt of a DNS response with an EDE option from a DNS server,
    the following ordered actions are performed on the EXTRA-TEXT field:
 
    1.   If the DNS response is not received over an encrypted DNS
-        channel, the requestor MUST NOT act upon data in the EXTRA-TEXT
+        channel, the DNS client MUST NOT act upon data in the EXTRA-TEXT
         field, as there is no mechanism to verify the integrity of such
         data and it is vulnerable to modification by an on-path
         attacker.  An attacker can inject or modify a structured DNS
@@ -483,11 +477,11 @@ Table of Contents
         diagnostic or client security policy evaluation purposes.
 
    2.   Servers which don't support this specification might use plain
-        text in the EXTRA-TEXT field.  Requestors SHOULD properly handle
-        both plaintext and JSON text in the EXTRA-TEXT field.  The
-        requestor verifies that the field contains valid JSON.  If not,
-        the requestor MUST consider the server does not support this
-        specification and stop processing the rest of the actions
+        text in the EXTRA-TEXT field.  DNS clients SHOULD properly
+        handle both plaintext and JSON text in the EXTRA-TEXT field.
+        The DNS client verifies that the field contains valid JSON.  If
+        not, the DNS client MUST consider the server does not support
+        this specification and stop processing the rest of the actions
         defined in this section, but may instead choose to treat EXTRA-
         TEXT as per [RFC8914].
 
@@ -620,16 +614,15 @@ Table of Contents
 
 7.1.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
 
-   The DNS server (e.g., a DNS forwarder) is unable to respond to the
-   request because the domain is on a blocklist due to an internal
-   security policy imposed by an upstream DNS server.  This error code
-   is useful in deployments where a network-provided DNS forwarder is
-   configured to use an external resolver that filters malicious
-   domains.  When the DNS forwarder receives a Blocked (15) error code
-   from the upstream DNS server, it can replace it with "Blocked by
-   Upstream DNS Server" (TBA1) before forwarding the reply to the DNS
-   client.  Additionally, the EXTRA-TEXT field may be forwarded to the
-   DNS client.
+   The DNS server is unable to respond to the request because the domain
+   is on a blocklist due to an internal security policy imposed by an
+   upstream DNS server.  This error code is useful in deployments where
+   a network-provided DNS forwarder is configured to use an external
+   resolver that filters malicious domains.  When the DNS forwarder
+   receives a Blocked (15) error code from the upstream DNS server, it
+   can replace it with "Blocked by Upstream DNS Server" (TBA1) before
+   forwarding the reply to the DNS client.  Additionally, the EXTRA-TEXT
+   field may be forwarded to the DNS client.
 
 8.  Examples
 
@@ -1026,6 +1019,10 @@ Table of Contents
               DOI 10.17487/RFC8914, October 2020,
               <https://www.rfc-editor.org/rfc/rfc8914>.
 
+   [RFC9499]  Hoffman, P. and K. Fujiwara, "DNS Terminology", BCP 219,
+              RFC 9499, DOI 10.17487/RFC9499, March 2024,
+              <https://www.rfc-editor.org/rfc/rfc9499>.
+
 12.2.  Informative References
 
    [IANA-DNS] IANA, "Domain Name System (DNS) Parameters, Extended DNS
@@ -1079,10 +1076,6 @@ Table of Contents
               Jensen, "Discovery of Designated Resolvers", RFC 9462,
               DOI 10.17487/RFC9462, November 2023,
               <https://www.rfc-editor.org/rfc/rfc9462>.
-
-   [RFC9499]  Hoffman, P. and K. Fujiwara, "DNS Terminology", BCP 219,
-              RFC 9499, DOI 10.17487/RFC9499, March 2024,
-              <https://www.rfc-editor.org/rfc/rfc9499>.
 
    [RFC9606]  Reddy.K, T. and M. Boucadair, "DNS Resolver Information",
               RFC 9606, DOI 10.17487/RFC9606, June 2024,
