@@ -335,7 +335,7 @@ The sub-error codes provide a structured way to communicate more detailed and pr
 ## Client Generating Request {#client-request}
 
 When generating a DNS query, a client that supports this specification
-SHOULD include the Structured DNS Error (SDE) option defined in {{SDE}}.
+SHOULD include the Structured DNS Error (SDE) option defined in {{SDE}}, unless instructed by local policy otherwise.
 
 The presence of the SDE option indicates that the client desires the
 DNS server to include an EDE option in the DNS response when DNS
