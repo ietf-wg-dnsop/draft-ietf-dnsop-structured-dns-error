@@ -259,7 +259,7 @@ DNS servers that are compliant with this specification and have received an indi
 
 > Note that {{!RFC7493}} was based on {{!RFC7159}}, but {{!RFC7159}} was replaced by {{?RFC8259}}.
 
-This document defines the following {{?JSON=RFC8259}} object members:
+This document defines the following {{!JSON=RFC8259}} object members:
 
 c: (contact)
 : The contact details of the IT/InfoSec team to report misclassified
