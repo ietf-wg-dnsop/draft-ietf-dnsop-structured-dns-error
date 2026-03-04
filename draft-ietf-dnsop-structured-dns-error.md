@@ -415,9 +415,10 @@ field:
    names "c", "j", or "s", or if all of the fields that are present have
    empty values, the entire JSON object MUST be discarded.
 
-7. If a Contact URI in the "c" field uses a scheme not registered
-   in the {{IANA-Contact}} registry, those URIs are discarded. Contact
-   URIs using registered schemes can be processed.
+7. If the JSON object contains a "c" field any of its Contact URIs
+   with schemes not registered in the {{IANA-Contact}} registry are
+   ignored. Remaining Contact URIs using registered schemes can be
+   processed.
 
 8. If the DNS client has enabled the opportunistic privacy profile for DoT
    ({{Section 5 of !RFC8310}}) and the identity of the DNS server cannot be
