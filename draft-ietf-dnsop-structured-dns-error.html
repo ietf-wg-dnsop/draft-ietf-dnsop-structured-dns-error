@@ -1573,31 +1573,32 @@ language tag syntax specified in <span><a href="https://rfc-editor.org/rfc/rfc56
 </dd>
       <dd class="break"></dd>
 </dl>
-<p id="section-4-4">New JSON names can be defined in the IANA registry introduced in <a href="#IANA-Names" class="auto internal xref">Section 11.2</a>. Such names <span class="bcp14">MUST</span>
-consist only of lower-case ASCII characters, digits, and hyphen-minus (that
-is, Unicode characters U+0061 through 007A, U+0030 through U+0039, and
-U+002D). Also, these names <span class="bcp14">MUST</span> be 63 characters or shorter and it is
-<span class="bcp14">RECOMMENDED</span> they be as short as possible.<a href="#section-4-4" class="pilcrow">¶</a></p>
-<p id="section-4-5">The text in the "j" and "o" names can include international
+<p id="section-4-4">The text in the "j" and "o" names can include international
 characters. The text will be in natural language, chosen by the DNS administrator
-to match its expected audience.<a href="#section-4-5" class="pilcrow">¶</a></p>
-<p id="section-4-6">If the client supports diagnostic interfaces, it <span class="bcp14">MAY</span> use the "l" field to identify
-the language of the "j" text and optionally translate it.<a href="#section-4-6" class="pilcrow">¶</a></p>
-<p id="section-4-7">The "o" field <span class="bcp14">MAY</span> be displayed to end users, subject to the conditions described in <a href="#security" class="auto internal xref">Section 10</a>.
+to match its expected audience.<a href="#section-4-4" class="pilcrow">¶</a></p>
+<p id="section-4-5">If the client supports diagnostic interfaces, it <span class="bcp14">MAY</span> use the "l" field to identify
+the language of the "j" text and optionally translate it.<a href="#section-4-5" class="pilcrow">¶</a></p>
+<p id="section-4-6">The "o" field <span class="bcp14">MAY</span> be displayed to end users, subject to the conditions described in <a href="#security" class="auto internal xref">Section 10</a>.
 If the text is in a language not understood by the end-user, the "l" field can be used
-to identify the language and support translation into the end-user's preferred language.<a href="#section-4-7" class="pilcrow">¶</a></p>
-<p id="section-4-8">To reduce DNS message size the generated JSON <span class="bcp14">SHOULD</span> be as short as
+to identify the language and support translation into the end-user's preferred language.<a href="#section-4-6" class="pilcrow">¶</a></p>
+<p id="section-4-7">To avoid exceeding the maximum EDNS0 size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> the generated JSON values <span class="bcp14">SHOULD</span> be as short as
 possible: short domain names, concise text in the values for the "j"
 and "o" names, and minified JSON (that is, without spaces or line
-breaks between JSON elements).<a href="#section-4-8" class="pilcrow">¶</a></p>
-<p id="section-4-9">The JSON data can be parsed to display to the user, logged, or
-otherwise used to assist troubleshooting and diagnosis of DNS filtering.<a href="#section-4-9" class="pilcrow">¶</a></p>
-<p id="section-4-10">The sub-error codes provide a structured way to communicate more detailed and precise description of the cause of an error (e.g., distinguishing between malware-related blocking and phishing-related blocking under the general blocked error).<a href="#section-4-10" class="pilcrow">¶</a></p>
+breaks between JSON elements).<a href="#section-4-7" class="pilcrow">¶</a></p>
+<p id="section-4-8">The JSON data can be parsed to display to the user, logged, or
+otherwise used to assist troubleshooting and diagnosis of DNS filtering.<a href="#section-4-8" class="pilcrow">¶</a></p>
+<p id="section-4-9">The sub-error codes provide a structured way to communicate more detailed and precise description of the cause of an error (e.g., distinguishing between malware-related blocking and phishing-related blocking under the general blocked error).<a href="#section-4-9" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-4-11.1">
-          <p id="section-4-11.1.1">An alternate design for conveying the sub-error would be to define new EDE codes for these errors. However, such design is suboptimal because it requires replicating an error code for each EDE code to which the sub-error applies (e.g., "Malware" sub-error in <a href="#reg" class="auto internal xref">Table 3</a> would consume three EDE codes).<a href="#section-4-11.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-4-10.1">
+          <p id="section-4-10.1.1">An alternate design for conveying the sub-error would be to define new EDE codes for these errors. However, such design is suboptimal because it requires replicating an error code for each EDE code to which the sub-error applies (e.g., "Malware" sub-error in <a href="#reg" class="auto internal xref">Table 3</a> would consume three EDE codes).<a href="#section-4-10.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
+<p id="section-4-11">New JSON names <span class="bcp14">MUST</span> consist only of lower-case ASCII characters, digits,
+and hyphen-minus (that is, Unicode characters U+0061 through 007A,
+U+0030 through U+0039, and U+002D). Also, these names <span class="bcp14">MUST</span> be 63
+characters or shorter and it is <span class="bcp14">RECOMMENDED</span> they be as short as
+possible to reduce contribution to exceeding maximum EDNS0 response
+size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span>.<a href="#section-4-11" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="protocol-operation">
@@ -2033,7 +2034,7 @@ explicitly configured DNS servers or utilize RESINFO
 <a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-structured-dns-error-edns-o" class="section-name selfRef">Structured DNS Error EDNS Option</a>
         </h3>
 <p id="section-11.1-1">IANA is requested to register the following new EDNS(0) Option Code in the
-"DNS EDNS0 Option Codes  (OPT)" registry under the "Domain Name System (DNS) Parameters" registry group <span>[<a href="#IANA-DNS" class="cite xref">IANA-DNS</a>]</span>:<a href="#section-11.1-1" class="pilcrow">¶</a></p>
+"DNS EDNS0 Option Codes (OPT)" registry under the "Domain Name System (DNS) Parameters" registry group <span>[<a href="#IANA-DNS" class="cite xref">IANA-DNS</a>]</span>:<a href="#section-11.1-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-11.1-2">
           <dt id="section-11.1-2.1">Value:</dt>
           <dd style="margin-left: 1.5em" id="section-11.1-2.2">
@@ -2148,7 +2149,8 @@ following fields:<a href="#section-11.2-1" class="pilcrow">¶</a></p>
           </tbody>
         </table>
 </div>
-<p id="section-11.2-5">New JSON names are registered via IETF Review (<span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.8" class="relref">Section 4.8</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>).<a href="#section-11.2-5" class="pilcrow">¶</a></p>
+<p id="section-11.2-5">New JSON names are registered via IETF Review (<span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.8" class="relref">Section 4.8</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>) and their formatting
+constraints are described in <a href="#name-spec" class="auto internal xref">Section 4</a>.<a href="#section-11.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="IANA-Contact">

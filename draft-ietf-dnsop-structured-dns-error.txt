@@ -358,13 +358,6 @@ Table of Contents
 
       This field is optional but RECOMMENDED to aid in localization.
 
-   New JSON names can be defined in the IANA registry introduced in
-   Section 11.2.  Such names MUST consist only of lower-case ASCII
-   characters, digits, and hyphen-minus (that is, Unicode characters
-   U+0061 through 007A, U+0030 through U+0039, and U+002D).  Also, these
-   names MUST be 63 characters or shorter and it is RECOMMENDED they be
-   as short as possible.
-
    The text in the "j" and "o" names can include international
    characters.  The text will be in natural language, chosen by the DNS
    administrator to match its expected audience.
@@ -379,10 +372,10 @@ Table of Contents
    language and support translation into the end-user's preferred
    language.
 
-   To reduce DNS message size the generated JSON SHOULD be as short as
-   possible: short domain names, concise text in the values for the "j"
-   and "o" names, and minified JSON (that is, without spaces or line
-   breaks between JSON elements).
+   To avoid exceeding the maximum EDNS0 size [RFC9715] the generated
+   JSON values SHOULD be as short as possible: short domain names,
+   concise text in the values for the "j" and "o" names, and minified
+   JSON (that is, without spaces or line breaks between JSON elements).
 
    The JSON data can be parsed to display to the user, logged, or
    otherwise used to assist troubleshooting and diagnosis of DNS
@@ -398,6 +391,13 @@ Table of Contents
       suboptimal because it requires replicating an error code for each
       EDE code to which the sub-error applies (e.g., "Malware" sub-error
       in Table 3 would consume three EDE codes).
+
+   New JSON names MUST consist only of lower-case ASCII characters,
+   digits, and hyphen-minus (that is, Unicode characters U+0061 through
+   007A, U+0030 through U+0039, and U+002D).  Also, these names MUST be
+   63 characters or shorter and it is RECOMMENDED they be as short as
+   possible to reduce contribution to exceeding maximum EDNS0 response
+   size [RFC9715].
 
 5.  Protocol Operation
 
@@ -831,7 +831,8 @@ Table of Contents
                     Table 1: Initial JSON Names Registry
 
    New JSON names are registered via IETF Review (Section 4.8 of
-   [RFC8126]).
+   [RFC8126]) and their formatting constraints are described in
+   Section 4.
 
 11.3.  New Registry for Contact URI Scheme
 
