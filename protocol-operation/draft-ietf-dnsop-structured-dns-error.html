@@ -1637,7 +1637,7 @@ server.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2-2">If the query contained the SDE EDNS option (<a href="#client-request" class="auto internal xref">Section 5.1</a>), and the
 DNS server returns an EDE indicating blocking or modification of the response,
 the DNS server <span class="bcp14">SHOULD</span> include additional detail in the EXTRA-TEXT field encoded
-as structured and machine-readable data.  If including the additional detail
+as structured and machine-readable data, unless configured otherwise.  If including the additional detail
 would cause the response to exceed the EDNS0 size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> (and thus setting TC=1), it <span class="bcp14">SHOULD</span> be omitted.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2-3">If the SDE option was not present in the DNS request, the DNS server <span class="bcp14">MUST NOT</span> include
 structured JSON data and <span class="bcp14">SHOULD</span> convey the EXTRA-TEXT field as
