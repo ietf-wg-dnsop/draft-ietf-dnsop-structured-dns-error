@@ -1386,14 +1386,12 @@ methods have advantages and disadvantages that are discussed below:<a href="#sec
 <li id="section-3-2.1">
           <p id="section-3-2.1.1">The DNS response is forged to provide a list of IP addresses that
 points to an HTTP(S) server alerting the end user about the reason for
-blocking access to the requested domain (e.g., malware). If the authority component
-of an HTTP(S) URL is blocked, the network security device
+blocking access to the requested domain (e.g., malware). If the host component <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>
+of an HTTP URL is blocked, the network security device
 (e.g., Customer Premises Equipment (CPE) or firewall) presents a block page instead of the HTTP
-response from the content provider hosting that domain. If the authority component
-of an HTTP URL is blocked, the network security device intercepts
-the HTTP request and returns a block page over HTTP. If the authority component
-of an HTTPS URL is blocked, the network security device serves the block page over HTTPS.
-In order to return a block page over HTTPS, the network security device uses a locally
+response from the content provider hosting that domain. This works succesfully with HTTP.
+<br><br>
+  If this is an HTTPS URL, the network security device attempts to serve the block page over HTTPS.  In order to return a block page over HTTPS, the network security device uses a locally
 generated root certificate and corresponding key pair. The local root certificate is
 installed on the endpoint while the network security device stores a copy of the private key.
 During the TLS handshake, the on-path network security device modifies the certificate
@@ -1401,7 +1399,7 @@ provided by the server and (re)signs it using the private key from the local roo
 certificate.<a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3-2.1.2.1">
-              <p id="section-3-2.1.2.1.1">However, in deployments where DNSSEC is used, this approach becomes ineffective because DNSSEC
+              <p id="section-3-2.1.2.1.1">In deployments where DNSSEC is used, this approach becomes ineffective because DNSSEC
 ensures the integrity and authenticity of DNS responses, preventing forged DNS
 responses from being accepted.<a href="#section-3-2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
@@ -2436,6 +2434,10 @@ registry under the "Domain Name System (DNS) Parameters" registry group <span>[<
 <dt id="Impl-1">[Impl-1]</dt>
         <dd>
 <span class="refTitle">"Use of DNS Errors To improve Browsing User Experience With network based malware protection"</span>, <time datetime="2023-03" class="refDate">March 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/meeting/116/materials/slides-116-dnsop-dns-errors-implementation-proposal-slides-116-dnsop-update-on-dns-errors-implementation-00">https://datatracker.ietf.org/meeting/116/materials/slides-116-dnsop-dns-errors-implementation-proposal-slides-116-dnsop-update-on-dns-errors-implementation-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3986">[RFC3986]</dt>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5625">[RFC5625]</dt>
         <dd>
