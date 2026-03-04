@@ -798,38 +798,37 @@ Table of Contents
 
    The registry is initially populated with the following values:
 
-    +======+===============+=========================+===============+
-    | JSON | Field Meaning | Description             | Specification |
-    | Name |               |                         |               |
-    +======+===============+=========================+===============+
-    |  c   | contact       | The contact details of  |  Section 4 of |
-    |      |               | the IT/InfoSec team to  |    RFCXXXX    |
-    |      |               | report misclassified    |               |
-    |      |               | DNS filtering           |               |
-    +------+---------------+-------------------------+---------------+
-    |  j   | justification | UTF-8-encoded [RFC5198] |  Section 4 of |
-    |      |               | textual justification   |    RFCXXXX    |
-    |      |               | for a particular DNS    |               |
-    |      |               | filteringN              |               |
-    +------+---------------+-------------------------+---------------+
-    |  s   | sub-error     | Integer representing    |  Section 4 of |
-    |      |               | the sub-error code for  |    RFCXXXX    |
-    |      |               | this DNS filtering case |               |
-    |      |               | N                       |               |
-    +------+---------------+-------------------------+---------------+
-    |  o   | organization  | UTF-8-encoded human-    |  Section 4 of |
-    |      |               | friendly name of the    |    RFCXXXX    |
-    |      |               | organization that       |               |
-    |      |               | filtered this           |               |
-    |      |               | particular DNS query N  |               |
-    +------+---------------+-------------------------+---------------+
-    |  l   | language      | Indicates the language  |  Section 4 of |
-    |      |               | of the "j" and "o"      |    RFCXXXX    |
-    |      |               | fields as defined in    |               |
-    |      |               | [RFC5646] N             |               |
-    +------+---------------+-------------------------+---------------+
+   +======+===============+============================+===============+
+   | JSON | Field Meaning | Description                | Specification |
+   | Name |               |                            |               |
+   +======+===============+============================+===============+
+   |  c   | contact       | The contact details of     |  Section 4 of |
+   |      |               | the IT/InfoSec team to     |    RFCXXXX    |
+   |      |               | report misclassified       |               |
+   |      |               | DNS filtering              |               |
+   +------+---------------+----------------------------+---------------+
+   |  j   | justification | UTF-8-encoded [RFC5198]    |  Section 4 of |
+   |      |               | textual justification      |    RFCXXXX    |
+   |      |               | for a particular DNS       |               |
+   |      |               | filtering                  |               |
+   +------+---------------+----------------------------+---------------+
+   |  s   | sub-error     | Integer representing       |  Section 4 of |
+   |      |               | the sub-error code for     |    RFCXXXX    |
+   |      |               | this DNS filtering case    |               |
+   +------+---------------+----------------------------+---------------+
+   |  o   | organization  | UTF-8-encoded human-       |  Section 4 of |
+   |      |               | friendly name of the       |    RFCXXXX    |
+   |      |               | organization that          |               |
+   |      |               | filtered this              |               |
+   |      |               | particular DNS query       |               |
+   +------+---------------+----------------------------+---------------+
+   |  l   | language      | Indicates the language     |  Section 4 of |
+   |      |               | of the "j" and "o"         |    RFCXXXX    |
+   |      |               | fields as defined in       |               |
+   |      |               | [RFC5646]                  |               |
+   +------+---------------+----------------------------+---------------+
 
-                   Table 1: Initial JSON Names Registry
+                    Table 1: Initial JSON Names Registry
 
    New JSON names are registered via IETF Review (Section 4.8 of
    [RFC8126]).
