@@ -580,11 +580,7 @@ The application that triggered the DNS request may have a client security policy
 ## Authentication and Confidentiality
 
 Security considerations in {{Section 6 of !RFC8914}} apply to this
-document, except the guard against using EDE content to alter DNS protocol
-processing. The guard is relaxed in the current specification as it mandates
-DNS encryption and recommends the use of an authenticated connection to the DNS
-server, while {{!RFC8914}} assumes that EDE information is unauthenticated
-and sent over clear text.
+document.
 
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
