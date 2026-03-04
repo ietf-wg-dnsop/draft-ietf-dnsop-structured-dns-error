@@ -1239,6 +1239,11 @@ other purposes.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
             <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-operational-considerations" class="internal xref">Operational Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-backward-compatibility" class="internal xref">Backward Compatibility</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
             <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
@@ -1930,6 +1935,14 @@ EXTRA-TEXT field to its client is implementation-dependent <span>[<a href="#RFC5
 forward the JSON information, or they <span class="bcp14">MAY</span> choose to create a new EDE option that conveys the information in the
 "c", "s", and "j" fields encoded in the JSON object.<a href="#section-9-1" class="pilcrow">¶</a></p>
 <p id="section-9-2">The application that triggered the DNS request may have a client security policy to override the contact information (e.g., redirect all complaint calls to a single contact point). In such cases, the content of the "c" attribute <span class="bcp14">MAY</span> be ignored.<a href="#section-9-2" class="pilcrow">¶</a></p>
+<div id="backward-compatibility">
+<section id="section-9.1">
+        <h3 id="name-backward-compatibility">
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-backward-compatibility" class="section-name selfRef">Backward Compatibility</a>
+        </h3>
+<p id="section-9.1-1">Future extensions <span class="bcp14">MUST NOT</span> introduce mandatory JSON attributes, as existing implementations are required to ignore unknown JSON names (see <a href="#client-processing" class="auto internal xref">Section 5.3</a>).<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="security">
@@ -2096,7 +2109,6 @@ following fields:<a href="#section-11.2-1" class="pilcrow">¶</a></p>
               <th class="text-center" rowspan="1" colspan="1">JSON Name</th>
               <th class="text-left" rowspan="1" colspan="1">Field Meaning</th>
               <th class="text-left" rowspan="1" colspan="1">Description</th>
-              <th class="text-left" rowspan="1" colspan="1">Mandatory</th>
               <th class="text-center" rowspan="1" colspan="1">Specification</th>
             </tr>
           </thead>
@@ -2105,7 +2117,6 @@ following fields:<a href="#section-11.2-1" class="pilcrow">¶</a></p>
               <td class="text-center" rowspan="1" colspan="1">c</td>
               <td class="text-left" rowspan="1" colspan="1">contact</td>
               <td class="text-left" rowspan="1" colspan="1">The contact details of the IT/InfoSec team to report misclassified DNS filtering</td>
-              <td class="text-left" rowspan="1" colspan="1">N</td>
               <td class="text-center" rowspan="1" colspan="1">
                 <a href="#name-spec" class="auto internal xref">Section 4</a> of RFCXXXX</td>
             </tr>
@@ -2113,7 +2124,6 @@ following fields:<a href="#section-11.2-1" class="pilcrow">¶</a></p>
               <td class="text-center" rowspan="1" colspan="1">j</td>
               <td class="text-left" rowspan="1" colspan="1">justification</td>
               <td class="text-left" rowspan="1" colspan="1">UTF-8-encoded <span>[<a href="#RFC5198" class="cite xref">RFC5198</a>]</span> textual justification for a particular DNS filtering</td>
-              <td class="text-left" rowspan="1" colspan="1">N</td>
               <td class="text-center" rowspan="1" colspan="1">
                 <a href="#name-spec" class="auto internal xref">Section 4</a> of RFCXXXX</td>
             </tr>
@@ -2121,7 +2131,6 @@ following fields:<a href="#section-11.2-1" class="pilcrow">¶</a></p>
               <td class="text-center" rowspan="1" colspan="1">s</td>
               <td class="text-left" rowspan="1" colspan="1">sub-error</td>
               <td class="text-left" rowspan="1" colspan="1">Integer representing the sub-error code for this DNS filtering case</td>
-              <td class="text-left" rowspan="1" colspan="1">N</td>
               <td class="text-center" rowspan="1" colspan="1">
                 <a href="#name-spec" class="auto internal xref">Section 4</a> of RFCXXXX</td>
             </tr>
@@ -2129,7 +2138,6 @@ following fields:<a href="#section-11.2-1" class="pilcrow">¶</a></p>
               <td class="text-center" rowspan="1" colspan="1">o</td>
               <td class="text-left" rowspan="1" colspan="1">organization</td>
               <td class="text-left" rowspan="1" colspan="1">UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query</td>
-              <td class="text-left" rowspan="1" colspan="1">N</td>
               <td class="text-center" rowspan="1" colspan="1">
                 <a href="#name-spec" class="auto internal xref">Section 4</a> of RFCXXXX</td>
             </tr>
@@ -2138,7 +2146,6 @@ following fields:<a href="#section-11.2-1" class="pilcrow">¶</a></p>
               <td class="text-left" rowspan="1" colspan="1">language</td>
               <td class="text-left" rowspan="1" colspan="1">Indicates the language of the "j" and "o" fields as defined in <span>[<a href="#RFC5646" class="cite xref">RFC5646</a>]</span>
 </td>
-              <td class="text-left" rowspan="1" colspan="1">N</td>
               <td class="text-center" rowspan="1" colspan="1">
                 <a href="#name-spec" class="auto internal xref">Section 4</a> of RFCXXXX</td>
             </tr>
@@ -2146,8 +2153,6 @@ following fields:<a href="#section-11.2-1" class="pilcrow">¶</a></p>
         </table>
 </div>
 <p id="section-11.2-5">New JSON names are registered via IETF Review (<span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.8" class="relref">Section 4.8</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>).<a href="#section-11.2-5" class="pilcrow">¶</a></p>
-<p id="section-11.2-6">The "Mandatory" column is informational only. This specification does not define any mandatory JSON names.
-To preserve backward compatibility, any new JSON names registered after publication of this document <span class="bcp14">MUST</span> set the “Mandatory” column to “N”. Future extensions cannot introduce mandatory JSON attributes, as existing implementations are required to ignore unknown JSON names (see <a href="#client-processing" class="auto internal xref">Section 5.3</a>).<a href="#section-11.2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="IANA-Contact">

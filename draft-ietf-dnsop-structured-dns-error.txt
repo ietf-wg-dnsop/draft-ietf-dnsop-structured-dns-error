@@ -99,6 +99,7 @@ Table of Contents
            Server
    8.  Examples
    9.  Operational Considerations
+     9.1.  Backward Compatibility
    10. Security Considerations
      10.1.  Authentication and Confidentiality
      10.2.  Restrictions on Display of "c", "o", and "j" Fields
@@ -669,6 +670,12 @@ Table of Contents
    all complaint calls to a single contact point).  In such cases, the
    content of the "c" attribute MAY be ignored.
 
+9.1.  Backward Compatibility
+
+   Future extensions MUST NOT introduce mandatory JSON attributes, as
+   existing implementations are required to ignore unknown JSON names
+   (see Section 5.3).
+
 10.  Security Considerations
 
 10.1.  Authentication and Confidentiality
@@ -791,60 +798,40 @@ Table of Contents
 
    The registry is initially populated with the following values:
 
-   +====+===============+==================+===========+===============+
-   |JSON| Field Meaning | Description      | Mandatory | Specification |
-   |Name|               |                  |           |               |
-   +====+===============+==================+===========+===============+
-   | c  | contact       | The contact      | N         |  Section 4 of |
-   |    |               | details of the   |           |    RFCXXXX    |
-   |    |               | IT/InfoSec team  |           |               |
-   |    |               | to report        |           |               |
-   |    |               | misclassified    |           |               |
-   |    |               | DNS filtering    |           |               |
-   +----+---------------+------------------+-----------+---------------+
-   | j  | justification | UTF-8-encoded    | N         |  Section 4 of |
-   |    |               | [RFC5198]        |           |    RFCXXXX    |
-   |    |               | textual          |           |               |
-   |    |               | justification    |           |               |
-   |    |               | for a            |           |               |
-   |    |               | particular DNS   |           |               |
-   |    |               | filtering        |           |               |
-   +----+---------------+------------------+-----------+---------------+
-   | s  | sub-error     | Integer          | N         |  Section 4 of |
-   |    |               | representing     |           |    RFCXXXX    |
-   |    |               | the sub-error    |           |               |
-   |    |               | code for this    |           |               |
-   |    |               | DNS filtering    |           |               |
-   |    |               | case             |           |               |
-   +----+---------------+------------------+-----------+---------------+
-   | o  | organization  | UTF-8-encoded    | N         |  Section 4 of |
-   |    |               | human-friendly   |           |    RFCXXXX    |
-   |    |               | name of the      |           |               |
-   |    |               | organization     |           |               |
-   |    |               | that filtered    |           |               |
-   |    |               | this particular  |           |               |
-   |    |               | DNS query        |           |               |
-   +----+---------------+------------------+-----------+---------------+
-   | l  | language      | Indicates the    | N         |  Section 4 of |
-   |    |               | language of the  |           |    RFCXXXX    |
-   |    |               | "j" and "o"      |           |               |
-   |    |               | fields as        |           |               |
-   |    |               | defined in       |           |               |
-   |    |               | [RFC5646]        |           |               |
-   +----+---------------+------------------+-----------+---------------+
+   +======+===============+============================+===============+
+   | JSON | Field Meaning | Description                | Specification |
+   | Name |               |                            |               |
+   +======+===============+============================+===============+
+   |  c   | contact       | The contact details of     |  Section 4 of |
+   |      |               | the IT/InfoSec team to     |    RFCXXXX    |
+   |      |               | report misclassified       |               |
+   |      |               | DNS filtering              |               |
+   +------+---------------+----------------------------+---------------+
+   |  j   | justification | UTF-8-encoded [RFC5198]    |  Section 4 of |
+   |      |               | textual justification      |    RFCXXXX    |
+   |      |               | for a particular DNS       |               |
+   |      |               | filtering                  |               |
+   +------+---------------+----------------------------+---------------+
+   |  s   | sub-error     | Integer representing       |  Section 4 of |
+   |      |               | the sub-error code for     |    RFCXXXX    |
+   |      |               | this DNS filtering case    |               |
+   +------+---------------+----------------------------+---------------+
+   |  o   | organization  | UTF-8-encoded human-       |  Section 4 of |
+   |      |               | friendly name of the       |    RFCXXXX    |
+   |      |               | organization that          |               |
+   |      |               | filtered this              |               |
+   |      |               | particular DNS query       |               |
+   +------+---------------+----------------------------+---------------+
+   |  l   | language      | Indicates the language     |  Section 4 of |
+   |      |               | of the "j" and "o"         |    RFCXXXX    |
+   |      |               | fields as defined in       |               |
+   |      |               | [RFC5646]                  |               |
+   +------+---------------+----------------------------+---------------+
 
                     Table 1: Initial JSON Names Registry
 
    New JSON names are registered via IETF Review (Section 4.8 of
    [RFC8126]).
-
-   The "Mandatory" column is informational only.  This specification
-   does not define any mandatory JSON names.  To preserve backward
-   compatibility, any new JSON names registered after publication of
-   this document MUST set the “Mandatory” column to “N”. Future
-   extensions cannot introduce mandatory JSON attributes, as existing
-   implementations are required to ignore unknown JSON names (see
-   Section 5.3).
 
 11.3.  New Registry for Contact URI Scheme
 
