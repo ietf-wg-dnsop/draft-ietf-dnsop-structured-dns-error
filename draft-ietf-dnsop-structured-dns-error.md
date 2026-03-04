@@ -535,6 +535,10 @@ from the upstream DNS server, it can replace it with
 the reply to the DNS client. Additionally, the EXTRA-TEXT field may
 be forwarded to the DNS client.
 
+Implementations should ensure the communication channel with the
+upstream DNS server provides adequate integrity protection to mitigate
+the threats described in step 1 of {{client-processing}}.
+
 # Examples
 
 An example showing the nameserver at 'ns.example.net' that filtered a
