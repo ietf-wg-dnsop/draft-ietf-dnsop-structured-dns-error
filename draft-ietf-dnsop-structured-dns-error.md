@@ -154,11 +154,7 @@ queries are filtered.
 
 {::boilerplate bcp14-tagged}
 
-This document uses terms defined in DNS Terminology {{?RFC9499}}.
-
-"Requestor" refers to the side that sends a request. "Responder"
-refers to an authoritative, recursive resolver, or other DNS component
-that responds to questions.
+This document uses terms defined in DNS Terminology {{!RFC9499}}.
 
 "Encrypted DNS" refers to any encrypted scheme to convey DNS messages,
 for example, DNS-over-HTTPS {{?RFC8484}}, DNS-over-TLS {{?RFC7858}}, or
@@ -169,11 +165,9 @@ INFO-CODE as per Table 3 of {{!RFC8914}}. "Forged Answer",
 "Blocked", "Censored", and "Filtered" are thus used to refer to "Forged Answer (4)",
 "Blocked (15)", "Censored (16)",and "Filtered (17)".
 
-The term "DNS server" refers to a DNS recursive resolver or
-a DNS forwarder that generates DNS structured error responses.
-
 In this document, "client security policy evaluation" refers to implementation-defined
-decision-making performed by the DNS client or consuming application to
+decision-making performed by the DNS client or consuming application (e.g., web
+browser) to
 determine how, or whether, structured error information is used, displayed,
 or acted upon.
 
@@ -389,11 +383,11 @@ applicable to "Censored".
 ## Client Processing Response {#client-processing}
 
 On receipt of a DNS response with an EDE option from a
-DNS responder, the following ordered actions are performed on the EXTRA-TEXT
+DNS server, the following ordered actions are performed on the EXTRA-TEXT
 field:
 
 1. If the DNS response is not received over an encrypted DNS channel, the
-   requestor MUST NOT act upon data in the EXTRA-TEXT field, as there is no
+   DNS client MUST NOT act upon data in the EXTRA-TEXT field, as there is no
    mechanism to verify the integrity of such data and it is vulnerable to
    modification by an on-path attacker. An attacker can inject or
    modify a structured DNS error response in transit without detection,
@@ -403,9 +397,9 @@ field:
    client security policy evaluation purposes.
 
 2. Servers which don't support this specification might use plain text
-   in the EXTRA-TEXT field. Requestors SHOULD properly handle
-   both plaintext and JSON text in the EXTRA-TEXT field. The requestor verifies that
-   the field contains valid JSON. If not, the requestor MUST consider
+   in the EXTRA-TEXT field. DNS clients SHOULD properly handle
+   both plaintext and JSON text in the EXTRA-TEXT field. The DNS client verifies that
+   the field contains valid JSON. If not, the DNS client MUST consider
    the server does not support this specification and stop processing
    the rest of the actions defined in this section, but may instead choose
    to treat EXTRA-TEXT as per {{!RFC8914}}.
@@ -524,7 +518,7 @@ This document defines an addition to the EDE codes defined in {{RFC8914}}.
 
 ## Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
 
-The DNS server (e.g., a DNS forwarder) is unable to respond to the request
+The DNS server is unable to respond to the request
 because the domain is on a blocklist due to an internal security policy
 imposed by an upstream DNS server. This error code
 is useful in deployments where a network-provided DNS forwarder
