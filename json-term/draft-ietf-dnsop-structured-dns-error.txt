@@ -964,6 +964,11 @@ Table of Contents
 
 12.1.  Normative References
 
+   [JSON]     Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
+              Interchange Format", STD 90, RFC 8259,
+              DOI 10.17487/RFC8259, December 2017,
+              <https://www.rfc-editor.org/rfc/rfc8259>.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -1041,11 +1046,6 @@ Table of Contents
               <https://datatracker.ietf.org/meeting/116/materials/
               slides-116-dnsop-dns-errors-implementation-proposal-
               slides-116-dnsop-update-on-dns-errors-implementation-00>.
-
-   [JSON]     Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
-              Interchange Format", STD 90, RFC 8259,
-              DOI 10.17487/RFC8259, December 2017,
-              <https://www.rfc-editor.org/rfc/rfc8259>.
 
    [RFC5625]  Bellis, R., "DNS Proxy Implementation Guidelines",
               BCP 152, RFC 5625, DOI 10.17487/RFC5625, August 2009,
