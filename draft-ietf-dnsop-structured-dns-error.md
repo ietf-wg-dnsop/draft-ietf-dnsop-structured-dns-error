@@ -299,7 +299,6 @@ l: (language)
   language tag syntax specified in {{Section 2.1 of !RFC5646}}.
 : This field is optional but RECOMMENDED to aid in localization.
 
-
 The text in the "j" and "o" names can include international
 characters. The text will be in natural language, chosen by the DNS administrator
 to match its expected audience.
@@ -322,6 +321,14 @@ otherwise used to assist troubleshooting and diagnosis of DNS filtering.
 The sub-error codes provide a structured way to communicate more detailed and precise description of the cause of an error (e.g., distinguishing between malware-related blocking and phishing-related blocking under the general blocked error).
 
 > An alternate design for conveying the sub-error would be to define new EDE codes for these errors. However, such design is suboptimal because it requires replicating an error code for each EDE code to which the sub-error applies (e.g., "Malware" sub-error in {{reg}} would consume three EDE codes).
+
+New JSON names MUST consist only of lower-case ASCII characters, digits,
+and hyphen-minus (that is, Unicode characters U+0061 through 007A,
+U+0030 through U+0039, and U+002D). Also, these names MUST be 63
+characters or shorter and it is RECOMMENDED they be as short as
+possible to reduce contribution to exceeding maximum EDNS0 response
+size {{?RFC9715}}.
+
 
 
 
@@ -686,17 +693,12 @@ The registry is initially populated with the following values:
 | l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} | N | {{name-spec}} of RFCXXXX |
 {: #reg-names title='Initial JSON Names Registry'}
 
-New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
+New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}) and their formatting
+constraints are described in {{name-spec}}.
 
 The "Mandatory" column is informational only. This specification does not define any mandatory JSON names.
 To preserve backward compatibility, any new JSON names registered after publication of this document MUST set the “Mandatory” column to “N”. Future extensions cannot introduce mandatory JSON attributes, as existing implementations are required to ignore unknown JSON names (see {{client-processing}}).
 
-New names MUST consist only of lower-case ASCII characters, digits,
-and hyphen-minus (that is, Unicode characters U+0061 through 007A,
-U+0030 through U+0039, and U+002D). Also, these names MUST be 63
-characters or shorter and it is RECOMMENDED they be as short as
-possible to reduce contribution to exceeding maximum EDNS0 response
-size {{?RFC9715}}.
 
 ## New Registry for Contact URI Scheme {#IANA-Contact}
 
