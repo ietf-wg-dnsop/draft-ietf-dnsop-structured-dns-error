@@ -289,12 +289,6 @@ l: (language)
   language tag syntax specified in {{Section 2.1 of !RFC5646}}.
 : This field is optional but RECOMMENDED to aid in localization.
 
-New JSON names can be defined in the IANA registry introduced in {{IANA-Names}}. Such names MUST
-consist only of lower-case ASCII characters, digits, and hyphen-minus (that
-is, Unicode characters U+0061 through 007A, U+0030 through U+0039, and
-U+002D). Also, these names MUST be 63 characters or shorter and it is
-RECOMMENDED they be as short as possible.
-
 The text in the "j" and "o" names can include international
 characters. The text will be in natural language, chosen by the DNS administrator
 to match its expected audience.
@@ -306,7 +300,7 @@ The "o" field MAY be displayed to end users, subject to the conditions described
 If the text is in a language not understood by the end-user, the "l" field can be used
 to identify the language and support translation into the end-user's preferred language.
 
-To reduce DNS message size the generated JSON SHOULD be as short as
+To avoid exceeding the maximum EDNS0 size {{?RFC9715}} the generated JSON values SHOULD be as short as
 possible: short domain names, concise text in the values for the "j"
 and "o" names, and minified JSON (that is, without spaces or line
 breaks between JSON elements).
@@ -317,6 +311,14 @@ otherwise used to assist troubleshooting and diagnosis of DNS filtering.
 The sub-error codes provide a structured way to communicate more detailed and precise description of the cause of an error (e.g., distinguishing between malware-related blocking and phishing-related blocking under the general blocked error).
 
 > An alternate design for conveying the sub-error would be to define new EDE codes for these errors. However, such design is suboptimal because it requires replicating an error code for each EDE code to which the sub-error applies (e.g., "Malware" sub-error in {{reg}} would consume three EDE codes).
+
+New JSON names MUST consist only of lower-case ASCII characters, digits,
+and hyphen-minus (that is, Unicode characters U+0061 through 007A,
+U+0030 through U+0039, and U+002D). Also, these names MUST be 63
+characters or shorter and it is RECOMMENDED they be as short as
+possible to reduce contribution to exceeding maximum EDNS0 response
+size {{?RFC9715}}.
+
 
 
 
@@ -635,7 +637,7 @@ This document requests five IANA actions as described in the following subsectio
 ## Structured DNS Error EDNS Option
 
 IANA is requested to register the following new EDNS(0) Option Code in the
-"DNS EDNS0 Option Codes  (OPT)" registry under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}:
+"DNS EDNS0 Option Codes (OPT)" registry under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}:
 
 Value:
 : TBD
@@ -648,6 +650,7 @@ Status:
 
 Reference:
 : RFC XXXX
+
 
 ##  New Registry for JSON Names {#IANA-Names}
 
@@ -681,7 +684,8 @@ The registry is initially populated with the following values:
 | l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} | {{name-spec}} of RFCXXXX |
 {: #reg-names title='Initial JSON Names Registry'}
 
-New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
+New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}) and their formatting
+constraints are described in {{name-spec}}.
 
 ## New Registry for Contact URI Scheme {#IANA-Contact}
 
@@ -735,7 +739,7 @@ following values:
 | 0 | Reserved| Not used | {{policy-reserved}} of this document |
 | 1 | Malware | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Section 5.5 of {{!RFC5901}} |
 | 2 | Phishing | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Section 5.5 of {{!RFC5901}} |
-| 3 | Spam | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Page 289 of {{?RFC4949}} |
+| 3 | Spam | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Page 289 of {{!RFC4949}} |
 | 4 | Spyware | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Page 291 of {{!RFC4949}} |
 | 5 | Network operator policy | "Blocked" | {{policy-network}} of this document |
 | 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document |
