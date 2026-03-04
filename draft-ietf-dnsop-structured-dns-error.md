@@ -679,10 +679,10 @@ The registry is initially populated with the following values:
 | JSON Name | Field Meaning  | Description                      |  Specification |
 |:---------:|:---------------|:---------------------------------|:------------------:|
 | c | contact| The contact details of the IT/InfoSec team to report misclassified DNS filtering | {{name-spec}} of RFCXXXX |
-| j | justification | UTF-8-encoded {{!RFC5198}} textual justification for a particular DNS filteringN | {{name-spec}} of RFCXXXX |
-| s | sub-error | Integer representing the sub-error code for this DNS filtering case N | {{name-spec}} of RFCXXXX |
-| o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query N | {{name-spec}} of RFCXXXX |
-| l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} N | {{name-spec}} of RFCXXXX |
+| j | justification | UTF-8-encoded {{!RFC5198}} textual justification for a particular DNS filtering | {{name-spec}} of RFCXXXX |
+| s | sub-error | Integer representing the sub-error code for this DNS filtering case | {{name-spec}} of RFCXXXX |
+| o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query | {{name-spec}} of RFCXXXX |
+| l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} | {{name-spec}} of RFCXXXX |
 {: #reg-names title='Initial JSON Names Registry'}
 
 New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
