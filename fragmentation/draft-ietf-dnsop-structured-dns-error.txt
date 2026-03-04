@@ -99,6 +99,7 @@ Table of Contents
            Server
    8.  Examples
    9.  Operational Considerations
+     9.1.  Backward Compatibility
    10. Security Considerations
      10.1.  Authentication and Confidentiality
      10.2.  Restrictions on Display of "c", "o", and "j" Fields
@@ -180,10 +181,6 @@ Table of Contents
 
    This document uses terms defined in DNS Terminology [RFC9499].
 
-   "Requestor" refers to the side that sends a request.  "Responder"
-   refers to an authoritative, recursive resolver, or other DNS
-   component that responds to questions.
-
    "Encrypted DNS" refers to any encrypted scheme to convey DNS
    messages, for example, DNS-over-HTTPS [RFC8484], DNS-over-TLS
    [RFC7858], or DNS-over-QUIC [RFC9250].
@@ -194,13 +191,11 @@ Table of Contents
    "Forged Answer (4)", "Blocked (15)", "Censored (16)",and "Filtered
    (17)".
 
-   The term "DNS server" refers to a DNS recursive resolver or a DNS
-   forwarder that generates DNS structured error responses.
-
    In this document, "client security policy evaluation" refers to
    implementation-defined decision-making performed by the DNS client or
-   consuming application to determine how, or whether, structured error
-   information is used, displayed, or acted upon.
+   consuming application (e.g., web browser) to determine how, or
+   whether, structured error information is used, displayed, or acted
+   upon.
 
 3.  DNS Filtering Techniques and Their Limitations
 
@@ -213,25 +208,24 @@ Table of Contents
    1.  The DNS response is forged to provide a list of IP addresses that
        points to an HTTP(S) server alerting the end user about the
        reason for blocking access to the requested domain (e.g.,
-       malware).  If the authority component of an HTTP(S) URL is
+       malware).  If the host component [RFC3986] of an HTTP URL is
        blocked, the network security device (e.g., Customer Premises
        Equipment (CPE) or firewall) presents a block page instead of the
-       HTTP response from the content provider hosting that domain.  If
-       the authority component of an HTTP URL is blocked, the network
-       security device intercepts the HTTP request and returns a block
-       page over HTTP.  If the authority component of an HTTPS URL is
-       blocked, the network security device serves the block page over
-       HTTPS.  In order to return a block page over HTTPS, the network
-       security device uses a locally generated root certificate and
-       corresponding key pair.  The local root certificate is installed
-       on the endpoint while the network security device stores a copy
-       of the private key.  During the TLS handshake, the on-path
-       network security device modifies the certificate provided by the
-       server and (re)signs it using the private key from the local root
-       certificate.
+       HTTP response from the content provider hosting that domain.
+       This works succesfully with HTTP.
 
-       *  However, in deployments where DNSSEC is used, this approach
-          becomes ineffective because DNSSEC ensures the integrity and
+       If this is an HTTPS URL, the network security device attempts to
+       serve the block page over HTTPS.  In order to return a block page
+       over HTTPS, the network security device uses a locally generated
+       root certificate and corresponding key pair.  The local root
+       certificate is installed on the endpoint while the network
+       security device stores a copy of the private key.  During the TLS
+       handshake, the on-path network security device modifies the
+       certificate provided by the server and (re)signs it using the
+       private key from the local root certificate.
+
+       *  In deployments where DNSSEC is used, this approach becomes
+          ineffective because DNSSEC ensures the integrity and
           authenticity of DNS responses, preventing forged DNS responses
           from being accepted.
 
@@ -308,9 +302,6 @@ Table of Contents
    [RFC8914] encoded using the Internet JSON (I-JSON) message format
    [RFC7493].
 
-      Note that [RFC7493] was based on [RFC7159], but [RFC7159] was
-      replaced by [RFC8259].
-
    This document defines the following JSON names:
 
    c: (contact)  The contact details of the IT/InfoSec team to report
@@ -373,7 +364,7 @@ Table of Contents
 
    If the client supports diagnostic interfaces, it MAY use the "l"
    field to identify the language of the "j" text and optionally
-   translate it for IT administrators.
+   translate it.
 
    The "o" field MAY be displayed to end users, subject to the
    conditions described in Section 10.  If the text is in a language not
@@ -413,8 +404,8 @@ Table of Contents
 5.1.  Client Generating Request
 
    When generating a DNS query, a client that supports this
-   specification MUST include the Structured DNS Error (SDE) option
-   defined in Section 5.4.
+   specification SHOULD include the Structured DNS Error (SDE) option
+   defined in Section 5.4, unless instructed by local policy otherwise.
 
    The presence of the SDE option indicates that the client desires the
    DNS server to include an EDE option in the DNS response when DNS
@@ -431,12 +422,18 @@ Table of Contents
 
    If the query contained the SDE EDNS option (Section 5.1), and the DNS
    server returns an EDE indicating blocking or modification of the
-   response, the DNS server MUST include additional detail in the EXTRA-
-   TEXT field encoded as structured and machine-readable data.
+   response, the DNS server SHOULD include additional detail in the
+   EXTRA-TEXT field encoded as structured and machine-readable data,
+   unless configured otherwise.  If including the additional detail
+   would cause the response to exceed the EDNS0 size [RFC9715] (and thus
+   setting TC=1), it SHOULD be omitted.
 
-   If the SDE option is not present, the DNS server MUST NOT include
-   structured JSON data and MUST convey the EXTRA-TEXT field as human-
-   readable text in accordance with [RFC8914].
+   If the SDE option was not present in the DNS request, the DNS server
+   MUST NOT include structured JSON data.  In such a case, the DNS
+   server conveys the EXTRA-TEXT field as human-readable text in
+   accordance with [RFC8914].  This provides backwards compatibility
+   with clients and servers implementing [RFC8914] but which do not
+   implement this specification.
 
    Servers MAY decide to return small TTL values in filtered DNS
    responses (e.g., 10 seconds) to handle domain category and reputation
@@ -445,12 +442,6 @@ Table of Contents
    traffic.  In cases where updates are less frequent, TTL values of 30
    to 60 seconds MAY provide a better balance, reducing server load
    while still ensuring reasonable flexibility for updates.
-
-   Because the DNS client explicitly signals support for structured
-   error information using the SDE option (Section 5.1), and because the
-   EDE option is carried in the non-cached OPT pseudo-RR (Section 6.2.1
-   of [RFC6891]), the DNS server can tailor its filtered response to the
-   capabilities of the client.
 
    If the query includes the SDE option as per Section 5.1, the server
    MUST NOT return the "Forged Answer" extended error code because the
@@ -468,26 +459,25 @@ Table of Contents
 
 5.3.  Client Processing Response
 
-   On receipt of a DNS response with an EDE option from a DNS responder,
+   On receipt of a DNS response with an EDE option from a DNS server,
    the following ordered actions are performed on the EXTRA-TEXT field:
 
-   1.   If the DNS response is not received over an encrypted DNS
-        channel, the requestor MUST NOT act upon data in the EXTRA-TEXT
-        field, as there is no mechanism to verify the integrity of such
-        data and it is vulnerable to modification by an on-path
-        attacker.  An attacker can inject or modify a structured DNS
-        error response in transit without detection, enabling
-        fabrication of filtering information (e.g., misleading contact
-        information or false resolver identity information) that appears
-        to originate from the resolver.  The data MAY be retained for
-        diagnostic or client security policy evaluation purposes.
+   1.   If the integrity of the DNS response is not guaranteed, the DNS
+        client MUST NOT act upon data in the EXTRA-TEXT field, as the
+        data is vulnerable to modification by an on-path attacker.  An
+        attacker can inject or modify a structured DNS error response in
+        transit without detection, enabling fabrication of filtering
+        information (e.g., misleading contact information or false
+        resolver identity information) that appears to originate from
+        the resolver.  The data MAY be retained for diagnostic or client
+        security policy evaluation purposes.
 
    2.   Servers which don't support this specification might use plain
-        text in the EXTRA-TEXT field.  Requestors SHOULD properly handle
-        both plaintext and JSON text in the EXTRA-TEXT field.  The
-        requestor verifies that the field contains valid JSON.  If not,
-        the requestor MUST consider the server does not support this
-        specification and stop processing the rest of the actions
+        text in the EXTRA-TEXT field.  DNS clients SHOULD properly
+        handle both plaintext and JSON text in the EXTRA-TEXT field.
+        The DNS client verifies that the field contains valid JSON.  If
+        not, the DNS client MUST consider the server does not support
+        this specification and stop processing the rest of the actions
         defined in this section, but may instead choose to treat EXTRA-
         TEXT as per [RFC8914].
 
@@ -513,9 +503,10 @@ Table of Contents
         present have empty values, the entire JSON object MUST be
         discarded.
 
-   7.   If a Contact URI in the "c" field uses a scheme not registered
-        in the Section 11.3 registry, those URIs are discarded.  Contact
-        URIs using registered schemes can be processed.
+   7.   If the JSON object contains a "c" field any of its Contact URIs
+        with schemes not registered in the Section 11.3 registry are
+        ignored.  Remaining Contact URIs using registered schemes can be
+        processed.
 
    8.   If the DNS client has enabled the opportunistic privacy profile
         for DoT (Section 5 of [RFC8310]) and the identity of the DNS
@@ -620,16 +611,19 @@ Table of Contents
 
 7.1.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
 
-   The DNS server (e.g., a DNS forwarder) is unable to respond to the
-   request because the domain is on a blocklist due to an internal
-   security policy imposed by an upstream DNS server.  This error code
-   is useful in deployments where a network-provided DNS forwarder is
-   configured to use an external resolver that filters malicious
-   domains.  When the DNS forwarder receives a Blocked (15) error code
-   from the upstream DNS server, it can replace it with "Blocked by
-   Upstream DNS Server" (TBA1) before forwarding the reply to the DNS
-   client.  Additionally, the EXTRA-TEXT field may be forwarded to the
-   DNS client.
+   The DNS server is unable to respond to the request because the domain
+   is on a blocklist due to an internal security policy imposed by an
+   upstream DNS server.  This error code is useful in deployments where
+   a network-provided DNS forwarder is configured to use an external
+   resolver that filters malicious domains.  When the DNS forwarder
+   receives a Blocked (15) error code from the upstream DNS server, it
+   can replace it with "Blocked by Upstream DNS Server" (TBA1) before
+   forwarding the reply to the DNS client.  Additionally, the EXTRA-TEXT
+   field may be forwarded to the DNS client.
+
+   Implementations should ensure that the communication channel with the
+   upstream DNS server provides adequate integrity protection to
+   mitigate the threats described in step 1 of Section 5.3.
 
 8.  Examples
 
@@ -675,6 +669,12 @@ Table of Contents
    security policy to override the contact information (e.g., redirect
    all complaint calls to a single contact point).  In such cases, the
    content of the "c" attribute MAY be ignored.
+
+9.1.  Backward Compatibility
+
+   Future extensions MUST NOT introduce mandatory JSON attributes, as
+   existing implementations are required to ignore unknown JSON names
+   (see Section 5.3).
 
 10.  Security Considerations
 
@@ -798,61 +798,41 @@ Table of Contents
 
    The registry is initially populated with the following values:
 
-   +====+===============+==================+===========+===============+
-   |JSON| Field Meaning | Description      | Mandatory | Specification |
-   |Name|               |                  |           |               |
-   +====+===============+==================+===========+===============+
-   | c  | contact       | The contact      | N         |  Section 4 of |
-   |    |               | details of the   |           |    RFCXXXX    |
-   |    |               | IT/InfoSec team  |           |               |
-   |    |               | to report        |           |               |
-   |    |               | misclassified    |           |               |
-   |    |               | DNS filtering    |           |               |
-   +----+---------------+------------------+-----------+---------------+
-   | j  | justification | UTF-8-encoded    | N         |  Section 4 of |
-   |    |               | [RFC5198]        |           |    RFCXXXX    |
-   |    |               | textual          |           |               |
-   |    |               | justification    |           |               |
-   |    |               | for a            |           |               |
-   |    |               | particular DNS   |           |               |
-   |    |               | filtering        |           |               |
-   +----+---------------+------------------+-----------+---------------+
-   | s  | sub-error     | Integer          | N         |  Section 4 of |
-   |    |               | representing     |           |    RFCXXXX    |
-   |    |               | the sub-error    |           |               |
-   |    |               | code for this    |           |               |
-   |    |               | DNS filtering    |           |               |
-   |    |               | case             |           |               |
-   +----+---------------+------------------+-----------+---------------+
-   | o  | organization  | UTF-8-encoded    | N         |  Section 4 of |
-   |    |               | human-friendly   |           |    RFCXXXX    |
-   |    |               | name of the      |           |               |
-   |    |               | organization     |           |               |
-   |    |               | that filtered    |           |               |
-   |    |               | this particular  |           |               |
-   |    |               | DNS query        |           |               |
-   +----+---------------+------------------+-----------+---------------+
-   | l  | language      | Indicates the    | N         |  Section 4 of |
-   |    |               | language of the  |           |    RFCXXXX    |
-   |    |               | "j" and "o"      |           |               |
-   |    |               | fields as        |           |               |
-   |    |               | defined in       |           |               |
-   |    |               | [RFC5646]        |           |               |
-   +----+---------------+------------------+-----------+---------------+
+   +======+===============+============================+===============+
+   | JSON | Field Meaning | Description                | Specification |
+   | Name |               |                            |               |
+   +======+===============+============================+===============+
+   |  c   | contact       | The contact details of     |  Section 4 of |
+   |      |               | the IT/InfoSec team to     |    RFCXXXX    |
+   |      |               | report misclassified       |               |
+   |      |               | DNS filtering              |               |
+   +------+---------------+----------------------------+---------------+
+   |  j   | justification | UTF-8-encoded [RFC5198]    |  Section 4 of |
+   |      |               | textual justification      |    RFCXXXX    |
+   |      |               | for a particular DNS       |               |
+   |      |               | filtering                  |               |
+   +------+---------------+----------------------------+---------------+
+   |  s   | sub-error     | Integer representing       |  Section 4 of |
+   |      |               | the sub-error code for     |    RFCXXXX    |
+   |      |               | this DNS filtering case    |               |
+   +------+---------------+----------------------------+---------------+
+   |  o   | organization  | UTF-8-encoded human-       |  Section 4 of |
+   |      |               | friendly name of the       |    RFCXXXX    |
+   |      |               | organization that          |               |
+   |      |               | filtered this              |               |
+   |      |               | particular DNS query       |               |
+   +------+---------------+----------------------------+---------------+
+   |  l   | language      | Indicates the language     |  Section 4 of |
+   |      |               | of the "j" and "o"         |    RFCXXXX    |
+   |      |               | fields as defined in       |               |
+   |      |               | [RFC5646]                  |               |
+   +------+---------------+----------------------------+---------------+
 
                     Table 1: Initial JSON Names Registry
 
    New JSON names are registered via IETF Review (Section 4.8 of
    [RFC8126]) and their formatting constraints are described in
    Section 4.
-
-   The "Mandatory" column is informational only.  This specification
-   does not define any mandatory JSON names.  To preserve backward
-   compatibility, any new JSON names registered after publication of
-   this document MUST set the “Mandatory” column to “N”. Future
-   extensions cannot introduce mandatory JSON attributes, as existing
-   implementations are required to ignore unknown JSON names (see
-   Section 5.3).
 
 11.3.  New Registry for Contact URI Scheme
 
@@ -1000,10 +980,6 @@ Table of Contents
               URI Scheme", RFC 6068, DOI 10.17487/RFC6068, October 2010,
               <https://www.rfc-editor.org/rfc/rfc6068>.
 
-   [RFC7159]  Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
-              Interchange Format", RFC 7159, DOI 10.17487/RFC7159, March
-              2014, <https://www.rfc-editor.org/rfc/rfc7159>.
-
    [RFC7493]  Bray, T., Ed., "The I-JSON Message Format", RFC 7493,
               DOI 10.17487/RFC7493, March 2015,
               <https://www.rfc-editor.org/rfc/rfc7493>.
@@ -1027,6 +1003,10 @@ Table of Contents
               DOI 10.17487/RFC8914, October 2020,
               <https://www.rfc-editor.org/rfc/rfc8914>.
 
+   [RFC9499]  Hoffman, P. and K. Fujiwara, "DNS Terminology", BCP 219,
+              RFC 9499, DOI 10.17487/RFC9499, March 2024,
+              <https://www.rfc-editor.org/rfc/rfc9499>.
+
 12.2.  Informative References
 
    [IANA-DNS] IANA, "Domain Name System (DNS) Parameters, Extended DNS
@@ -1043,24 +1023,19 @@ Table of Contents
               slides-116-dnsop-dns-errors-implementation-proposal-
               slides-116-dnsop-update-on-dns-errors-implementation-00>.
 
+   [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
+              Resource Identifier (URI): Generic Syntax", STD 66,
+              RFC 3986, DOI 10.17487/RFC3986, January 2005,
+              <https://www.rfc-editor.org/rfc/rfc3986>.
+
    [RFC5625]  Bellis, R., "DNS Proxy Implementation Guidelines",
               BCP 152, RFC 5625, DOI 10.17487/RFC5625, August 2009,
               <https://www.rfc-editor.org/rfc/rfc5625>.
-
-   [RFC6891]  Damas, J., Graff, M., and P. Vixie, "Extension Mechanisms
-              for DNS (EDNS(0))", STD 75, RFC 6891,
-              DOI 10.17487/RFC6891, April 2013,
-              <https://www.rfc-editor.org/rfc/rfc6891>.
 
    [RFC7858]  Hu, Z., Zhu, L., Heidemann, J., Mankin, A., Wessels, D.,
               and P. Hoffman, "Specification for DNS over Transport
               Layer Security (TLS)", RFC 7858, DOI 10.17487/RFC7858, May
               2016, <https://www.rfc-editor.org/rfc/rfc7858>.
-
-   [RFC8259]  Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
-              Interchange Format", STD 90, RFC 8259,
-              DOI 10.17487/RFC8259, December 2017,
-              <https://www.rfc-editor.org/rfc/rfc8259>.
 
    [RFC8484]  Hoffman, P. and P. McManus, "DNS Queries over HTTPS
               (DoH)", RFC 8484, DOI 10.17487/RFC8484, October 2018,
@@ -1080,10 +1055,6 @@ Table of Contents
               Jensen, "Discovery of Designated Resolvers", RFC 9462,
               DOI 10.17487/RFC9462, November 2023,
               <https://www.rfc-editor.org/rfc/rfc9462>.
-
-   [RFC9499]  Hoffman, P. and K. Fujiwara, "DNS Terminology", BCP 219,
-              RFC 9499, DOI 10.17487/RFC9499, March 2024,
-              <https://www.rfc-editor.org/rfc/rfc9499>.
 
    [RFC9606]  Reddy.K, T. and M. Boucadair, "DNS Resolver Information",
               RFC 9606, DOI 10.17487/RFC9606, June 2024,
