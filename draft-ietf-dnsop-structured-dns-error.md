@@ -186,21 +186,19 @@ methods have advantages and disadvantages that are discussed below:
 
 1. The DNS response is forged to provide a list of IP addresses that
 points to an HTTP(S) server alerting the end user about the reason for
-blocking access to the requested domain (e.g., malware). If the authority component
-of an HTTP(S) URL is blocked, the network security device
+blocking access to the requested domain (e.g., malware). If the host component {{?RFC3986}}
+of an HTTP URL is blocked, the network security device
 (e.g., Customer Premises Equipment (CPE) or firewall) presents a block page instead of the HTTP
-response from the content provider hosting that domain. If the authority component
-of an HTTP URL is blocked, the network security device intercepts
-the HTTP request and returns a block page over HTTP. If the authority component
-of an HTTPS URL is blocked, the network security device serves the block page over HTTPS.
-In order to return a block page over HTTPS, the network security device uses a locally
+response from the content provider hosting that domain. This works succesfully with HTTP.
+<br/><br/>
+  If this is an HTTPS URL, the network security device attempts to serve the block page over HTTPS.  In order to return a block page over HTTPS, the network security device uses a locally
 generated root certificate and corresponding key pair. The local root certificate is
 installed on the endpoint while the network security device stores a copy of the private key.
 During the TLS handshake, the on-path network security device modifies the certificate
 provided by the server and (re)signs it using the private key from the local root
 certificate.
 
-   * However, in deployments where DNSSEC is used, this approach becomes ineffective because DNSSEC
+   * In deployments where DNSSEC is used, this approach becomes ineffective because DNSSEC
      ensures the integrity and authenticity of DNS responses, preventing forged DNS
      responses from being accepted.
 
