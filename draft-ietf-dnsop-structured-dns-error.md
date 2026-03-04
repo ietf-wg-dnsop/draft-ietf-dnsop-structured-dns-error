@@ -566,6 +566,10 @@ forward the JSON information, or they MAY choose to create a new EDE option that
 
 The application that triggered the DNS request may have a client security policy to override the contact information (e.g., redirect all complaint calls to a single contact point). In such cases, the content of the "c" attribute MAY be ignored.
 
+## Backward Compatibility
+
+Future extensions MUST NOT introduce mandatory JSON attributes, as existing implementations are required to ignore unknown JSON names (see {{client-processing}}).
+
 # Security Considerations {#security}
 
 ## Authentication and Confidentiality
@@ -672,19 +676,16 @@ Specification:
 
 The registry is initially populated with the following values:
 
-| JSON Name | Field Meaning  | Description                      | Mandatory |  Specification |
-|:---------:|:---------------|:---------------------------------|:----------|:------------------:|
-| c | contact| The contact details of the IT/InfoSec team to report misclassified DNS filtering | N | {{name-spec}} of RFCXXXX |
-| j | justification | UTF-8-encoded {{!RFC5198}} textual justification for a particular DNS filtering | N | {{name-spec}} of RFCXXXX |
-| s | sub-error | Integer representing the sub-error code for this DNS filtering case | N | {{name-spec}} of RFCXXXX |
-| o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query | N | {{name-spec}} of RFCXXXX |
-| l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} | N | {{name-spec}} of RFCXXXX |
+| JSON Name | Field Meaning  | Description                      |  Specification |
+|:---------:|:---------------|:---------------------------------|:------------------:|
+| c | contact| The contact details of the IT/InfoSec team to report misclassified DNS filtering | {{name-spec}} of RFCXXXX |
+| j | justification | UTF-8-encoded {{!RFC5198}} textual justification for a particular DNS filtering | {{name-spec}} of RFCXXXX |
+| s | sub-error | Integer representing the sub-error code for this DNS filtering case | {{name-spec}} of RFCXXXX |
+| o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query | {{name-spec}} of RFCXXXX |
+| l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} | {{name-spec}} of RFCXXXX |
 {: #reg-names title='Initial JSON Names Registry'}
 
 New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}).
-
-The "Mandatory" column is informational only. This specification does not define any mandatory JSON names.
-To preserve backward compatibility, any new JSON names registered after publication of this document MUST set the “Mandatory” column to “N”. Future extensions cannot introduce mandatory JSON attributes, as existing implementations are required to ignore unknown JSON names (see {{client-processing}}).
 
 ## New Registry for Contact URI Scheme {#IANA-Contact}
 
