@@ -357,7 +357,7 @@ as structured and machine-readable data, unless configured otherwise.  If includ
 would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), it SHOULD be omitted.
 
 If the SDE option was not present in the DNS request, the DNS server MUST NOT include
-structured JSON data and SHOULD convey the EXTRA-TEXT field as
+structured JSON data.  In such a case, the DNS server conveys the EXTRA-TEXT field as
 human-readable text in accordance with {{!RFC8914}}. This provides backwards compatibility
 with clients and servers implementing {{?RFC8914}} but which do not implement this specification.
 
