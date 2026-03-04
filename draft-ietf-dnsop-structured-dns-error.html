@@ -1606,7 +1606,7 @@ otherwise used to assist troubleshooting and diagnosis of DNS filtering.<a href=
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-client-generating-request" class="section-name selfRef">Client Generating Request</a>
         </h3>
 <p id="section-5.1-1">When generating a DNS query, a client that supports this specification
-<span class="bcp14">MUST</span> include the Structured DNS Error (SDE) option defined in <a href="#SDE" class="auto internal xref">Section 5.4</a>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<span class="bcp14">SHOULD</span> include the Structured DNS Error (SDE) option defined in <a href="#SDE" class="auto internal xref">Section 5.4</a>, unless instructed by local policy otherwise.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1-2">The presence of the SDE option indicates that the client desires the
 DNS server to include an EDE option in the DNS response when DNS
 filtering is performed, and that any data conveyed in the EXTRA-TEXT
@@ -1625,33 +1625,30 @@ ideally) forged response, as desired by the DNS
 server.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2-2">If the query contained the SDE EDNS option (<a href="#client-request" class="auto internal xref">Section 5.1</a>), and the
 DNS server returns an EDE indicating blocking or modification of the response,
-the DNS server <span class="bcp14">MUST</span> include additional detail in the EXTRA-TEXT field encoded
-as structured and machine-readable data.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
-<p id="section-5.2-3">If the SDE option is not present, the DNS server <span class="bcp14">MUST NOT</span> include
-structured JSON data and <span class="bcp14">MUST</span> convey the EXTRA-TEXT field as
-human-readable text in accordance with <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+the DNS server <span class="bcp14">SHOULD</span> include additional detail in the EXTRA-TEXT field encoded
+as structured and machine-readable data, unless configured otherwise.  If including the additional detail
+would cause the response to exceed the EDNS0 size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> (and thus setting TC=1), it <span class="bcp14">SHOULD</span> be omitted.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2-3">If the SDE option was not present in the DNS request, the DNS server <span class="bcp14">MUST NOT</span> include
+structured JSON data.  In such a case, the DNS server conveys the EXTRA-TEXT field as
+human-readable text in accordance with <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>. This provides backwards compatibility
+with clients and servers implementing <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> but which do not implement this specification.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 <p id="section-5.2-4">Servers <span class="bcp14">MAY</span> decide to return small TTL values in filtered DNS
 responses (e.g., 10 seconds) to handle domain category and reputation
 updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
 but can result in increased query traffic. In cases where updates are less frequent,
 TTL values of 30 to 60 seconds <span class="bcp14">MAY</span> provide a better balance, reducing server load while
 still ensuring reasonable flexibility for updates.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
-<p id="section-5.2-5">Because the DNS client explicitly signals support for structured error
-information using the SDE option (<a href="#client-request" class="auto internal xref">Section 5.1</a>), and because the
-EDE option is carried in the non-cached OPT pseudo-RR
-(<span><a href="https://rfc-editor.org/rfc/rfc6891#section-6.2.1" class="relref">Section 6.2.1</a> of [<a href="#RFC6891" class="cite xref">RFC6891</a>]</span>), the DNS server can tailor its
-filtered response to the capabilities of the client.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
-<p id="section-5.2-6">If the query includes the SDE option as per <a href="#client-request" class="auto internal xref">Section 5.1</a>, the server <span class="bcp14">MUST NOT</span> return the "Forged Answer" extended error code because the client
+<p id="section-5.2-5">If the query includes the SDE option as per <a href="#client-request" class="auto internal xref">Section 5.1</a>, the server <span class="bcp14">MUST NOT</span> return the "Forged Answer" extended error code because the client
 can take advantage of EDE's more sophisticated error reporting (e.g.,
 "Filtered", "Blocked").  Continuing to send "Forged
 Answer" even to an EDE-supporting client will cause the persistence of
-the drawbacks described in <a href="#existing-techniques" class="auto internal xref">Section 3</a>.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
-<p id="section-5.2-7">When the "Censored" extended error code is included in the DNS response,
+the drawbacks described in <a href="#existing-techniques" class="auto internal xref">Section 3</a>.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
+<p id="section-5.2-6">When the "Censored" extended error code is included in the DNS response,
 the "c", "j", "o", and "l" fields may be conveyed in the EXTRA-TEXT field.
 The sub-error codes defined in this specification are not applicable to
 the "Censored" extended error code and <span class="bcp14">MUST NOT</span> be used in conjunction with it.
 Future specifications may update this behavior by defining sub-error codes
-applicable to "Censored".<a href="#section-5.2-7" class="pilcrow">¶</a></p>
+applicable to "Censored".<a href="#section-5.2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="client-processing">
@@ -1664,9 +1661,9 @@ DNS server, the following ordered actions are performed on the EXTRA-TEXT
 field:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.3-2">
 <li id="section-5.3-2.1">
-            <p id="section-5.3-2.1.1">If the DNS response is not received over an encrypted DNS channel, the
-DNS client <span class="bcp14">MUST NOT</span> act upon data in the EXTRA-TEXT field, as there is no
-mechanism to verify the integrity of such data and it is vulnerable to
+            <p id="section-5.3-2.1.1">If the integrity of the DNS response is not guaranteed, the
+DNS client <span class="bcp14">MUST NOT</span> act upon data in the EXTRA-TEXT field, as the data
+is vulnerable to
 modification by an on-path attacker. An attacker can inject or
 modify a structured DNS error response in transit without detection,
 enabling fabrication of filtering information (e.g., misleading contact
@@ -2434,10 +2431,6 @@ registry under the "Domain Name System (DNS) Parameters" registry group <span>[<
         <dd>
 <span class="refAuthor">Bellis, R.</span>, <span class="refTitle">"DNS Proxy Implementation Guidelines"</span>, <span class="seriesInfo">BCP 152</span>, <span class="seriesInfo">RFC 5625</span>, <span class="seriesInfo">DOI 10.17487/RFC5625</span>, <time datetime="2009-08" class="refDate">August 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5625">https://www.rfc-editor.org/rfc/rfc5625</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC6891">[RFC6891]</dt>
-        <dd>
-<span class="refAuthor">Damas, J.</span>, <span class="refAuthor">Graff, M.</span>, and <span class="refAuthor">P. Vixie</span>, <span class="refTitle">"Extension Mechanisms for DNS (EDNS(0))"</span>, <span class="seriesInfo">STD 75</span>, <span class="seriesInfo">RFC 6891</span>, <span class="seriesInfo">DOI 10.17487/RFC6891</span>, <time datetime="2013-04" class="refDate">April 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6891">https://www.rfc-editor.org/rfc/rfc6891</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC7858">[RFC7858]</dt>
         <dd>
 <span class="refAuthor">Hu, Z.</span>, <span class="refAuthor">Zhu, L.</span>, <span class="refAuthor">Heidemann, J.</span>, <span class="refAuthor">Mankin, A.</span>, <span class="refAuthor">Wessels, D.</span>, and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Specification for DNS over Transport Layer Security (TLS)"</span>, <span class="seriesInfo">RFC 7858</span>, <span class="seriesInfo">DOI 10.17487/RFC7858</span>, <time datetime="2016-05" class="refDate">May 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7858">https://www.rfc-editor.org/rfc/rfc7858</a>&gt;</span>. </dd>
@@ -2461,6 +2454,10 @@ registry under the "Domain Name System (DNS) Parameters" registry group <span>[<
 <dt id="RFC9606">[RFC9606]</dt>
         <dd>
 <span class="refAuthor">Reddy.K, T.</span> and <span class="refAuthor">M. Boucadair</span>, <span class="refTitle">"DNS Resolver Information"</span>, <span class="seriesInfo">RFC 9606</span>, <span class="seriesInfo">DOI 10.17487/RFC9606</span>, <time datetime="2024-06" class="refDate">June 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9606">https://www.rfc-editor.org/rfc/rfc9606</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9715">[RFC9715]</dt>
+        <dd>
+<span class="refAuthor">Fujiwara, K.</span> and <span class="refAuthor">P. Vixie</span>, <span class="refTitle">"IP Fragmentation Avoidance in DNS over UDP"</span>, <span class="seriesInfo">RFC 9715</span>, <span class="seriesInfo">DOI 10.17487/RFC9715</span>, <time datetime="2025-01" class="refDate">January 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9715">https://www.rfc-editor.org/rfc/rfc9715</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RPZ">[RPZ]</dt>
       <dd>

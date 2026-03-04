@@ -403,8 +403,8 @@ Table of Contents
 5.1.  Client Generating Request
 
    When generating a DNS query, a client that supports this
-   specification MUST include the Structured DNS Error (SDE) option
-   defined in Section 5.4.
+   specification SHOULD include the Structured DNS Error (SDE) option
+   defined in Section 5.4, unless instructed by local policy otherwise.
 
    The presence of the SDE option indicates that the client desires the
    DNS server to include an EDE option in the DNS response when DNS
@@ -421,12 +421,18 @@ Table of Contents
 
    If the query contained the SDE EDNS option (Section 5.1), and the DNS
    server returns an EDE indicating blocking or modification of the
-   response, the DNS server MUST include additional detail in the EXTRA-
-   TEXT field encoded as structured and machine-readable data.
+   response, the DNS server SHOULD include additional detail in the
+   EXTRA-TEXT field encoded as structured and machine-readable data,
+   unless configured otherwise.  If including the additional detail
+   would cause the response to exceed the EDNS0 size [RFC9715] (and thus
+   setting TC=1), it SHOULD be omitted.
 
-   If the SDE option is not present, the DNS server MUST NOT include
-   structured JSON data and MUST convey the EXTRA-TEXT field as human-
-   readable text in accordance with [RFC8914].
+   If the SDE option was not present in the DNS request, the DNS server
+   MUST NOT include structured JSON data.  In such a case, the DNS
+   server conveys the EXTRA-TEXT field as human-readable text in
+   accordance with [RFC8914].  This provides backwards compatibility
+   with clients and servers implementing [RFC8914] but which do not
+   implement this specification.
 
    Servers MAY decide to return small TTL values in filtered DNS
    responses (e.g., 10 seconds) to handle domain category and reputation
@@ -435,12 +441,6 @@ Table of Contents
    traffic.  In cases where updates are less frequent, TTL values of 30
    to 60 seconds MAY provide a better balance, reducing server load
    while still ensuring reasonable flexibility for updates.
-
-   Because the DNS client explicitly signals support for structured
-   error information using the SDE option (Section 5.1), and because the
-   EDE option is carried in the non-cached OPT pseudo-RR (Section 6.2.1
-   of [RFC6891]), the DNS server can tailor its filtered response to the
-   capabilities of the client.
 
    If the query includes the SDE option as per Section 5.1, the server
    MUST NOT return the "Forged Answer" extended error code because the
@@ -461,16 +461,15 @@ Table of Contents
    On receipt of a DNS response with an EDE option from a DNS server,
    the following ordered actions are performed on the EXTRA-TEXT field:
 
-   1.   If the DNS response is not received over an encrypted DNS
-        channel, the DNS client MUST NOT act upon data in the EXTRA-TEXT
-        field, as there is no mechanism to verify the integrity of such
-        data and it is vulnerable to modification by an on-path
-        attacker.  An attacker can inject or modify a structured DNS
-        error response in transit without detection, enabling
-        fabrication of filtering information (e.g., misleading contact
-        information or false resolver identity information) that appears
-        to originate from the resolver.  The data MAY be retained for
-        diagnostic or client security policy evaluation purposes.
+   1.   If the integrity of the DNS response is not guaranteed, the DNS
+        client MUST NOT act upon data in the EXTRA-TEXT field, as the
+        data is vulnerable to modification by an on-path attacker.  An
+        attacker can inject or modify a structured DNS error response in
+        transit without detection, enabling fabrication of filtering
+        information (e.g., misleading contact information or false
+        resolver identity information) that appears to originate from
+        the resolver.  The data MAY be retained for diagnostic or client
+        security policy evaluation purposes.
 
    2.   Servers which don't support this specification might use plain
         text in the EXTRA-TEXT field.  DNS clients SHOULD properly
@@ -1040,11 +1039,6 @@ Table of Contents
               BCP 152, RFC 5625, DOI 10.17487/RFC5625, August 2009,
               <https://www.rfc-editor.org/rfc/rfc5625>.
 
-   [RFC6891]  Damas, J., Graff, M., and P. Vixie, "Extension Mechanisms
-              for DNS (EDNS(0))", STD 75, RFC 6891,
-              DOI 10.17487/RFC6891, April 2013,
-              <https://www.rfc-editor.org/rfc/rfc6891>.
-
    [RFC7858]  Hu, Z., Zhu, L., Heidemann, J., Mankin, A., Wessels, D.,
               and P. Hoffman, "Specification for DNS over Transport
               Layer Security (TLS)", RFC 7858, DOI 10.17487/RFC7858, May
@@ -1072,6 +1066,10 @@ Table of Contents
    [RFC9606]  Reddy.K, T. and M. Boucadair, "DNS Resolver Information",
               RFC 9606, DOI 10.17487/RFC9606, June 2024,
               <https://www.rfc-editor.org/rfc/rfc9606>.
+
+   [RFC9715]  Fujiwara, K. and P. Vixie, "IP Fragmentation Avoidance in
+              DNS over UDP", RFC 9715, DOI 10.17487/RFC9715, January
+              2025, <https://www.rfc-editor.org/rfc/rfc9715>.
 
    [RPZ]      "Response Policy Zone", <https://dnsrpz.info>.
 
