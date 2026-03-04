@@ -335,7 +335,7 @@ The sub-error codes provide a structured way to communicate more detailed and pr
 ## Client Generating Request {#client-request}
 
 When generating a DNS query, a client that supports this specification
-MUST include the Structured DNS Error (SDE) option defined in {{SDE}}.
+SHOULD include the Structured DNS Error (SDE) option defined in {{SDE}}.
 
 The presence of the SDE option indicates that the client desires the
 DNS server to include an EDE option in the DNS response when DNS
@@ -352,12 +352,14 @@ server.
 
 If the query contained the SDE EDNS option ({{client-request}}), and the
 DNS server returns an EDE indicating blocking or modification of the response,
-the DNS server MUST include additional detail in the EXTRA-TEXT field encoded
-as structured and machine-readable data.
+the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded
+as structured and machine-readable data.  If including the additional detail
+would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), it SHOULD be omitted.
 
-If the SDE option is not present, the DNS server MUST NOT include
-structured JSON data and MUST convey the EXTRA-TEXT field as
-human-readable text in accordance with {{!RFC8914}}.
+If the SDE option was not present in the DNS request, the DNS server MUST NOT include
+structured JSON data and SHOULD convey the EXTRA-TEXT field as
+human-readable text in accordance with {{!RFC8914}}. This provides backwards compatibility
+with clients and servers implementing {{?RFC8914}} but which do not implement this specification.
 
 Servers MAY decide to return small TTL values in filtered DNS
 responses (e.g., 10 seconds) to handle domain category and reputation
@@ -365,12 +367,6 @@ updates. Short TTLs allow for quick adaptation to dynamic changes in domain filt
 but can result in increased query traffic. In cases where updates are less frequent,
 TTL values of 30 to 60 seconds MAY provide a better balance, reducing server load while
 still ensuring reasonable flexibility for updates.
-
-Because the DNS client explicitly signals support for structured error
-information using the SDE option ({{client-request}}), and because the
-EDE option is carried in the non-cached OPT pseudo-RR
-({{Section 6.2.1 of ?RFC6891}}), the DNS server can tailor its
-filtered response to the capabilities of the client.
 
 If the query includes the SDE option as per {{client-request}}, the server MUST
 NOT return the "Forged Answer" extended error code because the client
@@ -392,9 +388,9 @@ On receipt of a DNS response with an EDE option from a
 DNS responder, the following ordered actions are performed on the EXTRA-TEXT
 field:
 
-1. If the DNS response is not received over an encrypted DNS channel, the
-   requestor MUST NOT act upon data in the EXTRA-TEXT field, as there is no
-   mechanism to verify the integrity of such data and it is vulnerable to
+1. If the integrity of the DNS response is not guaranteed, the
+   DNS client MUST NOT act upon data in the EXTRA-TEXT field, as the data
+   is vulnerable to
    modification by an on-path attacker. An attacker can inject or
    modify a structured DNS error response in transit without detection,
    enabling fabrication of filtering information (e.g., misleading contact
