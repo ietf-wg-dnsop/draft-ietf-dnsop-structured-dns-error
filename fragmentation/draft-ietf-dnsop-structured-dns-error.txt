@@ -974,6 +974,10 @@ Table of Contents
               RFC 3966, DOI 10.17487/RFC3966, December 2004,
               <https://www.rfc-editor.org/rfc/rfc3966>.
 
+   [RFC4949]  Shirey, R., "Internet Security Glossary, Version 2",
+              FYI 36, RFC 4949, DOI 10.17487/RFC4949, August 2007,
+              <https://www.rfc-editor.org/rfc/rfc4949>.
+
    [RFC5198]  Klensin, J. and M. Padlipsky, "Unicode Format for Network
               Interchange", RFC 5198, DOI 10.17487/RFC5198, March 2008,
               <https://www.rfc-editor.org/rfc/rfc5198>.
@@ -1038,10 +1042,6 @@ Table of Contents
               <https://datatracker.ietf.org/meeting/116/materials/
               slides-116-dnsop-dns-errors-implementation-proposal-
               slides-116-dnsop-update-on-dns-errors-implementation-00>.
-
-   [RFC4949]  Shirey, R., "Internet Security Glossary, Version 2",
-              FYI 36, RFC 4949, DOI 10.17487/RFC4949, August 2007,
-              <https://www.rfc-editor.org/rfc/rfc4949>.
 
    [RFC5625]  Bellis, R., "DNS Proxy Implementation Guidelines",
               BCP 152, RFC 5625, DOI 10.17487/RFC5625, August 2009,
