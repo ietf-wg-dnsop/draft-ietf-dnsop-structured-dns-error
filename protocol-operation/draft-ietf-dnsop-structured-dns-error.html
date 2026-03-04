@@ -1617,7 +1617,7 @@ otherwise used to assist troubleshooting and diagnosis of DNS filtering.<a href=
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-client-generating-request" class="section-name selfRef">Client Generating Request</a>
         </h3>
 <p id="section-5.1-1">When generating a DNS query, a client that supports this specification
-<span class="bcp14">SHOULD</span> include the Structured DNS Error (SDE) option defined in <a href="#SDE" class="auto internal xref">Section 5.4</a>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<span class="bcp14">SHOULD</span> include the Structured DNS Error (SDE) option defined in <a href="#SDE" class="auto internal xref">Section 5.4</a>, unless instructed by local policy otherwise.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1-2">The presence of the SDE option indicates that the client desires the
 DNS server to include an EDE option in the DNS response when DNS
 filtering is performed, and that any data conveyed in the EXTRA-TEXT

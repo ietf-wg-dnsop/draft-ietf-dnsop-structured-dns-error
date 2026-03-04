@@ -414,7 +414,7 @@ Table of Contents
 
    When generating a DNS query, a client that supports this
    specification SHOULD include the Structured DNS Error (SDE) option
-   defined in Section 5.4.
+   defined in Section 5.4, unless instructed by local policy otherwise.
 
    The presence of the SDE option indicates that the client desires the
    DNS server to include an EDE option in the DNS response when DNS
