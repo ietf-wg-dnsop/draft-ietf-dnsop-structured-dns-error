@@ -154,7 +154,7 @@ queries are filtered.
 
 {::boilerplate bcp14-tagged}
 
-This document uses terms defined in DNS Terminology {{?RFC9499}}.
+This document uses terms defined in DNS Terminology {{!RFC9499}}.
 
 "Encrypted DNS" refers to any encrypted scheme to convey DNS messages,
 for example, DNS-over-HTTPS {{?RFC8484}}, DNS-over-TLS {{?RFC7858}}, or
