@@ -310,7 +310,7 @@ characters. The text will be in natural language, chosen by the DNS administrato
 to match its expected audience.
 
 If the client supports diagnostic interfaces, it MAY use the "l" field to identify
-the language of the "j" text and optionally translate it for IT administrators.
+the language of the "j" text and optionally translate it.
 
 The "o" field MAY be displayed to end users, subject to the conditions described in {{security}}.
 If the text is in a language not understood by the end-user, the "l" field can be used
