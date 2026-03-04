@@ -353,7 +353,7 @@ server.
 If the query contained the SDE EDNS option ({{client-request}}), and the
 DNS server returns an EDE indicating blocking or modification of the response,
 the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded
-as structured and machine-readable data.  If including the additional detail
+as structured and machine-readable data, unless configured otherwise.  If including the additional detail
 would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), it SHOULD be omitted.
 
 If the SDE option was not present in the DNS request, the DNS server MUST NOT include
