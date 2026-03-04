@@ -438,10 +438,11 @@ Table of Contents
    setting TC=1), it SHOULD be omitted.
 
    If the SDE option was not present in the DNS request, the DNS server
-   MUST NOT include structured JSON data and SHOULD convey the EXTRA-
-   TEXT field as human-readable text in accordance with [RFC8914].  This
-   provides backwards compatibility with clients and servers
-   implementing [RFC8914] but which do not implement this specification.
+   MUST NOT include structured JSON data.  In such a case, the DNS
+   server conveys the EXTRA-TEXT field as human-readable text in
+   accordance with [RFC8914].  This provides backwards compatibility
+   with clients and servers implementing [RFC8914] but which do not
+   implement this specification.
 
    Servers MAY decide to return small TTL values in filtered DNS
    responses (e.g., 10 seconds) to handle domain category and reputation

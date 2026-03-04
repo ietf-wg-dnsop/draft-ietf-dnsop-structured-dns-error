@@ -1640,7 +1640,7 @@ the DNS server <span class="bcp14">SHOULD</span> include additional detail in th
 as structured and machine-readable data, unless configured otherwise.  If including the additional detail
 would cause the response to exceed the EDNS0 size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> (and thus setting TC=1), it <span class="bcp14">SHOULD</span> be omitted.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2-3">If the SDE option was not present in the DNS request, the DNS server <span class="bcp14">MUST NOT</span> include
-structured JSON data and <span class="bcp14">SHOULD</span> convey the EXTRA-TEXT field as
+structured JSON data.  In such a case, the DNS server conveys the EXTRA-TEXT field as
 human-readable text in accordance with <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>. This provides backwards compatibility
 with clients and servers implementing <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> but which do not implement this specification.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 <p id="section-5.2-4">Servers <span class="bcp14">MAY</span> decide to return small TTL values in filtered DNS
