@@ -249,8 +249,6 @@ know the contact details of the IT/InfoSec team to raise a complaint.
 
 DNS servers that are compliant with this specification and have received an indication that the client also supports this specification as per {{client-request}} send data in the EXTRA-TEXT field {{!RFC8914}} encoded using the Internet JSON (I-JSON) message format {{!RFC7493}}.
 
-> Note that {{!RFC7493}} was based on {{!RFC7159}}, but {{!RFC7159}} was replaced by {{?RFC8259}}.
-
 This document defines the following JSON names:
 
 c: (contact)
