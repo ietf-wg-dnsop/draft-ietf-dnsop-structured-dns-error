@@ -370,7 +370,7 @@ Table of Contents
 
    If the client supports diagnostic interfaces, it MAY use the "l"
    field to identify the language of the "j" text and optionally
-   translate it for IT administrators.
+   translate it.
 
    The "o" field MAY be displayed to end users, subject to the
    conditions described in Section 10.  If the text is in a language not
