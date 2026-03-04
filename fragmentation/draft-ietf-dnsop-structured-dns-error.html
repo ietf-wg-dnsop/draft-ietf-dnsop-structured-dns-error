@@ -1599,6 +1599,12 @@ otherwise used to assist troubleshooting and diagnosis of DNS filtering.<a href=
           <p id="section-4-11.1.1">An alternate design for conveying the sub-error would be to define new EDE codes for these errors. However, such design is suboptimal because it requires replicating an error code for each EDE code to which the sub-error applies (e.g., "Malware" sub-error in <a href="#reg" class="auto internal xref">Table 3</a> would consume three EDE codes).<a href="#section-4-11.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
+<p id="section-4-12">New JSON names <span class="bcp14">MUST</span> consist only of lower-case ASCII characters, digits,
+and hyphen-minus (that is, Unicode characters U+0061 through 007A,
+U+0030 through U+0039, and U+002D). Also, these names <span class="bcp14">MUST</span> be 63
+characters or shorter and it is <span class="bcp14">RECOMMENDED</span> they be as short as
+possible to reduce contribution to exceeding maximum EDNS0 response
+size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span>.<a href="#section-4-12" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="protocol-operation">
@@ -2150,15 +2156,10 @@ following fields:<a href="#section-11.2-1" class="pilcrow">¶</a></p>
           </tbody>
         </table>
 </div>
-<p id="section-11.2-5">New JSON names are registered via IETF Review (<span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.8" class="relref">Section 4.8</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>).<a href="#section-11.2-5" class="pilcrow">¶</a></p>
+<p id="section-11.2-5">New JSON names are registered via IETF Review (<span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.8" class="relref">Section 4.8</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>) and their formatting
+constraints are described in <a href="#name-spec" class="auto internal xref">Section 4</a>.<a href="#section-11.2-5" class="pilcrow">¶</a></p>
 <p id="section-11.2-6">The "Mandatory" column is informational only. This specification does not define any mandatory JSON names.
 To preserve backward compatibility, any new JSON names registered after publication of this document <span class="bcp14">MUST</span> set the “Mandatory” column to “N”. Future extensions cannot introduce mandatory JSON attributes, as existing implementations are required to ignore unknown JSON names (see <a href="#client-processing" class="auto internal xref">Section 5.3</a>).<a href="#section-11.2-6" class="pilcrow">¶</a></p>
-<p id="section-11.2-7">New names <span class="bcp14">MUST</span> consist only of lower-case ASCII characters, digits,
-and hyphen-minus (that is, Unicode characters U+0061 through 007A,
-U+0030 through U+0039, and U+002D). Also, these names <span class="bcp14">MUST</span> be 63
-characters or shorter and it is <span class="bcp14">RECOMMENDED</span> they be as short as
-possible to reduce contribution to exceeding maximum EDNS0 response
-size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span>.<a href="#section-11.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="IANA-Contact">

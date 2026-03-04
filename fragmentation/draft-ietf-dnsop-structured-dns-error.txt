@@ -401,6 +401,13 @@ Table of Contents
       EDE code to which the sub-error applies (e.g., "Malware" sub-error
       in Table 3 would consume three EDE codes).
 
+   New JSON names MUST consist only of lower-case ASCII characters,
+   digits, and hyphen-minus (that is, Unicode characters U+0061 through
+   007A, U+0030 through U+0039, and U+002D).  Also, these names MUST be
+   63 characters or shorter and it is RECOMMENDED they be as short as
+   possible to reduce contribution to exceeding maximum EDNS0 response
+   size [RFC9715].
+
 5.  Protocol Operation
 
 5.1.  Client Generating Request
@@ -836,7 +843,8 @@ Table of Contents
                     Table 1: Initial JSON Names Registry
 
    New JSON names are registered via IETF Review (Section 4.8 of
-   [RFC8126]).
+   [RFC8126]) and their formatting constraints are described in
+   Section 4.
 
    The "Mandatory" column is informational only.  This specification
    does not define any mandatory JSON names.  To preserve backward
@@ -845,13 +853,6 @@ Table of Contents
    extensions cannot introduce mandatory JSON attributes, as existing
    implementations are required to ignore unknown JSON names (see
    Section 5.3).
-
-   New names MUST consist only of lower-case ASCII characters, digits,
-   and hyphen-minus (that is, Unicode characters U+0061 through 007A,
-   U+0030 through U+0039, and U+002D).  Also, these names MUST be 63
-   characters or shorter and it is RECOMMENDED they be as short as
-   possible to reduce contribution to exceeding maximum EDNS0 response
-   size [RFC9715].
 
 11.3.  New Registry for Contact URI Scheme
 
