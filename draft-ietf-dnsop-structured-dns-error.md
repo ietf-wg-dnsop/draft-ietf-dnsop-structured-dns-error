@@ -752,8 +752,8 @@ following values:
 | 0 | Reserved| Not used | {{policy-reserved}} of this document |
 | 1 | Malware | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Section 5.5 of {{!RFC5901}} |
 | 2 | Phishing | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Section 5.5 of {{!RFC5901}} |
-| 3 | Spam | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Page 289 of {{?RFC4949}} |
-| 4 | Spyware | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Page 291 of {{?RFC4949}} |
+| 3 | Spam | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Page 289 of {{!RFC4949}} |
+| 4 | Spyware | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Page 291 of {{!RFC4949}} |
 | 5 | Network operator policy | "Blocked" | {{policy-network}} of this document |
 | 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document |
 {: #reg title='Initial Sub-Error Code Registry'}
