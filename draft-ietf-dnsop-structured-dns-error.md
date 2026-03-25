@@ -111,7 +111,7 @@ Service Providers (ISPs) typically block access to some DNS domains due to a
 requirement imposed by an external entity (e.g., law enforcement
 agency) also performed using DNS-based content filtering.
 
-End-users or network administrators leveraging DNS services that perform filtering may wish to receive more
+End users or network administrators leveraging DNS services that perform filtering may wish to receive more
 explanatory information about such a filtering to resolve problems with the filter
 -- for example to contact the DNS service administrator to allowlist a DNS domain that
 was erroneously filtered or to understand the reason a particular
@@ -126,7 +126,7 @@ only explain that filtering occurred but lack detail for the user to
 diagnose erroneous filtering.
 
 No matter which type of response is generated (forged IP address(es),
-NXDOMAIN or empty answer, even with an extended error code), the user
+NXDOMAIN or empty answer, even with an extended error code), the end user
 who triggered the DNS query has little chance to understand which
 entity filtered the query, how to report a mistake in the filter, or
 why the entity filtered it at all. This document describes a mechanism
@@ -145,7 +145,7 @@ says the information in EXTRA-TEXT field is intended for human
 consumption (not automated parsing).
 
 This document does not recommend DNS filtering but provides a
-mechanism for better transparency to explain to the users why some DNS
+mechanism for better transparency to explain to the end users why some DNS
 queries are filtered.
 
 
@@ -170,6 +170,8 @@ decision-making performed by the DNS client or consuming application (e.g., web
 browser) to
 determine how, or whether, structured error information is used, displayed,
 or acted upon.
+
+SDE (Structured DNS Error): An EDNS(0) option indicating support for structured encoding of the EXTRA-TEXT field.
 
 # DNS Filtering Techniques and Their Limitations {#existing-techniques}
 
@@ -197,8 +199,8 @@ certificate.
      responses from being accepted.
 
    * The HTTPS server hosted on the network security device will have access to the client's IP address and the
-     hostname being requested. This information will be sensitive, as it will expose the user's identity and the
-     domain name that a user attempted to access.
+     hostname being requested. This information will be sensitive, as it will expose the end user's identity and the
+     domain name that a end user attempted to access.
 
    * Configuring a local root certificate on endpoints is
      not a viable option in several deployments like home networks,
@@ -207,7 +209,7 @@ certificate.
      the filtered DNS response points to a server that will display
      the block page. If the client is using HTTPS (via a web browser or
      another application) this results in a certificate validation
-     error which gives no information to the end-user about the reason
+     error which gives no information to the end user about the reason
      for the DNS filtering.
 
    * Enterprise networks do not always assume that all the connected devices
@@ -221,17 +223,17 @@ certificate.
      success. Frustrated, the end user may switch to an alternate
      network that offers no DNS filtering against malware and
      phishing, potentially compromising both security and
-     privacy. Furthermore, certificate errors train users to click
+     privacy. Furthermore, certificate errors train end users to click
      through certificate errors, which is a bad security practice. To
      eliminate the need for an end user to click through certificate
      errors, an end user may manually install a local root certificate
      on a host device. Doing so, however, is also a bad security
      practice as it creates a security vulnerability that may be
      exploited by a MITM attack. When a manually installed local root
-     certificate expires, the user has to (again) manually install the
+     certificate expires, the end user has to (again) manually install the
      new local root certificate.
 
-2. The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.
+2. The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the end user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.
 
 3. The extended error codes Blocked and Filtered defined in
 {{Section 4 of !RFC8914}} can be returned by a DNS server to provide
@@ -241,13 +243,23 @@ discussed in bullets (1) and (2), but the user still does not know the
 exact reason nor is aware of the exact entity blocking the
 access to the domain. For example, a DNS server may block access to a
 domain based on the content category such as "Malware" to protect the
-endpoint from malicious software, "Phishing" to prevent the user from
-revealing sensitive information to the attacker, etc. A user may need to
+endpoint from malicious software, "Phishing" to prevent the end user from
+revealing sensitive information to the attacker, etc. A end user may need to
 know the contact details of the IT/InfoSec team to raise a complaint.
+Further, the information conveyed by {{!RFC8914}} is intended for 
+diagnostic purposes and is not structured for automated processing, 
+localization, or extensibility. This document defines a structured, 
+machine-readable format for conveying such details in the EXTRA-TEXT 
+field, enabling clients to process the information programmatically 
+and present it to end users (e.g., with localization support), while 
+allowing for extensibility and more granular, client security 
+policy-driven handling of the information. This specification requires 
+that clients only act upon such information when it is received 
+over an integrity-protected DNS response.
 
 # I-JSON in EXTRA-TEXT Field {#name-spec}
 
-DNS servers that are compliant with this specification and have received an indication that the client also supports this specification as per {{client-request}} send data in the EXTRA-TEXT field {{!RFC8914}} encoded using the Internet JSON (I-JSON) message format {{!RFC7493}}.
+DNS servers that are compliant with this specification and have received an indication that the client also supports this specification as per {{client-request}} send data in the EXTRA-TEXT field {{!RFC8914}} as a JSON object encoded using the Internet JSON (I-JSON) message format {{!RFC7493}}.
 
 This document defines the following JSON names:
 
@@ -297,8 +309,8 @@ If the client supports diagnostic interfaces, it MAY use the "l" field to identi
 the language of the "j" text and optionally translate it.
 
 The "o" field MAY be displayed to end users, subject to the conditions described in {{security}}.
-If the text is in a language not understood by the end-user, the "l" field can be used
-to identify the language and support translation into the end-user's preferred language.
+If the text is in a language not understood by the end user, the "l" field can be used
+to identify the language and support translation into the end user's preferred language.
 
 To avoid exceeding the maximum EDNS0 size {{?RFC9715}} the generated JSON values SHOULD be as short as
 possible: short domain names, concise text in the values for the "j"
@@ -348,10 +360,7 @@ the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded
 as structured and machine-readable data, unless configured otherwise.  If including the additional detail
 would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), it SHOULD be omitted.
 
-If the SDE option was not present in the DNS request, the DNS server MUST NOT include
-structured JSON data.  In such a case, the DNS server conveys the EXTRA-TEXT field as
-human-readable text in accordance with {{!RFC8914}}. This provides backwards compatibility
-with clients and servers implementing {{?RFC8914}} but which do not implement this specification.
+If the SDE option was not present in the DNS request, the DNS server MUST process the request in accordance with {{!RFC8914}} and MUST NOT assume that the client supports this specification. This preserves compatibility with clients and servers that implement {{!RFC8914}} but do not support this specification.
 
 Servers MAY decide to return small TTL values in filtered DNS
 responses (e.g., 10 seconds) to handle domain category and reputation
@@ -422,31 +431,13 @@ field:
    ignored. Remaining Contact URIs using registered schemes can be
    processed.
 
-8. If the DNS client has enabled the opportunistic privacy profile for DoT
-   ({{Section 5 of !RFC8310}}) and the identity of the DNS server cannot be
-   verified, the DNS client MUST ignore the "c", "j", and "o" fields, as
-   these fields may influence user behavior and are vulnerable to active
-   attacks in the absence of resolver authentication. If the DNS response was
-   received over an encrypted connection, the client MAY process the "s" field
-   and other parts of the response, as the "s" field is a registry-defined,
-   enumerated value and does not contain free-form text.
+8. If the identity of the DNS server cannot be verified (e.g., when 
+   using opportunistic privacy such as {{Section 5 of !RFC8310}} or opportunistic discovery {{?RFC9462}}), the DNS client MUST ignore the "c", "j", and "o" fields, as these fields may influence end user behavior and are vulnerable to active attacks in the absence of resolver authentication. If the DNS response was received over an encrypted connection without server authentication, the client MAY process the "s" field and other parts of the response, as the "s" field is a registry-defined, enumerated value and does not contain free-form text.
 
-9. In opportunistic discovery {{?RFC9462}}, where only the IP address of the
-   DNS server is validated and the server identity is not authenticated,
-   the DNS client MUST ignore the "c", "j", and "o" fields.
-   If the DNS response was received over an encrypted connection, the client
-   MAY process the "s" field and other parts of the response.
+9. If the DNS client uses an authenticated connection to the DNS server (e.g., when 
+   using a strict privacy profile for DNS-over-TLS {{Section 5 of !RFC8310}} or an authenticated DNS-over-HTTPS or DNS-over-QUIC connection), this mitigates both passive eavesdropping and client redirection (at the expense of providing no DNS service if such a connection is not available). In such cases, the DNS client MAY process the EXTRA-TEXT field of the DNS response.
 
-10. If a DNS client has enabled strict privacy profile ({{Section 5 of !RFC8310}}) for DoT, the DNS client
-    requires an encrypted connection
-  and successful authentication of the DNS server. In doing so, this mitigates both
-  passive eavesdropping and client redirection (at the expense of
-  providing no DNS service if an encrypted, authenticated connection
-  is not available). If the DNS client has enabled strict privacy
-  profile for DoT, the DNS client MAY process the EXTRA-TEXT field of the
-  DNS response.
-
-11. The DNS client MUST ignore any other JSON names that it does not support.
+10. The DNS client MUST ignore any other JSON names that it does not support.
 
 > Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
 no such distinction made for DoH.
@@ -486,7 +477,7 @@ The document defines the following new IANA-registered Sub-Error codes.
 
   * Number: 5
 
-  * Meaning: Network Operator Policy. The code indicates that the request was filtered according to a policy imposed by the operator of the local network (where local network is a relative term, e.g., it may refer to a Local Area Network or to the network of the ISP selected by the user).
+  * Meaning: Network Operator Policy. The code indicates that the request was filtered according to a policy imposed by the operator of the local network (where local network is a relative term, e.g., it may refer to a Local Area Network or to the network of the ISP selected by the end user).
 
   * Applicability: Blocked
 
@@ -576,8 +567,8 @@ Future extensions MUST NOT introduce mandatory JSON attributes, as existing impl
 
 ## Authentication and Confidentiality
 
-Security considerations in {{Section 6 of !RFC8914}} apply to this
-document. {{!RFC8914}} cautions against relying on EDE information because it may be unauthenticated and transmitted in cleartext. This specification assumes the use of encrypted DNS transports and recommends authenticated connections to the DNS server. Under these conditions, EDE information is integrity-protected, reducing the risks associated with relying on structured EDE content.
+Security considerations in {{Section 6 of !RFC8914}} apply to this 
+document. {{!RFC8914}} cautions against relying on EDE information because it may be unauthenticated and transmitted in cleartext. This specification assumes the use of authenticated, integrity-protected DNS transports (e.g., DNS-over-TLS, DNS-over-HTTPS, or DNS-over-QUIC). Such transports MUST be based on TLS 1.3 {{!RFC8446}} or later.  Under these conditions, EDE information is integrity-protected, reducing the risks associated with relying on structured EDE content.
 
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
@@ -585,8 +576,8 @@ client validates the response as described in {{client-processing}}.
 ## Restrictions on Display of "c", "o", and "j" Fields
 
 A client might choose to display the information in the "c" field
-to the end-user if and only if the encrypted resolver has sufficient
-reputation, according to some client security policy (e.g., user configuration,
+to the end user if and only if the encrypted resolver has sufficient
+reputation, according to some client security policy (e.g., 
 administrative configuration, or a built-in list of respectable
 resolvers). This limits the ability of a malicious encrypted resolver
 to cause harm. For example, an end user can use the details in the "c" field to contact an attacker
@@ -597,25 +588,27 @@ If the client decides not to display all of the
 information in the EXTRA-TEXT field, it can be logged for diagnostics
 purpose and the client can only display the resolver hostname that
 blocked the domain, error description for the EDE code and the
-sub-error description for the "s" field to the end-user.
+sub-error description for the "s" field to the end user.
 
 The same client security policy considerations apply to the display of the "j" field, as it
-contains free-form, human-readable text that may influence end-user behavior.
+contains free-form, human-readable text that may influence end user behavior.
 
 When displaying the free-form text of "o", the client MUST
 NOT make any of those elements into actionable (clickable) links and these
 fields need to be rendered as text, not as HTML. The contact details of "c" can be made
-into clickable links to provide a convenient way for users to initiate, e.g., voice calls. The client might
+into clickable links to provide a convenient way for end users to initiate, e.g., voice calls. The client might
 choose to display the contact details only when the identity of the DNS server is verified.
 
-Further, clients MUST NOT display the value of the `"o"` field to the end-user unless one of the following
+The contact details of "c"Clients MUST NOT automatically initiate connections to URIs derived from the EXTRA-TEXT field. Doing so could allow a resolver to silently report client activity to third parties, enable denial-of-service reflection attacks, or be used to frame a client. The restriction of Contact URI schemes to "sips", "tel", and "mailto" is intentional, as these schemes do not result in automatic HTTP connections.
+
+Further, clients MUST NOT display the value of the `"o"` field to the end user unless one of the following
 conditions is met:
 
   * The value matches a registered organization name listed in the {{IANA-Enterprise}} OR
   * The value consists solely of an organization name and does not contain any additional free-form content such
-    as instructions, URLs, or messaging intended to influence end-user behavior, as determined by client security policy or heuristics.
+    as instructions, URLs, or messaging intended to influence end user behavior, as determined by client security policy or heuristics.
 
-If the organization name cannot be verified through registry checks or heuristics, the client MUST NOT display the "o" field to the end-user.
+If the organization name cannot be verified through registry checks or heuristics, the client MUST NOT display the "o" field to the end user.
 
 DNS clients MAY keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data MUST NOT be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.
 
@@ -796,7 +789,7 @@ Harold, Mukund Sivaraman, Gianpaolo Angelo Scalone, Mark Nottingham, Stephane Bo
 
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
 
-Thanks Di Ma and Matt Brown for the DNS directorate reviews, and Joseph Salowey for the Security directorate review.
+Thanks Petr Špaček, Di Ma and Matt Brown for the DNS directorate reviews, and Joseph Salowey for the Security directorate review.
 
 Thanks Paul Kyzivat for the Art review.
 
