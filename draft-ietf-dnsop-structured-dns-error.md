@@ -171,7 +171,7 @@ browser) to
 determine how, or whether, structured error information is used, displayed,
 or acted upon.
 
-SDE (Structured DNS Error): An EDNS(0) option indicating support for structured encoding of the EXTRA-TEXT field.
+Structured DNS Error (SDE) is an EDNS(0) option indicating support for structured encoding of the EXTRA-TEXT field.
 
 # DNS Filtering Techniques and Their Limitations {#existing-techniques}
 
