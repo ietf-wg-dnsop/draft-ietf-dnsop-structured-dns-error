@@ -785,7 +785,7 @@ At IETF#116, Gianpaolo Scalone (Vodafone) and Ralf Weber (Akamai) presented an i
 
 Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
 Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, Bob
-Harold, Mukund Sivaraman, Gianpaolo Angelo Scalone, Mark Nottingham, Stephane Bortzmeyer, and Daniel Migault for the comments.
+Harold, Mukund Sivaraman, Gianpaolo Angelo Scalone, Mark Nottingham, Stephane Bortzmeyer, Daniel Migault, and Stephen Farrell for the comments.
 
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
 
