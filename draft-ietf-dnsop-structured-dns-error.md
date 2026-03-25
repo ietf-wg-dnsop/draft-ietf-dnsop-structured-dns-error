@@ -599,7 +599,7 @@ fields need to be rendered as text, not as HTML. The contact details of "c" can 
 into clickable links to provide a convenient way for end users to initiate, e.g., voice calls. The client might
 choose to display the contact details only when the identity of the DNS server is verified.
 
-The contact details of "c"Clients MUST NOT automatically initiate connections to URIs derived from the EXTRA-TEXT field. Doing so could allow a resolver to silently report client activity to third parties, enable denial-of-service reflection attacks, or be used to frame a client. The restriction of Contact URI schemes to "sips", "tel", and "mailto" is intentional, as these schemes do not result in automatic HTTP connections.
+Clients MUST NOT automatically initiate connections to URIs derived from the EXTRA-TEXT field. Doing so could allow a resolver to silently report client activity to third parties, enable denial-of-service reflection attacks, or be used to frame a client. The restriction of Contact URI schemes to "sips", "tel", and "mailto" is intentional, as these schemes do not result in automatic HTTP connections.
 
 Further, clients MUST NOT display the value of the `"o"` field to the end user unless one of the following
 conditions is met:
