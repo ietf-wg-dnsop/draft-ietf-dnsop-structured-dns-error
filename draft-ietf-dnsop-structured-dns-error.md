@@ -246,15 +246,15 @@ domain based on the content category such as "Malware" to protect the
 endpoint from malicious software, "Phishing" to prevent the end user from
 revealing sensitive information to the attacker, etc. A end user may need to
 know the contact details of the IT/InfoSec team to raise a complaint.
-Further, the information conveyed by {{!RFC8914}} is intended for 
-diagnostic purposes and is not structured for automated processing, 
-localization, or extensibility. This document defines a structured, 
-machine-readable format for conveying such details in the EXTRA-TEXT 
-field, enabling clients to process the information programmatically 
-and present it to end users (e.g., with localization support), while 
-allowing for extensibility and more granular, client security 
-policy-driven handling of the information. This specification requires 
-that clients only act upon such information when it is received 
+Further, the information conveyed by {{!RFC8914}} is intended for
+diagnostic purposes and is not structured for automated processing,
+localization, or extensibility. This document defines a structured,
+machine-readable format for conveying such details in the EXTRA-TEXT
+field, enabling clients to process the information programmatically
+and present it to end users (e.g., with localization support), while
+allowing for extensibility and more granular, client security
+policy-driven handling of the information. This specification requires
+that clients only act upon such information when it is received
 over an integrity-protected DNS response.
 
 # I-JSON in EXTRA-TEXT Field {#name-spec}
@@ -431,10 +431,10 @@ field:
    ignored. Remaining Contact URIs using registered schemes can be
    processed.
 
-8. If the identity of the DNS server cannot be verified (e.g., when 
+8. If the identity of the DNS server cannot be verified (e.g., when
    using opportunistic privacy such as {{Section 5 of !RFC8310}} or opportunistic discovery {{?RFC9462}}), the DNS client MUST ignore the "c", "j", and "o" fields, as these fields may influence end user behavior and are vulnerable to active attacks in the absence of resolver authentication. If the DNS response was received over an encrypted connection without server authentication, the client MAY process the "s" field and other parts of the response, as the "s" field is a registry-defined, enumerated value and does not contain free-form text.
 
-9. If the DNS client uses an authenticated connection to the DNS server (e.g., when 
+9. If the DNS client uses an authenticated connection to the DNS server (e.g., when
    using a strict privacy profile for DNS-over-TLS {{Section 5 of !RFC8310}} or an authenticated DNS-over-HTTPS or DNS-over-QUIC connection), this mitigates both passive eavesdropping and client redirection (at the expense of providing no DNS service if such a connection is not available). In such cases, the DNS client MAY process the EXTRA-TEXT field of the DNS response.
 
 10. The DNS client MUST ignore any other JSON names that it does not support.
@@ -567,7 +567,7 @@ Future extensions MUST NOT introduce mandatory JSON attributes, as existing impl
 
 ## Authentication and Confidentiality
 
-Security considerations in {{Section 6 of !RFC8914}} apply to this 
+Security considerations in {{Section 6 of !RFC8914}} apply to this
 document. {{!RFC8914}} cautions against relying on EDE information because it may be unauthenticated and transmitted in cleartext. This specification assumes the use of authenticated, integrity-protected DNS transports (e.g., DNS-over-TLS, DNS-over-HTTPS, or DNS-over-QUIC). Such transports MUST be based on TLS 1.3 {{!RFC8446}} or later.  Under these conditions, EDE information is integrity-protected, reducing the risks associated with relying on structured EDE content.
 
 To minimize impact of active on-path attacks on the DNS channel, the
@@ -577,7 +577,7 @@ client validates the response as described in {{client-processing}}.
 
 A client might choose to display the information in the "c" field
 to the end user if and only if the encrypted resolver has sufficient
-reputation, according to some client security policy (e.g., 
+reputation, according to some client security policy (e.g.,
 administrative configuration, or a built-in list of respectable
 resolvers). This limits the ability of a malicious encrypted resolver
 to cause harm. For example, an end user can use the details in the "c" field to contact an attacker
