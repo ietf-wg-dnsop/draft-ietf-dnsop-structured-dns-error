@@ -435,7 +435,7 @@ field:
    using opportunistic privacy such as {{Section 5 of !RFC8310}} or opportunistic discovery {{?RFC9462}}), the DNS client MUST ignore the "c", "j", and "o" fields, as these fields may influence end user behavior and are vulnerable to active attacks in the absence of resolver authentication. If the DNS response was received over an encrypted connection without server authentication, the client MAY process the "s" field and other parts of the response, as the "s" field is a registry-defined, enumerated value and does not contain free-form text.
 
 9. If the DNS client uses an authenticated connection to the DNS server (e.g., when
-   using a strict privacy profile for DNS-over-TLS {{Section 5 of !RFC8310}} or an authenticated DNS-over-HTTPS or DNS-over-QUIC connection), this mitigates both passive eavesdropping and client redirection (at the expense of providing no DNS service if such a connection is not available). In such cases, the DNS client MAY process the EXTRA-TEXT field of the DNS response.
+   using a strict privacy profile for DNS-over-TLS ({{Section 5 of !RFC8310}}) or an authenticated DNS-over-HTTPS or DNS-over-QUIC connection), this mitigates both passive eavesdropping and client redirection (at the expense of providing no DNS service if such a connection is not available). In such cases, the DNS client MAY process the EXTRA-TEXT field of the DNS response.
 
 10. The DNS client MUST ignore any other JSON names that it does not support.
 
