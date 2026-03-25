@@ -535,8 +535,8 @@ Table of Contents
 
    9.   If the DNS client uses an authenticated connection to the DNS
         server (e.g., when using a strict privacy profile for DNS-over-
-        TLS Section 5 of [RFC8310] or an authenticated DNS-over-HTTPS or
-        DNS-over-QUIC connection), this mitigates both passive
+        TLS (Section 5 of [RFC8310]) or an authenticated DNS-over-HTTPS
+        or DNS-over-QUIC connection), this mitigates both passive
         eavesdropping and client redirection (at the expense of
         providing no DNS service if such a connection is not available).
         In such cases, the DNS client MAY process the EXTRA-TEXT field
