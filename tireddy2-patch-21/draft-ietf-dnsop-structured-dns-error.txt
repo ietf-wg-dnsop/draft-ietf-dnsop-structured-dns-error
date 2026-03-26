@@ -499,10 +499,9 @@ Table of Contents
        MAY instead process the EXTRA-TEXT field as unstructured text as
        specified in [RFC8914].
 
-   3.  The DNS response MUST also contain an extended error code of
-       "Blocked by Upstream DNS Server", "Blocked", "Censored" or
-       "Filtered" [RFC8914], otherwise the EXTRA-TEXT field is
-       discarded.
+   3.  The DNS response MUST also contain an EDE code of "Blocked by
+       Upstream DNS Server", "Blocked", "Censored", or "Filtered"
+       [RFC8914], otherwise the EXTRA-TEXT field is discarded.
 
    4.  If the JSON object contains an "s" field and the sub-error code
        is not defined as applicable to the accompanying Extended DNS

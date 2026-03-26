@@ -1686,8 +1686,8 @@ client security policy evaluation purposes.<a href="#section-5.3-2.1.1" class="p
 EXTRA-TEXT field. DNS clients <span class="bcp14">SHOULD</span> handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client <span class="bcp14">MUST</span> treat the data as invalid, <span class="bcp14">MUST NOT</span> process it according to this specification. The client <span class="bcp14">MAY</span> instead process the EXTRA-TEXT field as unstructured text as specified in <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>.<a href="#section-5.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.3-2.3">
-            <p id="section-5.3-2.3.1">The DNS response <span class="bcp14">MUST</span> also contain an extended error code of
-"Blocked by Upstream DNS Server", "Blocked", "Censored" or "Filtered" <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>,
+            <p id="section-5.3-2.3.1">The DNS response <span class="bcp14">MUST</span> also contain an EDE code of
+"Blocked by Upstream DNS Server", "Blocked", "Censored", or "Filtered" <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>,
 otherwise the EXTRA-TEXT field is discarded.<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.3-2.4">
