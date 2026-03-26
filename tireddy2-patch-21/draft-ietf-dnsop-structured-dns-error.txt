@@ -436,16 +436,16 @@ Table of Contents
    the DNS server.
 
    If the query contained the SDE EDNS option (Section 5.1), and the DNS
-   server returns an Extended DNS Error code of "Blocked", "Filtered",
-   "Censored", or "Blocked by Upstream DNS Server", the DNS server
-   SHOULD include additional detail in the EXTRA-TEXT field encoded as
-   structured and machine-readable data in accordance with this
-   specification, unless configured otherwise.  If including the
-   additional detail would cause the response to exceed the EDNS0 size
-   [RFC9715] (and thus setting TC=1), it SHOULD be omitted.  In
-   deployments using DNS-over-TLS, DNS-over-HTTPS, or DNS-over-QUIC,
-   transport size limitations are unlikely to necessitate omission of
-   structured data in the EXTRA-TEXT field.
+   server returns an EDE code of "Blocked", "Filtered", "Censored", or
+   "Blocked by Upstream DNS Server", the DNS server SHOULD include
+   additional detail in the EXTRA-TEXT field encoded as structured and
+   machine-readable data in accordance with the present specification,
+   unless configured otherwise.  If including the additional detail
+   would cause the response to exceed the EDNS0 size [RFC9715] (and thus
+   setting TC=1), it SHOULD be omitted.  In deployments using DNS-over-
+   TLS, DNS-over-HTTPS, or DNS-over-QUIC, transport size limitations are
+   unlikely to necessitate omission of structured data in the EXTRA-TEXT
+   field.
 
    If the SDE option was not present in the DNS request, the DNS server
    MUST process the request in accordance with [RFC8914] and MUST NOT
