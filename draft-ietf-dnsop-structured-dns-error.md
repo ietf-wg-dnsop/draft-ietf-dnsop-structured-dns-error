@@ -399,7 +399,7 @@ field:
    EXTRA-TEXT field. DNS clients SHOULD handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client MUST treat the data as invalid, MUST NOT process it according to this specification. The client MAY instead process the EXTRA-TEXT field as unstructured text as specified in {{!RFC8914}}.
 
 3. The DNS response MUST also contain an EDE code of
-   "Blocked by Upstream DNS Server", "Blocked", "Censored" or "Filtered" {{!RFC8914}},
+   "Blocked by Upstream DNS Server", "Blocked", "Censored", or "Filtered" {{!RFC8914}},
    otherwise the EXTRA-TEXT field is discarded.
 
 4. If the JSON object contains an "s" field and the sub-error code
