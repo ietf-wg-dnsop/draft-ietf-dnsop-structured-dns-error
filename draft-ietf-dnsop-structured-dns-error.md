@@ -354,11 +354,7 @@ query (e.g., A or AAAA resource record query), the DNS response MAY contain an e
 ideally) forged response, as desired by the DNS
 server.
 
-If the query contained the SDE EDNS option ({{client-request}}), and the
-DNS server returns an EDE indicating blocking or modification of the response,
-the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded
-as structured and machine-readable data, unless configured otherwise.  If including the additional detail
-would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), it SHOULD be omitted.
+If the query contained the SDE EDNS option ({{client-request}}), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If including the additional detail would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), it SHOULD be omitted. In deployments using DNS-over-TLS, DNS-over-HTTPS, or DNS-over-QUIC, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.
 
 If the SDE option was not present in the DNS request, the DNS server MUST process the request in accordance with {{!RFC8914}} and MUST NOT assume that the client supports this specification. This preserves compatibility with clients and servers that implement {{!RFC8914}} but do not support this specification.
 
@@ -399,45 +395,35 @@ field:
    originate from the resolver. The data MAY be retained for diagnostic or
    client security policy evaluation purposes.
 
-2. Servers which don't support this specification might use plain text
-   in the EXTRA-TEXT field. DNS clients SHOULD properly handle
-   both plaintext and JSON text in the EXTRA-TEXT field. The DNS client verifies that
-   the field contains valid JSON. If not, the DNS client MUST consider
-   the server does not support this specification and stop processing
-   the rest of the actions defined in this section, but may instead choose
-   to treat EXTRA-TEXT as per {{!RFC8914}}.
+2. Servers that do not support this specification might use plain text in the
+   EXTRA-TEXT field. DNS clients SHOULD handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client MUST treat the data as invalid, MUST NOT process it according to this specification. The client MAY instead process the EXTRA-TEXT field as unstructured text as specified in {{!RFC8914}}.
 
-3. The EXTRA-TEXT field MUST be an I-JSON message {{!RFC7493}}. If the client fails
-   to parse the field as valid JSON, it MUST treat the data as invalid and
-   MUST NOT process it according to this specification.  The client MAY process
-   the EXTRA-TEXT field as unstructured text as specified in {{!RFC8914}}.
-
-4. The DNS response MUST also contain an extended error code of
-   "Blocked by Upstream DNS Server", "Blocked", "Censored" or "Filtered" {{!RFC8914}},
+3. The DNS response MUST also contain an EDE code of
+   "Blocked by Upstream DNS Server", "Blocked", "Censored", or "Filtered" {{!RFC8914}},
    otherwise the EXTRA-TEXT field is discarded.
 
-5. If the JSON object contains an "s" field and the sub-error code
+4. If the JSON object contains an "s" field and the sub-error code
    is not defined as applicable to the accompanying Extended DNS Error
    (EDE) code, the client MUST ignore the value of the "s" field
    and continue processing the remaining fields in accordance with this
    specification.
 
-6. If the EXTRA-TEXT field does not contain at least one of the JSON
+5. If the EXTRA-TEXT field does not contain at least one of the JSON
    names "c", "j", or "s", or if all of the fields that are present have
    empty values, the entire JSON object MUST be discarded.
 
-7. If the JSON object contains a "c" field any of its Contact URIs
+6. If the JSON object contains a "c" field any of its Contact URIs
    with schemes not registered in the {{IANA-Contact}} registry are
    ignored. Remaining Contact URIs using registered schemes can be
    processed.
 
-8. If the identity of the DNS server cannot be verified (e.g., when
+7. If the identity of the DNS server cannot be verified (e.g., when
    using opportunistic privacy such as {{Section 5 of !RFC8310}} or opportunistic discovery {{?RFC9462}}), the DNS client MUST ignore the "c", "j", and "o" fields, as these fields may influence end user behavior and are vulnerable to active attacks in the absence of resolver authentication. If the DNS response was received over an encrypted connection without server authentication, the client MAY process the "s" field and other parts of the response, as the "s" field is a registry-defined, enumerated value and does not contain free-form text.
 
-9. If the DNS client uses an authenticated connection to the DNS server (e.g., when
+8. If the DNS client uses an authenticated connection to the DNS server (e.g., when
    using a strict privacy profile for DNS-over-TLS ({{Section 5 of !RFC8310}}) or an authenticated DNS-over-HTTPS or DNS-over-QUIC connection), this mitigates both passive eavesdropping and client redirection (at the expense of providing no DNS service if such a connection is not available). In such cases, the DNS client MAY process the EXTRA-TEXT field of the DNS response.
 
-10. The DNS client MUST ignore any other JSON names that it does not support.
+9. The DNS client MUST ignore any other JSON names that it does not support.
 
 > Note that the strict and opportunistic privacy profiles as defined in {{!RFC8310}} only apply to DoT; there has been
 no such distinction made for DoH.
