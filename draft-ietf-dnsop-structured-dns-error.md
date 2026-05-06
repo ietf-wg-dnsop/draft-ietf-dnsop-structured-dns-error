@@ -629,7 +629,7 @@ explicitly configured DNS servers or utilize RESINFO
 
 The EXTRA-TEXT field may reveal details about the filtering organization and its policies. Clients MUST NOT log or transmit the contents of the EXTRA-TEXT field to third parties without the end user's knowledge.
 
-This specification requires the use of encrypted DNS transports (DoT, DoH, or DoQ), which protects both the DNS query and the structured error response from passive observers.
+This specification requires the use of an encrypted DNS transport (e.g., DoT, DoH, or DoQ), which protects both the DNS query and the structured error response from passive observers.
 
 # IANA Considerations {#IANA}
 
@@ -670,21 +670,19 @@ Field Meaning:
 Short description:
 : Includes a short description of the requested JSON name.
 
-Mandatory (Y/N?):
-: Indicates whether this attribute is mandatory or optional.
 
 Specification:
 : Provides a pointer to the reference document that specifies the attribute.
 
 The registry is initially populated with the following values:
 
-| JSON Name | Field Meaning  | Description                      | Mandatory | Specification |
-|:---------:|:---------------|:---------------------------------|:---------:|:------------------:|
-| c | contact| The contact details of the IT/InfoSec team to report misclassified DNS filtering | N | {{name-spec}} of RFCXXXX |
-| j | justification | UTF-8-encoded {{!RFC5198}} textual justification for a particular DNS filtering | N | {{name-spec}} of RFCXXXX |
-| s | sub-error | Integer representing the sub-error code for this DNS filtering case | N | {{name-spec}} of RFCXXXX |
-| o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query | N | {{name-spec}} of RFCXXXX |
-| l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} | N | {{name-spec}} of RFCXXXX |
+| JSON Name | Field Meaning  | Description                      |  Specification |
+|:---------:|:---------------|:---------------------------------|:------------------:|
+| c | contact| The contact details of the IT/InfoSec team to report misclassified DNS filtering | {{name-spec}} of RFCXXXX |
+| j | justification | UTF-8-encoded {{!RFC5198}} textual justification for a particular DNS filtering | {{name-spec}} of RFCXXXX |
+| s | sub-error | Integer representing the sub-error code for this DNS filtering case | {{name-spec}} of RFCXXXX |
+| o | organization | UTF-8-encoded human-friendly name of the organization that filtered this particular DNS query | {{name-spec}} of RFCXXXX |
+| l | language     | Indicates the language of the "j" and "o" fields as defined in {{!RFC5646}} | {{name-spec}} of RFCXXXX |
 {: #reg-names title='Initial JSON Names Registry'}
 
 New JSON names are registered via IETF Review ({{Section 4.8 of !RFC8126}}) and their formatting
