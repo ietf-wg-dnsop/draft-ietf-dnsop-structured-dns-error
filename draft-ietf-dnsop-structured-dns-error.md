@@ -200,7 +200,7 @@ certificate.
      ensures the integrity and authenticity of DNS responses, preventing forged DNS
      responses from being accepted.
 
-   * The HTTPS server hosted on the network security device will have access to the   
+   * The HTTPS server hosted on the network security device will have access to the
      client's IP address, the hostname, and the URL path component of the request. This information will be sensitive, as it will expose the end user's identity and the specific resource that an end user attempted to access.
 
    * Configuring a local root certificate on endpoints is
@@ -547,7 +547,7 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 1232
-; OPT=TBD (Structured DNS Error): (no data)
+; OPT=TBD1 (Structured DNS Error): (no data)
 ; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567",\
   "sips:bob@bobphone.example.com"],"j":"malware present for 23 days",\
   "s":1,"o":"example.net Filtering Service","l":"en"})
@@ -635,7 +635,7 @@ This specification requires the use of an encrypted DNS transport (e.g., DoT, Do
 
 This document requests five IANA actions as described in the following subsections.
 
-> Note to the RFC Editor: Please replace RFCXXXX with the RFC number assigned to this document and "TBA1" with the value assigned by IANA.
+> Notes to the RFC Editor: Please replace RFCXXXX with the RFC number assigned to this document and "TBA1" with the value assigned by IANA, and replace "TBD1" in {{example-dig}} with the value assigned by IANA.
 
 ## Structured DNS Error EDNS Option
 
