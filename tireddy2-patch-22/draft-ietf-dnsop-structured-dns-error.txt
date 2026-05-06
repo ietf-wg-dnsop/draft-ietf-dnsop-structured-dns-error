@@ -788,9 +788,9 @@ Table of Contents
    contents of the EXTRA-TEXT field to third parties without the end
    user's knowledge.
 
-   This specification requires the use of encrypted DNS transports (DoT,
-   DoH, or DoQ), which protects both the DNS query and the structured
-   error response from passive observers.
+   This specification requires the use of an encrypted DNS transport
+   (e.g., DoT, DoH, or DoQ), which protects both the DNS query and the
+   structured error response from passive observers.
 
 10.  IANA Considerations
 
@@ -833,55 +833,40 @@ Table of Contents
    Short description:  Includes a short description of the requested
       JSON name.
 
-   Mandatory (Y/N?):  Indicates whether this attribute is mandatory or
-      optional.
-
    Specification:  Provides a pointer to the reference document that
       specifies the attribute.
 
    The registry is initially populated with the following values:
 
-   +====+===============+==================+===========+===============+
-   |JSON| Field Meaning | Description      | Mandatory | Specification |
-   |Name|               |                  |           |               |
-   +====+===============+==================+===========+===============+
-   | c  | contact       | The contact      |     N     |  Section 4 of |
-   |    |               | details of the   |           |    RFCXXXX    |
-   |    |               | IT/InfoSec team  |           |               |
-   |    |               | to report        |           |               |
-   |    |               | misclassified    |           |               |
-   |    |               | DNS filtering    |           |               |
-   +----+---------------+------------------+-----------+---------------+
-   | j  | justification | UTF-8-encoded    |     N     |  Section 4 of |
-   |    |               | [RFC5198]        |           |    RFCXXXX    |
-   |    |               | textual          |           |               |
-   |    |               | justification    |           |               |
-   |    |               | for a            |           |               |
-   |    |               | particular DNS   |           |               |
-   |    |               | filtering        |           |               |
-   +----+---------------+------------------+-----------+---------------+
-   | s  | sub-error     | Integer          |     N     |  Section 4 of |
-   |    |               | representing     |           |    RFCXXXX    |
-   |    |               | the sub-error    |           |               |
-   |    |               | code for this    |           |               |
-   |    |               | DNS filtering    |           |               |
-   |    |               | case             |           |               |
-   +----+---------------+------------------+-----------+---------------+
-   | o  | organization  | UTF-8-encoded    |     N     |  Section 4 of |
-   |    |               | human-friendly   |           |    RFCXXXX    |
-   |    |               | name of the      |           |               |
-   |    |               | organization     |           |               |
-   |    |               | that filtered    |           |               |
-   |    |               | this particular  |           |               |
-   |    |               | DNS query        |           |               |
-   +----+---------------+------------------+-----------+---------------+
-   | l  | language      | Indicates the    |     N     |  Section 4 of |
-   |    |               | language of the  |           |    RFCXXXX    |
-   |    |               | "j" and "o"      |           |               |
-   |    |               | fields as        |           |               |
-   |    |               | defined in       |           |               |
-   |    |               | [RFC5646]        |           |               |
-   +----+---------------+------------------+-----------+---------------+
+   +======+===============+============================+===============+
+   | JSON | Field Meaning | Description                | Specification |
+   | Name |               |                            |               |
+   +======+===============+============================+===============+
+   |  c   | contact       | The contact details of     |  Section 4 of |
+   |      |               | the IT/InfoSec team to     |    RFCXXXX    |
+   |      |               | report misclassified       |               |
+   |      |               | DNS filtering              |               |
+   +------+---------------+----------------------------+---------------+
+   |  j   | justification | UTF-8-encoded [RFC5198]    |  Section 4 of |
+   |      |               | textual justification      |    RFCXXXX    |
+   |      |               | for a particular DNS       |               |
+   |      |               | filtering                  |               |
+   +------+---------------+----------------------------+---------------+
+   |  s   | sub-error     | Integer representing       |  Section 4 of |
+   |      |               | the sub-error code for     |    RFCXXXX    |
+   |      |               | this DNS filtering case    |               |
+   +------+---------------+----------------------------+---------------+
+   |  o   | organization  | UTF-8-encoded human-       |  Section 4 of |
+   |      |               | friendly name of the       |    RFCXXXX    |
+   |      |               | organization that          |               |
+   |      |               | filtered this              |               |
+   |      |               | particular DNS query       |               |
+   +------+---------------+----------------------------+---------------+
+   |  l   | language      | Indicates the language     |  Section 4 of |
+   |      |               | of the "j" and "o"         |    RFCXXXX    |
+   |      |               | fields as defined in       |               |
+   |      |               | [RFC5646]                  |               |
+   +------+---------------+----------------------------+---------------+
 
                     Table 1: Initial JSON Names Registry
 
