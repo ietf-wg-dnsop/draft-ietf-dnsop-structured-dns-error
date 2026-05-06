@@ -200,8 +200,7 @@ certificate.
      ensures the integrity and authenticity of DNS responses, preventing forged DNS
      responses from being accepted.
 
-   * The HTTPS server hosted on the network security device will have access to the client's IP address and the
-     hostname being requested. This information will be sensitive, as it will expose the end user's identity and the
+   * The HTTPS server hosted on the network security device will have access to the client's IP address, the hostname, and the URL path component of the request. This information will be sensitive, as it will expose the end user's identity and the
      domain name that an end user attempted to access.
 
    * Configuring a local root certificate on endpoints is
