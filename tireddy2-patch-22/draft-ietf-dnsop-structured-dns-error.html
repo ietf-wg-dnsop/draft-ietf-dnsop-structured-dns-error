@@ -1411,8 +1411,8 @@ ensures the integrity and authenticity of DNS responses, preventing forged DNS
 responses from being accepted.<a href="#section-3-2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3-2.1.2.2">
-              <p id="section-3-2.1.2.2.1">The HTTPS server hosted on the network security device will have access to the client's IP address, the hostname, and the URL path component of the request. This information will be sensitive, as it will expose the end user's identity and the
-domain name that an end user attempted to access.<a href="#section-3-2.1.2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-3-2.1.2.2.1">The HTTPS server hosted on the network security device will have access to the
+client's IP address, the hostname, and the URL path component of the request. This information will be sensitive, as it will expose the end user's identity and the specific resource that an end user attempted to access.<a href="#section-3-2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3-2.1.2.3">
               <p id="section-3-2.1.2.3.1">Configuring a local root certificate on endpoints is
@@ -1909,7 +1909,7 @@ whitespace, no blank lines) with <code>'\'</code> line wrapping per <span>[<a hr
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 1232
-; OPT=TBD (Structured DNS Error): (no data)
+; OPT=TBD1 (Structured DNS Error): (no data)
 ; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567",\
   "sips:bob@bobphone.example.com"],"j":"malware present for 23 days",\
   "s":1,"o":"example.net Filtering Service","l":"en"})
@@ -2023,7 +2023,7 @@ explicitly configured DNS servers or utilize RESINFO
 <p id="section-10-1">This document requests five IANA actions as described in the following subsections.<a href="#section-10-1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-10-2.1">
-          <p id="section-10-2.1.1">Note to the RFC Editor: Please replace RFCXXXX with the RFC number assigned to this document and "TBA1" with the value assigned by IANA.<a href="#section-10-2.1.1" class="pilcrow">¶</a></p>
+          <p id="section-10-2.1.1">Notes to the RFC Editor: Please replace RFCXXXX with the RFC number assigned to this document and "TBA1" with the value assigned by IANA, and replace "TBD1" in <a href="#example-dig" class="auto internal xref">Figure 3</a> with the value assigned by IANA.<a href="#section-10-2.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <div id="structured-dns-error-edns-option">
