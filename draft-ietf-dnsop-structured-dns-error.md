@@ -629,7 +629,7 @@ explicitly configured DNS servers or utilize RESINFO
 
 The EXTRA-TEXT field may reveal details about the filtering organization and its policies. Clients MUST NOT log or transmit the contents of the EXTRA-TEXT field to third parties without the end user's knowledge.
 
-This specification requires the use of encrypted DNS transports (DoT, DoH, or DoQ), which protects both the DNS query and the structured error response from passive observers.
+This specification requires the use of an encrypted DNS transport (e.g., DoT, DoH, or DoQ), which protects both the DNS query and the structured error response from passive observers.
 
 # IANA Considerations {#IANA}
 
