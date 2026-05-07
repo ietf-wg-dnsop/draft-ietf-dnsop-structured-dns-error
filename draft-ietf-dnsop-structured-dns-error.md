@@ -544,7 +544,7 @@ Future extensions MUST NOT introduce mandatory JSON attributes, as existing impl
 ## Authentication and Confidentiality
 
 Security considerations in {{Section 6 of !RFC8914}} apply to this
-document. {{!RFC8914}} cautions against relying on EDE information because it may be unauthenticated and transmitted in cleartext. This specification assumes the use of authenticated, integrity-protected DNS transports (e.g., DoT, DoH, or DoC). Such transports MUST be based on TLS 1.3 {{!RFC8446}} or later.  Under these conditions, EDE information is integrity-protected, reducing the risks associated with relying on structured EDE content.
+document. {{!RFC8914}} cautions against relying on EDE information because it may be unauthenticated and transmitted in cleartext. This specification assumes the use of authenticated, integrity-protected DNS transports (e.g., DoT, DoH, or DoQ). Such transports MUST be based on TLS 1.3 {{!RFC8446}} or later.  Under these conditions, EDE information is integrity-protected, reducing the risks associated with relying on structured EDE content.
 
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
