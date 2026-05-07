@@ -526,7 +526,7 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 ~~~~~
 {: #example-dig title="dig Response Showing SDE and EDE Options"}
 
-## Operational Considerations
+# Operational Considerations
 
 When a forwarder receives an EDE option, whether or not (and how) to pass along JSON information in the
 EXTRA-TEXT field to its client is implementation-dependent {{?RFC5625}} and depends on operator policy. Implementations MAY choose not to
