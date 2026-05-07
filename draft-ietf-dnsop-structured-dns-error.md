@@ -132,6 +132,8 @@ entity filtered the query, how to report a mistake in the filter, or
 why the entity filtered it at all. This document describes a mechanism
 to provide such detail.
 
+As noted in {{Section 6 of ?RFC7754}}, promptly informing the endpoint that blocking has occurred provides necessary transparency to redress any errors, particularly as they relate to collateral damage introduced by errant filters.
+
 One of the other benefits of the approach described in this document is to eliminate the need to
 "spoof" block pages for HTTPS resources. This is achieved since
 clients implementing this approach would be able to display a
@@ -185,7 +187,7 @@ points to an HTTP(S) server alerting the end user about the reason for
 blocking access to the requested domain (e.g., malware). If the host component {{?RFC3986}}
 of an HTTP URL is blocked, the network security device
 (e.g., Customer Premises Equipment (CPE) or firewall) presents a block page instead of the HTTP
-response from the content provider hosting that domain. This works succesfully with HTTP.
+response from the content provider hosting that domain. This works successfully with HTTP.
 <br/><br/>
   If this is an HTTPS URL, the network security device attempts to serve the block page over HTTPS.  In order to return a block page over HTTPS, the network security device uses a locally
 generated root certificate and corresponding key pair. The local root certificate is
@@ -198,9 +200,8 @@ certificate.
      ensures the integrity and authenticity of DNS responses, preventing forged DNS
      responses from being accepted.
 
-   * The HTTPS server hosted on the network security device will have access to the client's IP address and the
-     hostname being requested. This information will be sensitive, as it will expose the end user's identity and the
-     domain name that a end user attempted to access.
+   * The HTTPS server hosted on the network security device will have access to the
+     client's IP address, the hostname, and the URL path component of the request. This information will be sensitive, as it will expose the end user's identity and the specific resource that an end user attempted to access.
 
    * Configuring a local root certificate on endpoints is
      not a viable option in several deployments like home networks,
@@ -244,11 +245,13 @@ exact reason nor is aware of the exact entity blocking the
 access to the domain. For example, a DNS server may block access to a
 domain based on the content category such as "Malware" to protect the
 endpoint from malicious software, "Phishing" to prevent the end user from
-revealing sensitive information to the attacker, etc. A end user may need to
+revealing sensitive information to the attacker, etc. An end user may need to
 know the contact details of the IT/InfoSec team to raise a complaint.
 Further, the information conveyed by {{!RFC8914}} is intended for
 diagnostic purposes and is not structured for automated processing,
-localization, or extensibility. This document defines a structured,
+localization, or extensibility.
+
+This document defines a structured,
 machine-readable format for conveying such details in the EXTRA-TEXT
 field, enabling clients to process the information programmatically
 and present it to end users (e.g., with localization support), while
@@ -395,12 +398,12 @@ field:
    originate from the resolver. The data MAY be retained for diagnostic or
    client security policy evaluation purposes.
 
-2. Servers that do not support this specification might use plain text in the
-   EXTRA-TEXT field. DNS clients SHOULD handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client MUST treat the data as invalid, MUST NOT process it according to this specification. The client MAY instead process the EXTRA-TEXT field as unstructured text as specified in {{!RFC8914}}.
-
-3. The DNS response MUST also contain an EDE code of
+2. The DNS response MUST also contain an EDE code of
    "Blocked by Upstream DNS Server", "Blocked", "Censored", or "Filtered" {{!RFC8914}},
    otherwise the EXTRA-TEXT field is discarded.
+
+3. Servers that do not support this specification might use plain text in the
+   EXTRA-TEXT field. DNS clients SHOULD handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client MUST treat the data as invalid, MUST NOT process it according to this specification. The client MAY instead process the EXTRA-TEXT field as unstructured text as specified in {{!RFC8914}}.
 
 4. If the JSON object contains an "s" field and the sub-error code
    is not defined as applicable to the accompanying Extended DNS Error
@@ -536,7 +539,22 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 ~~~~~
 {: #example-json-minified title="Minified Response"}
 
-# Operational Considerations
+{{example-dig}} shows how the SDE and EDE options appear in a `dig` response for the same query.
+
+~~~~~
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 12345
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; OPT=TBD1 (Structured DNS Error): (no data)
+; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567",\
+  "sips:bob@bobphone.example.com"],"j":"malware present for 23 days",\
+  "s":1,"o":"example.net Filtering Service","l":"en"})
+~~~~~
+{: #example-dig title="dig Response Showing SDE and EDE Options"}
+
+
 
 When a forwarder receives an EDE option, whether or not (and how) to pass along JSON information in the
 EXTRA-TEXT field to its client is implementation-dependent {{?RFC5625}} and depends on operator policy. Implementations MAY choose not to
@@ -607,11 +625,17 @@ prevent such an attack, clients can be configured to process EDE from
 explicitly configured DNS servers or utilize RESINFO
 {{?RFC9606}}.
 
+## Privacy Considerations
+
+The EXTRA-TEXT field may reveal details about the filtering organization and its policies. Clients MUST NOT log or transmit the contents of the EXTRA-TEXT field to third parties without the end user's knowledge.
+
+This specification requires the use of an encrypted DNS transport (e.g., DoT, DoH, or DoQ), which protects both the DNS query and the structured error response from passive observers.
+
 # IANA Considerations {#IANA}
 
 This document requests five IANA actions as described in the following subsections.
 
-> Note to the RFC Editor: Please replace RFCXXXX with the RFC number assigned to this document and "TBA1" with the value assigned by IANA.
+> Notes to the RFC Editor: Please replace RFCXXXX with the RFC number assigned to this document and "TBA1" with the value assigned by IANA, and replace "TBD1" in {{example-dig}} with the value assigned by IANA.
 
 ## Structured DNS Error EDNS Option
 
@@ -646,8 +670,6 @@ Field Meaning:
 Short description:
 : Includes a short description of the requested JSON name.
 
-Mandatory (Y/N?):
-: Indicates whether this attribute is mandatory or optional.
 
 Specification:
 : Provides a pointer to the reference document that specifies the attribute.
