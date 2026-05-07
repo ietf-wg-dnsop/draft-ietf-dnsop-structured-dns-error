@@ -113,7 +113,7 @@ agency) also performed using DNS-based content filtering.
 
 End users or network administrators leveraging DNS services that perform filtering may wish to receive more
 explanatory information about such a filtering to resolve problems with the filter
--- for example to contact the DNS service administrator to allowlist a DNS domain that
+-- for example, to contact the DNS service administrator to allowlist a DNS domain that
 was erroneously filtered or to understand the reason a particular
 domain was filtered. With that information, they can choose
 to use another network, open a trouble ticket with the DNS service administrator to
@@ -142,7 +142,7 @@ block page. This approach thus avoids the need to install a local root
 certificate authority on those IT-managed devices.
 
 This document describes a format for machine-readable data in the
-EXTRA-TEXT field of {{!RFC8914}}. It updates {{Section 2 of !RFC8914}} which
+EXTRA-TEXT field of {{!RFC8914}}. The document updates {{Section 2 of !RFC8914}} which
 says the information in EXTRA-TEXT field is intended for human
 consumption (not automated parsing).
 
@@ -159,13 +159,13 @@ queries are filtered.
 This document uses terms defined in DNS Terminology {{!RFC9499}}.
 
 "Encrypted DNS" refers to any encrypted scheme to convey DNS messages,
-for example, DNS-over-HTTPS {{?RFC8484}}, DNS-over-TLS {{?RFC7858}}, or
-DNS-over-QUIC {{?RFC9250}}.
+for example, DNS over HTTPS (DoH) {{?RFC8484}}, DNS over TLS (DoT) {{?RFC7858}}, or
+DNS over QUIC (DoQ) {{?RFC9250}}.
 
 The document refers to an Extended DNS Error (EDE) using its purpose, not its
 INFO-CODE as per Table 3 of {{!RFC8914}}. "Forged Answer",
 "Blocked", "Censored", and "Filtered" are thus used to refer to "Forged Answer (4)",
-"Blocked (15)", "Censored (16)",and "Filtered (17)".
+"Blocked (15)", "Censored (16)", and "Filtered (17)".
 
 In this document, "client security policy evaluation" refers to implementation-defined
 decision-making performed by the DNS client or consuming application (e.g., web
@@ -173,7 +173,7 @@ browser) to
 determine how, or whether, structured error information is used, displayed,
 or acted upon.
 
-Structured DNS Error (SDE) is an EDNS(0) option indicating support for structured encoding of the EXTRA-TEXT field.
+Structured DNS Error (SDE) is an EDNS(0) option indicating support for structured encoding of the EXTRA-TEXT field. See also {{SDE}}.
 
 # DNS Filtering Techniques and Their Limitations {#existing-techniques}
 
@@ -182,7 +182,7 @@ DNS responses can be filtered by sending, e.g., a bogus (also called
 Extended DNS Error code defined in {{!RFC8914}}. Each of these
 methods have advantages and disadvantages that are discussed below:
 
-1. The DNS response is forged to provide a list of IP addresses that
+* The DNS response is forged to provide a list of IP addresses that
 points to an HTTP(S) server alerting the end user about the reason for
 blocking access to the requested domain (e.g., malware). If the host component {{?RFC3986}}
 of an HTTP URL is blocked, the network security device
@@ -234,9 +234,9 @@ certificate.
      certificate expires, the end user has to (again) manually install the
      new local root certificate.
 
-2. The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the end user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.
+* The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the end user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.
 
-3. The extended error codes Blocked and Filtered defined in
+* The extended error codes Blocked and Filtered defined in
 {{Section 4 of !RFC8914}} can be returned by a DNS server to provide
 additional information about the cause of a DNS error.
 These extended error codes do not suffer from the limitations
@@ -332,9 +332,7 @@ and hyphen-minus (that is, Unicode characters U+0061 through 007A,
 U+0030 through U+0039, and U+002D). Also, these names MUST be 63
 characters or shorter and it is RECOMMENDED they be as short as
 possible to reduce contribution to exceeding maximum EDNS0 response
-size {{?RFC9715}}.
-
-
+size. Refer to {{?RFC9715}} for a discusson on IP fragmentation avoidance in DNS.
 
 
 # Protocol Operation
@@ -357,7 +355,7 @@ query (e.g., A or AAAA resource record query), the DNS response MAY contain an e
 ideally) forged response, as desired by the DNS
 server.
 
-If the query contained the SDE EDNS option ({{client-request}}), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If including the additional detail would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), it SHOULD be omitted. In deployments using DNS-over-TLS, DNS-over-HTTPS, or DNS-over-QUIC, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.
+If the query contained the SDE EDNS option ({{client-request}}), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If including the additional detail would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), it SHOULD be omitted. In deployments using DoT, DoH, or DoC, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.
 
 If the SDE option was not present in the DNS request, the DNS server MUST process the request in accordance with {{!RFC8914}} and MUST NOT assume that the client supports this specification. This preserves compatibility with clients and servers that implement {{!RFC8914}} but do not support this specification.
 
@@ -371,7 +369,7 @@ still ensuring reasonable flexibility for updates.
 If the query includes the SDE option as per {{client-request}}, the server MUST
 NOT return the "Forged Answer" extended error code because the client
 can take advantage of EDE's more sophisticated error reporting (e.g.,
-"Filtered", "Blocked").  Continuing to send "Forged
+"Filtered" or "Blocked").  Continuing to send "Forged
 Answer" even to an EDE-supporting client will cause the persistence of
 the drawbacks described in {{existing-techniques}}.
 
@@ -424,7 +422,7 @@ field:
    using opportunistic privacy such as {{Section 5 of !RFC8310}} or opportunistic discovery {{?RFC9462}}), the DNS client MUST ignore the "c", "j", and "o" fields, as these fields may influence end user behavior and are vulnerable to active attacks in the absence of resolver authentication. If the DNS response was received over an encrypted connection without server authentication, the client MAY process the "s" field and other parts of the response, as the "s" field is a registry-defined, enumerated value and does not contain free-form text.
 
 8. If the DNS client uses an authenticated connection to the DNS server (e.g., when
-   using a strict privacy profile for DNS-over-TLS ({{Section 5 of !RFC8310}}) or an authenticated DNS-over-HTTPS or DNS-over-QUIC connection), this mitigates both passive eavesdropping and client redirection (at the expense of providing no DNS service if such a connection is not available). In such cases, the DNS client MAY process the EXTRA-TEXT field of the DNS response.
+   using a strict privacy profile for DoT ({{Section 5 of !RFC8310}}) or an authenticated DoH or DoC connection), this mitigates both passive eavesdropping and client redirection (at the expense of providing no DNS service if such a connection is not available). In such cases, the DNS client MAY process the EXTRA-TEXT field of the DNS response.
 
 9. The DNS client MUST ignore any other JSON names that it does not support.
 
@@ -447,45 +445,19 @@ specification.
 
 # New Sub-Error Codes Definition
 
-The document defines the following new IANA-registered Sub-Error codes.
+The document defines the following new IANA-registered Sub-Error codes. See {{IANA-SubError}}.
 
 ## Reserved {#policy-reserved}
 
-  * Number: 0
-
-  * Meaning: Reserved. This sub-error code value MUST NOT be sent. If received, it has no meaning.
-
-  * Applicability: This code should never be used.
-
-  * Reference: This-Document
-
-  * Change Controller: IETF
-
+ This sub-error code value MUST NOT be sent. If received, it has no meaning.
 
 ## Network Operator Policy {#policy-network}
 
-  * Number: 5
-
-  * Meaning: Network Operator Policy. The code indicates that the request was filtered according to a policy imposed by the operator of the local network (where local network is a relative term, e.g., it may refer to a Local Area Network or to the network of the ISP selected by the end user).
-
-  * Applicability: Blocked
-
-  * Reference: This-Document
-
-  * Change Controller: IETF
-
+The code indicates that the request was filtered according to a policy imposed by the operator of the local network (where local network is a relative term, e.g., it may refer to a Local Area Network or to the network of the ISP selected by the end user).
 
 ## DNS Operator Policy {#policy-dns}
 
-  * Number: 6
-
-  * Meaning: DNS Operator Policy. The code indicates that the request was filtered according to policy determined by the operator of the DNS server. This is different from the "Network Operator Policy" code when a third-party DNS resolver is used.
-
-  * Applicability: Blocked
-
-  * Reference:  This-Document
-
-  * Change Controller: IETF
+The code indicates that the request was filtered according to policy determined by the operator of the DNS server. This is different from the "Network Operator Policy" code when a third-party DNS resolver is used.
 
 # New Extended DNS Errors
 
@@ -554,7 +526,7 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 ~~~~~
 {: #example-dig title="dig Response Showing SDE and EDE Options"}
 
-
+## Operational Considerations
 
 When a forwarder receives an EDE option, whether or not (and how) to pass along JSON information in the
 EXTRA-TEXT field to its client is implementation-dependent {{?RFC5625}} and depends on operator policy. Implementations MAY choose not to
@@ -572,7 +544,7 @@ Future extensions MUST NOT introduce mandatory JSON attributes, as existing impl
 ## Authentication and Confidentiality
 
 Security considerations in {{Section 6 of !RFC8914}} apply to this
-document. {{!RFC8914}} cautions against relying on EDE information because it may be unauthenticated and transmitted in cleartext. This specification assumes the use of authenticated, integrity-protected DNS transports (e.g., DNS-over-TLS, DNS-over-HTTPS, or DNS-over-QUIC). Such transports MUST be based on TLS 1.3 {{!RFC8446}} or later.  Under these conditions, EDE information is integrity-protected, reducing the risks associated with relying on structured EDE content.
+document. {{!RFC8914}} cautions against relying on EDE information because it may be unauthenticated and transmitted in cleartext. This specification assumes the use of authenticated, integrity-protected DNS transports (e.g., DoT, DoH, or DoC). Such transports MUST be based on TLS 1.3 {{!RFC8446}} or later.  Under these conditions, EDE information is integrity-protected, reducing the risks associated with relying on structured EDE content.
 
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
@@ -658,8 +630,7 @@ Reference:
 ##  New Registry for JSON Names {#IANA-Names}
 
 This document requests IANA to create a new registry, entitled "EXTRA-TEXT JSON Names"
-under "Extended DNS Error Codes" registry, which is under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}. The registration request for a new JSON name must include the
-following fields:
+under "Extended DNS Error Codes" registry, which is under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}. The registration request for a new JSON name must include the following fields:
 
 JSON Name:
 : Specifies the name of an attribute that is present in the JSON data enclosed in EXTRA-TEXT field. The name must follow the guidelines in {{name-spec}}.
@@ -797,11 +768,6 @@ Harold, Mukund Sivaraman, Gianpaolo Angelo Scalone, Mark Nottingham, Stephane Bo
 
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
 
-Thanks Petr Špaček, Di Ma and Matt Brown for the DNS directorate reviews, and Joseph Salowey for the Security directorate review.
-
-Thanks Paul Kyzivat for the Art review.
+Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews, Joseph Salowey for the SECDIR review, and Paul Kyzivat for the ARTART review.
 
 Thanks to Éric Vyncke for the AD review.
-
-
-
