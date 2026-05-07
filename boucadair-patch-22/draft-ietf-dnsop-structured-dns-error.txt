@@ -450,7 +450,7 @@ Table of Contents
    unless configured otherwise.  If including the additional detail
    would cause the response to exceed the EDNS0 size [RFC9715] (and thus
    setting TC=1), it SHOULD be omitted.  In deployments using DoT, DoH,
-   or DoC, transport size limitations are unlikely to necessitate
+   or DoQ, transport size limitations are unlikely to necessitate
    omission of structured data in the EXTRA-TEXT field.
 
    If the SDE option was not present in the DNS request, the DNS server
