@@ -98,22 +98,22 @@ Table of Contents
      7.1.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS
            Server
    8.  Examples
-     8.1.  Operational Considerations
-     8.2.  Backward Compatibility
-   9.  Security Considerations
-     9.1.  Authentication and Confidentiality
-     9.2.  Restrictions on Display of "c", "o", and "j" Fields
-     9.3.  Security Risks from Legacy DNS Forwarders
-     9.4.  Privacy Considerations
-   10. IANA Considerations
-     10.1.  Structured DNS Error EDNS Option
-     10.2.  New Registry for JSON Names
-     10.3.  New Registry for Contact URI Scheme
-     10.4.  New Registry for DNS Sub-Error Codes
-     10.5.  New Extended DNS Error Code
-   11. References
-     11.1.  Normative References
-     11.2.  Informative References
+   9.  Operational Considerations
+     9.1.  Backward Compatibility
+   10. Security Considerations
+     10.1.  Authentication and Confidentiality
+     10.2.  Restrictions on Display of "c", "o", and "j" Fields
+     10.3.  Security Risks from Legacy DNS Forwarders
+     10.4.  Privacy Considerations
+   11. IANA Considerations
+     11.1.  Structured DNS Error EDNS Option
+     11.2.  New Registry for JSON Names
+     11.3.  New Registry for Contact URI Scheme
+     11.4.  New Registry for DNS Sub-Error Codes
+     11.5.  New Extended DNS Error Code
+   12. References
+     12.1.  Normative References
+     12.2.  Informative References
    Appendix A.  Interoperation with RPZ Servers
    Appendix B.  Implementation Status
    Acknowledgements
@@ -335,7 +335,7 @@ Table of Contents
       separate array element in the JSON array.
 
       Contact URIs conveyed in the "c" field MUST use URI schemes
-      registered in Section 10.3.
+      registered in Section 11.3.
 
       This field is optional.
 
@@ -363,7 +363,7 @@ Table of Contents
       particular DNS filtering case.
 
       The integer values are defined in the IANA-managed registry for
-      DNS Sub-Error Codes in Section 10.4.
+      DNS Sub-Error Codes in Section 11.4.
 
       This field is optional.
 
@@ -388,7 +388,7 @@ Table of Contents
    translate it.
 
    The "o" field MAY be displayed to end users, subject to the
-   conditions described in Section 9.  If the text is in a language not
+   conditions described in Section 10.  If the text is in a language not
    understood by the end user, the "l" field can be used to identify the
    language and support translation into the end user's preferred
    language.
@@ -520,7 +520,7 @@ Table of Contents
        have empty values, the entire JSON object MUST be discarded.
 
    6.  If the JSON object contains a "c" field any of its Contact URIs
-       with schemes not registered in the Section 10.3 registry are
+       with schemes not registered in the Section 11.3 registry are
        ignored.  Remaining Contact URIs using registered schemes can be
        processed.
 
@@ -567,7 +567,7 @@ Table of Contents
 6.  New Sub-Error Codes Definition
 
    The document defines the following new IANA-registered Sub-Error
-   codes.  See Section 10.4.
+   codes.  See Section 11.4.
 
 6.1.  Reserved
 
@@ -654,7 +654,7 @@ Table of Contents
 
             Figure 3: dig Response Showing SDE and EDE Options
 
-8.1.  Operational Considerations
+9.  Operational Considerations
 
    When a forwarder receives an EDE option, whether or not (and how) to
    pass along JSON information in the EXTRA-TEXT field to its client is
@@ -669,15 +669,15 @@ Table of Contents
    all complaint calls to a single contact point).  In such cases, the
    content of the "c" attribute MAY be ignored.
 
-8.2.  Backward Compatibility
+9.1.  Backward Compatibility
 
    Future extensions MUST NOT introduce mandatory JSON attributes, as
    existing implementations are required to ignore unknown JSON names
    (see Section 5.3).
 
-9.  Security Considerations
+10.  Security Considerations
 
-9.1.  Authentication and Confidentiality
+10.1.  Authentication and Confidentiality
 
    Security considerations in Section 6 of [RFC8914] apply to this
    document.  [RFC8914] cautions against relying on EDE information
@@ -691,7 +691,7 @@ Table of Contents
    To minimize impact of active on-path attacks on the DNS channel, the
    client validates the response as described in Section 5.3.
 
-9.2.  Restrictions on Display of "c", "o", and "j" Fields
+10.2.  Restrictions on Display of "c", "o", and "j" Fields
 
    A client might choose to display the information in the "c" field to
    the end user if and only if the encrypted resolver has sufficient
@@ -749,7 +749,7 @@ Table of Contents
    NOT be automatically trusted, displayed to end users, or used to
    influence security decisions without appropriate validation.
 
-9.3.  Security Risks from Legacy DNS Forwarders
+10.3.  Security Risks from Legacy DNS Forwarders
 
    An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
    DNS proxy or DNS forwarder that is unaware of EDE.  Such a DNS proxy
@@ -757,7 +757,7 @@ Table of Contents
    To prevent such an attack, clients can be configured to process EDE
    from explicitly configured DNS servers or utilize RESINFO [RFC9606].
 
-9.4.  Privacy Considerations
+10.4.  Privacy Considerations
 
    The EXTRA-TEXT field may reveal details about the filtering
    organization and its policies.  Clients MUST NOT log or transmit the
@@ -768,7 +768,7 @@ Table of Contents
    (e.g., DoT, DoH, or DoQ), which protects both the DNS query and the
    structured error response from passive observers.
 
-10.  IANA Considerations
+11.  IANA Considerations
 
    This document requests five IANA actions as described in the
    following subsections.
@@ -778,7 +778,7 @@ Table of Contents
       assigned by IANA, and replace "TBD1" in Figure 3 with the value
       assigned by IANA.
 
-10.1.  Structured DNS Error EDNS Option
+11.1.  Structured DNS Error EDNS Option
 
    IANA is requested to register the following new EDNS(0) Option Code
    in the "DNS EDNS0 Option Codes (OPT)" registry under the "Domain Name
@@ -792,7 +792,7 @@ Table of Contents
 
    Reference:  RFC XXXX
 
-10.2.  New Registry for JSON Names
+11.2.  New Registry for JSON Names
 
    This document requests IANA to create a new registry, entitled
    "EXTRA-TEXT JSON Names" under "Extended DNS Error Codes" registry,
@@ -851,7 +851,7 @@ Table of Contents
    [RFC8126]) and their formatting constraints are described in
    Section 4.
 
-10.3.  New Registry for Contact URI Scheme
+11.3.  New Registry for Contact URI Scheme
 
    This document requests IANA to create a new registry, entitled
    "Contact URI Schemes" under "Extended DNS Error Codes" registry,
@@ -885,7 +885,7 @@ Table of Contents
    "Contact URI Schemes" registry is "IETF Review" as defined in
    Section 4.8 of [RFC8126].
 
-10.4.  New Registry for DNS Sub-Error Codes
+11.4.  New Registry for DNS Sub-Error Codes
 
    This document requests IANA to create a new registry, entitled "Sub-
    Error Codes" under "Extended DNS Error Codes" registry, which is
@@ -944,7 +944,7 @@ Table of Contents
    The registration procedure to add New Sub-Error Codes is IETF Review
    as defined in Section 4.8 of [RFC8126].
 
-10.5.  New Extended DNS Error Code
+11.5.  New Extended DNS Error Code
 
    IANA is requested to assign the following Extended DNS Error code
    from the "Extended DNS Error Codes" registry under the "Domain Name
@@ -958,9 +958,9 @@ Table of Contents
 
                        Table 4: New DNS Error Code
 
-11.  References
+12.  References
 
-11.1.  Normative References
+12.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1028,7 +1028,7 @@ Table of Contents
               RFC 9499, DOI 10.17487/RFC9499, March 2024,
               <https://www.rfc-editor.org/rfc/rfc9499>.
 
-11.2.  Informative References
+12.2.  Informative References
 
    [IANA-DNS] IANA, "Domain Name System (DNS) Parameters, Extended DNS
               Error Codes", <https://www.iana.org/assignments/dns-
