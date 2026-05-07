@@ -537,7 +537,7 @@ Table of Contents
 
    8.  If the DNS client uses an authenticated connection to the DNS
        server (e.g., when using a strict privacy profile for DoT
-       (Section 5 of [RFC8310]) or an authenticated DoH or DoC
+       (Section 5 of [RFC8310]) or an authenticated DoH or DoQ
        connection), this mitigates both passive eavesdropping and client
        redirection (at the expense of providing no DNS service if such a
        connection is not available).  In such cases, the DNS client MAY
