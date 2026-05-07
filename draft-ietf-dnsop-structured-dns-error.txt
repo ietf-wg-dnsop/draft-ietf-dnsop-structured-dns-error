@@ -98,21 +98,22 @@ Table of Contents
      7.1.  Extended DNS Error Code TBA1 - Blocked by Upstream DNS
            Server
    8.  Examples
-     8.1.  Backward Compatibility
-   9.  Security Considerations
-     9.1.  Authentication and Confidentiality
-     9.2.  Restrictions on Display of "c", "o", and "j" Fields
-     9.3.  Security Risks from Legacy DNS Forwarders
-     9.4.  Privacy Considerations
-   10. IANA Considerations
-     10.1.  Structured DNS Error EDNS Option
-     10.2.  New Registry for JSON Names
-     10.3.  New Registry for Contact URI Scheme
-     10.4.  New Registry for DNS Sub-Error Codes
-     10.5.  New Extended DNS Error Code
-   11. References
-     11.1.  Normative References
-     11.2.  Informative References
+   9.  Operational Considerations
+     9.1.  Backward Compatibility
+   10. Security Considerations
+     10.1.  Authentication and Confidentiality
+     10.2.  Restrictions on Display of "c", "o", and "j" Fields
+     10.3.  Security Risks from Legacy DNS Forwarders
+     10.4.  Privacy Considerations
+   11. IANA Considerations
+     11.1.  Structured DNS Error EDNS Option
+     11.2.  New Registry for JSON Names
+     11.3.  New Registry for Contact URI Scheme
+     11.4.  New Registry for DNS Sub-Error Codes
+     11.5.  New Extended DNS Error Code
+   12. References
+     12.1.  Normative References
+     12.2.  Informative References
    Appendix A.  Interoperation with RPZ Servers
    Appendix B.  Implementation Status
    Acknowledgements
@@ -134,7 +135,7 @@ Table of Contents
    End users or network administrators leveraging DNS services that
    perform filtering may wish to receive more explanatory information
    about such a filtering to resolve problems with the filter -- for
-   example to contact the DNS service administrator to allowlist a DNS
+   example, to contact the DNS service administrator to allowlist a DNS
    domain that was erroneously filtered or to understand the reason a
    particular domain was filtered.  With that information, they can
    choose to use another network, open a trouble ticket with the DNS
@@ -168,9 +169,9 @@ Table of Contents
    devices.
 
    This document describes a format for machine-readable data in the
-   EXTRA-TEXT field of [RFC8914].  It updates Section 2 of [RFC8914]
-   which says the information in EXTRA-TEXT field is intended for human
-   consumption (not automated parsing).
+   EXTRA-TEXT field of [RFC8914].  The document updates Section 2 of
+   [RFC8914] which says the information in EXTRA-TEXT field is intended
+   for human consumption (not automated parsing).
 
    This document does not recommend DNS filtering but provides a
    mechanism for better transparency to explain to the end users why
@@ -187,13 +188,13 @@ Table of Contents
    This document uses terms defined in DNS Terminology [RFC9499].
 
    "Encrypted DNS" refers to any encrypted scheme to convey DNS
-   messages, for example, DNS-over-HTTPS [RFC8484], DNS-over-TLS
-   [RFC7858], or DNS-over-QUIC [RFC9250].
+   messages, for example, DNS over HTTPS (DoH) [RFC8484], DNS over TLS
+   (DoT) [RFC7858], or DNS over QUIC (DoQ) [RFC9250].
 
    The document refers to an Extended DNS Error (EDE) using its purpose,
    not its INFO-CODE as per Table 3 of [RFC8914].  "Forged Answer",
    "Blocked", "Censored", and "Filtered" are thus used to refer to
-   "Forged Answer (4)", "Blocked (15)", "Censored (16)",and "Filtered
+   "Forged Answer (4)", "Blocked (15)", "Censored (16)", and "Filtered
    (17)".
 
    In this document, "client security policy evaluation" refers to
@@ -203,7 +204,8 @@ Table of Contents
    upon.
 
    Structured DNS Error (SDE) is an EDNS(0) option indicating support
-   for structured encoding of the EXTRA-TEXT field.
+   for structured encoding of the EXTRA-TEXT field.  See also
+   Section 5.4.
 
 3.  DNS Filtering Techniques and Their Limitations
 
@@ -213,98 +215,96 @@ Table of Contents
    Error code defined in [RFC8914].  Each of these methods have
    advantages and disadvantages that are discussed below:
 
-   1.  The DNS response is forged to provide a list of IP addresses that
-       points to an HTTP(S) server alerting the end user about the
-       reason for blocking access to the requested domain (e.g.,
-       malware).  If the host component [RFC3986] of an HTTP URL is
-       blocked, the network security device (e.g., Customer Premises
-       Equipment (CPE) or firewall) presents a block page instead of the
-       HTTP response from the content provider hosting that domain.
-       This works successfully with HTTP.
+   *  The DNS response is forged to provide a list of IP addresses that
+      points to an HTTP(S) server alerting the end user about the reason
+      for blocking access to the requested domain (e.g., malware).  If
+      the host component [RFC3986] of an HTTP URL is blocked, the
+      network security device (e.g., Customer Premises Equipment (CPE)
+      or firewall) presents a block page instead of the HTTP response
+      from the content provider hosting that domain.  This works
+      successfully with HTTP.
 
-       If this is an HTTPS URL, the network security device attempts to
-       serve the block page over HTTPS.  In order to return a block page
-       over HTTPS, the network security device uses a locally generated
-       root certificate and corresponding key pair.  The local root
-       certificate is installed on the endpoint while the network
-       security device stores a copy of the private key.  During the TLS
-       handshake, the on-path network security device modifies the
-       certificate provided by the server and (re)signs it using the
-       private key from the local root certificate.
+      If this is an HTTPS URL, the network security device attempts to
+      serve the block page over HTTPS.  In order to return a block page
+      over HTTPS, the network security device uses a locally generated
+      root certificate and corresponding key pair.  The local root
+      certificate is installed on the endpoint while the network
+      security device stores a copy of the private key.  During the TLS
+      handshake, the on-path network security device modifies the
+      certificate provided by the server and (re)signs it using the
+      private key from the local root certificate.
 
-       *  In deployments where DNSSEC is used, this approach becomes
-          ineffective because DNSSEC ensures the integrity and
-          authenticity of DNS responses, preventing forged DNS responses
-          from being accepted.
+      -  In deployments where DNSSEC is used, this approach becomes
+         ineffective because DNSSEC ensures the integrity and
+         authenticity of DNS responses, preventing forged DNS responses
+         from being accepted.
 
-       *  The HTTPS server hosted on the network security device will
-          have access to the client's IP address, the hostname, and the
-          URL path component of the request.  This information will be
-          sensitive, as it will expose the end user's identity and the
-          specific resource that an end user attempted to access.
+      -  The HTTPS server hosted on the network security device will
+         have access to the client's IP address, the hostname, and the
+         URL path component of the request.  This information will be
+         sensitive, as it will expose the end user's identity and the
+         specific resource that an end user attempted to access.
 
-       *  Configuring a local root certificate on endpoints is not a
-          viable option in several deployments like home networks,
-          schools, Small Office/Home Office (SOHO), or Small/Medium
-          Enterprise (SME).  In these cases, the typical behavior is
-          that the filtered DNS response points to a server that will
-          display the block page.  If the client is using HTTPS (via a
-          web browser or another application) this results in a
-          certificate validation error which gives no information to the
-          end user about the reason for the DNS filtering.
+      -  Configuring a local root certificate on endpoints is not a
+         viable option in several deployments like home networks,
+         schools, Small Office/Home Office (SOHO), or Small/Medium
+         Enterprise (SME).  In these cases, the typical behavior is that
+         the filtered DNS response points to a server that will display
+         the block page.  If the client is using HTTPS (via a web
+         browser or another application) this results in a certificate
+         validation error which gives no information to the end user
+         about the reason for the DNS filtering.
 
-       *  Enterprise networks do not always assume that all the
-          connected devices are managed by the IT team or Mobile Device
-          Management (MDM) devices, especially in the quite common Bring
-          Your Own Device (BYOD) scenario.  In addition, the local root
-          certificate cannot be installed on IoT devices without a
-          device management tool.
+      -  Enterprise networks do not always assume that all the connected
+         devices are managed by the IT team or Mobile Device Management
+         (MDM) devices, especially in the quite common Bring Your Own
+         Device (BYOD) scenario.  In addition, the local root
+         certificate cannot be installed on IoT devices without a device
+         management tool.
 
-       *  An end user does not know why the connection was prevented
-          and, consequently, may repeatedly try to reach the domain but
-          with no success.  Frustrated, the end user may switch to an
-          alternate network that offers no DNS filtering against malware
-          and phishing, potentially compromising both security and
-          privacy.  Furthermore, certificate errors train end users to
-          click through certificate errors, which is a bad security
-          practice.  To eliminate the need for an end user to click
-          through certificate errors, an end user may manually install a
-          local root certificate on a host device.  Doing so, however,
-          is also a bad security practice as it creates a security
-          vulnerability that may be exploited by a MITM attack.  When a
-          manually installed local root certificate expires, the end
-          user has to (again) manually install the new local root
-          certificate.
+      -  An end user does not know why the connection was prevented and,
+         consequently, may repeatedly try to reach the domain but with
+         no success.  Frustrated, the end user may switch to an
+         alternate network that offers no DNS filtering against malware
+         and phishing, potentially compromising both security and
+         privacy.  Furthermore, certificate errors train end users to
+         click through certificate errors, which is a bad security
+         practice.  To eliminate the need for an end user to click
+         through certificate errors, an end user may manually install a
+         local root certificate on a host device.  Doing so, however, is
+         also a bad security practice as it creates a security
+         vulnerability that may be exploited by a MITM attack.  When a
+         manually installed local root certificate expires, the end user
+         has to (again) manually install the new local root certificate.
 
-   2.  The DNS response is forged to provide an NXDOMAIN answer, causing
-       the DNS lookup to fail.  This approach is incompatible with
-       DNSSEC when the client performs validation, as the forged
-       response will fail DNSSEC checks.  However, in deployments where
-       the client relies on the DNS server to perform DNSSEC validation,
-       a filtering DNS server can forge an NXDOMAIN response for a valid
-       domain, and the client will trust it.  This undermines the
-       integrity guarantees of DNSSEC, as the client has no way to
-       distinguish between a genuine and a forged response.  Further,
-       the end user may not understand why a domain cannot be reached
-       and may repeatedly attempt access without success.  Frustrated,
-       the end user may resort to using insecure methods to reach the
-       domain, potentially compromising both security and privacy.
+   *  The DNS response is forged to provide an NXDOMAIN answer, causing
+      the DNS lookup to fail.  This approach is incompatible with DNSSEC
+      when the client performs validation, as the forged response will
+      fail DNSSEC checks.  However, in deployments where the client
+      relies on the DNS server to perform DNSSEC validation, a filtering
+      DNS server can forge an NXDOMAIN response for a valid domain, and
+      the client will trust it.  This undermines the integrity
+      guarantees of DNSSEC, as the client has no way to distinguish
+      between a genuine and a forged response.  Further, the end user
+      may not understand why a domain cannot be reached and may
+      repeatedly attempt access without success.  Frustrated, the end
+      user may resort to using insecure methods to reach the domain,
+      potentially compromising both security and privacy.
 
-   3.  The extended error codes Blocked and Filtered defined in
-       Section 4 of [RFC8914] can be returned by a DNS server to provide
-       additional information about the cause of a DNS error.  These
-       extended error codes do not suffer from the limitations discussed
-       in bullets (1) and (2), but the user still does not know the
-       exact reason nor is aware of the exact entity blocking the access
-       to the domain.  For example, a DNS server may block access to a
-       domain based on the content category such as "Malware" to protect
-       the endpoint from malicious software, "Phishing" to prevent the
-       end user from revealing sensitive information to the attacker,
-       etc.  An end user may need to know the contact details of the IT/
-       InfoSec team to raise a complaint.  Further, the information
-       conveyed by [RFC8914] is intended for diagnostic purposes and is
-       not structured for automated processing, localization, or
-       extensibility.
+   *  The extended error codes Blocked and Filtered defined in Section 4
+      of [RFC8914] can be returned by a DNS server to provide additional
+      information about the cause of a DNS error.  These extended error
+      codes do not suffer from the limitations discussed in bullets (1)
+      and (2), but the user still does not know the exact reason nor is
+      aware of the exact entity blocking the access to the domain.  For
+      example, a DNS server may block access to a domain based on the
+      content category such as "Malware" to protect the endpoint from
+      malicious software, "Phishing" to prevent the end user from
+      revealing sensitive information to the attacker, etc.  An end user
+      may need to know the contact details of the IT/InfoSec team to
+      raise a complaint.  Further, the information conveyed by [RFC8914]
+      is intended for diagnostic purposes and is not structured for
+      automated processing, localization, or extensibility.
 
    This document defines a structured, machine-readable format for
    conveying such details in the EXTRA-TEXT field, enabling clients to
@@ -335,7 +335,7 @@ Table of Contents
       separate array element in the JSON array.
 
       Contact URIs conveyed in the "c" field MUST use URI schemes
-      registered in Section 10.3.
+      registered in Section 11.3.
 
       This field is optional.
 
@@ -363,7 +363,7 @@ Table of Contents
       particular DNS filtering case.
 
       The integer values are defined in the IANA-managed registry for
-      DNS Sub-Error Codes in Section 10.4.
+      DNS Sub-Error Codes in Section 11.4.
 
       This field is optional.
 
@@ -388,7 +388,7 @@ Table of Contents
    translate it.
 
    The "o" field MAY be displayed to end users, subject to the
-   conditions described in Section 9.  If the text is in a language not
+   conditions described in Section 10.  If the text is in a language not
    understood by the end user, the "l" field can be used to identify the
    language and support translation into the end user's preferred
    language.
@@ -418,7 +418,8 @@ Table of Contents
    007A, U+0030 through U+0039, and U+002D).  Also, these names MUST be
    63 characters or shorter and it is RECOMMENDED they be as short as
    possible to reduce contribution to exceeding maximum EDNS0 response
-   size [RFC9715].
+   size.  Refer to [RFC9715] for a discusson on IP fragmentation
+   avoidance in DNS.
 
 5.  Protocol Operation
 
@@ -448,10 +449,9 @@ Table of Contents
    machine-readable data in accordance with the present specification,
    unless configured otherwise.  If including the additional detail
    would cause the response to exceed the EDNS0 size [RFC9715] (and thus
-   setting TC=1), it SHOULD be omitted.  In deployments using DNS-over-
-   TLS, DNS-over-HTTPS, or DNS-over-QUIC, transport size limitations are
-   unlikely to necessitate omission of structured data in the EXTRA-TEXT
-   field.
+   setting TC=1), it SHOULD be omitted.  In deployments using DoT, DoH,
+   or DoQ, transport size limitations are unlikely to necessitate
+   omission of structured data in the EXTRA-TEXT field.
 
    If the SDE option was not present in the DNS request, the DNS server
    MUST process the request in accordance with [RFC8914] and MUST NOT
@@ -470,7 +470,7 @@ Table of Contents
    If the query includes the SDE option as per Section 5.1, the server
    MUST NOT return the "Forged Answer" extended error code because the
    client can take advantage of EDE's more sophisticated error reporting
-   (e.g., "Filtered", "Blocked").  Continuing to send "Forged Answer"
+   (e.g., "Filtered" or "Blocked").  Continuing to send "Forged Answer"
    even to an EDE-supporting client will cause the persistence of the
    drawbacks described in Section 3.
 
@@ -520,7 +520,7 @@ Table of Contents
        have empty values, the entire JSON object MUST be discarded.
 
    6.  If the JSON object contains a "c" field any of its Contact URIs
-       with schemes not registered in the Section 10.3 registry are
+       with schemes not registered in the Section 11.3 registry are
        ignored.  Remaining Contact URIs using registered schemes can be
        processed.
 
@@ -536,13 +536,12 @@ Table of Contents
        not contain free-form text.
 
    8.  If the DNS client uses an authenticated connection to the DNS
-       server (e.g., when using a strict privacy profile for DNS-over-
-       TLS (Section 5 of [RFC8310]) or an authenticated DNS-over-HTTPS
-       or DNS-over-QUIC connection), this mitigates both passive
-       eavesdropping and client redirection (at the expense of providing
-       no DNS service if such a connection is not available).  In such
-       cases, the DNS client MAY process the EXTRA-TEXT field of the DNS
-       response.
+       server (e.g., when using a strict privacy profile for DoT
+       (Section 5 of [RFC8310]) or an authenticated DoH or DoQ
+       connection), this mitigates both passive eavesdropping and client
+       redirection (at the expense of providing no DNS service if such a
+       connection is not available).  In such cases, the DNS client MAY
+       process the EXTRA-TEXT field of the DNS response.
 
    9.  The DNS client MUST ignore any other JSON names that it does not
        support.
@@ -568,51 +567,26 @@ Table of Contents
 6.  New Sub-Error Codes Definition
 
    The document defines the following new IANA-registered Sub-Error
-   codes.
+   codes.  See Section 11.4.
 
 6.1.  Reserved
 
-   *  Number: 0
-
-   *  Meaning: Reserved.  This sub-error code value MUST NOT be sent.
-      If received, it has no meaning.
-
-   *  Applicability: This code should never be used.
-
-   *  Reference: This-Document
-
-   *  Change Controller: IETF
+   This sub-error code value MUST NOT be sent.  If received, it has no
+   meaning.
 
 6.2.  Network Operator Policy
 
-   *  Number: 5
-
-   *  Meaning: Network Operator Policy.  The code indicates that the
-      request was filtered according to a policy imposed by the operator
-      of the local network (where local network is a relative term,
-      e.g., it may refer to a Local Area Network or to the network of
-      the ISP selected by the end user).
-
-   *  Applicability: Blocked
-
-   *  Reference: This-Document
-
-   *  Change Controller: IETF
+   The code indicates that the request was filtered according to a
+   policy imposed by the operator of the local network (where local
+   network is a relative term, e.g., it may refer to a Local Area
+   Network or to the network of the ISP selected by the end user).
 
 6.3.  DNS Operator Policy
 
-   *  Number: 6
-
-   *  Meaning: DNS Operator Policy.  The code indicates that the request
-      was filtered according to policy determined by the operator of the
-      DNS server.  This is different from the "Network Operator Policy"
-      code when a third-party DNS resolver is used.
-
-   *  Applicability: Blocked
-
-   *  Reference: This-Document
-
-   *  Change Controller: IETF
+   The code indicates that the request was filtered according to policy
+   determined by the operator of the DNS server.  This is different from
+   the "Network Operator Policy" code when a third-party DNS resolver is
+   used.
 
 7.  New Extended DNS Errors
 
@@ -680,6 +654,8 @@ Table of Contents
 
             Figure 3: dig Response Showing SDE and EDE Options
 
+9.  Operational Considerations
+
    When a forwarder receives an EDE option, whether or not (and how) to
    pass along JSON information in the EXTRA-TEXT field to its client is
    implementation-dependent [RFC5625] and depends on operator policy.
@@ -693,29 +669,29 @@ Table of Contents
    all complaint calls to a single contact point).  In such cases, the
    content of the "c" attribute MAY be ignored.
 
-8.1.  Backward Compatibility
+9.1.  Backward Compatibility
 
    Future extensions MUST NOT introduce mandatory JSON attributes, as
    existing implementations are required to ignore unknown JSON names
    (see Section 5.3).
 
-9.  Security Considerations
+10.  Security Considerations
 
-9.1.  Authentication and Confidentiality
+10.1.  Authentication and Confidentiality
 
    Security considerations in Section 6 of [RFC8914] apply to this
    document.  [RFC8914] cautions against relying on EDE information
    because it may be unauthenticated and transmitted in cleartext.  This
    specification assumes the use of authenticated, integrity-protected
-   DNS transports (e.g., DNS-over-TLS, DNS-over-HTTPS, or DNS-over-
-   QUIC).  Such transports MUST be based on TLS 1.3 [RFC8446] or later.
-   Under these conditions, EDE information is integrity-protected,
-   reducing the risks associated with relying on structured EDE content.
+   DNS transports (e.g., DoT, DoH, or DoQ).  Such transports MUST be
+   based on TLS 1.3 [RFC8446] or later.  Under these conditions, EDE
+   information is integrity-protected, reducing the risks associated
+   with relying on structured EDE content.
 
    To minimize impact of active on-path attacks on the DNS channel, the
    client validates the response as described in Section 5.3.
 
-9.2.  Restrictions on Display of "c", "o", and "j" Fields
+10.2.  Restrictions on Display of "c", "o", and "j" Fields
 
    A client might choose to display the information in the "c" field to
    the end user if and only if the encrypted resolver has sufficient
@@ -773,7 +749,7 @@ Table of Contents
    NOT be automatically trusted, displayed to end users, or used to
    influence security decisions without appropriate validation.
 
-9.3.  Security Risks from Legacy DNS Forwarders
+10.3.  Security Risks from Legacy DNS Forwarders
 
    An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
    DNS proxy or DNS forwarder that is unaware of EDE.  Such a DNS proxy
@@ -781,7 +757,7 @@ Table of Contents
    To prevent such an attack, clients can be configured to process EDE
    from explicitly configured DNS servers or utilize RESINFO [RFC9606].
 
-9.4.  Privacy Considerations
+10.4.  Privacy Considerations
 
    The EXTRA-TEXT field may reveal details about the filtering
    organization and its policies.  Clients MUST NOT log or transmit the
@@ -792,7 +768,7 @@ Table of Contents
    (e.g., DoT, DoH, or DoQ), which protects both the DNS query and the
    structured error response from passive observers.
 
-10.  IANA Considerations
+11.  IANA Considerations
 
    This document requests five IANA actions as described in the
    following subsections.
@@ -802,7 +778,7 @@ Table of Contents
       assigned by IANA, and replace "TBD1" in Figure 3 with the value
       assigned by IANA.
 
-10.1.  Structured DNS Error EDNS Option
+11.1.  Structured DNS Error EDNS Option
 
    IANA is requested to register the following new EDNS(0) Option Code
    in the "DNS EDNS0 Option Codes (OPT)" registry under the "Domain Name
@@ -816,7 +792,7 @@ Table of Contents
 
    Reference:  RFC XXXX
 
-10.2.  New Registry for JSON Names
+11.2.  New Registry for JSON Names
 
    This document requests IANA to create a new registry, entitled
    "EXTRA-TEXT JSON Names" under "Extended DNS Error Codes" registry,
@@ -875,7 +851,7 @@ Table of Contents
    [RFC8126]) and their formatting constraints are described in
    Section 4.
 
-10.3.  New Registry for Contact URI Scheme
+11.3.  New Registry for Contact URI Scheme
 
    This document requests IANA to create a new registry, entitled
    "Contact URI Schemes" under "Extended DNS Error Codes" registry,
@@ -909,7 +885,7 @@ Table of Contents
    "Contact URI Schemes" registry is "IETF Review" as defined in
    Section 4.8 of [RFC8126].
 
-10.4.  New Registry for DNS Sub-Error Codes
+11.4.  New Registry for DNS Sub-Error Codes
 
    This document requests IANA to create a new registry, entitled "Sub-
    Error Codes" under "Extended DNS Error Codes" registry, which is
@@ -968,7 +944,7 @@ Table of Contents
    The registration procedure to add New Sub-Error Codes is IETF Review
    as defined in Section 4.8 of [RFC8126].
 
-10.5.  New Extended DNS Error Code
+11.5.  New Extended DNS Error Code
 
    IANA is requested to assign the following Extended DNS Error code
    from the "Extended DNS Error Codes" registry under the "Domain Name
@@ -982,9 +958,9 @@ Table of Contents
 
                        Table 4: New DNS Error Code
 
-11.  References
+12.  References
 
-11.1.  Normative References
+12.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1052,7 +1028,7 @@ Table of Contents
               RFC 9499, DOI 10.17487/RFC9499, March 2024,
               <https://www.rfc-editor.org/rfc/rfc9499>.
 
-11.2.  Informative References
+12.2.  Informative References
 
    [IANA-DNS] IANA, "Domain Name System (DNS) Parameters, Extended DNS
               Error Codes", <https://www.iana.org/assignments/dns-
@@ -1157,10 +1133,9 @@ Acknowledgements
    Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about
    their implementation.
 
-   Thanks Petr Špaček, Di Ma and Matt Brown for the DNS directorate
-   reviews, and Joseph Salowey for the Security directorate review.
-
-   Thanks Paul Kyzivat for the Art review.
+   Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews,
+   Joseph Salowey for the SECDIR review, and Paul Kyzivat for the ARTART
+   review.
 
    Thanks to Éric Vyncke for the AD review.
 
