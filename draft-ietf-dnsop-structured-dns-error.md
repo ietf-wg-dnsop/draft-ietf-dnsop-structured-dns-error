@@ -302,7 +302,7 @@ o: (organization)
 l: (language)
 : The "l" field indicates the language used for the JSON-encoded "j" and "o" fields.  The value of this field MUST conform to the
   language tag syntax specified in {{Section 2.1 of !RFC5646}}.
-: This field is optional but RECOMMENDED to aid in localization.
+: This field is optional but MUST be conveyed when the "j" or "o" fields, or both, are present.
 
 The text in the "j" and "o" names can include international
 characters. The text will be in natural language, chosen by the DNS administrator
@@ -348,6 +348,19 @@ filtering is performed, and that any data conveyed in the EXTRA-TEXT
 field of the EDE option is encoded and processed in accordance with
 this specification.
 
+A client that wishes to express a preferred response language
+MUST populate the OPTION-DATA of the SDE option with an ordered
+list of RFC 5646 {{!RFC5646}} language tags, listed from most to
+least preferred, using the format defined in {{SDE}}. The list
+SHOULD contain no more than 4 entries and MUST NOT contain more than
+8 entries. A client that has no language preference MUST set
+OPTION-LENGTH to 0.
+
+The "l" field in the JSON body of the EXTRA-TEXT response
+({{name-spec}}) remains the authoritative indicator of the language
+actually used in the "j" and "o" fields and MUST continue to be
+used by clients for localisation and machine translation decisions.
+
 ## Server Generating Response {#server-response}
 
 When the DNS server filters its DNS response to a
@@ -356,6 +369,22 @@ ideally) forged response, as desired by the DNS
 server.
 
 If the query contained the SDE EDNS option ({{client-request}}), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If including the additional detail would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), it SHOULD be omitted. In deployments using DoT, DoH, or DoQ, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.
+
+If the SDE option OPTION-DATA is non-empty, and the server intends
+to populate the "j" or "o" fields, the server MUST perform
+{{!RFC4647}} lookup matching against the language entries in the
+order they appear, selecting the first entry for which localised
+text is available. If a match is found, the server SHOULD populate 
+the "j" and "o" fields in the matched language; a field MAY be 
+omitted if the server has no value to convey for it. If either field 
+is present, the server MUST set the "l" field to the matched language 
+tag. If no match is found, the server MUST fall back to its default 
+language. A failure to match a preferred language MUST NOT prevent 
+the server from returning a response.
+
+A server receiving an SDE option with unrecognised or malformed
+OPTION-DATA MUST silently ignore the OPTION-DATA and process the
+option as if OPTION-LENGTH were 0.
 
 If the SDE option was not present in the DNS request, the DNS server MUST process the request in accordance with {{!RFC8914}} and MUST NOT assume that the client supports this specification. This preserves compatibility with clients and servers that implement {{!RFC8914}} but do not support this specification.
 
@@ -435,9 +464,34 @@ The Structured DNS Error (SDE) EDNS(0) option is used by a client to
 indicate support for I-JSON encoding in the EXTRA-TEXT field of an
 Extended DNS Error (EDE) option.
 
-The SDE option has no OPTION-DATA. The OPTION-LENGTH field MUST
-be set to 0. A server receiving an SDE option with a non-zero
-OPTION-LENGTH MUST ignore the option.
+The SDE option MAY carry an OPTION-DATA field containing an ordered
+list of preferred languages. The OPTION-LENGTH field indicates the
+total length of the OPTION-DATA in octets. An OPTION-LENGTH of 0
+indicates no language preference and is semantically equivalent to
+the absence of OPTION-DATA.
+
+The OPTION-DATA, when present, has the following format:
+
+~~~
++--+--+--+--+--+--+--+--+
+|        LANG-COUNT      |   1 octet
++--+--+--+--+--+--+--+--+
+|        LANG-LEN[0]     |   1 octet
++--+--+--+--+--+--+--+--+
+|        LANG-TAG[0]     |   LANG-LEN[0] octets (RFC 5646)
++--+--+--+--+--+--+--+--+
+|        ...             |   repeat LANG-LEN / LANG-TAG
++--+--+--+--+--+--+--+--+
+~~~
+
+LANG-COUNT is a 1-octet field indicating the number of language
+entries. 
+
+Each LANG-ENTRY consists of a 1-octet LANG-LEN followed by a
+LANG-TAG of LANG-LEN octets encoded as an RFC 5646 {{!RFC5646}}
+language tag (e.g., "en-US", "fr", "zh-Hant").
+
+Entries are listed in order of decreasing preference. 
 
 The presence of the SDE option in a query indicates that the client
 supports processing the EXTRA-TEXT field in accordance with this
@@ -519,7 +573,7 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 1232
-; OPT=TBD1 (Structured DNS Error): (no data)
+; OPT=TBD1 (Structured DNS Error): [en-US, fr]
 ; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567",\
   "sips:bob@bobphone.example.com"],"j":"malware present for 23 days",\
   "s":1,"o":"example.net Filtering Service","l":"en"})
@@ -625,6 +679,10 @@ Status:
 
 Reference:
 : RFC XXXX
+
+Note: The OPTION-DATA for this option carries an optional ordered
+list of preferred languages as defined in {{SDE}} of this document.
+An OPTION-LENGTH of 0 indicates no language preference.
 
 
 ##  New Registry for JSON Names {#IANA-Names}
