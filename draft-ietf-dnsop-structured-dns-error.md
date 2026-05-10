@@ -302,7 +302,7 @@ o: (organization)
 l: (language)
 : The "l" field indicates the language used for the JSON-encoded "j" and "o" fields.  The value of this field MUST conform to the
   language tag syntax specified in {{Section 2.1 of !RFC5646}}.
-: This field is optional but MUST be conveyed when the "j" or "o" fields, or both, are present.
+: This field is optional but MUST be included when either the "j" or "o" fields are present.
 
 The text in the "j" and "o" names can include international
 characters. The text will be in natural language, chosen by the DNS administrator
