@@ -86,7 +86,7 @@ informative:
 --- abstract
 
 DNS filtering is widely deployed for various reasons, including
-network security. However, filtered DNS responses lack structured information
+network security and policy enforcement. However, filtered DNS responses lack structured information
 for end users to understand the reason for the filtering.
 Existing mechanisms to provide explanatory details to end users cause harm
 especially if the blocked DNS response is for HTTPS resources.
@@ -174,6 +174,15 @@ determine how, or whether, structured error information is used, displayed,
 or acted upon.
 
 Structured DNS Error (SDE) is an EDNS(0) option indicating support for structured encoding of the EXTRA-TEXT field. See also {{SDE}}.
+
+"DNS administrator" refers to the party responsible for operating
+and configuring the DNS server, including the definition of
+filtering policies.
+
+"IT/InfoSec team" refers to the organizational team responsible
+for receiving and handling end-user reports of misclassified DNS
+filtering, including decisions on allowlisting domains or revising
+filtering policies.
 
 # DNS Filtering Techniques and Their Limitations {#existing-techniques}
 
@@ -295,6 +304,12 @@ s: (sub-error)
 : The integer values are defined in the IANA-managed registry for DNS Sub-Error Codes in {{IANA-SubError}}.
 : This field is optional.
 
+When multiple blocking causes apply simultaneously
+(e.g., a domain is blocked for both malware and phishing reasons),
+a single SDE response is returned. The "s" field MUST convey the
+primary blocking cause. The "j" field MUST be used to provide
+additional context describing all applicable causes.
+
 o: (organization)
 : 'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query.
 : This field is optional.
@@ -308,12 +323,7 @@ The text in the "j" and "o" names can include international
 characters. The text will be in natural language, chosen by the DNS administrator
 to match its expected audience.
 
-If the client supports diagnostic interfaces, it MAY use the "l" field to identify
-the language of the "j" text and optionally translate it.
-
 The "o" field MAY be displayed to end users, subject to the conditions described in {{security}}.
-If the text is in a language not understood by the end user, the "l" field can be used
-to identify the language and support translation into the end user's preferred language.
 
 To avoid exceeding the maximum EDNS0 size {{?RFC9715}} the generated JSON values SHOULD be as short as
 possible: short domain names, concise text in the values for the "j"
@@ -353,8 +363,18 @@ MUST populate the OPTION-DATA of the SDE option with an ordered
 list of RFC 5646 {{!RFC5646}} language tags, listed from most to
 least preferred, using the format defined in {{SDE}}. The list
 SHOULD contain no more than 4 entries and MUST NOT contain more than
-8 entries. A client that has no language preference MUST set
-OPTION-LENGTH to 0.
+8 entries. The limit of 4 entries reflects
+typical real-world language preference lists, as a user with 2
+configured languages may generate up to 4 entries after
+language-only fallback tags are added (e.g., "en-US, en, zh-CN,
+zh"). The hard limit of 8 entries bounds the contribution of
+the SDE option to the DNS query size (see {{?RFC9715}}) and ensures
+predictable server processing as described in {{server-response}}.
+A client that has no language preference MUST set OPTION-LENGTH to 0.
+
+For privacy reasons, clients MAY send fewer language
+entries than the user has configured, or omit the language list
+entirely by setting OPTION-LENGTH to 0.
 
 The "l" field in the JSON body of the EXTRA-TEXT response
 ({{name-spec}}) remains the authoritative indicator of the language
@@ -368,19 +388,22 @@ query (e.g., A or AAAA resource record query), the DNS response MAY contain an e
 ideally) forged response, as desired by the DNS
 server.
 
-If the query contained the SDE EDNS option ({{client-request}}), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If including the additional detail would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), it SHOULD be omitted. In deployments using DoT, DoH, or DoQ, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.
+If the query contained the SDE EDNS option ({{client-request}}), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If including the additional detail would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), the server SHOULD first attempt to reduce the response size by omitting the "j" and "o" fields before omitting the EXTRA-TEXT entirely. In deployments using DoT, DoH, or DoQ, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.
 
 If the SDE option OPTION-DATA is non-empty, and the server intends
 to populate the "j" or "o" fields, the server MUST perform
 {{!RFC4647}} lookup matching against the language entries in the
 order they appear, selecting the first entry for which localised
-text is available. If a match is found, the server SHOULD populate 
-the "j" and "o" fields in the matched language; a field MAY be 
-omitted if the server has no value to convey for it. If either field 
-is present, the server MUST set the "l" field to the matched language 
-tag. If no match is found, the server MUST fall back to its default 
-language. A failure to match a preferred language MUST NOT prevent 
+text is available. If a match is found, the server SHOULD populate
+the "j" and "o" fields in the matched language; either field MAY be
+omitted if the server has no value to convey for it. If either field
+is present, the server MUST set the "l" field to the matched language
+tag. If no match is found, the server MUST fall back to its default
+language. A failure to match a preferred language MUST NOT prevent
 the server from returning a response.
+
+Language negotiation adversely affects caching, as different clients
+may request different languages for the same filtered domain.
 
 A server receiving an SDE option with unrecognised or malformed
 OPTION-DATA MUST silently ignore the OPTION-DATA and process the
@@ -470,28 +493,17 @@ total length of the OPTION-DATA in octets. An OPTION-LENGTH of 0
 indicates no language preference and is semantically equivalent to
 the absence of OPTION-DATA.
 
-The OPTION-DATA, when present, has the following format:
+The OPTION-DATA, when present, contains a
+comma-separated list of {{!RFC5646}} language tags, ordered
+from most to least preferred, bounded by OPTION-LENGTH. The
+language tags never contain commas, making the comma an unambiguous
+delimiter. Parsing MUST be bounded by OPTION-LENGTH to prevent
+buffer overread. For example, a client preferring US English then
+French encodes:
 
 ~~~
-+--+--+--+--+--+--+--+--+
-|        LANG-COUNT      |   1 octet
-+--+--+--+--+--+--+--+--+
-|        LANG-LEN[0]     |   1 octet
-+--+--+--+--+--+--+--+--+
-|        LANG-TAG[0]     |   LANG-LEN[0] octets (RFC 5646)
-+--+--+--+--+--+--+--+--+
-|        ...             |   repeat LANG-LEN / LANG-TAG
-+--+--+--+--+--+--+--+--+
+en-US,fr
 ~~~
-
-LANG-COUNT is a 1-octet field indicating the number of language
-entries. 
-
-Each LANG-ENTRY consists of a 1-octet LANG-LEN followed by a
-LANG-TAG of LANG-LEN octets encoded as an RFC 5646 {{!RFC5646}}
-language tag (e.g., "en-US", "fr", "zh-Hant").
-
-Entries are listed in order of decreasing preference. 
 
 The presence of the SDE option in a query indicates that the client
 supports processing the EXTRA-TEXT field in accordance with this
