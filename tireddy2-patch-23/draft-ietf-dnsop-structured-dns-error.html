@@ -1676,7 +1676,7 @@ query (e.g., A or AAAA resource record query), the DNS response <span class="bcp
 ideally) forged response, as desired by the DNS
 server.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2-2">If the query contained the SDE EDNS option (<a href="#client-request" class="auto internal xref">Section 5.1</a>), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server <span class="bcp14">SHOULD</span> include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If including the additional detail would cause the response to exceed the EDNS0 size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> (and thus setting TC=1), the server <span class="bcp14">SHOULD</span> first attempt to reduce the response size by omitting the "j" and "o" fields before omitting the EXTRA-TEXT entirely. In deployments using DoT, DoH, or DoQ, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
-<p id="section-5.2-3">If the SDE option OPTION-DATA is non-empty, and the server intends
+<p id="section-5.2-3">If the SDE option OPTION-DATA is non-empty and the server intends
 to populate the "j" or "o" fields, the server <span class="bcp14">MUST</span> perform
 <span>[<a href="#RFC4647" class="cite xref">RFC4647</a>]</span> lookup matching against the language entries in the
 order they appear, selecting the first entry for which localised

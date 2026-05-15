@@ -488,7 +488,7 @@ Table of Contents
    limitations are unlikely to necessitate omission of structured data
    in the EXTRA-TEXT field.
 
-   If the SDE option OPTION-DATA is non-empty, and the server intends to
+   If the SDE option OPTION-DATA is non-empty and the server intends to
    populate the "j" or "o" fields, the server MUST perform [RFC4647]
    lookup matching against the language entries in the order they
    appear, selecting the first entry for which localised text is
