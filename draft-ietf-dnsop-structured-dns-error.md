@@ -371,6 +371,7 @@ zh"). The hard limit of 8 entries bounds the contribution of
 the SDE option to the DNS query size (see {{?RFC9715}}) and ensures
 predictable server processing as described in {{server-response}}.
 A client that has no language preference MUST set OPTION-LENGTH to 0.
+This is the default behavior.
 
 For privacy reasons, clients MAY send fewer language
 entries than the user has configured, or omit the language list
