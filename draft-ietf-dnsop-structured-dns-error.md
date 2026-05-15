@@ -694,7 +694,7 @@ Reference:
 : RFC XXXX
 
 Note: The OPTION-DATA for this option carries an optional ordered
-list of preferred languages as defined in {{SDE}} of this document.
+list of preferred languages as defined in {{SDE}}.
 An OPTION-LENGTH of 0 indicates no language preference.
 
 
