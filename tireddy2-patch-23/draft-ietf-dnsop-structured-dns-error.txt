@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 11 November 2026                                        N. Cook
+Expires: 16 November 2026                                        N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                             10 May 2026
+                                                             15 May 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 November 2026.
+   This Internet-Draft will expire on 16 November 2026.
 
 Copyright Notice
 
@@ -457,7 +457,7 @@ Table of Contents
    contribution of the SDE option to the DNS query size (see [RFC9715])
    and ensures predictable server processing as described in
    Section 5.2.  A client that has no language preference MUST set
-   OPTION-LENGTH to 0.
+   OPTION-LENGTH to 0.  This is the default behavior.
 
    For privacy reasons, clients MAY send fewer language entries than the
    user has configured, or omit the language list entirely by setting
