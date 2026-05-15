@@ -858,8 +858,8 @@ Table of Contents
    Reference:  RFC XXXX
 
    Note: The OPTION-DATA for this option carries an optional ordered
-   list of preferred languages as defined in Section 5.4 of this
-   document.  An OPTION-LENGTH of 0 indicates no language preference.
+   list of preferred languages as defined in Section 5.4.  An OPTION-
+   LENGTH of 0 indicates no language preference.
 
 11.2.  New Registry for JSON Names
 
