@@ -379,7 +379,7 @@ entirely by setting OPTION-LENGTH to 0.
 
 The "l" field in the JSON body of the EXTRA-TEXT response
 ({{name-spec}}) remains the authoritative indicator of the language
-actually used in the "j" and "o" fields and MUST continue to be
+used in the "j" and "o" fields and MUST continue to be
 used by clients for localisation and machine translation decisions.
 
 ## Server Generating Response {#server-response}
