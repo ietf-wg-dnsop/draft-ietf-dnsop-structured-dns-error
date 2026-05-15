@@ -361,14 +361,13 @@ this specification.
 A client that wishes to express a preferred response language
 MUST populate the OPTION-DATA of the SDE option with an ordered
 list of RFC 5646 {{!RFC5646}} language tags, listed from most to
-least preferred, using the format defined in {{SDE}}. The list
-SHOULD contain no more than 4 entries and MUST NOT contain more than
-8 entries. The limit of 4 entries reflects
-typical real-world language preference lists, as a user with 2
-configured languages may generate up to 4 entries after
-language-only fallback tags are added (e.g., "en-US, en, zh-CN,
-zh"). The hard limit of 8 entries bounds the contribution of
-the SDE option to the DNS query size (see {{?RFC9715}}) and ensures
+least preferred, using the format defined in {{SDE}}. The list SHOULD 
+contain no more than 4 entries and MUST NOT contain more than 8 
+entries. To accommodate two languages with two language tags per 
+language (e.g., American English often uses the two tags "en-US" and 
+"en"), the list SHOULD contain no more than 4 entries.
+The hard limit of 8 entries bounds the contribution of the SDE
+option to the DNS query size (see {{?RFC9715}}) and ensures
 predictable server processing as described in {{server-response}}.
 A client that has no language preference MUST set OPTION-LENGTH to 0.
 This is the default behavior.
