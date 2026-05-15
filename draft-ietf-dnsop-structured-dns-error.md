@@ -374,7 +374,7 @@ A client that has no language preference MUST set OPTION-LENGTH to 0.
 This is the default behavior.
 
 For privacy reasons, clients MAY send fewer language
-entries than the user has configured, or omit the language list
+entries than the user has configured or omit the language list
 entirely by setting OPTION-LENGTH to 0.
 
 The "l" field in the JSON body of the EXTRA-TEXT response
