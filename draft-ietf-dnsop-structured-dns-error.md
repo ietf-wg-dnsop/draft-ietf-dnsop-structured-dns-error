@@ -391,7 +391,7 @@ server.
 
 If the query contained the SDE EDNS option ({{client-request}}), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If including the additional detail would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), the server SHOULD first attempt to reduce the response size by omitting the "j" and "o" fields before omitting the EXTRA-TEXT entirely. In deployments using DoT, DoH, or DoQ, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.
 
-If the SDE option OPTION-DATA is non-empty, and the server intends
+If the SDE option OPTION-DATA is non-empty and the server intends
 to populate the "j" or "o" fields, the server MUST perform
 {{!RFC4647}} lookup matching against the language entries in the
 order they appear, selecting the first entry for which localised
