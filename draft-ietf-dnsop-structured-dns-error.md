@@ -361,16 +361,14 @@ this specification.
 A client that wishes to express a preferred response language
 MUST populate the OPTION-DATA of the SDE option with an ordered
 list of RFC 5646 {{!RFC5646}} language tags, listed from most to
-least preferred, using the format defined in {{SDE}}. The list SHOULD 
-contain no more than 4 entries and MUST NOT contain more than 8 
-entries. To accommodate two languages with two language tags per 
-language (e.g., American English often uses the two tags "en-US" and 
-"en"), the list SHOULD contain no more than 4 entries.
-The hard limit of 8 entries bounds the contribution of the SDE
-option to the DNS query size (see {{?RFC9715}}) and ensures
-predictable server processing as described in {{server-response}}.
-A client that has no language preference MUST set OPTION-LENGTH to 0.
-This is the default behavior.
+least preferred, using the format defined in {{SDE}}. The list SHOULD
+contain no more than 4 entries to avoid overwhelming the server with
+excessive language matching operations, and MUST NOT contain more
+than 8 entries. The hard limit of 8 entries bounds the contribution
+of the SDE option to the DNS query size (see {{?RFC9715}}) and
+ensures predictable server processing as described in
+{{server-response}}. A client that has no language preference MUST
+set OPTION-LENGTH to 0. This is the default behavior.
 
 For privacy reasons, clients MAY send fewer language
 entries than the user has configured or omit the language list
@@ -388,15 +386,17 @@ query (e.g., A or AAAA resource record query), the DNS response MAY contain an e
 ideally) forged response, as desired by the DNS
 server.
 
-If the query contained the SDE EDNS option ({{client-request}}), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If including the additional detail would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), the server SHOULD first attempt to reduce the response size by omitting the "j" and "o" fields before omitting the EXTRA-TEXT entirely. In deployments using DoT, DoH, or DoQ, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.
+If the query contained the SDE EDNS option ({{client-request}}), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If including the additional detail would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), the server MUST first attempt to reduce the response size by omitting the "j" and "o" fields before omitting the EXTRA-TEXT entirely. In deployments using DoT, DoH, or DoQ, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.
 
 If the SDE option OPTION-DATA is non-empty and the server intends
 to populate the "j" or "o" fields, the server MUST perform
 {{!RFC4647}} lookup matching against the language entries in the
 order they appear, selecting the first entry for which localised
 text is available. If a match is found, the server SHOULD populate
-the "j" and "o" fields in the matched language; either field MAY be
-omitted if the server has no value to convey for it. If either field
+the "j" and "o" fields in the matched language so that the end user
+can read the human-readable message in their preferred language;
+either field MAY be omitted if the server has no value to convey
+for it. If either field
 is present, the server MUST set the "l" field to the matched language
 tag. If no match is found, the server MUST fall back to its default
 language. A failure to match a preferred language MUST NOT prevent
