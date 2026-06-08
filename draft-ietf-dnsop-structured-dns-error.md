@@ -530,7 +530,7 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 1232
-; OPT=TBD1 (Structured DNS Error): (no data) 
+; OPT=TBD1 (Structured DNS Error): (no data)
 ; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567",\
   "sips:bob@bobphone.example.com"],"j":"malware present for 23 days",\
   "s":1,"o":"example.net Filtering Service","l":"en"})
