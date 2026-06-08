@@ -365,7 +365,8 @@ query (e.g., A or AAAA resource record query), the DNS response MAY contain an e
 ideally) forged response, as desired by the DNS
 server.
 
-If the query contained the SDE EDNS option ({{client-request}}), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If including the additional detail would cause the response to exceed the EDNS0 size {{?RFC9715}} (and thus setting TC=1), the server MUST first attempt to reduce the response size by omitting the "j" and "o" fields before omitting the EXTRA-TEXT entirely. In deployments using DoT, DoH, or DoQ, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.
+If the query contained the SDE EDNS option ({{client-request}}), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server SHOULD include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If the DNS response is sent over UDP and including the additional detail would cause the response to exceed the EDNS0 size
+{{?RFC9715}} (and thus setting TC=1), the server MUST first attempt to reduce the response size by omitting the "j" and "o" fields before omitting the EXTRA-TEXT entirely. In deployments using DoT, DoH, or DoQ, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.
 
 If the SDE option was not present in the DNS request, the DNS server MUST process the request in accordance with {{!RFC8914}} and MUST NOT assume that the client supports this specification. This preserves compatibility with clients and servers that implement {{!RFC8914}} but do not support this specification.
 
@@ -529,7 +530,7 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 1232
-; OPT=TBD1 (Structured DNS Error): (no data)
+; OPT=TBD1 (Structured DNS Error): (no data) 
 ; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567",\
   "sips:bob@bobphone.example.com"],"j":"malware present for 23 days",\
   "s":1,"o":"example.net Filtering Service","l":"en"})
