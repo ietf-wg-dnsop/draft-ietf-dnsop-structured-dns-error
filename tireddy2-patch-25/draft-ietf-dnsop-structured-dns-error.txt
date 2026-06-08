@@ -457,13 +457,14 @@ Table of Contents
    "Blocked by Upstream DNS Server", the DNS server SHOULD include
    additional detail in the EXTRA-TEXT field encoded as structured and
    machine-readable data in accordance with the present specification,
-   unless configured otherwise.  If including the additional detail
-   would cause the response to exceed the EDNS0 size [RFC9715] (and thus
-   setting TC=1), the server MUST first attempt to reduce the response
-   size by omitting the "j" and "o" fields before omitting the EXTRA-
-   TEXT entirely.  In deployments using DoT, DoH, or DoQ, transport size
-   limitations are unlikely to necessitate omission of structured data
-   in the EXTRA-TEXT field.
+   unless configured otherwise.  If the DNS response is sent over UDP
+   and including the additional detail would cause the response to
+   exceed the EDNS0 size [RFC9715] (and thus setting TC=1), the server
+   MUST first attempt to reduce the response size by omitting the "j"
+   and "o" fields before omitting the EXTRA-TEXT entirely.  In
+   deployments using DoT, DoH, or DoQ, transport size limitations are
+   unlikely to necessitate omission of structured data in the EXTRA-TEXT
+   field.
 
    If the SDE option was not present in the DNS request, the DNS server
    MUST process the request in accordance with [RFC8914] and MUST NOT
