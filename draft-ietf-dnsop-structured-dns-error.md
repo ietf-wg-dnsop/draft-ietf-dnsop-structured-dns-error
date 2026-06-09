@@ -325,10 +325,12 @@ to match its expected audience.
 
 The "o" field MAY be displayed to end users, subject to the conditions described in {{security}}.
 
-To avoid exceeding the maximum EDNS0 size {{?RFC9715}} the generated JSON values SHOULD be as short as
-possible: short domain names, concise text in the values for the "j"
-and "o" names, and minified JSON (that is, without spaces or line
-breaks between JSON elements). Otherwise, there is a risk that the response will get fragmented.
+If the DNS response is sent over UDP, the generated JSON values MUST
+be as short as possible: short domain names, concise text in the
+values for the "j" and "o" names, and minified JSON (that is,
+without spaces or line breaks between JSON elements). In deployments
+using DoT, DoH, or DoQ, transport size limitations are unlikely to
+necessitate such restrictions.
 
 The JSON data can be parsed to display to the user, logged, or
 otherwise used to assist troubleshooting and diagnosis of DNS filtering.
@@ -412,7 +414,7 @@ field:
    otherwise the EXTRA-TEXT field is discarded.
 
 3. Servers that do not support this specification might use plain text in the
-   EXTRA-TEXT field. To ensure compatibility with those, DNS clients SHOULD handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client MUST treat the data as invalid, MUST NOT process it according to this specification. The client MAY instead process the EXTRA-TEXT field as unstructured text as specified in {{!RFC8914}}.
+   EXTRA-TEXT field. To ensure compatibility with those, DNS clients MUST handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client MUST treat the data as invalid, MUST NOT process it according to this specification. The client MAY instead process the EXTRA-TEXT field as unstructured text as specified in {{!RFC8914}}.
 
 4. If the JSON object contains an "s" field and the sub-error code
    is not defined as applicable to the accompanying Extended DNS Error
