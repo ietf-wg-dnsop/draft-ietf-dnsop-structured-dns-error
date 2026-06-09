@@ -1607,7 +1607,7 @@ to match its expected audience.<a href="#section-4-6" class="pilcrow">¶</a></p>
 <p id="section-4-8">To avoid exceeding the maximum EDNS0 size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> the generated JSON values <span class="bcp14">SHOULD</span> be as short as
 possible: short domain names, concise text in the values for the "j"
 and "o" names, and minified JSON (that is, without spaces or line
-breaks between JSON elements).<a href="#section-4-8" class="pilcrow">¶</a></p>
+breaks between JSON elements). Otherwise, there is a risk that the response will get fragmented.<a href="#section-4-8" class="pilcrow">¶</a></p>
 <p id="section-4-9">The JSON data can be parsed to display to the user, logged, or
 otherwise used to assist troubleshooting and diagnosis of DNS filtering.<a href="#section-4-9" class="pilcrow">¶</a></p>
 <p id="section-4-10">The sub-error codes provide a structured way to communicate more detailed and precise description of the cause of an error (e.g., distinguishing between malware-related blocking and phishing-related blocking under the general blocked error).<a href="#section-4-10" class="pilcrow">¶</a></p>
@@ -1701,7 +1701,7 @@ otherwise the EXTRA-TEXT field is discarded.<a href="#section-5.3-2.2.1" class="
 </li>
           <li id="section-5.3-2.3">
             <p id="section-5.3-2.3.1">Servers that do not support this specification might use plain text in the
-EXTRA-TEXT field. DNS clients <span class="bcp14">SHOULD</span> handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client <span class="bcp14">MUST</span> treat the data as invalid, <span class="bcp14">MUST NOT</span> process it according to this specification. The client <span class="bcp14">MAY</span> instead process the EXTRA-TEXT field as unstructured text as specified in <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>.<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></p>
+EXTRA-TEXT field. To ensure compatibility with those, DNS clients <span class="bcp14">SHOULD</span> handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client <span class="bcp14">MUST</span> treat the data as invalid, <span class="bcp14">MUST NOT</span> process it according to this specification. The client <span class="bcp14">MAY</span> instead process the EXTRA-TEXT field as unstructured text as specified in <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>.<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.3-2.4">
             <p id="section-5.3-2.4.1">If the JSON object contains an "s" field and the sub-error code
