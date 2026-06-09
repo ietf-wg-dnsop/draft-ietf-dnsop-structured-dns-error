@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 10 December 2026                                        N. Cook
+Expires: 11 December 2026                                        N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                             8 June 2026
+                                                             9 June 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 December 2026.
+   This Internet-Draft will expire on 11 December 2026.
 
 Copyright Notice
 
@@ -393,8 +393,8 @@ Table of Contents
       conform to the language tag syntax specified in Section 2.1 of
       [RFC5646].
 
-      This field is optional.  It MUST be included when either the "j"
-      or "o" fields are present.
+      This field is REQUIRED when either the "j" or "o" fields are
+      present.
 
    The text in the "j" and "o" names can include international
    characters.  The text will be in natural language, chosen by the DNS
