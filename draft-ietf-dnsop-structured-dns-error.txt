@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 8 November 2026                                         N. Cook
+Expires: 11 December 2026                                        N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                              7 May 2026
+                                                             9 June 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -19,10 +19,11 @@ Expires: 8 November 2026                                         N. Cook
 Abstract
 
    DNS filtering is widely deployed for various reasons, including
-   network security.  However, filtered DNS responses lack structured
-   information for end users to understand the reason for the filtering.
-   Existing mechanisms to provide explanatory details to end users cause
-   harm especially if the blocked DNS response is for HTTPS resources.
+   network security and policy enforcement.  However, filtered DNS
+   responses lack structured information for end users to understand the
+   reason for the filtering.  Existing mechanisms to provide explanatory
+   details to end users cause harm especially if the blocked DNS
+   response is for HTTPS resources.
 
    This document updates RFC 8914 by signaling client support for
    structuring the EXTRA-TEXT field of the Extended DNS Error to provide
@@ -63,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 November 2026.
+   This Internet-Draft will expire on 11 December 2026.
 
 Copyright Notice
 
@@ -206,6 +207,15 @@ Table of Contents
    Structured DNS Error (SDE) is an EDNS(0) option indicating support
    for structured encoding of the EXTRA-TEXT field.  See also
    Section 5.4.
+
+   "DNS administrator" refers to the party responsible for operating and
+   configuring the DNS server, including the definition of filtering
+   policies.
+
+   "IT/InfoSec team" refers to the organizational team responsible for
+   receiving and handling end-user reports of misclassified DNS
+   filtering, including decisions on allowlisting domains or revising
+   filtering policies.
 
 3.  DNS Filtering Techniques and Their Limitations
 
@@ -367,6 +377,12 @@ Table of Contents
 
       This field is optional.
 
+   When multiple blocking causes apply simultaneously (e.g., a domain is
+   blocked for both malware and phishing reasons), a single SDE response
+   is returned.  The "s" field MUST convey the primary blocking cause.
+   The "j" field MUST be used to provide additional context describing
+   all applicable causes.
+
    o: (organization)  'UTF-8'-encoded human-friendly name of the
       organization that filtered this particular DNS query.
 
@@ -377,21 +393,15 @@ Table of Contents
       conform to the language tag syntax specified in Section 2.1 of
       [RFC5646].
 
-      This field is optional but RECOMMENDED to aid in localization.
+      This field is REQUIRED when either the "j" or "o" fields are
+      present.
 
    The text in the "j" and "o" names can include international
    characters.  The text will be in natural language, chosen by the DNS
    administrator to match its expected audience.
 
-   If the client supports diagnostic interfaces, it MAY use the "l"
-   field to identify the language of the "j" text and optionally
-   translate it.
-
    The "o" field MAY be displayed to end users, subject to the
-   conditions described in Section 10.  If the text is in a language not
-   understood by the end user, the "l" field can be used to identify the
-   language and support translation into the end user's preferred
-   language.
+   conditions described in Section 10.
 
    To avoid exceeding the maximum EDNS0 size [RFC9715] the generated
    JSON values SHOULD be as short as possible: short domain names,
@@ -447,11 +457,14 @@ Table of Contents
    "Blocked by Upstream DNS Server", the DNS server SHOULD include
    additional detail in the EXTRA-TEXT field encoded as structured and
    machine-readable data in accordance with the present specification,
-   unless configured otherwise.  If including the additional detail
-   would cause the response to exceed the EDNS0 size [RFC9715] (and thus
-   setting TC=1), it SHOULD be omitted.  In deployments using DoT, DoH,
-   or DoQ, transport size limitations are unlikely to necessitate
-   omission of structured data in the EXTRA-TEXT field.
+   unless configured otherwise.  If the DNS response is sent over UDP
+   and including the additional detail would cause the response to
+   exceed the EDNS0 size [RFC9715] (and thus setting TC=1), the server
+   MUST first attempt to reduce the response size by omitting the "j"
+   and "o" fields before omitting the EXTRA-TEXT entirely.  In
+   deployments using DoT, DoH, or DoQ, transport size limitations are
+   unlikely to necessitate omission of structured data in the EXTRA-TEXT
+   field.
 
    If the SDE option was not present in the DNS request, the DNS server
    MUST process the request in accordance with [RFC8914] and MUST NOT
@@ -558,7 +571,7 @@ Table of Contents
 
    The SDE option has no OPTION-DATA.  The OPTION-LENGTH field MUST be
    set to 0.  A server receiving an SDE option with a non-zero OPTION-
-   LENGTH MUST ignore the option.
+   LENGTH MUST silently ignore the OPTION-DATA.
 
    The presence of the SDE option in a query indicates that the client
    supports processing the EXTRA-TEXT field in accordance with this
@@ -1127,8 +1140,8 @@ Acknowledgements
    Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
    Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, Bob
    Harold, Mukund Sivaraman, Gianpaolo Angelo Scalone, Mark Nottingham,
-   Stephane Bortzmeyer, Daniel Migault, and Stephen Farrell for the
-   comments.
+   Stephane Bortzmeyer, Daniel Migault, Lars Eggert, and Stephen Farrell
+   for the comments.
 
    Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about
    their implementation.
