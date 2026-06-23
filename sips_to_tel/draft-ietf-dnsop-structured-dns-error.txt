@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 16 November 2026                                        N. Cook
+Expires: 25 December 2026                                        N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                             15 May 2026
+                                                            23 June 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 November 2026.
+   This Internet-Draft will expire on 25 December 2026.
 
 Copyright Notice
 
@@ -393,8 +393,8 @@ Table of Contents
       conform to the language tag syntax specified in Section 2.1 of
       [RFC5646].
 
-      This field is optional but MUST be included when either the "j" or
-      "o" fields are present.
+      This field is REQUIRED when either the "j" or "o" fields are
+      present.
 
    The text in the "j" and "o" names can include international
    characters.  The text will be in natural language, chosen by the DNS
@@ -407,6 +407,7 @@ Table of Contents
    JSON values SHOULD be as short as possible: short domain names,
    concise text in the values for the "j" and "o" names, and minified
    JSON (that is, without spaces or line breaks between JSON elements).
+   Otherwise, there is a risk that the response will get fragmented.
 
    The JSON data can be parsed to display to the user, logged, or
    otherwise used to assist troubleshooting and diagnosis of DNS
@@ -445,29 +446,6 @@ Table of Contents
    field of the EDE option is encoded and processed in accordance with
    this specification.
 
-   A client that wishes to express a preferred response language MUST
-   populate the OPTION-DATA of the SDE option with an ordered list of
-   RFC 5646 [RFC5646] language tags, listed from most to least
-   preferred, using the format defined in Section 5.4.  The list SHOULD
-   contain no more than 4 entries and MUST NOT contain more than 8
-   entries.  The limit of 4 entries reflects typical real-world language
-   preference lists, as a user with 2 configured languages may generate
-   up to 4 entries after language-only fallback tags are added (e.g.,
-   "en-US, en, zh-CN, zh").  The hard limit of 8 entries bounds the
-   contribution of the SDE option to the DNS query size (see [RFC9715])
-   and ensures predictable server processing as described in
-   Section 5.2.  A client that has no language preference MUST set
-   OPTION-LENGTH to 0.  This is the default behavior.
-
-   For privacy reasons, clients MAY send fewer language entries than the
-   user has configured or omit the language list entirely by setting
-   OPTION-LENGTH to 0.
-
-   The "l" field in the JSON body of the EXTRA-TEXT response (Section 4)
-   remains the authoritative indicator of the language used in the "j"
-   and "o" fields and MUST continue to be used by clients for
-   localisation and machine translation decisions.
-
 5.2.  Server Generating Response
 
    When the DNS server filters its DNS response to a query (e.g., A or
@@ -480,32 +458,14 @@ Table of Contents
    "Blocked by Upstream DNS Server", the DNS server SHOULD include
    additional detail in the EXTRA-TEXT field encoded as structured and
    machine-readable data in accordance with the present specification,
-   unless configured otherwise.  If including the additional detail
-   would cause the response to exceed the EDNS0 size [RFC9715] (and thus
-   setting TC=1), the server SHOULD first attempt to reduce the response
-   size by omitting the "j" and "o" fields before omitting the EXTRA-
-   TEXT entirely.  In deployments using DoT, DoH, or DoQ, transport size
-   limitations are unlikely to necessitate omission of structured data
-   in the EXTRA-TEXT field.
-
-   If the SDE option OPTION-DATA is non-empty and the server intends to
-   populate the "j" or "o" fields, the server MUST perform [RFC4647]
-   lookup matching against the language entries in the order they
-   appear, selecting the first entry for which localised text is
-   available.  If a match is found, the server SHOULD populate the "j"
-   and "o" fields in the matched language; either field MAY be omitted
-   if the server has no value to convey for it.  If either field is
-   present, the server MUST set the "l" field to the matched language
-   tag.  If no match is found, the server MUST fall back to its default
-   language.  A failure to match a preferred language MUST NOT prevent
-   the server from returning a response.
-
-   Language negotiation adversely affects caching, as different clients
-   may request different languages for the same filtered domain.
-
-   A server receiving an SDE option with unrecognised or malformed
-   OPTION-DATA MUST silently ignore the OPTION-DATA and process the
-   option as if OPTION-LENGTH were 0.
+   unless configured otherwise.  If the DNS response is sent over UDP
+   and including the additional detail would cause the response to
+   exceed the EDNS0 size [RFC9715] (and thus setting TC=1), the server
+   MUST first attempt to reduce the response size by omitting the "j"
+   and "o" fields before omitting the EXTRA-TEXT entirely.  In
+   deployments using DoT, DoH, or DoQ, transport size limitations are
+   unlikely to necessitate omission of structured data in the EXTRA-TEXT
+   field.
 
    If the SDE option was not present in the DNS request, the DNS server
    MUST process the request in accordance with [RFC8914] and MUST NOT
@@ -555,13 +515,14 @@ Table of Contents
        [RFC8914], otherwise the EXTRA-TEXT field is discarded.
 
    3.  Servers that do not support this specification might use plain
-       text in the EXTRA-TEXT field.  DNS clients SHOULD handle both
-       plaintext and structured content.  The client attempts to parse
-       the EXTRA-TEXT field as I-JSON.  If parsing fails or the content
-       is not valid I-JSON, the client MUST treat the data as invalid,
-       MUST NOT process it according to this specification.  The client
-       MAY instead process the EXTRA-TEXT field as unstructured text as
-       specified in [RFC8914].
+       text in the EXTRA-TEXT field.  To ensure compatibility with
+       those, DNS clients SHOULD handle both plaintext and structured
+       content.  The client attempts to parse the EXTRA-TEXT field as
+       I-JSON.  If parsing fails or the content is not valid I-JSON, the
+       client MUST treat the data as invalid, MUST NOT process it
+       according to this specification.  The client MAY instead process
+       the EXTRA-TEXT field as unstructured text as specified in
+       [RFC8914].
 
    4.  If the JSON object contains an "s" field and the sub-error code
        is not defined as applicable to the accompanying Extended DNS
@@ -610,20 +571,9 @@ Table of Contents
    indicate support for I-JSON encoding in the EXTRA-TEXT field of an
    Extended DNS Error (EDE) option.
 
-   The SDE option MAY carry an OPTION-DATA field containing an ordered
-   list of preferred languages.  The OPTION-LENGTH field indicates the
-   total length of the OPTION-DATA in octets.  An OPTION-LENGTH of 0
-   indicates no language preference and is semantically equivalent to
-   the absence of OPTION-DATA.
-
-   The OPTION-DATA, when present, contains a comma-separated list of
-   [RFC5646] language tags, ordered from most to least preferred,
-   bounded by OPTION-LENGTH.  The language tags never contain commas,
-   making the comma an unambiguous delimiter.  Parsing MUST be bounded
-   by OPTION-LENGTH to prevent buffer overread.  For example, a client
-   preferring US English then French encodes:
-
-   en-US,fr
+   The SDE option has no OPTION-DATA.  The OPTION-LENGTH field MUST be
+   set to 0.  A server receiving an SDE option with a non-zero OPTION-
+   LENGTH MUST silently ignore the OPTION-DATA.
 
    The presence of the SDE option in a query indicates that the client
    supports processing the EXTRA-TEXT field in accordance with this
@@ -681,8 +631,7 @@ Table of Contents
 
    {
      "c": [
-       "tel:+358-555-1234567",
-       "sips:bob@bobphone.example.com"
+       "tel:+358-555-1234567"
      ],
      "j": "malware present for 23 days",
      "s": 1,
@@ -696,7 +645,7 @@ Table of Contents
    In Figure 2 the same content is shown with minified JSON (no
    whitespace, no blank lines) with '\' line wrapping per [RFC8792].
 
-   { "c":["tel:+358-555-1234567","sips:bob@bobphone.example.com"],\
+   { "c":["tel:+358-555-1234567"],\
    "j":"malware present for 23 days",\
    "s":1,\
    "o":"example.net Filtering Service",\
@@ -707,17 +656,17 @@ Table of Contents
    Figure 3 shows how the SDE and EDE options appear in a dig response
    for the same query.
 
-  ;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 12345
-  ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+   ;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 12345
+   ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
 
-  ;; OPT PSEUDOSECTION:
-  ; EDNS: version: 0, flags:; udp: 1232
-  ; OPT=TBD1 (Structured DNS Error): [en-US, fr]
-  ; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567",\
-    "sips:bob@bobphone.example.com"],"j":"malware present for 23 days",\
-    "s":1,"o":"example.net Filtering Service","l":"en"})
+   ;; OPT PSEUDOSECTION:
+   ; EDNS: version: 0, flags:; udp: 1232
+   ; OPT=TBD1 (Structured DNS Error): (no data)
+   ; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567"],\
+     "j":"malware present for 23 days",\
+     "s":1,"o":"example.net Filtering Service","l":"en"})
 
-            Figure 3: dig Response Showing SDE and EDE Options
+             Figure 3: dig Response Showing SDE and EDE Options
 
 9.  Operational Considerations
 
@@ -790,7 +739,7 @@ Table of Contents
    from the EXTRA-TEXT field.  Doing so could allow a resolver to
    silently report client activity to third parties, enable denial-of-
    service reflection attacks, or be used to entrap a client.  The
-   restriction of Contact URI schemes to "sips", "tel", and "mailto" is
+   restriction of Contact URI schemes to "tel" and "mailto" is
    intentional, as these schemes do not result in automatic HTTP
    connections.
 
@@ -856,10 +805,6 @@ Table of Contents
    Status:  Standard
 
    Reference:  RFC XXXX
-
-   Note: The OPTION-DATA for this option carries an optional ordered
-   list of preferred languages as defined in Section 5.4.  An OPTION-
-   LENGTH of 0 indicates no language preference.
 
 11.2.  New Registry for JSON Names
 
@@ -941,8 +886,6 @@ Table of Contents
                  +========+==================+===========+
                  |  Name  | Meaning          | Reference |
                  +========+==================+===========+
-                 |  sips  | SIP Call         | [RFC5630] |
-                 +--------+------------------+-----------+
                  |  tel   | Telephone Number | [RFC3966] |
                  +--------+------------------+-----------+
                  | mailto | Internet mail    | [RFC6068] |
@@ -1040,10 +983,6 @@ Table of Contents
               RFC 3966, DOI 10.17487/RFC3966, December 2004,
               <https://www.rfc-editor.org/rfc/rfc3966>.
 
-   [RFC4647]  Phillips, A., Ed. and M. Davis, Ed., "Matching of Language
-              Tags", BCP 47, RFC 4647, DOI 10.17487/RFC4647, September
-              2006, <https://www.rfc-editor.org/rfc/rfc4647>.
-
    [RFC4949]  Shirey, R., "Internet Security Glossary, Version 2",
               FYI 36, RFC 4949, DOI 10.17487/RFC4949, August 2007,
               <https://www.rfc-editor.org/rfc/rfc4949>.
@@ -1051,11 +990,6 @@ Table of Contents
    [RFC5198]  Klensin, J. and M. Padlipsky, "Unicode Format for Network
               Interchange", RFC 5198, DOI 10.17487/RFC5198, March 2008,
               <https://www.rfc-editor.org/rfc/rfc5198>.
-
-   [RFC5630]  Audet, F., "The Use of the SIPS URI Scheme in the Session
-              Initiation Protocol (SIP)", RFC 5630,
-              DOI 10.17487/RFC5630, October 2009,
-              <https://www.rfc-editor.org/rfc/rfc5630>.
 
    [RFC5646]  Phillips, A., Ed. and M. Davis, Ed., "Tags for Identifying
               Languages", BCP 47, RFC 5646, DOI 10.17487/RFC5646,
@@ -1200,8 +1134,8 @@ Acknowledgements
    Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
    Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, Bob
    Harold, Mukund Sivaraman, Gianpaolo Angelo Scalone, Mark Nottingham,
-   Stephane Bortzmeyer, Daniel Migault, and Stephen Farrell for the
-   comments.
+   Stephane Bortzmeyer, Daniel Migault, Lars Eggert, and Stephen Farrell
+   for the comments.
 
    Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about
    their implementation.
