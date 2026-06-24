@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 11 December 2026                                        N. Cook
+Expires: 26 December 2026                                        N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                             9 June 2026
+                                                            24 June 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 December 2026.
+   This Internet-Draft will expire on 26 December 2026.
 
 Copyright Notice
 
@@ -631,8 +631,7 @@ Table of Contents
 
    {
      "c": [
-       "tel:+358-555-1234567",
-       "sips:bob@bobphone.example.com"
+       "tel:+358-555-1234567"
      ],
      "j": "malware present for 23 days",
      "s": 1,
@@ -646,7 +645,7 @@ Table of Contents
    In Figure 2 the same content is shown with minified JSON (no
    whitespace, no blank lines) with '\' line wrapping per [RFC8792].
 
-   { "c":["tel:+358-555-1234567","sips:bob@bobphone.example.com"],\
+   { "c":["tel:+358-555-1234567"],\
    "j":"malware present for 23 days",\
    "s":1,\
    "o":"example.net Filtering Service",\
@@ -657,17 +656,17 @@ Table of Contents
    Figure 3 shows how the SDE and EDE options appear in a dig response
    for the same query.
 
-  ;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 12345
-  ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+   ;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 12345
+   ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
 
-  ;; OPT PSEUDOSECTION:
-  ; EDNS: version: 0, flags:; udp: 1232
-  ; OPT=TBD1 (Structured DNS Error): (no data)
-  ; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567",\
-    "sips:bob@bobphone.example.com"],"j":"malware present for 23 days",\
-    "s":1,"o":"example.net Filtering Service","l":"en"})
+   ;; OPT PSEUDOSECTION:
+   ; EDNS: version: 0, flags:; udp: 1232
+   ; OPT=TBD1 (Structured DNS Error): (no data)
+   ; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567"],\
+     "j":"malware present for 23 days",\
+     "s":1,"o":"example.net Filtering Service","l":"en"})
 
-            Figure 3: dig Response Showing SDE and EDE Options
+             Figure 3: dig Response Showing SDE and EDE Options
 
 9.  Operational Considerations
 
@@ -740,7 +739,7 @@ Table of Contents
    from the EXTRA-TEXT field.  Doing so could allow a resolver to
    silently report client activity to third parties, enable denial-of-
    service reflection attacks, or be used to entrap a client.  The
-   restriction of Contact URI schemes to "sips", "tel", and "mailto" is
+   restriction of Contact URI schemes to "tel" and "mailto" is
    intentional, as these schemes do not result in automatic HTTP
    connections.
 
@@ -887,8 +886,6 @@ Table of Contents
                  +========+==================+===========+
                  |  Name  | Meaning          | Reference |
                  +========+==================+===========+
-                 |  sips  | SIP Call         | [RFC5630] |
-                 +--------+------------------+-----------+
                  |  tel   | Telephone Number | [RFC3966] |
                  +--------+------------------+-----------+
                  | mailto | Internet mail    | [RFC6068] |
@@ -993,11 +990,6 @@ Table of Contents
    [RFC5198]  Klensin, J. and M. Padlipsky, "Unicode Format for Network
               Interchange", RFC 5198, DOI 10.17487/RFC5198, March 2008,
               <https://www.rfc-editor.org/rfc/rfc5198>.
-
-   [RFC5630]  Audet, F., "The Use of the SIPS URI Scheme in the Session
-              Initiation Protocol (SIP)", RFC 5630,
-              DOI 10.17487/RFC5630, October 2009,
-              <https://www.rfc-editor.org/rfc/rfc5630>.
 
    [RFC5646]  Phillips, A., Ed. and M. Davis, Ed., "Tags for Identifying
               Languages", BCP 47, RFC 5646, DOI 10.17487/RFC5646,
