@@ -303,11 +303,10 @@ s: (sub-error)
 : An integer representing the sub-error code for this particular DNS filtering case.
 : The integer values are defined in the IANA-managed registry for Extended DNS Sub-Error Codes in {{IANA-SubError}}.
 : This field is optional.
-
-When multiple blocking causes apply simultaneously
+: When multiple blocking causes apply simultaneously
 (e.g., a domain is blocked for both malware and phishing reasons),
-a single SDE response is returned. The "s" field MUST convey the
-primary blocking cause. The "j" field MUST be used to provide
+a single SDE response is returned. If "s" is supplied, then the "s" field MUST convey the
+primary blocking cause. In such case, the "j" field MUST be used to provide
 additional context describing all applicable causes.
 
 o: (organization)
