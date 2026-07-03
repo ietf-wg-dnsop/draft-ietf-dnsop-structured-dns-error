@@ -619,7 +619,7 @@ DNS clients MAY keep all fields conveyed in the EXTRA-TEXT field for evaluation 
 An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
 DNS forwarder will forward that attacker-controlled EDE option.  To
-prevent such an attack, clients can be configured to process EDE from
+prevent such an attack, clients can be configured to process EDE only from
 explicitly configured DNS servers or utilize RESINFO
 {{?RFC9606}}.
 
