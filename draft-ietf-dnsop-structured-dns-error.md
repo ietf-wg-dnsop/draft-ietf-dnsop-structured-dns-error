@@ -386,7 +386,7 @@ Servers MAY decide to return small TTL values in filtered DNS
 responses (e.g., 10 seconds) to handle domain category and reputation
 updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
 but can result in increased query traffic. In cases where updates are less frequent,
-TTL values of 30 to 60 seconds MAY provide a better balance, reducing server load while
+TTL values of 30 to 60 seconds might provide a better balance, reducing server load while
 still ensuring reasonable flexibility for updates.
 
 If the query includes the SDE option as per {{client-request}}, the server MUST
