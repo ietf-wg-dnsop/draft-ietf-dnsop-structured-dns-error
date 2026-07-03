@@ -189,21 +189,25 @@ filtering policies.
 DNS responses can be filtered by sending, e.g., a bogus (also called
 "forged") response, NXDOMAIN error, or empty answer. Also, clients can be informed that filtering occurred by sending an
 Extended DNS Error code defined in {{!RFC8914}}. Each of these
-methods have advantages and disadvantages that are discussed below:
+methods have advantages and disadvantages that are discussed in the following subsections.
 
-* The DNS response is forged to provide a list of IP addresses that
+## Forged Responses
+
+The DNS response is forged to provide a list of IP addresses that
 points to an HTTP(S) server alerting the end user about the reason for
 blocking access to the requested domain (e.g., malware). If the host component {{?RFC3986}}
 of an HTTP URL is blocked, the network security device
 (e.g., Customer Premises Equipment (CPE) or firewall) presents a block page instead of the HTTP
 response from the content provider hosting that domain. This works successfully with HTTP.
-<br/><br/>
-  If this is an HTTPS URL, the network security device attempts to serve the block page over HTTPS.  In order to return a block page over HTTPS, the network security device uses a locally
+
+If this is an HTTPS URL, the network security device attempts to serve the block page over HTTPS.  In order to return a block page over HTTPS, the network security device uses a locally
 generated root certificate and corresponding key pair. The local root certificate is
 installed on the endpoint while the network security device stores a copy of the private key.
 During the TLS handshake, the on-path network security device modifies the certificate
 provided by the server and (re)signs it using the private key from the local root
 certificate.
+
+Note that:
 
    * In deployments where DNSSEC is used, this approach becomes ineffective because DNSSEC
      ensures the integrity and authenticity of DNS responses, preventing forged DNS
@@ -243,9 +247,13 @@ certificate.
      certificate expires, the end user has to (again) manually install the
      new local root certificate.
 
-* The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the end user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.
+## Forged NXDOMAIN Answer
 
-* The extended error codes Blocked and Filtered defined in
+The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the end user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.
+
+## Extended Error Codes (EDEs)
+
+The extended error codes Blocked and Filtered defined in
 {{Section 4 of !RFC8914}} can be returned by a DNS server to provide
 additional information about the cause of a DNS error.
 These extended error codes do not suffer from the limitations
@@ -378,7 +386,7 @@ Servers MAY return small TTL values in filtered DNS
 responses (e.g., 10 seconds) to handle domain category and reputation
 updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
 but can result in increased query traffic. In cases where updates are less frequent,
-TTL values of 30 to 60 seconds MAY provide a better balance, reducing server load while
+TTL values of 30 to 60 seconds might provide a better balance, reducing server load while
 still ensuring reasonable flexibility for updates.
 
 If the query includes the SDE option as per {{client-request}}, the server MUST
@@ -611,7 +619,7 @@ DNS clients MAY keep all fields conveyed in the EXTRA-TEXT field for evaluation 
 An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
 DNS forwarder will forward that attacker-controlled EDE option.  To
-prevent such an attack, clients can be configured to process EDE from
+prevent such an attack, clients can be configured to process EDE only from
 explicitly configured DNS servers or utilize RESINFO
 {{?RFC9606}}.
 
