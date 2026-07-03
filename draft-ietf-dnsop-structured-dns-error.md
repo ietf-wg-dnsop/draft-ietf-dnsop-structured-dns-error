@@ -271,6 +271,8 @@ over an integrity-protected DNS response.
 
 # I-JSON in EXTRA-TEXT Field {#name-spec}
 
+## JSON Names
+
 DNS servers that are compliant with this specification and have received an indication that the client also supports this specification as per {{client-request}} send data in the EXTRA-TEXT field {{!RFC8914}} as a JSON object encoded using the Internet JSON (I-JSON) message format {{!RFC7493}}.
 
 This document defines the following JSON names:
@@ -337,13 +339,16 @@ The sub-error codes provide a structured way to communicate more detailed and pr
 
 > An alternate design for conveying the sub-error would be to define new EDE codes for these errors. However, such design is suboptimal because it requires replicating an error code for each EDE code to which the sub-error applies (e.g., "Malware" sub-error in {{reg}} would consume three EDE codes).
 
+## Future JSON Names Requirements
+
+New JSON names may be defined in the future. This section specifies the requirements to take into account for such names.
+
 New JSON names MUST consist only of lower-case ASCII characters, digits,
 and hyphen-minus (that is, Unicode characters U+0061 through 007A,
 U+0030 through U+0039, and U+002D). Also, these names MUST be 63
 characters or shorter and it is RECOMMENDED they be as short as
 possible to reduce contribution to exceeding maximum EDNS0 response
 size. Refer to {{?RFC9715}} for a discusson on IP fragmentation avoidance in DNS.
-
 
 # Protocol Operation
 
