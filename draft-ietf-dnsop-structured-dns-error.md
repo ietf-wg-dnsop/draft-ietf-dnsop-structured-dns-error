@@ -610,7 +610,11 @@ conditions is met:
   * The value consists solely of an organization name and does not contain any additional free-form content such
     as instructions, URLs, or messaging intended to influence end user behavior, as determined by client security policy or heuristics.
 
-If the organization name cannot be verified through registry checks or heuristics, the client MUST NOT display the "o" field to the end user.
+If the organization name cannot be verified through registry checks or heuristics, the client should avoid displaying the "o" field to the end user.
+Standardization of registry checks or heuristics are beyond the scope of this
+document, including how such a list is created and updated and how
+the registry check or heuristics influence user experience or user
+interface elements of the structured DNS error response.
 
 DNS clients MAY keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data MUST NOT be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.
 
