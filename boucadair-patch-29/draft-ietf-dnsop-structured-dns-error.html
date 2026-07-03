@@ -1712,7 +1712,7 @@ server.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 responses (e.g., 10 seconds) to handle domain category and reputation
 updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
 but can result in increased query traffic. In cases where updates are less frequent,
-TTL values of 30 to 60 seconds <span class="bcp14">MAY</span> provide a better balance, reducing server load while
+TTL values of 30 to 60 seconds might provide a better balance, reducing server load while
 still ensuring reasonable flexibility for updates.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
 <p id="section-5.2-5">If the query includes the SDE option as per <a href="#client-request" class="auto internal xref">Section 5.1</a>, the server <span class="bcp14">MUST NOT</span> return the "Forged Answer" extended error code because the client
 can take advantage of EDE's more sophisticated error reporting (e.g.,

@@ -500,7 +500,7 @@ Table of Contents
    updates.  Short TTLs allow for quick adaptation to dynamic changes in
    domain filtering decisions, but can result in increased query
    traffic.  In cases where updates are less frequent, TTL values of 30
-   to 60 seconds MAY provide a better balance, reducing server load
+   to 60 seconds might provide a better balance, reducing server load
    while still ensuring reasonable flexibility for updates.
 
    If the query includes the SDE option as per Section 5.1, the server
