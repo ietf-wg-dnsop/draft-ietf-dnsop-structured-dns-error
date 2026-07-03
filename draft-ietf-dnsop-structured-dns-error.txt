@@ -101,6 +101,7 @@ Table of Contents
    8.  Examples
    9.  Operational Considerations
      9.1.  Backward Compatibility
+     9.2.  Client Updates
    10. Security Considerations
      10.1.  Authentication and Confidentiality
      10.2.  Restrictions on Display of "c", "o", and "j" Fields
@@ -689,6 +690,15 @@ Table of Contents
    Future extensions MUST NOT introduce mandatory JSON attributes, as
    existing implementations are required to ignore unknown JSON names
    (see Section 5.3).
+
+9.2.  Client Updates
+
+   The specification relies on several IANA-maintained registries.  In
+   particular, since the content of these registries may change with
+   time, clients that implement this extension have to periodically
+   update the list of supported values in the "Contact URI Schemes"
+   registry Section 11.3 to avoid discarding a recently-added Contact
+   URI.
 
 10.  Security Considerations
 
