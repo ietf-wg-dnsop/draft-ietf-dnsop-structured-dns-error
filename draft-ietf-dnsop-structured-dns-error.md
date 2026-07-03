@@ -301,7 +301,7 @@ a DNS server is misbehaving.
 
 s: (sub-error)
 : An integer representing the sub-error code for this particular DNS filtering case.
-: The integer values are defined in the IANA-managed registry for DNS Sub-Error Codes in {{IANA-SubError}}.
+: The integer values are defined in the IANA-managed registry for Extended DNS Sub-Error Codes in {{IANA-SubError}}.
 : This field is optional.
 
 When multiple blocking causes apply simultaneously
@@ -696,9 +696,9 @@ following schemes:
 The registration procedure for adding new Contact URI schemes to the "Contact URI Schemes" registry is "IETF
 Review" as defined in {{Section 4.8 of !RFC8126}}.
 
-## New Registry for DNS Sub-Error Codes {#IANA-SubError}
+## New Registry for Extended DNS Sub-Error Codes {#IANA-SubError}
 
-This document requests IANA to create a new registry, entitled "Sub-Error Codes"
+This document requests IANA to create a new registry, entitled "Extended DNS Sub-Error Codes"
 under "Extended DNS Error Codes" registry, which is under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}. The registration request for a new sub-error code must include the
 following fields:
 
@@ -726,7 +726,7 @@ following values:
 | 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document |
 {: #reg title='Initial Sub-Error Code Registry'}
 
-The registration procedure to add New Sub-Error Codes is IETF Review as defined in {{Section 4.8 of !RFC8126}}.
+The registration procedure to add new Sub-Error Codes is IETF Review as defined in {{Section 4.8 of !RFC8126}}.
 
 ## New Extended DNS Error Code
 
