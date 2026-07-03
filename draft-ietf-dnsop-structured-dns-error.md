@@ -78,10 +78,6 @@ informative:
      title: "Use of DNS Errors To improve Browsing User Experience With network based malware protection"
      target: https://datatracker.ietf.org/meeting/116/materials/slides-116-dnsop-dns-errors-implementation-proposal-slides-116-dnsop-update-on-dns-errors-implementation-00
      date: 30-03-2023
-  IANA-Enterprise:
-     title: "Private Enterprise Numbers (PENs)"
-     target: https://www.iana.org/assignments/enterprise-numbers/
-     date: false
 
 --- abstract
 
@@ -603,14 +599,16 @@ choose to display the contact details only when the identity of the DNS server i
 
 Clients MUST NOT automatically initiate connections to URIs derived from the EXTRA-TEXT field. Doing so could allow a resolver to silently report client activity to third parties, enable denial-of-service reflection attacks, or be used to entrap a client. The restriction of Contact URI schemes to "tel" and "mailto" is intentional, as these schemes do not result in automatic HTTP connections.
 
-Further, clients MUST NOT display the value of the `"o"` field to the end user unless one of the following
+Furthermore, clients MUST NOT display the value of the `"o"` field to the end user unless one of the following
 conditions is met:
 
-  * The value matches a registered organization name listed in the {{IANA-Enterprise}} OR
+  * The value matches a registered organization name in a trust list maintained by the client, OR
   * The value consists solely of an organization name and does not contain any additional free-form content such
     as instructions, URLs, or messaging intended to influence end user behavior, as determined by client security policy or heuristics.
 
 If the organization name cannot be verified through registry checks or heuristics, the client MUST NOT display the "o" field to the end user.
+
+It is beyond the scope of this document to describe how the trust list is created and updated, and how the structured DNS error response interacts with the trust list to influence user experience or user interface elements.
 
 DNS clients MAY keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data MUST NOT be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.
 
