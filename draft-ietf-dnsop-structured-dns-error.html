@@ -1189,7 +1189,18 @@ other purposes.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-dns-filtering-techniques-an" class="internal xref">DNS Filtering Techniques and Their Limitations</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-dns-filtering-techniques-an" class="internal xref">DNS Filtering Techniques and Their Limitations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-forged-responses" class="internal xref">Forged Responses</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-forged-nxdomain-answer" class="internal xref">Forged NXDOMAIN Answer</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-extended-error-codes-edes" class="internal xref">Extended Error Codes (EDEs)</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-i-json-in-extra-text-field" class="internal xref">I-JSON in EXTRA-TEXT Field</a></p>
@@ -1408,34 +1419,37 @@ filtering policies.<a href="#section-2-8" class="pilcrow">¶</a></p>
 <p id="section-3-1">DNS responses can be filtered by sending, e.g., a bogus (also called
 "forged") response, NXDOMAIN error, or empty answer. Also, clients can be informed that filtering occurred by sending an
 Extended DNS Error code defined in <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>. Each of these
-methods have advantages and disadvantages that are discussed below:<a href="#section-3-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3-2.1">
-          <p id="section-3-2.1.1">The DNS response is forged to provide a list of IP addresses that
+methods have advantages and disadvantages that are discussed in the following subsections.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<div id="forged-responses">
+<section id="section-3.1">
+        <h3 id="name-forged-responses">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-forged-responses" class="section-name selfRef">Forged Responses</a>
+        </h3>
+<p id="section-3.1-1">The DNS response is forged to provide a list of IP addresses that
 points to an HTTP(S) server alerting the end user about the reason for
 blocking access to the requested domain (e.g., malware). If the host component <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>
 of an HTTP URL is blocked, the network security device
 (e.g., Customer Premises Equipment (CPE) or firewall) presents a block page instead of the HTTP
-response from the content provider hosting that domain. This works successfully with HTTP.
-<br><br>
-If this is an HTTPS URL, the network security device attempts to serve the block page over HTTPS.  In order to return a block page over HTTPS, the network security device uses a locally
+response from the content provider hosting that domain. This works successfully with HTTP.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">If this is an HTTPS URL, the network security device attempts to serve the block page over HTTPS.  In order to return a block page over HTTPS, the network security device uses a locally
 generated root certificate and corresponding key pair. The local root certificate is
 installed on the endpoint while the network security device stores a copy of the private key.
 During the TLS handshake, the on-path network security device modifies the certificate
 provided by the server and (re)signs it using the private key from the local root
-certificate.<a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
+certificate.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-3">Note that:<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3-2.1.2.1">
-              <p id="section-3-2.1.2.1.1">In deployments where DNSSEC is used, this approach becomes ineffective because DNSSEC
+<li class="normal" id="section-3.1-4.1">
+            <p id="section-3.1-4.1.1">In deployments where DNSSEC is used, this approach becomes ineffective because DNSSEC
 ensures the integrity and authenticity of DNS responses, preventing forged DNS
-responses from being accepted.<a href="#section-3-2.1.2.1.1" class="pilcrow">¶</a></p>
+responses from being accepted.<a href="#section-3.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3-2.1.2.2">
-              <p id="section-3-2.1.2.2.1">The HTTPS server hosted on the network security device will have access to the
-client's IP address, the hostname, and the URL path component of the request. This information will be sensitive, as it will expose the end user's identity and the specific resource that an end user attempted to access.<a href="#section-3-2.1.2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.1-4.2">
+            <p id="section-3.1-4.2.1">The HTTPS server hosted on the network security device will have access to the
+client's IP address, the hostname, and the URL path component of the request. This information will be sensitive, as it will expose the end user's identity and the specific resource that an end user attempted to access.<a href="#section-3.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3-2.1.2.3">
-              <p id="section-3-2.1.2.3.1">Configuring a local root certificate on endpoints is
+          <li class="normal" id="section-3.1-4.3">
+            <p id="section-3.1-4.3.1">Configuring a local root certificate on endpoints is
 not a viable option in several deployments like home networks,
 schools, Small Office/Home Office (SOHO), or Small/Medium
 Enterprise (SME). In these cases, the typical behavior is that
@@ -1443,17 +1457,17 @@ the filtered DNS response points to a server that will display
 the block page. If the client is using HTTPS (via a web browser or
 another application) this results in a certificate validation
 error which gives no information to the end user about the reason
-for the DNS filtering.<a href="#section-3-2.1.2.3.1" class="pilcrow">¶</a></p>
+for the DNS filtering.<a href="#section-3.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3-2.1.2.4">
-              <p id="section-3-2.1.2.4.1">Enterprise networks do not always assume that all the connected devices
+          <li class="normal" id="section-3.1-4.4">
+            <p id="section-3.1-4.4.1">Enterprise networks do not always assume that all the connected devices
 are managed by the IT team or Mobile Device Management (MDM)
 devices, especially in the quite common Bring Your Own Device
 (BYOD) scenario. In addition, the local root certificate cannot
-be installed on IoT devices without a device management tool.<a href="#section-3-2.1.2.4.1" class="pilcrow">¶</a></p>
+be installed on IoT devices without a device management tool.<a href="#section-3.1-4.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3-2.1.2.5">
-              <p id="section-3-2.1.2.5.1">An end user does not know why the connection was prevented and,
+          <li class="normal" id="section-3.1-4.5">
+            <p id="section-3.1-4.5.1">An end user does not know why the connection was prevented and,
 consequently, may repeatedly try to reach the domain but with no
 success. Frustrated, the end user may switch to an alternate
 network that offers no DNS filtering against malware and
@@ -1466,15 +1480,25 @@ on a host device. Doing so, however, is also a bad security
 practice as it creates a security vulnerability that may be
 exploited by a MITM attack. When a manually installed local root
 certificate expires, the end user has to (again) manually install the
-new local root certificate.<a href="#section-3-2.1.2.5.1" class="pilcrow">¶</a></p>
+new local root certificate.<a href="#section-3.1-4.5.1" class="pilcrow">¶</a></p>
 </li>
-          </ul>
-</li>
-        <li class="normal" id="section-3-2.2">
-          <p id="section-3-2.2.1">The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the end user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-3-2.3">
-          <p id="section-3-2.3.1">The extended error codes Blocked and Filtered defined in
+        </ul>
+</section>
+</div>
+<div id="forged-nxdomain-answer">
+<section id="section-3.2">
+        <h3 id="name-forged-nxdomain-answer">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-forged-nxdomain-answer" class="section-name selfRef">Forged NXDOMAIN Answer</a>
+        </h3>
+<p id="section-3.2-1">The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the end user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="extended-error-codes-edes">
+<section id="section-3.3">
+        <h3 id="name-extended-error-codes-edes">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-extended-error-codes-edes" class="section-name selfRef">Extended Error Codes (EDEs)</a>
+        </h3>
+<p id="section-3.3-1">The extended error codes Blocked and Filtered defined in
 <span><a href="https://rfc-editor.org/rfc/rfc8914#section-4" class="relref">Section 4</a> of [<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> can be returned by a DNS server to provide
 additional information about the cause of a DNS error.
 These extended error codes do not suffer from the limitations
@@ -1487,17 +1511,17 @@ revealing sensitive information to the attacker, etc. An end user may need to
 know the contact details of the IT/InfoSec team to raise a complaint.
 Further, the information conveyed by <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> is intended for
 diagnostic purposes and is not structured for automated processing,
-localization, or extensibility.<a href="#section-3-2.3.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
-<p id="section-3-3">This document defines a structured,
+localization, or extensibility.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">This document defines a structured,
 machine-readable format for conveying such details in the EXTRA-TEXT
 field, enabling clients to process the information programmatically
 and present it to end users (e.g., with localization support), while
 allowing for extensibility and more granular, client security
 policy-driven handling of the information. This specification requires
 that clients only act upon such information when it is received
-over an integrity-protected DNS response.<a href="#section-3-3" class="pilcrow">¶</a></p>
+over an integrity-protected DNS response.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="name-spec">
@@ -1688,7 +1712,7 @@ server.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 responses (e.g., 10 seconds) to handle domain category and reputation
 updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
 but can result in increased query traffic. In cases where updates are less frequent,
-TTL values of 30 to 60 seconds <span class="bcp14">MAY</span> provide a better balance, reducing server load while
+TTL values of 30 to 60 seconds might provide a better balance, reducing server load while
 still ensuring reasonable flexibility for updates.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
 <p id="section-5.2-5">If the query includes the SDE option as per <a href="#client-request" class="auto internal xref">Section 5.1</a>, the server <span class="bcp14">MUST NOT</span> return the "Forged Answer" extended error code because the client
 can take advantage of EDE's more sophisticated error reporting (e.g.,
@@ -2006,7 +2030,7 @@ as instructions, URLs, or messaging intended to influence end user behavior, as 
 <p id="section-10.3-1">An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
 DNS forwarder will forward that attacker-controlled EDE option.  To
-prevent such an attack, clients can be configured to process EDE from
+prevent such an attack, clients can be configured to process EDE only from
 explicitly configured DNS servers or utilize RESINFO
 <span>[<a href="#RFC9606" class="cite xref">RFC9606</a>]</span>.<a href="#section-10.3-1" class="pilcrow">¶</a></p>
 </section>
