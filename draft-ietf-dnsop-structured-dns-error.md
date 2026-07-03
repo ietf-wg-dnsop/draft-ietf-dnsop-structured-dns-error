@@ -326,7 +326,7 @@ to match its expected audience.
 The "o" field MAY be displayed to end users, subject to the conditions described in {{security}}.
 
 To avoid exceeding the maximum EDNS0 size {{?RFC9715}} the generated JSON values SHOULD be as short as
-possible: short domain names, concise text in the values for the "j"
+possible: concise text in the values for the "j"
 and "o" names, and minified JSON (that is, without spaces or line
 breaks between JSON elements). Otherwise, there is a risk that the response will get fragmented.
 
