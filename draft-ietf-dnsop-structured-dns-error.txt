@@ -110,7 +110,7 @@ Table of Contents
      11.1.  Structured DNS Error EDNS Option
      11.2.  New Registry for JSON Names
      11.3.  New Registry for Contact URI Scheme
-     11.4.  New Registry for DNS Sub-Error Codes
+     11.4.  New Registry for Extended DNS Sub-Error Codes
      11.5.  New Extended DNS Error Code
    12. References
      12.1.  Normative References
@@ -373,7 +373,7 @@ Table of Contents
       particular DNS filtering case.
 
       The integer values are defined in the IANA-managed registry for
-      DNS Sub-Error Codes in Section 11.4.
+      Extended DNS Sub-Error Codes in Section 11.4.
 
       This field is optional.
 
@@ -897,13 +897,13 @@ Table of Contents
    "Contact URI Schemes" registry is "IETF Review" as defined in
    Section 4.8 of [RFC8126].
 
-11.4.  New Registry for DNS Sub-Error Codes
+11.4.  New Registry for Extended DNS Sub-Error Codes
 
-   This document requests IANA to create a new registry, entitled "Sub-
-   Error Codes" under "Extended DNS Error Codes" registry, which is
-   under the "Domain Name System (DNS) Parameters" registry group
-   [IANA-DNS].  The registration request for a new sub-error code must
-   include the following fields:
+   This document requests IANA to create a new registry, entitled
+   "Extended DNS Sub-Error Codes" under "Extended DNS Error Codes"
+   registry, which is under the "Domain Name System (DNS) Parameters"
+   registry group [IANA-DNS].  The registration request for a new sub-
+   error code must include the following fields:
 
    *  Number: Is the wire format sub-error code (range 0-255).
 
@@ -953,7 +953,7 @@ Table of Contents
 
                  Table 3: Initial Sub-Error Code Registry
 
-   The registration procedure to add New Sub-Error Codes is IETF Review
+   The registration procedure to add new Sub-Error Codes is IETF Review
    as defined in Section 4.8 of [RFC8126].
 
 11.5.  New Extended DNS Error Code
