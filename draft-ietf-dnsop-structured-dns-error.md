@@ -142,7 +142,7 @@ block page. This approach thus avoids the need to install a local root
 certificate authority on those IT-managed devices.
 
 This document describes a format for machine-readable data in the
-EXTRA-TEXT field of {{!RFC8914}}. The document updates {{Section 2 of !RFC8914}} which
+EXTRA-TEXT field of {{!RFC8914}}. The document updates {{Section 2 of !RFC8914}}, which
 says the information in EXTRA-TEXT field is intended for human
 consumption (not automated parsing).
 
@@ -326,7 +326,7 @@ to match its expected audience.
 
 The "o" field MAY be displayed to end users, subject to the conditions described in {{security}}.
 
-To avoid exceeding the maximum EDNS0 size {{?RFC9715}} the generated JSON values SHOULD be as short as
+To avoid exceeding the maximum EDNS0 size {{?RFC9715}}, the generated JSON values SHOULD be as short as
 possible: concise text in the values for the "j"
 and "o" names, and minified JSON (that is, without spaces or line
 breaks between JSON elements). Otherwise, there is a risk that the response will get fragmented.
@@ -358,8 +358,8 @@ SHOULD include the Structured DNS Error (SDE) option defined in {{SDE}}, unless 
 
 The presence of the SDE option indicates that the client desires the
 DNS server to include an EDE option in the DNS response when DNS
-filtering is performed, and that any data conveyed in the EXTRA-TEXT
-field of the EDE option is encoded and processed in accordance with
+filtering is performed and that any data conveyed in the EXTRA-TEXT
+field of the EDE option is encoded in accordance with
 this specification.
 
 ## Server Generating Response {#server-response}
@@ -374,7 +374,7 @@ If the query contained the SDE EDNS option ({{client-request}}), and the DNS ser
 
 If the SDE option was not present in the DNS request, the DNS server MUST process the request in accordance with {{!RFC8914}} and MUST NOT assume that the client supports this specification. This preserves compatibility with clients and servers that implement {{!RFC8914}} but do not support this specification.
 
-Servers MAY decide to return small TTL values in filtered DNS
+Servers MAY return small TTL values in filtered DNS
 responses (e.g., 10 seconds) to handle domain category and reputation
 updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
 but can result in increased query traffic. In cases where updates are less frequent,
@@ -416,7 +416,7 @@ field:
    otherwise the EXTRA-TEXT field is discarded.
 
 3. Servers that do not support this specification might use plain text in the
-   EXTRA-TEXT field. To ensure compatibility with those, DNS clients SHOULD handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client MUST treat the data as invalid, MUST NOT process it according to this specification. The client MAY instead process the EXTRA-TEXT field as unstructured text as specified in {{!RFC8914}}.
+   EXTRA-TEXT field. To ensure compatibility with those, DNS clients SHOULD handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client MUST treat the data as invalid and MUST NOT process it according to this specification. The client MAY instead process the EXTRA-TEXT field as unstructured text as specified in {{!RFC8914}}.
 
 4. If the JSON object contains an "s" field and the sub-error code
    is not defined as applicable to the accompanying Extended DNS Error
