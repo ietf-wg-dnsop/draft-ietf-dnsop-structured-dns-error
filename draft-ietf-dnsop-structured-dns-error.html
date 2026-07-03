@@ -1360,7 +1360,7 @@ meaningful error message, and would not need to connect to such a
 block page. This approach thus avoids the need to install a local root
 certificate authority on those IT-managed devices.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <p id="section-1-7">This document describes a format for machine-readable data in the
-EXTRA-TEXT field of <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>. The document updates <span><a href="https://rfc-editor.org/rfc/rfc8914#section-2" class="relref">Section 2</a> of [<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> which
+EXTRA-TEXT field of <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>. The document updates <span><a href="https://rfc-editor.org/rfc/rfc8914#section-2" class="relref">Section 2</a> of [<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>, which
 says the information in EXTRA-TEXT field is intended for human
 consumption (not automated parsing).<a href="#section-1-7" class="pilcrow">¶</a></p>
 <p id="section-1-8">This document does not recommend DNS filtering but provides a
@@ -1623,7 +1623,7 @@ language tag syntax specified in <span><a href="https://rfc-editor.org/rfc/rfc56
 characters. The text will be in natural language, chosen by the DNS administrator
 to match its expected audience.<a href="#section-4.1-4" class="pilcrow">¶</a></p>
 <p id="section-4.1-5">The "o" field <span class="bcp14">MAY</span> be displayed to end users, subject to the conditions described in <a href="#security" class="auto internal xref">Section 10</a>.<a href="#section-4.1-5" class="pilcrow">¶</a></p>
-<p id="section-4.1-6">To avoid exceeding the maximum EDNS0 size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> the generated JSON values <span class="bcp14">SHOULD</span> be as short as
+<p id="section-4.1-6">To avoid exceeding the maximum EDNS0 size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span>, the generated JSON values <span class="bcp14">SHOULD</span> be as short as
 possible: concise text in the values for the "j"
 and "o" names, and minified JSON (that is, without spaces or line
 breaks between JSON elements). Otherwise, there is a risk that the response will get fragmented.<a href="#section-4.1-6" class="pilcrow">¶</a></p>
@@ -1667,8 +1667,8 @@ size. Refer to <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> f
 <span class="bcp14">SHOULD</span> include the Structured DNS Error (SDE) option defined in <a href="#SDE" class="auto internal xref">Section 5.4</a>, unless instructed by local policy otherwise.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1-2">The presence of the SDE option indicates that the client desires the
 DNS server to include an EDE option in the DNS response when DNS
-filtering is performed, and that any data conveyed in the EXTRA-TEXT
-field of the EDE option is encoded and processed in accordance with
+filtering is performed and that any data conveyed in the EXTRA-TEXT
+field of the EDE option is encoded in accordance with
 this specification.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1684,7 +1684,7 @@ server.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2-2">If the query contained the SDE EDNS option (<a href="#client-request" class="auto internal xref">Section 5.1</a>), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server <span class="bcp14">SHOULD</span> include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If the DNS response is sent over UDP and including the additional detail would cause the response to exceed the EDNS0 size
 <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> (and thus setting TC=1), the server <span class="bcp14">MUST</span> first attempt to reduce the response size by omitting the "j" and "o" fields before omitting the EXTRA-TEXT entirely. In deployments using DoT, DoH, or DoQ, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2-3">If the SDE option was not present in the DNS request, the DNS server <span class="bcp14">MUST</span> process the request in accordance with <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> and <span class="bcp14">MUST NOT</span> assume that the client supports this specification. This preserves compatibility with clients and servers that implement <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> but do not support this specification.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
-<p id="section-5.2-4">Servers <span class="bcp14">MAY</span> decide to return small TTL values in filtered DNS
+<p id="section-5.2-4">Servers <span class="bcp14">MAY</span> return small TTL values in filtered DNS
 responses (e.g., 10 seconds) to handle domain category and reputation
 updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
 but can result in increased query traffic. In cases where updates are less frequent,
@@ -1730,7 +1730,7 @@ otherwise the EXTRA-TEXT field is discarded.<a href="#section-5.3-2.2.1" class="
 </li>
           <li id="section-5.3-2.3">
             <p id="section-5.3-2.3.1">Servers that do not support this specification might use plain text in the
-EXTRA-TEXT field. To ensure compatibility with those, DNS clients <span class="bcp14">SHOULD</span> handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client <span class="bcp14">MUST</span> treat the data as invalid, <span class="bcp14">MUST NOT</span> process it according to this specification. The client <span class="bcp14">MAY</span> instead process the EXTRA-TEXT field as unstructured text as specified in <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>.<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></p>
+EXTRA-TEXT field. To ensure compatibility with those, DNS clients <span class="bcp14">SHOULD</span> handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client <span class="bcp14">MUST</span> treat the data as invalid and <span class="bcp14">MUST NOT</span> process it according to this specification. The client <span class="bcp14">MAY</span> instead process the EXTRA-TEXT field as unstructured text as specified in <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>.<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.3-2.4">
             <p id="section-5.3-2.4.1">If the JSON object contains an "s" field and the sub-error code

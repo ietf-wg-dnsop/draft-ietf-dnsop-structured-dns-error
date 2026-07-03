@@ -174,7 +174,7 @@ Table of Contents
 
    This document describes a format for machine-readable data in the
    EXTRA-TEXT field of [RFC8914].  The document updates Section 2 of
-   [RFC8914] which says the information in EXTRA-TEXT field is intended
+   [RFC8914], which says the information in EXTRA-TEXT field is intended
    for human consumption (not automated parsing).
 
    This document does not recommend DNS filtering but provides a
@@ -409,7 +409,7 @@ Table of Contents
    The "o" field MAY be displayed to end users, subject to the
    conditions described in Section 10.
 
-   To avoid exceeding the maximum EDNS0 size [RFC9715] the generated
+   To avoid exceeding the maximum EDNS0 size [RFC9715], the generated
    JSON values SHOULD be as short as possible: concise text in the
    values for the "j" and "o" names, and minified JSON (that is, without
    spaces or line breaks between JSON elements).  Otherwise, there is a
@@ -453,9 +453,9 @@ Table of Contents
 
    The presence of the SDE option indicates that the client desires the
    DNS server to include an EDE option in the DNS response when DNS
-   filtering is performed, and that any data conveyed in the EXTRA-TEXT
-   field of the EDE option is encoded and processed in accordance with
-   this specification.
+   filtering is performed and that any data conveyed in the EXTRA-TEXT
+   field of the EDE option is encoded in accordance with this
+   specification.
 
 5.2.  Server Generating Response
 
@@ -484,13 +484,13 @@ Table of Contents
    compatibility with clients and servers that implement [RFC8914] but
    do not support this specification.
 
-   Servers MAY decide to return small TTL values in filtered DNS
-   responses (e.g., 10 seconds) to handle domain category and reputation
-   updates.  Short TTLs allow for quick adaptation to dynamic changes in
-   domain filtering decisions, but can result in increased query
-   traffic.  In cases where updates are less frequent, TTL values of 30
-   to 60 seconds MAY provide a better balance, reducing server load
-   while still ensuring reasonable flexibility for updates.
+   Servers MAY return small TTL values in filtered DNS responses (e.g.,
+   10 seconds) to handle domain category and reputation updates.  Short
+   TTLs allow for quick adaptation to dynamic changes in domain
+   filtering decisions, but can result in increased query traffic.  In
+   cases where updates are less frequent, TTL values of 30 to 60 seconds
+   MAY provide a better balance, reducing server load while still
+   ensuring reasonable flexibility for updates.
 
    If the query includes the SDE option as per Section 5.1, the server
    MUST NOT return the "Forged Answer" extended error code because the
@@ -530,7 +530,7 @@ Table of Contents
        those, DNS clients SHOULD handle both plaintext and structured
        content.  The client attempts to parse the EXTRA-TEXT field as
        I-JSON.  If parsing fails or the content is not valid I-JSON, the
-       client MUST treat the data as invalid, MUST NOT process it
+       client MUST treat the data as invalid and MUST NOT process it
        according to this specification.  The client MAY instead process
        the EXTRA-TEXT field as unstructured text as specified in
        [RFC8914].
