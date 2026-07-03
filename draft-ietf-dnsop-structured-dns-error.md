@@ -602,7 +602,7 @@ Clients MUST NOT automatically initiate connections to URIs derived from the EXT
 Furthermore, clients MUST NOT display the value of the `"o"` field to the end user unless one of the following
 conditions is met:
 
-  * The value matches a registered organization name maintaiend in a trust list maintained by the client, OR
+  * The value matches a registered organization name in a trust list maintained by the client, OR
   * The value consists solely of an organization name and does not contain any additional free-form content such
     as instructions, URLs, or messaging intended to influence end user behavior, as determined by client security policy or heuristics.
 
