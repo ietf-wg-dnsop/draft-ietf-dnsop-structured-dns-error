@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 26 December 2026                                        N. Cook
+Expires: 4 January 2027                                          N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                            24 June 2026
+                                                             3 July 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 December 2026.
+   This Internet-Draft will expire on 4 January 2027.
 
 Copyright Notice
 
@@ -404,10 +404,10 @@ Table of Contents
    conditions described in Section 10.
 
    To avoid exceeding the maximum EDNS0 size [RFC9715] the generated
-   JSON values SHOULD be as short as possible: short domain names,
-   concise text in the values for the "j" and "o" names, and minified
-   JSON (that is, without spaces or line breaks between JSON elements).
-   Otherwise, there is a risk that the response will get fragmented.
+   JSON values SHOULD be as short as possible: concise text in the
+   values for the "j" and "o" names, and minified JSON (that is, without
+   spaces or line breaks between JSON elements).  Otherwise, there is a
+   risk that the response will get fragmented.
 
    The JSON data can be parsed to display to the user, logged, or
    otherwise used to assist troubleshooting and diagnosis of DNS
