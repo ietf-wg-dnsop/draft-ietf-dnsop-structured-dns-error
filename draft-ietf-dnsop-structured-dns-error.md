@@ -549,6 +549,10 @@ The application that triggered the DNS request may have a client security policy
 
 Future extensions MUST NOT introduce mandatory JSON attributes, as existing implementations are required to ignore unknown JSON names (see {{client-processing}}).
 
+## Client Updates
+
+The specification relies on several IANA-maintained registries. In particular, since the content of these registries may change with time, clients that implement this extension have to periodically update the list of supported values in the "Contact URI Schemes" registry {{IANA-Contact}} to avoid discarding a recently-added Contact URI.
+
 # Security Considerations {#security}
 
 ## Authentication and Confidentiality
