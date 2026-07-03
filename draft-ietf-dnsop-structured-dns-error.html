@@ -2007,11 +2007,11 @@ fields need to be rendered as text, not as HTML. The contact details of "c" can 
 into clickable links to provide a convenient way for end users to initiate, e.g., voice calls. The client might
 choose to display the contact details only when the identity of the DNS server is verified.<a href="#section-10.2-3" class="pilcrow">¶</a></p>
 <p id="section-10.2-4">Clients <span class="bcp14">MUST NOT</span> automatically initiate connections to URIs derived from the EXTRA-TEXT field. Doing so could allow a resolver to silently report client activity to third parties, enable denial-of-service reflection attacks, or be used to entrap a client. The restriction of Contact URI schemes to "tel" and "mailto" is intentional, as these schemes do not result in automatic HTTP connections.<a href="#section-10.2-4" class="pilcrow">¶</a></p>
-<p id="section-10.2-5">Further, clients <span class="bcp14">MUST NOT</span> display the value of the <code>"o"</code> field to the end user unless one of the following
+<p id="section-10.2-5">Furthermore, clients <span class="bcp14">MUST NOT</span> display the value of the <code>"o"</code> field to the end user unless one of the following
 conditions is met:<a href="#section-10.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-10.2-6.1">
-            <p id="section-10.2-6.1.1">The value matches a registered organization name listed in the <span>[<a href="#IANA-Enterprise" class="cite xref">IANA-Enterprise</a>]</span> OR<a href="#section-10.2-6.1.1" class="pilcrow">¶</a></p>
+            <p id="section-10.2-6.1.1">The value matches a registered organization name in a trust list maintained by the client, OR<a href="#section-10.2-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-10.2-6.2">
             <p id="section-10.2-6.2.1">The value consists solely of an organization name and does not contain any additional free-form content such
@@ -2019,7 +2019,8 @@ as instructions, URLs, or messaging intended to influence end user behavior, as 
 </li>
         </ul>
 <p id="section-10.2-7">If the organization name cannot be verified through registry checks or heuristics, the client <span class="bcp14">MUST NOT</span> display the "o" field to the end user.<a href="#section-10.2-7" class="pilcrow">¶</a></p>
-<p id="section-10.2-8">DNS clients <span class="bcp14">MAY</span> keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data <span class="bcp14">MUST NOT</span> be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.<a href="#section-10.2-8" class="pilcrow">¶</a></p>
+<p id="section-10.2-8">It is beyond the scope of this document to describe how the trust list is created and updated, and how the structured DNS error response interacts with the trust list to influence user experience or user interface elements.<a href="#section-10.2-8" class="pilcrow">¶</a></p>
+<p id="section-10.2-9">DNS clients <span class="bcp14">MAY</span> keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data <span class="bcp14">MUST NOT</span> be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.<a href="#section-10.2-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-risks-from-legacy-dns-forwarders">
@@ -2437,10 +2438,6 @@ registry under the "Domain Name System (DNS) Parameters" registry group <span>[<
 <dt id="IANA-DNS">[IANA-DNS]</dt>
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"Domain Name System (DNS) Parameters, Extended DNS Error Codes"</span>, <span>&lt;<a href="https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#extended-dns-error-codes">https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#extended-dns-error-codes</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="IANA-Enterprise">[IANA-Enterprise]</dt>
-        <dd>
-<span class="refTitle">"Private Enterprise Numbers (PENs)"</span>, <span>&lt;<a href="https://www.iana.org/assignments/enterprise-numbers/">https://www.iana.org/assignments/enterprise-numbers/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="Impl-1">[Impl-1]</dt>
         <dd>

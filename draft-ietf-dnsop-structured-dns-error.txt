@@ -774,11 +774,11 @@ Table of Contents
    intentional, as these schemes do not result in automatic HTTP
    connections.
 
-   Further, clients MUST NOT display the value of the "o" field to the
-   end user unless one of the following conditions is met:
+   Furthermore, clients MUST NOT display the value of the "o" field to
+   the end user unless one of the following conditions is met:
 
-   *  The value matches a registered organization name listed in the
-      [IANA-Enterprise] OR
+   *  The value matches a registered organization name in a trust list
+      maintained by the client, OR
 
    *  The value consists solely of an organization name and does not
       contain any additional free-form content such as instructions,
@@ -788,6 +788,11 @@ Table of Contents
    If the organization name cannot be verified through registry checks
    or heuristics, the client MUST NOT display the "o" field to the end
    user.
+
+   It is beyond the scope of this document to describe how the trust
+   list is created and updated, and how the structured DNS error
+   response interacts with the trust list to influence user experience
+   or user interface elements.
 
    DNS clients MAY keep all fields conveyed in the EXTRA-TEXT field for
    evaluation according to the client security policy.  Such data MUST
@@ -1072,10 +1077,6 @@ Table of Contents
    [IANA-DNS] IANA, "Domain Name System (DNS) Parameters, Extended DNS
               Error Codes", <https://www.iana.org/assignments/dns-
               parameters/dns-parameters.xhtml#extended-dns-error-codes>.
-
-   [IANA-Enterprise]
-              "Private Enterprise Numbers (PENs)",
-              <https://www.iana.org/assignments/enterprise-numbers/>.
 
    [Impl-1]   "Use of DNS Errors To improve Browsing User Experience
               With network based malware protection", March 2023,
