@@ -86,6 +86,8 @@ Table of Contents
    2.  Conventions and Definitions
    3.  DNS Filtering Techniques and Their Limitations
    4.  I-JSON in EXTRA-TEXT Field
+     4.1.  JSON Names
+     4.2.  Future JSON Names Requirements
    5.  Protocol Operation
      5.1.  Client Generating Request
      5.2.  Server Generating Response
@@ -328,6 +330,8 @@ Table of Contents
 
 4.  I-JSON in EXTRA-TEXT Field
 
+4.1.  JSON Names
+
    DNS servers that are compliant with this specification and have
    received an indication that the client also supports this
    specification as per Section 5.1 send data in the EXTRA-TEXT field
@@ -425,6 +429,11 @@ Table of Contents
       suboptimal because it requires replicating an error code for each
       EDE code to which the sub-error applies (e.g., "Malware" sub-error
       in Table 3 would consume three EDE codes).
+
+4.2.  Future JSON Names Requirements
+
+   New JSON names may be defined in the future.  This section specifies
+   the requirements to take into account for such names.
 
    New JSON names MUST consist only of lower-case ASCII characters,
    digits, and hyphen-minus (that is, Unicode characters U+0061 through
