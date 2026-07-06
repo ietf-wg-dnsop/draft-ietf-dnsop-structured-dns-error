@@ -780,7 +780,6 @@ are not necessary when generating a response to such a client.
 At IETF#116, Gianpaolo Scalone (Vodafone) and Ralf Weber (Akamai) presented an implementation of this specification. More details can be found at {{Impl-1}}.
 
 
-
 # Acknowledgements
 {:numbered="false"}
 
@@ -790,6 +789,8 @@ Harold, Mukund Sivaraman, Gianpaolo Angelo Scalone, Mark Nottingham, Stephane Bo
 
 Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.
 
-Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews, Joseph Salowey for the SECDIR review, and Paul Kyzivat for the ARTART review.
+Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews, Joseph Salowey for the SECDIR review, and Paul Kyzivat for the ARTART reviews.
 
 Thanks to Éric Vyncke for the AD review.
+
+Thanks to Mike Bishop for the IESG review.
