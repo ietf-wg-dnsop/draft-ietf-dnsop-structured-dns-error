@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 4 January 2027                                          N. Cook
+Expires: 7 January 2027                                          N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                             3 July 2026
+                                                             6 July 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 January 2027.
+   This Internet-Draft will expire on 7 January 2027.
 
 Copyright Notice
 
@@ -657,7 +657,7 @@ Table of Contents
      ],
      "j": "malware present for 23 days",
      "s": 1,
-     "o": "example.net Filtering Service",
+     "o": "example-org",
      "l": "en"
    }
 
@@ -670,7 +670,7 @@ Table of Contents
    { "c":["tel:+358-555-1234567"],\
    "j":"malware present for 23 days",\
    "s":1,\
-   "o":"example.net Filtering Service",\
+   "o":"example-org",\
    "l":"en" }
 
                         Figure 2: Minified Response
@@ -686,7 +686,7 @@ Table of Contents
    ; OPT=TBD1 (Structured DNS Error): (no data)
    ; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567"],\
      "j":"malware present for 23 days",\
-     "s":1,"o":"example.net Filtering Service","l":"en"})
+     "s":1,"o":"example-org","l":"en"})
 
              Figure 3: dig Response Showing SDE and EDE Options
 
@@ -781,8 +781,7 @@ Table of Contents
       maintained by the client, OR
 
    *  The value consists solely of an organization name and does not
-      contain any additional free-form content such as instructions,
-      URLs, or messaging intended to influence end user behavior, as
+      contain any additional free-form content (e.g., URLs), as
       determined by client security policy or heuristics.
 
    If the organization name cannot be verified through registry checks
@@ -1175,9 +1174,11 @@ Acknowledgements
 
    Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews,
    Joseph Salowey for the SECDIR review, and Paul Kyzivat for the ARTART
-   review.
+   reviews.
 
    Thanks to Éric Vyncke for the AD review.
+
+   Thanks to Mike Bishop for the IESG review.
 
 Authors' Addresses
 
