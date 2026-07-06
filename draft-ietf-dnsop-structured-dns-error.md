@@ -511,7 +511,7 @@ DNS "A" record query for 'example.org' is provided in {{example-json}}.
   ],
   "j": "malware present for 23 days",
   "s": 1,
-  "o": "example.net Filtering Service",
+  "o": "example-org",
   "l": "en"
 }
 ~~~~~
@@ -524,7 +524,7 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 { "c":["tel:+358-555-1234567"],\
 "j":"malware present for 23 days",\
 "s":1,\
-"o":"example.net Filtering Service",\
+"o":"example-org",\
 "l":"en" }
 ~~~~~
 {: #example-json-minified title="Minified Response"}
@@ -540,7 +540,7 @@ whitespace, no blank lines) with ```'\'``` line wrapping per {{?RFC8792}}.
 ; OPT=TBD1 (Structured DNS Error): (no data)
 ; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567"],\
   "j":"malware present for 23 days",\
-  "s":1,"o":"example.net Filtering Service","l":"en"})
+  "s":1,"o":"example-org","l":"en"})
 ~~~~~
 {: #example-dig title="dig Response Showing SDE and EDE Options"}
 
@@ -603,8 +603,7 @@ Furthermore, clients MUST NOT display the value of the `"o"` field to the end us
 conditions is met:
 
   * The value matches a registered organization name in a trust list maintained by the client, OR
-  * The value consists solely of an organization name and does not contain any additional free-form content such
-    as instructions, URLs, or messaging intended to influence end user behavior, as determined by client security policy or heuristics.
+  * The value consists solely of an organization name and does not contain any additional free-form content (e.g., URLs), as determined by client security policy or heuristics.
 
 If the organization name cannot be verified through registry checks or heuristics, the client MUST NOT display the "o" field to the end user.
 
