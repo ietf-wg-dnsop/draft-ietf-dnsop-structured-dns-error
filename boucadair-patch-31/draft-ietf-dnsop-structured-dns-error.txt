@@ -1174,9 +1174,11 @@ Acknowledgements
 
    Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews,
    Joseph Salowey for the SECDIR review, and Paul Kyzivat for the ARTART
-   review.
+   reviews.
 
    Thanks to Éric Vyncke for the AD review.
+
+   Thanks to Mike Bishop for the IESG review.
 
 Authors' Addresses
 
