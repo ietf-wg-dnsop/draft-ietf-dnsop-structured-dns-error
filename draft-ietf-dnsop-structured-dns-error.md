@@ -205,7 +205,7 @@ certificate.
 
 Note that:
 
-   * In deployments where DNSSEC is used, this approach becomes ineffective because DNSSEC
+   * In deployments where a client is DNSSEC-aware and performs its own validation (DO=1), this approach becomes ineffective because DNSSEC
      ensures the integrity and authenticity of DNS responses, preventing forged DNS
      responses from being accepted.
 
