@@ -451,7 +451,7 @@ Table of Contents
    007A, U+0030 through U+0039, and U+002D).  Also, these names MUST be
    63 characters or shorter and it is RECOMMENDED they be as short as
    possible to reduce contribution to exceeding maximum EDNS0 response
-   size.  Refer to [RFC9715] for a discusson on IP fragmentation
+   size.  Refer to [RFC9715] for a discussion on IP fragmentation
    avoidance in DNS.
 
 5.  Protocol Operation
@@ -834,7 +834,7 @@ Table of Contents
    in the "DNS EDNS0 Option Codes (OPT)" registry under the "Domain Name
    System (DNS) Parameters" registry group [IANA-DNS]:
 
-   Value:  TBD
+   Value:  TBD1
 
    Name:  Structured DNS Error
 
@@ -970,12 +970,12 @@ Table of Contents
        |        |          | by Upstream DNS     | [RFC5901]      |
        |        |          | Server", "Filtered" |                |
        +--------+----------+---------------------+----------------+
-       |   3    | Spam     | "Blocked", "Blocked | Page 289 of    |
-       |        |          | by Upstream DNS     | [RFC4949]      |
+       |   3    | Spam     | "Blocked", "Blocked | [RFC4949]      |
+       |        |          | by Upstream DNS     |                |
        |        |          | Server", "Filtered" |                |
        +--------+----------+---------------------+----------------+
-       |   4    | Spyware  | "Blocked", "Blocked | Page 291 of    |
-       |        |          | by Upstream DNS     | [RFC4949]      |
+       |   4    | Spyware  | "Blocked", "Blocked | [RFC4949]      |
+       |        |          | by Upstream DNS     |                |
        |        |          | Server", "Filtered" |                |
        +--------+----------+---------------------+----------------+
        |   5    | Network  | "Blocked"           | Section 6.2 of |
@@ -1178,7 +1178,7 @@ Acknowledgements
 
    Thanks to Éric Vyncke for the AD review.
 
-   Thanks to Mike Bishop for the IESG review.
+   Thanks to Mike Bishop and Mahesh Jethanandani for the IESG review.
 
 Authors' Addresses
 
