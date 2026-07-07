@@ -405,10 +405,12 @@ On receipt of a DNS response with an EDE option from a
 DNS server, the following ordered actions are performed on the EXTRA-TEXT
 field:
 
-1. If the integrity of the DNS response is not guaranteed, the
+1. As the source of the EXTRA-TEXT field is not guaranteed, the
    DNS client MUST NOT act upon data in the EXTRA-TEXT field, as the data
    is vulnerable to
-   modification by an on-path attacker. An attacker can inject or
+   modification by an on-path attacker.  This can occur even in the presence of encrypted
+   DNS transport if the recursive resolver has cached the (spoofed) EDE
+   field. An attacker can inject or
    modify a structured DNS error response in transit without detection,
    enabling fabrication of filtering information (e.g., misleading contact
    information or false resolver identity information) that appears to
