@@ -351,7 +351,7 @@ and hyphen-minus (that is, Unicode characters U+0061 through 007A,
 U+0030 through U+0039, and U+002D). Also, these names MUST be 63
 characters or shorter and it is RECOMMENDED they be as short as
 possible to reduce contribution to exceeding maximum EDNS0 response
-size. Refer to {{?RFC9715}} for a discusson on IP fragmentation avoidance in DNS.
+size. Refer to {{?RFC9715}} for a discussion on IP fragmentation avoidance in DNS.
 
 # Protocol Operation
 
@@ -638,7 +638,7 @@ IANA is requested to register the following new EDNS(0) Option Code in the
 "DNS EDNS0 Option Codes (OPT)" registry under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}:
 
 Value:
-: TBD
+: TBD1
 
 Name:
 : Structured DNS Error
@@ -733,8 +733,8 @@ following values:
 | 0 | Reserved| Not used | {{policy-reserved}} of this document |
 | 1 | Malware | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Section 5.5 of {{!RFC5901}} |
 | 2 | Phishing | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Section 5.5 of {{!RFC5901}} |
-| 3 | Spam | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Page 289 of {{!RFC4949}} |
-| 4 | Spyware | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | Page 291 of {{!RFC4949}} |
+| 3 | Spam | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | {{!RFC4949}} |
+| 4 | Spyware | "Blocked", "Blocked by Upstream DNS Server", "Filtered" | {{!RFC4949}} |
 | 5 | Network operator policy | "Blocked" | {{policy-network}} of this document |
 | 6 | DNS operator policy | "Blocked" | {{policy-dns}} of this document |
 {: #reg title='Initial Sub-Error Code Registry'}
@@ -793,4 +793,4 @@ Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews, Joseph Salowe
 
 Thanks to Éric Vyncke for the AD review.
 
-Thanks to Mike Bishop for the IESG review.
+Thanks to Mike Bishop and Mahesh Jethanandani for the IESG review.
