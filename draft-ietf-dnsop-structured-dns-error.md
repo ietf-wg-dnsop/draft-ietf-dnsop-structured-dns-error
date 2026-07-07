@@ -344,7 +344,7 @@ The sub-error codes provide a structured way to communicate more detailed and pr
 
 ## Future JSON Names Requirements
 
-New JSON names may be defined in the future. This section specifies the requirements to take into account for such names.
+New JSON names may be defined in the future (see also {{IANA-Names}}). This section specifies the requirements to take into account for such names.
 
 New JSON names MUST consist only of lower-case ASCII characters, digits,
 and hyphen-minus (that is, Unicode characters U+0061 through 007A,
@@ -793,4 +793,4 @@ Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews, Joseph Salowe
 
 Thanks to Éric Vyncke for the AD review.
 
-Thanks to Mike Bishop, Roman Danyliw, and Mahesh Jethanandani for the IESG review.
+Thanks to Mike Bishop, Roman Danyliw, Mahesh Jethanandani, and Andy Newton for the IESG review.
