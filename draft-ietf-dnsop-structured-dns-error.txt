@@ -443,8 +443,9 @@ Table of Contents
 
 4.2.  Future JSON Names Requirements
 
-   New JSON names may be defined in the future.  This section specifies
-   the requirements to take into account for such names.
+   New JSON names may be defined in the future (see also Section 11.2).
+   This section specifies the requirements to take into account for such
+   names.
 
    New JSON names MUST consist only of lower-case ASCII characters,
    digits, and hyphen-minus (that is, Unicode characters U+0061 through
@@ -1179,8 +1180,8 @@ Acknowledgements
 
    Thanks to Éric Vyncke for the AD review.
 
-   Thanks to Mike Bishop, Roman Danyliw, and Mahesh Jethanandani for the
-   IESG review.
+   Thanks to Mike Bishop, Roman Danyliw, Mahesh Jethanandani, and Andy
+   Newton for the IESG review.
 
 Authors' Addresses
 
