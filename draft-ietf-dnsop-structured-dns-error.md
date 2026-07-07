@@ -793,4 +793,4 @@ Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews, Joseph Salowe
 
 Thanks to Éric Vyncke for the AD review.
 
-Thanks to Mike Bishop and Mahesh Jethanandani for the IESG review.
+Thanks to Mike Bishop, Roman Danyliw, and Mahesh Jethanandani for the IESG review.
