@@ -405,7 +405,7 @@ On receipt of a DNS response with an EDE option from a
 DNS server, the following ordered actions are performed on the EXTRA-TEXT
 field:
 
-1. If the integrity of the DNS response is not guaranteed, the
+1. If the integrity of the DNS response is not guaranteed (that is, the response is not received over an encrypted DNS tansport), the
    DNS client MUST NOT act upon data in the EXTRA-TEXT field, as the data
    is vulnerable to
    modification by an on-path attacker. An attacker can inject or
@@ -793,4 +793,4 @@ Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews, Joseph Salowe
 
 Thanks to Éric Vyncke for the AD review.
 
-Thanks to Mike Bishop and Mahesh Jethanandani for the IESG review.
+Thanks to Mike Bishop, Roman Danyliw, and Mahesh Jethanandani for the IESG review.
