@@ -1737,7 +1737,7 @@ DNS server, the following ordered actions are performed on the EXTRA-TEXT
 field:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.3-2">
 <li id="section-5.3-2.1">
-            <p id="section-5.3-2.1.1">If the integrity of the DNS response is not guaranteed, the
+            <p id="section-5.3-2.1.1">If the integrity of the DNS response is not guaranteed (that is, the response is not received over an encrypted DNS tansport), the
 DNS client <span class="bcp14">MUST NOT</span> act upon data in the EXTRA-TEXT field, as the data
 is vulnerable to
 modification by an on-path attacker. An attacker can inject or
@@ -2538,7 +2538,7 @@ Harold, Mukund Sivaraman, Gianpaolo Angelo Scalone, Mark Nottingham, Stephane Bo
 <p id="appendix-C-2">Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
 <p id="appendix-C-3">Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews, Joseph Salowey for the SECDIR review, and Paul Kyzivat for the ARTART reviews.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
 <p id="appendix-C-4">Thanks to Éric Vyncke for the AD review.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
-<p id="appendix-C-5">Thanks to Mike Bishop and Mahesh Jethanandani for the IESG review.<a href="#appendix-C-5" class="pilcrow">¶</a></p>
+<p id="appendix-C-5">Thanks to Mike Bishop, Roman Danyliw, and Mahesh Jethanandani for the IESG review.<a href="#appendix-C-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
