@@ -11,7 +11,7 @@
 <meta content="Mohamed Boucadair" name="author">
 <meta content="
        DNS filtering is widely deployed for various reasons, including
-network security. However, filtered DNS responses lack structured information
+network security and policy enforcement. However, filtered DNS responses lack structured information
 for end users to understand the reason for the filtering.
 Existing mechanisms to provide explanatory details to end users cause harm
 especially if the blocked DNS response is for HTTPS resources. 
@@ -20,25 +20,26 @@ the Extended DNS Error to provide details on the DNS filtering. Such
 details can be parsed by the client and displayed, logged, or used for
 other purposes. 
     " name="description">
-<meta content="xml2rfc 3.33.0" name="generator">
+<meta content="xml2rfc 3.34.0" name="generator">
 <meta content="Customer experience" name="keyword">
 <meta content="Informed decision" name="keyword">
 <meta content="transparency" name="keyword">
 <meta content="enriched feedback" name="keyword">
 <meta content="draft-ietf-dnsop-structured-dns-error-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.33.0
-    Python 3.12.13
-    ConfigArgParse 1.7
+  xml2rfc 3.34.0
+    Python 3.14.5
+    ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 6.0.2
-    platformdirs 4.9.6
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.10.0
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.7.0
+    wcwidth 0.8.2
 -->
 <link href="draft-ietf-dnsop-structured-dns-error.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1057,11 +1058,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Structured DNS Error</td>
-<td class="right">June 2026</td>
+<td class="right">July 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Wing, et al.</td>
-<td class="center">Expires 10 December 2026</td>
+<td class="center">Expires 9 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1077,12 +1078,12 @@ svg {
 <a href="https://www.rfc-editor.org/rfc/rfc8914" class="eref">8914</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-06-08" class="published">8 June 2026</time>
+<time datetime="2026-07-08" class="published">8 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-12-10">10 December 2026</time></dd>
+<dd class="expires"><time datetime="2027-01-09">9 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1108,7 +1109,7 @@ svg {
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">DNS filtering is widely deployed for various reasons, including
-network security. However, filtered DNS responses lack structured information
+network security and policy enforcement. However, filtered DNS responses lack structured information
 for end users to understand the reason for the filtering.
 Existing mechanisms to provide explanatory details to end users cause harm
 especially if the blocked DNS response is for HTTPS resources.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
@@ -1152,7 +1153,7 @@ other purposes.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 10 December 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 9 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1188,10 +1189,29 @@ other purposes.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-dns-filtering-techniques-an" class="internal xref">DNS Filtering Techniques and Their Limitations</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-dns-filtering-techniques-an" class="internal xref">DNS Filtering Techniques and Their Limitations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-forged-responses" class="internal xref">Forged Responses</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-forged-nxdomain-answer" class="internal xref">Forged NXDOMAIN Answer</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-extended-error-codes-edes" class="internal xref">Extended Error Codes (EDEs)</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-i-json-in-extra-text-field" class="internal xref">I-JSON in EXTRA-TEXT Field</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-json-names" class="internal xref">JSON Names</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-future-json-names-requireme" class="internal xref">Future JSON Names Requirements</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-protocol-operation" class="internal xref">Protocol Operation</a></p>
@@ -1241,6 +1261,9 @@ other purposes.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
                 <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-backward-compatibility" class="internal xref">Backward Compatibility</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-client-updates" class="internal xref">Client Updates</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
@@ -1273,7 +1296,7 @@ other purposes.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
                 <p id="section-toc.1-1.11.2.3.1"><a href="#section-11.3" class="auto internal xref">11.3</a>.  <a href="#name-new-registry-for-contact-ur" class="internal xref">New Registry for Contact URI Scheme</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.4">
-                <p id="section-toc.1-1.11.2.4.1"><a href="#section-11.4" class="auto internal xref">11.4</a>.  <a href="#name-new-registry-for-dns-sub-er" class="internal xref">New Registry for DNS Sub-Error Codes</a></p>
+                <p id="section-toc.1-1.11.2.4.1"><a href="#section-11.4" class="auto internal xref">11.4</a>.  <a href="#name-new-registry-for-extended-d" class="internal xref">New Registry for Extended DNS Sub-Error Codes</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.5">
                 <p id="section-toc.1-1.11.2.5.1"><a href="#section-11.5" class="auto internal xref">11.5</a>.  <a href="#name-new-extended-dns-error-code" class="internal xref">New Extended DNS Error Code</a></p>
@@ -1348,7 +1371,7 @@ meaningful error message, and would not need to connect to such a
 block page. This approach thus avoids the need to install a local root
 certificate authority on those IT-managed devices.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <p id="section-1-7">This document describes a format for machine-readable data in the
-EXTRA-TEXT field of <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>. The document updates <span><a href="https://rfc-editor.org/rfc/rfc8914#section-2" class="relref">Section 2</a> of [<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> which
+EXTRA-TEXT field of <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>. The document updates <span><a href="https://rfc-editor.org/rfc/rfc8914#section-2" class="relref">Section 2</a> of [<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>, which
 says the information in EXTRA-TEXT field is intended for human
 consumption (not automated parsing).<a href="#section-1-7" class="pilcrow">¶</a></p>
 <p id="section-1-8">This document does not recommend DNS filtering but provides a
@@ -1379,6 +1402,13 @@ browser) to
 determine how, or whether, structured error information is used, displayed,
 or acted upon.<a href="#section-2-5" class="pilcrow">¶</a></p>
 <p id="section-2-6">Structured DNS Error (SDE) is an EDNS(0) option indicating support for structured encoding of the EXTRA-TEXT field. See also <a href="#SDE" class="auto internal xref">Section 5.4</a>.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<p id="section-2-7">"DNS administrator" refers to the party responsible for operating
+and configuring the DNS server, including the definition of
+filtering policies.<a href="#section-2-7" class="pilcrow">¶</a></p>
+<p id="section-2-8">"IT/InfoSec team" refers to the organizational team responsible
+for receiving and handling end-user reports of misclassified DNS
+filtering, including decisions on allowlisting domains or revising
+filtering policies.<a href="#section-2-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="existing-techniques">
@@ -1389,34 +1419,37 @@ or acted upon.<a href="#section-2-5" class="pilcrow">¶</a></p>
 <p id="section-3-1">DNS responses can be filtered by sending, e.g., a bogus (also called
 "forged") response, NXDOMAIN error, or empty answer. Also, clients can be informed that filtering occurred by sending an
 Extended DNS Error code defined in <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>. Each of these
-methods have advantages and disadvantages that are discussed below:<a href="#section-3-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3-2.1">
-          <p id="section-3-2.1.1">The DNS response is forged to provide a list of IP addresses that
+methods have advantages and disadvantages that are discussed in the following subsections.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<div id="forged-responses">
+<section id="section-3.1">
+        <h3 id="name-forged-responses">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-forged-responses" class="section-name selfRef">Forged Responses</a>
+        </h3>
+<p id="section-3.1-1">The DNS response is forged to provide a list of IP addresses that
 points to an HTTP(S) server alerting the end user about the reason for
 blocking access to the requested domain (e.g., malware). If the host component <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>
 of an HTTP URL is blocked, the network security device
 (e.g., Customer Premises Equipment (CPE) or firewall) presents a block page instead of the HTTP
-response from the content provider hosting that domain. This works successfully with HTTP.
-<br><br>
-If this is an HTTPS URL, the network security device attempts to serve the block page over HTTPS.  In order to return a block page over HTTPS, the network security device uses a locally
+response from the content provider hosting that domain. This works successfully with HTTP.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">If this is an HTTPS URL, the network security device attempts to serve the block page over HTTPS.  In order to return a block page over HTTPS, the network security device uses a locally
 generated root certificate and corresponding key pair. The local root certificate is
 installed on the endpoint while the network security device stores a copy of the private key.
 During the TLS handshake, the on-path network security device modifies the certificate
 provided by the server and (re)signs it using the private key from the local root
-certificate.<a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
+certificate.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-3">Note that:<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3-2.1.2.1">
-              <p id="section-3-2.1.2.1.1">In deployments where DNSSEC is used, this approach becomes ineffective because DNSSEC
+<li class="normal" id="section-3.1-4.1">
+            <p id="section-3.1-4.1.1">In deployments where a client is DNSSEC-aware and performs its own validation (DO=1), this approach becomes ineffective because DNSSEC
 ensures the integrity and authenticity of DNS responses, preventing forged DNS
-responses from being accepted.<a href="#section-3-2.1.2.1.1" class="pilcrow">¶</a></p>
+responses from being accepted.<a href="#section-3.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3-2.1.2.2">
-              <p id="section-3-2.1.2.2.1">The HTTPS server hosted on the network security device will have access to the
-client's IP address, the hostname, and the URL path component of the request. This information will be sensitive, as it will expose the end user's identity and the specific resource that an end user attempted to access.<a href="#section-3-2.1.2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.1-4.2">
+            <p id="section-3.1-4.2.1">The HTTPS server hosted on the network security device will have access to the
+client's IP address, the hostname, and the URL path component of the request. This information will be sensitive, as it will expose the end user's identity and the specific resource that an end user attempted to access.<a href="#section-3.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3-2.1.2.3">
-              <p id="section-3-2.1.2.3.1">Configuring a local root certificate on endpoints is
+          <li class="normal" id="section-3.1-4.3">
+            <p id="section-3.1-4.3.1">Configuring a local root certificate on endpoints is
 not a viable option in several deployments like home networks,
 schools, Small Office/Home Office (SOHO), or Small/Medium
 Enterprise (SME). In these cases, the typical behavior is that
@@ -1424,17 +1457,17 @@ the filtered DNS response points to a server that will display
 the block page. If the client is using HTTPS (via a web browser or
 another application) this results in a certificate validation
 error which gives no information to the end user about the reason
-for the DNS filtering.<a href="#section-3-2.1.2.3.1" class="pilcrow">¶</a></p>
+for the DNS filtering.<a href="#section-3.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3-2.1.2.4">
-              <p id="section-3-2.1.2.4.1">Enterprise networks do not always assume that all the connected devices
+          <li class="normal" id="section-3.1-4.4">
+            <p id="section-3.1-4.4.1">Enterprise networks do not always assume that all the connected devices
 are managed by the IT team or Mobile Device Management (MDM)
 devices, especially in the quite common Bring Your Own Device
 (BYOD) scenario. In addition, the local root certificate cannot
-be installed on IoT devices without a device management tool.<a href="#section-3-2.1.2.4.1" class="pilcrow">¶</a></p>
+be installed on IoT devices without a device management tool.<a href="#section-3.1-4.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3-2.1.2.5">
-              <p id="section-3-2.1.2.5.1">An end user does not know why the connection was prevented and,
+          <li class="normal" id="section-3.1-4.5">
+            <p id="section-3.1-4.5.1">An end user does not know why the connection was prevented and,
 consequently, may repeatedly try to reach the domain but with no
 success. Frustrated, the end user may switch to an alternate
 network that offers no DNS filtering against malware and
@@ -1447,15 +1480,25 @@ on a host device. Doing so, however, is also a bad security
 practice as it creates a security vulnerability that may be
 exploited by a MITM attack. When a manually installed local root
 certificate expires, the end user has to (again) manually install the
-new local root certificate.<a href="#section-3-2.1.2.5.1" class="pilcrow">¶</a></p>
+new local root certificate.<a href="#section-3.1-4.5.1" class="pilcrow">¶</a></p>
 </li>
-          </ul>
-</li>
-        <li class="normal" id="section-3-2.2">
-          <p id="section-3-2.2.1">The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the end user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-3-2.3">
-          <p id="section-3-2.3.1">The extended error codes Blocked and Filtered defined in
+        </ul>
+</section>
+</div>
+<div id="forged-nxdomain-answer">
+<section id="section-3.2">
+        <h3 id="name-forged-nxdomain-answer">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-forged-nxdomain-answer" class="section-name selfRef">Forged NXDOMAIN Answer</a>
+        </h3>
+<p id="section-3.2-1">The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the end user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="extended-error-codes-edes">
+<section id="section-3.3">
+        <h3 id="name-extended-error-codes-edes">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-extended-error-codes-edes" class="section-name selfRef">Extended Error Codes (EDEs)</a>
+        </h3>
+<p id="section-3.3-1">The extended error codes Blocked and Filtered defined in
 <span><a href="https://rfc-editor.org/rfc/rfc8914#section-4" class="relref">Section 4</a> of [<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> can be returned by a DNS server to provide
 additional information about the cause of a DNS error.
 These extended error codes do not suffer from the limitations
@@ -1468,17 +1511,17 @@ revealing sensitive information to the attacker, etc. An end user may need to
 know the contact details of the IT/InfoSec team to raise a complaint.
 Further, the information conveyed by <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> is intended for
 diagnostic purposes and is not structured for automated processing,
-localization, or extensibility.<a href="#section-3-2.3.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
-<p id="section-3-3">This document defines a structured,
+localization, or extensibility.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">This document defines a structured,
 machine-readable format for conveying such details in the EXTRA-TEXT
 field, enabling clients to process the information programmatically
 and present it to end users (e.g., with localization support), while
 allowing for extensibility and more granular, client security
 policy-driven handling of the information. This specification requires
 that clients only act upon such information when it is received
-over an integrity-protected DNS response.<a href="#section-3-3" class="pilcrow">¶</a></p>
+over an integrity-protected DNS response.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="name-spec">
@@ -1486,132 +1529,152 @@ over an integrity-protected DNS response.<a href="#section-3-3" class="pilcrow">
       <h2 id="name-i-json-in-extra-text-field">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-i-json-in-extra-text-field" class="section-name selfRef">I-JSON in EXTRA-TEXT Field</a>
       </h2>
-<p id="section-4-1">DNS servers that are compliant with this specification and have received an indication that the client also supports this specification as per <a href="#client-request" class="auto internal xref">Section 5.1</a> send data in the EXTRA-TEXT field <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> as a JSON object encoded using the Internet JSON (I-JSON) message format <span>[<a href="#RFC7493" class="cite xref">RFC7493</a>]</span>.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">This document defines the following JSON names:<a href="#section-4-2" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-4-3">
-        <dt id="section-4-3.1">c: (contact)</dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.2">
-          <p id="section-4-3.2.1">The contact details of the IT/InfoSec team to report misclassified
-DNS filtering. This information is important for transparency and also to ease unblocking a legitimate domain name that got blocked due to wrong classification.<a href="#section-4-3.2.1" class="pilcrow">¶</a></p>
+<div id="json-names">
+<section id="section-4.1">
+        <h3 id="name-json-names">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-json-names" class="section-name selfRef">JSON Names</a>
+        </h3>
+<p id="section-4.1-1">DNS servers that are compliant with this specification and have received an indication that the client also supports this specification as per <a href="#client-request" class="auto internal xref">Section 5.1</a> send data in the EXTRA-TEXT field <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> as a JSON object encoded using the Internet JSON (I-JSON) message format <span>[<a href="#RFC7493" class="cite xref">RFC7493</a>]</span>.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">This document defines the following JSON names:<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-4.1-3">
+          <dt id="section-4.1-3.1">c: (contact)</dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.2">
+            <p id="section-4.1-3.2.1">The contact details of the IT/InfoSec team to report misclassified
+DNS filtering. This information is important for transparency and also to ease unblocking a legitimate domain name that got blocked due to wrong classification.<a href="#section-4.1-3.2.1" class="pilcrow">¶</a></p>
 </dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.3"></dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.4">
-          <p id="section-4-3.4.1">The field is a JSON array of contact URIs. When multiple contact details are provided, each contact URI is
-represented as a separate array element in the JSON array.<a href="#section-4-3.4.1" class="pilcrow">¶</a></p>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.3"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.4">
+            <p id="section-4.1-3.4.1">The field is a JSON array of contact URIs. When multiple contact details are provided, each contact URI is
+represented as a separate array element in the JSON array.<a href="#section-4.1-3.4.1" class="pilcrow">¶</a></p>
 </dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.5"></dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.6">
-          <p id="section-4-3.6.1">Contact URIs conveyed in the "c" field <span class="bcp14">MUST</span> use URI schemes registered in <a href="#IANA-Contact" class="auto internal xref">Section 11.3</a>.<a href="#section-4-3.6.1" class="pilcrow">¶</a></p>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.5"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.6">
+            <p id="section-4.1-3.6.1">Contact URIs conveyed in the "c" field <span class="bcp14">MUST</span> use URI schemes registered in <a href="#IANA-Contact" class="auto internal xref">Section 11.3</a>.<a href="#section-4.1-3.6.1" class="pilcrow">¶</a></p>
 </dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.7"></dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.8">
-          <p id="section-4-3.8.1">This field is optional.<a href="#section-4-3.8.1" class="pilcrow">¶</a></p>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.7"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.8">
+            <p id="section-4.1-3.8.1">This field is optional.<a href="#section-4.1-3.8.1" class="pilcrow">¶</a></p>
 </dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.9">j: (justification)</dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.10">
-          <p id="section-4-3.10.1">'UTF-8'-encoded <span>[<a href="#RFC5198" class="cite xref">RFC5198</a>]</span> human-readable explanation for the DNS
-filtering decision.<a href="#section-4-3.10.1" class="pilcrow">¶</a></p>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.9">j: (justification)</dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.10">
+            <p id="section-4.1-3.10.1">'UTF-8'-encoded <span>[<a href="#RFC5198" class="cite xref">RFC5198</a>]</span> human-readable explanation for the DNS
+filtering decision.<a href="#section-4.1-3.10.1" class="pilcrow">¶</a></p>
 </dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.11"></dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.12">
-          <p id="section-4-3.12.1">This field is particularly useful when no applicable sub-error code
-is defined or provided for the returned Extended DNS Error.<a href="#section-4-3.12.1" class="pilcrow">¶</a></p>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.11"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.12">
+            <p id="section-4.1-3.12.1">This field is particularly useful when no applicable sub-error code
+is defined or provided for the returned Extended DNS Error.<a href="#section-4.1-3.12.1" class="pilcrow">¶</a></p>
 </dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.13"></dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.14">
-          <p id="section-4-3.14.1">The information conveyed in this field <span class="bcp14">MUST NOT</span> be used as input to
+          <dd class="break"></dd>
+<dt id="section-4.1-3.13"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.14">
+            <p id="section-4.1-3.14.1">The information conveyed in this field <span class="bcp14">MUST NOT</span> be used as input to
 automated processing that affects security policy enforcement or DNS
-protocol behavior.<a href="#section-4-3.14.1" class="pilcrow">¶</a></p>
+protocol behavior.<a href="#section-4.1-3.14.1" class="pilcrow">¶</a></p>
 </dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.15"></dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.16">
-          <p id="section-4-3.16.1">The DNS client determines, according to its client security policy,
+          <dd class="break"></dd>
+<dt id="section-4.1-3.15"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.16">
+            <p id="section-4.1-3.16.1">The DNS client determines, according to its client security policy,
 whether the contents of this field are displayed to the end user,
-logged, or ignored.<a href="#section-4-3.16.1" class="pilcrow">¶</a></p>
+logged, or ignored.<a href="#section-4.1-3.16.1" class="pilcrow">¶</a></p>
 </dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.17"></dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.18">
-          <p id="section-4-3.18.1">Returning non-UTF-8 data, syntactically invalid content, or
+          <dd class="break"></dd>
+<dt id="section-4.1-3.17"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.18">
+            <p id="section-4.1-3.18.1">Returning non-UTF-8 data, syntactically invalid content, or
 deliberately meaningless values (including empty strings) indicates that
-a DNS server is misbehaving.<a href="#section-4-3.18.1" class="pilcrow">¶</a></p>
+a DNS server is misbehaving.<a href="#section-4.1-3.18.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.19"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.20">
+            <p id="section-4.1-3.20.1">This field is optional.<a href="#section-4.1-3.20.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.21">s: (sub-error)</dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.22">
+            <p id="section-4.1-3.22.1">An integer representing the sub-error code for this particular DNS filtering case.<a href="#section-4.1-3.22.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.23"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.24">
+            <p id="section-4.1-3.24.1">The integer values are defined in the IANA-managed registry for Extended DNS Sub-Error Codes in <a href="#IANA-SubError" class="auto internal xref">Section 11.4</a>.<a href="#section-4.1-3.24.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.25"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.26">
+            <p id="section-4.1-3.26.1">This field is optional.<a href="#section-4.1-3.26.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.27"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.28">
+            <p id="section-4.1-3.28.1">When multiple blocking causes apply simultaneously
+(e.g., a domain is blocked for both malware and phishing reasons),
+a single SDE response is returned. If "s" is supplied, then the "s" field <span class="bcp14">MUST</span> convey the
+primary blocking cause. In such case, the "j" field <span class="bcp14">MUST</span> be used to provide
+additional context describing all applicable causes.<a href="#section-4.1-3.28.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.29">o: (organization)</dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.30">
+            <p id="section-4.1-3.30.1">'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query.<a href="#section-4.1-3.30.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.31"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.32">
+            <p id="section-4.1-3.32.1">This field is optional.<a href="#section-4.1-3.32.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.33">l: (language)</dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.34">
+            <p id="section-4.1-3.34.1">The "l" field indicates the language used for the JSON-encoded "j" and "o" fields.  The value of this field <span class="bcp14">MUST</span> conform to the
+language tag syntax specified in <span><a href="https://rfc-editor.org/rfc/rfc5646#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC5646" class="cite xref">RFC5646</a>]</span>.<a href="#section-4.1-3.34.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.35"></dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.36">
+            <p id="section-4.1-3.36.1">This field is <span class="bcp14">REQUIRED</span> when either the "j" or "o" fields are present.<a href="#section-4.1-3.36.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-4-3.19"></dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.20">
-          <p id="section-4-3.20.1">This field is optional.<a href="#section-4-3.20.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.21">s: (sub-error)</dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.22">
-          <p id="section-4-3.22.1">An integer representing the sub-error code for this particular DNS filtering case.<a href="#section-4-3.22.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.23"></dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.24">
-          <p id="section-4-3.24.1">The integer values are defined in the IANA-managed registry for DNS Sub-Error Codes in <a href="#IANA-SubError" class="auto internal xref">Section 11.4</a>.<a href="#section-4-3.24.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.25"></dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.26">
-          <p id="section-4-3.26.1">This field is optional.<a href="#section-4-3.26.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.27">o: (organization)</dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.28">
-          <p id="section-4-3.28.1">'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query.<a href="#section-4-3.28.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.29"></dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.30">
-          <p id="section-4-3.30.1">This field is optional.<a href="#section-4-3.30.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.31">l: (language)</dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.32">
-          <p id="section-4-3.32.1">The "l" field indicates the language used for the JSON-encoded "j" and "o" fields.  The value of this field <span class="bcp14">MUST</span> conform to the
-language tag syntax specified in <span><a href="https://rfc-editor.org/rfc/rfc5646#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC5646" class="cite xref">RFC5646</a>]</span>.<a href="#section-4-3.32.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-4-3.33"></dt>
-        <dd style="margin-left: 1.5em" id="section-4-3.34">
-          <p id="section-4-3.34.1">This field is optional but <span class="bcp14">RECOMMENDED</span> to aid in localization.<a href="#section-4-3.34.1" class="pilcrow">¶</a></p>
-</dd>
-      <dd class="break"></dd>
 </dl>
-<p id="section-4-4">The text in the "j" and "o" names can include international
+<p id="section-4.1-4">The text in the "j" and "o" names can include international
 characters. The text will be in natural language, chosen by the DNS administrator
-to match its expected audience.<a href="#section-4-4" class="pilcrow">¶</a></p>
-<p id="section-4-5">If the client supports diagnostic interfaces, it <span class="bcp14">MAY</span> use the "l" field to identify
-the language of the "j" text and optionally translate it.<a href="#section-4-5" class="pilcrow">¶</a></p>
-<p id="section-4-6">The "o" field <span class="bcp14">MAY</span> be displayed to end users, subject to the conditions described in <a href="#security" class="auto internal xref">Section 10</a>.
-If the text is in a language not understood by the end user, the "l" field can be used
-to identify the language and support translation into the end user's preferred language.<a href="#section-4-6" class="pilcrow">¶</a></p>
-<p id="section-4-7">To avoid exceeding the maximum EDNS0 size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> the generated JSON values <span class="bcp14">SHOULD</span> be as short as
-possible: short domain names, concise text in the values for the "j"
+to match its expected audience.<a href="#section-4.1-4" class="pilcrow">¶</a></p>
+<p id="section-4.1-5">The "o" field <span class="bcp14">MAY</span> be displayed to end users, subject to the conditions described in <a href="#security" class="auto internal xref">Section 10</a>.<a href="#section-4.1-5" class="pilcrow">¶</a></p>
+<p id="section-4.1-6">To avoid exceeding the maximum EDNS0 size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span>, the generated JSON values <span class="bcp14">SHOULD</span> be as short as
+possible: concise text in the values for the "j"
 and "o" names, and minified JSON (that is, without spaces or line
-breaks between JSON elements).<a href="#section-4-7" class="pilcrow">¶</a></p>
-<p id="section-4-8">The JSON data can be parsed to display to the user, logged, or
-otherwise used to assist troubleshooting and diagnosis of DNS filtering.<a href="#section-4-8" class="pilcrow">¶</a></p>
-<p id="section-4-9">The sub-error codes provide a structured way to communicate more detailed and precise description of the cause of an error (e.g., distinguishing between malware-related blocking and phishing-related blocking under the general blocked error).<a href="#section-4-9" class="pilcrow">¶</a></p>
+breaks between JSON elements). Otherwise, there is a risk that the response will get fragmented.<a href="#section-4.1-6" class="pilcrow">¶</a></p>
+<p id="section-4.1-7">The JSON data can be parsed to display to the user, logged, or
+otherwise used to assist troubleshooting and diagnosis of DNS filtering.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
+<p id="section-4.1-8">The sub-error codes provide a structured way to communicate more detailed and precise description of the cause of an error (e.g., distinguishing between malware-related blocking and phishing-related blocking under the general blocked error).<a href="#section-4.1-8" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-4-10.1">
-          <p id="section-4-10.1.1">An alternate design for conveying the sub-error would be to define new EDE codes for these errors. However, such design is suboptimal because it requires replicating an error code for each EDE code to which the sub-error applies (e.g., "Malware" sub-error in <a href="#reg" class="auto internal xref">Table 3</a> would consume three EDE codes).<a href="#section-4-10.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-4.1-9.1">
+            <p id="section-4.1-9.1.1">An alternate design for conveying the sub-error would be to define new EDE codes for these errors. However, such design is suboptimal because it requires replicating an error code for each EDE code to which the sub-error applies (e.g., "Malware" sub-error in <a href="#reg" class="auto internal xref">Table 3</a> would consume three EDE codes).<a href="#section-4.1-9.1.1" class="pilcrow">¶</a></p>
 </li>
-      </ul>
-<p id="section-4-11">New JSON names <span class="bcp14">MUST</span> consist only of lower-case ASCII characters, digits,
+        </ul>
+</section>
+</div>
+<div id="future-json-names-requirements">
+<section id="section-4.2">
+        <h3 id="name-future-json-names-requireme">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-future-json-names-requireme" class="section-name selfRef">Future JSON Names Requirements</a>
+        </h3>
+<p id="section-4.2-1">New JSON names may be defined in the future (see also <a href="#IANA-Names" class="auto internal xref">Section 11.2</a>). This section specifies the requirements to take into account for such names.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">New JSON names <span class="bcp14">MUST</span> consist only of lower-case ASCII characters, digits,
 and hyphen-minus (that is, Unicode characters U+0061 through 007A,
 U+0030 through U+0039, and U+002D). Also, these names <span class="bcp14">MUST</span> be 63
 characters or shorter and it is <span class="bcp14">RECOMMENDED</span> they be as short as
 possible to reduce contribution to exceeding maximum EDNS0 response
-size. Refer to <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> for a discusson on IP fragmentation avoidance in DNS.<a href="#section-4-11" class="pilcrow">¶</a></p>
+size. Refer to <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> for a discussion on IP fragmentation avoidance in DNS.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="protocol-operation">
@@ -1625,11 +1688,12 @@ size. Refer to <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> f
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-client-generating-request" class="section-name selfRef">Client Generating Request</a>
         </h3>
 <p id="section-5.1-1">When generating a DNS query, a client that supports this specification
-<span class="bcp14">SHOULD</span> include the Structured DNS Error (SDE) option defined in <a href="#SDE" class="auto internal xref">Section 5.4</a>, unless instructed by local policy otherwise.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<span class="bcp14">SHOULD</span> include the Structured DNS Error (SDE) option defined in <a href="#SDE" class="auto internal xref">Section 5.4</a>, unless instructed by local policy otherwise.
+The query should be sent over an encrypted DNS transport.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1-2">The presence of the SDE option indicates that the client desires the
 DNS server to include an EDE option in the DNS response when DNS
-filtering is performed, and that any data conveyed in the EXTRA-TEXT
-field of the EDE option is encoded and processed in accordance with
+filtering is performed and that any data conveyed in the EXTRA-TEXT
+field of the EDE option is encoded in accordance with
 this specification.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1642,13 +1706,14 @@ this specification.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 query (e.g., A or AAAA resource record query), the DNS response <span class="bcp14">MAY</span> contain an empty answer, NXDOMAIN, or (less
 ideally) forged response, as desired by the DNS
 server.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.2-2">If the query contained the SDE EDNS option (<a href="#client-request" class="auto internal xref">Section 5.1</a>), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server <span class="bcp14">SHOULD</span> include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If including the additional detail would cause the response to exceed the EDNS0 size <span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> (and thus setting TC=1), it <span class="bcp14">SHOULD</span> be omitted. In deployments using DoT, DoH, or DoQ, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2-2">If the query contained the SDE EDNS option (<a href="#client-request" class="auto internal xref">Section 5.1</a>), and the DNS server returns an EDE code of "Blocked", "Filtered", "Censored", or "Blocked by Upstream DNS Server", the DNS server <span class="bcp14">SHOULD</span> include additional detail in the EXTRA-TEXT field encoded as structured and machine-readable data in accordance with the present specification, unless configured otherwise. If the DNS response is sent over UDP and including the additional detail would cause the response to exceed the EDNS0 size
+<span>[<a href="#RFC9715" class="cite xref">RFC9715</a>]</span> (and thus setting TC=1), the server <span class="bcp14">MUST</span> first attempt to reduce the response size by omitting the "j" and "o" fields before omitting the EXTRA-TEXT entirely. In deployments using DoT, DoH, or DoQ, transport size limitations are unlikely to necessitate omission of structured data in the EXTRA-TEXT field.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2-3">If the SDE option was not present in the DNS request, the DNS server <span class="bcp14">MUST</span> process the request in accordance with <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> and <span class="bcp14">MUST NOT</span> assume that the client supports this specification. This preserves compatibility with clients and servers that implement <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> but do not support this specification.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
-<p id="section-5.2-4">Servers <span class="bcp14">MAY</span> decide to return small TTL values in filtered DNS
+<p id="section-5.2-4">Servers <span class="bcp14">MAY</span> return small TTL values in filtered DNS
 responses (e.g., 10 seconds) to handle domain category and reputation
 updates. Short TTLs allow for quick adaptation to dynamic changes in domain filtering decisions,
 but can result in increased query traffic. In cases where updates are less frequent,
-TTL values of 30 to 60 seconds <span class="bcp14">MAY</span> provide a better balance, reducing server load while
+TTL values of 30 to 60 seconds might provide a better balance, reducing server load while
 still ensuring reasonable flexibility for updates.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
 <p id="section-5.2-5">If the query includes the SDE option as per <a href="#client-request" class="auto internal xref">Section 5.1</a>, the server <span class="bcp14">MUST NOT</span> return the "Forged Answer" extended error code because the client
 can take advantage of EDE's more sophisticated error reporting (e.g.,
@@ -1673,7 +1738,7 @@ DNS server, the following ordered actions are performed on the EXTRA-TEXT
 field:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.3-2">
 <li id="section-5.3-2.1">
-            <p id="section-5.3-2.1.1">If the integrity of the DNS response is not guaranteed, the
+            <p id="section-5.3-2.1.1">If the integrity of the DNS response is not guaranteed (that is, the response is not received over an encrypted DNS tansport), the
 DNS client <span class="bcp14">MUST NOT</span> act upon data in the EXTRA-TEXT field, as the data
 is vulnerable to
 modification by an on-path attacker. An attacker can inject or
@@ -1690,7 +1755,7 @@ otherwise the EXTRA-TEXT field is discarded.<a href="#section-5.3-2.2.1" class="
 </li>
           <li id="section-5.3-2.3">
             <p id="section-5.3-2.3.1">Servers that do not support this specification might use plain text in the
-EXTRA-TEXT field. DNS clients <span class="bcp14">SHOULD</span> handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client <span class="bcp14">MUST</span> treat the data as invalid, <span class="bcp14">MUST NOT</span> process it according to this specification. The client <span class="bcp14">MAY</span> instead process the EXTRA-TEXT field as unstructured text as specified in <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>.<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></p>
+EXTRA-TEXT field. To ensure compatibility with those, DNS clients <span class="bcp14">SHOULD</span> handle both plaintext and structured content. The client attempts to parse the EXTRA-TEXT field as I-JSON. If parsing fails or the content is not valid I-JSON, the client <span class="bcp14">MUST</span> treat the data as invalid and <span class="bcp14">MUST NOT</span> process it according to this specification. The client <span class="bcp14">MAY</span> instead process the EXTRA-TEXT field as unstructured text as specified in <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span>.<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.3-2.4">
             <p id="section-5.3-2.4.1">If the JSON object contains an "s" field and the sub-error code
@@ -1740,7 +1805,7 @@ indicate support for I-JSON encoding in the EXTRA-TEXT field of an
 Extended DNS Error (EDE) option.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 <p id="section-5.4-2">The SDE option has no OPTION-DATA. The OPTION-LENGTH field <span class="bcp14">MUST</span>
 be set to 0. A server receiving an SDE option with a non-zero
-OPTION-LENGTH <span class="bcp14">MUST</span> ignore the option.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
+OPTION-LENGTH <span class="bcp14">MUST</span> silently ignore the OPTION-DATA.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
 <p id="section-5.4-3">The presence of the SDE option in a query indicates that the client
 supports processing the EXTRA-TEXT field in accordance with this
 specification.<a href="#section-5.4-3" class="pilcrow">¶</a></p>
@@ -1821,12 +1886,11 @@ DNS "A" record query for 'example.org' is provided in <a href="#example-json" cl
 <pre>
 {
   "c": [
-    "tel:+358-555-1234567",
-    "sips:bob@bobphone.example.com"
+    "tel:+358-555-1234567"
   ],
   "j": "malware present for 23 days",
   "s": 1,
-  "o": "example.net Filtering Service",
+  "o": "example-org",
   "l": "en"
 }
 </pre>
@@ -1841,10 +1905,10 @@ whitespace, no blank lines) with <code>'\'</code> line wrapping per <span>[<a hr
 <figure id="figure-2">
         <div class="alignLeft art-text artwork" id="section-8-4.1">
 <pre>
-{ "c":["tel:+358-555-1234567","sips:bob@bobphone.example.com"],\
+{ "c":["tel:+358-555-1234567"],\
 "j":"malware present for 23 days",\
 "s":1,\
-"o":"example.net Filtering Service",\
+"o":"example-org",\
 "l":"en" }
 </pre>
 </div>
@@ -1863,9 +1927,9 @@ whitespace, no blank lines) with <code>'\'</code> line wrapping per <span>[<a hr
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 1232
 ; OPT=TBD1 (Structured DNS Error): (no data)
-; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567",\
-  "sips:bob@bobphone.example.com"],"j":"malware present for 23 days",\
-  "s":1,"o":"example.net Filtering Service","l":"en"})
+; EDE: 15 (Blocked): ({"c":["tel:+358-555-1234567"],\
+  "j":"malware present for 23 days",\
+  "s":1,"o":"example-org","l":"en"})
 </pre>
 </div>
 <figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
@@ -1892,6 +1956,14 @@ forward the JSON information, or they <span class="bcp14">MAY</span> choose to c
 <p id="section-9.1-1">Future extensions <span class="bcp14">MUST NOT</span> introduce mandatory JSON attributes, as existing implementations are required to ignore unknown JSON names (see <a href="#client-processing" class="auto internal xref">Section 5.3</a>).<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="client-updates">
+<section id="section-9.2">
+        <h3 id="name-client-updates">
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-client-updates" class="section-name selfRef">Client Updates</a>
+        </h3>
+<p id="section-9.2-1">The specification relies on several IANA-maintained registries. In particular, since the content of these registries may change with time, clients that implement this extension have to periodically update the list of supported values in the "Contact URI Schemes" registry <a href="#IANA-Contact" class="auto internal xref">Section 11.3</a> to avoid discarding a recently-added Contact URI.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="security">
@@ -1905,7 +1977,7 @@ forward the JSON information, or they <span class="bcp14">MAY</span> choose to c
 <a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-authentication-and-confiden" class="section-name selfRef">Authentication and Confidentiality</a>
         </h3>
 <p id="section-10.1-1">Security considerations in <span><a href="https://rfc-editor.org/rfc/rfc8914#section-6" class="relref">Section 6</a> of [<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> apply to this
-document. <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> cautions against relying on EDE information because it may be unauthenticated and transmitted in cleartext. This specification assumes the use of authenticated, integrity-protected DNS transports (e.g., DoT, DoH, or DoQ). Such transports <span class="bcp14">MUST</span> be based on TLS 1.3 <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> or later.  Under these conditions, EDE information is integrity-protected, reducing the risks associated with relying on structured EDE content.<a href="#section-10.1-1" class="pilcrow">¶</a></p>
+document. <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> cautions against relying on EDE information because it may be unauthenticated and transmitted in cleartext. This specification requires the use of authenticated, integrity-protected DNS transports (e.g., DoT, DoH, or DoQ). Such transports <span class="bcp14">MUST</span> be based on TLS 1.3 <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> or later.  Under these conditions, EDE information is integrity-protected, reducing the risks associated with relying on structured EDE content.<a href="#section-10.1-1" class="pilcrow">¶</a></p>
 <p id="section-10.1-2">To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in <a href="#client-processing" class="auto internal xref">Section 5.3</a>.<a href="#section-10.1-2" class="pilcrow">¶</a></p>
 </section>
@@ -1935,20 +2007,20 @@ contains free-form, human-readable text that may influence end user behavior.<a 
 fields need to be rendered as text, not as HTML. The contact details of "c" can be made
 into clickable links to provide a convenient way for end users to initiate, e.g., voice calls. The client might
 choose to display the contact details only when the identity of the DNS server is verified.<a href="#section-10.2-3" class="pilcrow">¶</a></p>
-<p id="section-10.2-4">Clients <span class="bcp14">MUST NOT</span> automatically initiate connections to URIs derived from the EXTRA-TEXT field. Doing so could allow a resolver to silently report client activity to third parties, enable denial-of-service reflection attacks, or be used to entrap a client. The restriction of Contact URI schemes to "sips", "tel", and "mailto" is intentional, as these schemes do not result in automatic HTTP connections.<a href="#section-10.2-4" class="pilcrow">¶</a></p>
-<p id="section-10.2-5">Further, clients <span class="bcp14">MUST NOT</span> display the value of the <code>"o"</code> field to the end user unless one of the following
+<p id="section-10.2-4">Clients <span class="bcp14">MUST NOT</span> automatically initiate connections to URIs derived from the EXTRA-TEXT field. Doing so could allow a resolver to silently report client activity to third parties, enable denial-of-service reflection attacks, or be used to entrap a client. The restriction of Contact URI schemes to "tel" and "mailto" is intentional, as these schemes do not result in automatic HTTP connections.<a href="#section-10.2-4" class="pilcrow">¶</a></p>
+<p id="section-10.2-5">Furthermore, clients <span class="bcp14">MUST NOT</span> display the value of the <code>"o"</code> field to the end user unless one of the following
 conditions is met:<a href="#section-10.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-10.2-6.1">
-            <p id="section-10.2-6.1.1">The value matches a registered organization name listed in the <span>[<a href="#IANA-Enterprise" class="cite xref">IANA-Enterprise</a>]</span> OR<a href="#section-10.2-6.1.1" class="pilcrow">¶</a></p>
+            <p id="section-10.2-6.1.1">The value matches a registered organization name in a trust list maintained by the client, OR<a href="#section-10.2-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-10.2-6.2">
-            <p id="section-10.2-6.2.1">The value consists solely of an organization name and does not contain any additional free-form content such
-as instructions, URLs, or messaging intended to influence end user behavior, as determined by client security policy or heuristics.<a href="#section-10.2-6.2.1" class="pilcrow">¶</a></p>
+            <p id="section-10.2-6.2.1">The value consists solely of an organization name and does not contain any additional free-form content (e.g., URLs), as determined by client security policy or heuristics.<a href="#section-10.2-6.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-10.2-7">If the organization name cannot be verified through registry checks or heuristics, the client <span class="bcp14">MUST NOT</span> display the "o" field to the end user.<a href="#section-10.2-7" class="pilcrow">¶</a></p>
-<p id="section-10.2-8">DNS clients <span class="bcp14">MAY</span> keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data <span class="bcp14">MUST NOT</span> be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.<a href="#section-10.2-8" class="pilcrow">¶</a></p>
+<p id="section-10.2-8">It is beyond the scope of this document to describe how the trust list is created and updated, and how the structured DNS error response interacts with the trust list to influence user experience or user interface elements.<a href="#section-10.2-8" class="pilcrow">¶</a></p>
+<p id="section-10.2-9">DNS clients <span class="bcp14">MAY</span> keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data <span class="bcp14">MUST NOT</span> be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.<a href="#section-10.2-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-risks-from-legacy-dns-forwarders">
@@ -1959,7 +2031,7 @@ as instructions, URLs, or messaging intended to influence end user behavior, as 
 <p id="section-10.3-1">An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
 DNS forwarder will forward that attacker-controlled EDE option.  To
-prevent such an attack, clients can be configured to process EDE from
+prevent such an attack, clients can be configured to process EDE only from
 explicitly configured DNS servers or utilize RESINFO
 <span>[<a href="#RFC9606" class="cite xref">RFC9606</a>]</span>.<a href="#section-10.3-1" class="pilcrow">¶</a></p>
 </section>
@@ -1996,7 +2068,7 @@ explicitly configured DNS servers or utilize RESINFO
 <span class="break"></span><dl class="dlParallel" id="section-11.1-2">
           <dt id="section-11.1-2.1">Value:</dt>
           <dd style="margin-left: 1.5em" id="section-11.1-2.2">
-            <p id="section-11.1-2.2.1">TBD<a href="#section-11.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-11.1-2.2.1">TBD1<a href="#section-11.1-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-11.1-2.3">Name:</dt>
@@ -2139,13 +2211,6 @@ following schemes:<a href="#section-11.3-3" class="pilcrow">¶</a></p>
           </thead>
           <tbody>
             <tr>
-              <td class="text-center" rowspan="1" colspan="1">sips</td>
-              <td class="text-left" rowspan="1" colspan="1">SIP Call</td>
-              <td class="text-center" rowspan="1" colspan="1">
-                <span>[<a href="#RFC5630" class="cite xref">RFC5630</a>]</span>
-</td>
-            </tr>
-            <tr>
               <td class="text-center" rowspan="1" colspan="1">tel</td>
               <td class="text-left" rowspan="1" colspan="1">Telephone Number</td>
               <td class="text-center" rowspan="1" colspan="1">
@@ -2167,10 +2232,10 @@ Review" as defined in <span><a href="https://rfc-editor.org/rfc/rfc8126#section-
 </div>
 <div id="IANA-SubError">
 <section id="section-11.4">
-        <h3 id="name-new-registry-for-dns-sub-er">
-<a href="#section-11.4" class="section-number selfRef">11.4. </a><a href="#name-new-registry-for-dns-sub-er" class="section-name selfRef">New Registry for DNS Sub-Error Codes</a>
+        <h3 id="name-new-registry-for-extended-d">
+<a href="#section-11.4" class="section-number selfRef">11.4. </a><a href="#name-new-registry-for-extended-d" class="section-name selfRef">New Registry for Extended DNS Sub-Error Codes</a>
         </h3>
-<p id="section-11.4-1">This document requests IANA to create a new registry, entitled "Sub-Error Codes"
+<p id="section-11.4-1">This document requests IANA to create a new registry, entitled "Extended DNS Sub-Error Codes"
 under "Extended DNS Error Codes" registry, which is under the "Domain Name System (DNS) Parameters" registry group <span>[<a href="#IANA-DNS" class="cite xref">IANA-DNS</a>]</span>. The registration request for a new sub-error code must include the
 following fields:<a href="#section-11.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -2231,14 +2296,16 @@ following values:<a href="#section-11.4-3" class="pilcrow">¶</a></p>
               <td class="text-center" rowspan="1" colspan="1">3</td>
               <td class="text-left" rowspan="1" colspan="1">Spam</td>
               <td class="text-left" rowspan="1" colspan="1">"Blocked", "Blocked by Upstream DNS Server", "Filtered"</td>
-              <td class="text-left" rowspan="1" colspan="1">Page 289 of <span>[<a href="#RFC4949" class="cite xref">RFC4949</a>]</span>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#RFC4949" class="cite xref">RFC4949</a>]</span>
 </td>
             </tr>
             <tr>
               <td class="text-center" rowspan="1" colspan="1">4</td>
               <td class="text-left" rowspan="1" colspan="1">Spyware</td>
               <td class="text-left" rowspan="1" colspan="1">"Blocked", "Blocked by Upstream DNS Server", "Filtered"</td>
-              <td class="text-left" rowspan="1" colspan="1">Page 291 of <span>[<a href="#RFC4949" class="cite xref">RFC4949</a>]</span>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#RFC4949" class="cite xref">RFC4949</a>]</span>
 </td>
             </tr>
             <tr>
@@ -2258,7 +2325,7 @@ following values:<a href="#section-11.4-3" class="pilcrow">¶</a></p>
           </tbody>
         </table>
 </div>
-<p id="section-11.4-5">The registration procedure to add New Sub-Error Codes is IETF Review as defined in <span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.8" class="relref">Section 4.8</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.<a href="#section-11.4-5" class="pilcrow">¶</a></p>
+<p id="section-11.4-5">The registration procedure to add new Sub-Error Codes is IETF Review as defined in <span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.8" class="relref">Section 4.8</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.<a href="#section-11.4-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="new-extended-dns-error-code">
@@ -2321,10 +2388,6 @@ registry under the "Domain Name System (DNS) Parameters" registry group <span>[<
         <dd>
 <span class="refAuthor">Klensin, J.</span> and <span class="refAuthor">M. Padlipsky</span>, <span class="refTitle">"Unicode Format for Network Interchange"</span>, <span class="seriesInfo">RFC 5198</span>, <span class="seriesInfo">DOI 10.17487/RFC5198</span>, <time datetime="2008-03" class="refDate">March 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5198">https://www.rfc-editor.org/rfc/rfc5198</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC5630">[RFC5630]</dt>
-        <dd>
-<span class="refAuthor">Audet, F.</span>, <span class="refTitle">"The Use of the SIPS URI Scheme in the Session Initiation Protocol (SIP)"</span>, <span class="seriesInfo">RFC 5630</span>, <span class="seriesInfo">DOI 10.17487/RFC5630</span>, <time datetime="2009-10" class="refDate">October 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5630">https://www.rfc-editor.org/rfc/rfc5630</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC5646">[RFC5646]</dt>
         <dd>
 <span class="refAuthor">Phillips, A., Ed.</span> and <span class="refAuthor">M. Davis, Ed.</span>, <span class="refTitle">"Tags for Identifying Languages"</span>, <span class="seriesInfo">BCP 47</span>, <span class="seriesInfo">RFC 5646</span>, <span class="seriesInfo">DOI 10.17487/RFC5646</span>, <time datetime="2009-09" class="refDate">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5646">https://www.rfc-editor.org/rfc/rfc5646</a>&gt;</span>. </dd>
@@ -2377,10 +2440,6 @@ registry under the "Domain Name System (DNS) Parameters" registry group <span>[<
 <dt id="IANA-DNS">[IANA-DNS]</dt>
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"Domain Name System (DNS) Parameters, Extended DNS Error Codes"</span>, <span>&lt;<a href="https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#extended-dns-error-codes">https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#extended-dns-error-codes</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="IANA-Enterprise">[IANA-Enterprise]</dt>
-        <dd>
-<span class="refTitle">"Private Enterprise Numbers (PENs)"</span>, <span>&lt;<a href="https://www.iana.org/assignments/enterprise-numbers/">https://www.iana.org/assignments/enterprise-numbers/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="Impl-1">[Impl-1]</dt>
         <dd>
@@ -2476,10 +2535,11 @@ are not necessary when generating a response to such a client.<a href="#appendix
       </h2>
 <p id="appendix-C-1">Thanks to Vittorio Bertola, Wes Hardaker, Ben Schwartz, Erid Orth,
 Viktor Dukhovni, Warren Kumari, Paul Wouters, John Levine, Bob
-Harold, Mukund Sivaraman, Gianpaolo Angelo Scalone, Mark Nottingham, Stephane Bortzmeyer, Daniel Migault, and Stephen Farrell for the comments.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+Harold, Mukund Sivaraman, Gianpaolo Angelo Scalone, Mark Nottingham, Stephane Bortzmeyer, Daniel Migault, Lars Eggert, and Stephen Farrell for the comments.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <p id="appendix-C-2">Thanks to Ralf Weber and Gianpaolo Scalone for sharing details about their implementation.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
-<p id="appendix-C-3">Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews, Joseph Salowey for the SECDIR review, and Paul Kyzivat for the ARTART review.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
+<p id="appendix-C-3">Thanks Petr Špaček, Di Ma and Matt Brown for the DNSDIR reviews, Joseph Salowey for the SECDIR review, and Paul Kyzivat for the ARTART reviews.<a href="#appendix-C-3" class="pilcrow">¶</a></p>
 <p id="appendix-C-4">Thanks to Éric Vyncke for the AD review.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
+<p id="appendix-C-5">Thanks to Mike Bishop, Roman Danyliw, Mahesh Jethanandani, and Andy Newton for the IESG review.<a href="#appendix-C-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
