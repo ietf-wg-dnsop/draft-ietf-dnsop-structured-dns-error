@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 9 January 2027                                          N. Cook
+Expires: 10 January 2027                                         N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                             8 July 2026
+                                                             9 July 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 January 2027.
+   This Internet-Draft will expire on 10 January 2027.
 
 Copyright Notice
 
@@ -525,11 +525,11 @@ Table of Contents
    the following ordered actions are performed on the EXTRA-TEXT field:
 
    1.  If the integrity of the DNS response is not guaranteed (that is,
-       the response is not received over an encrypted DNS tansport), the
-       DNS client MUST NOT act upon data in the EXTRA-TEXT field, as the
-       data is vulnerable to modification by an on-path attacker.  An
-       attacker can inject or modify a structured DNS error response in
-       transit without detection, enabling fabrication of filtering
+       the response is not received over an encrypted DNS transport),
+       the DNS client MUST NOT act upon data in the EXTRA-TEXT field, as
+       the data is vulnerable to modification by an on-path attacker.
+       An attacker can inject or modify a structured DNS error response
+       in transit without detection, enabling fabrication of filtering
        information (e.g., misleading contact information or false
        resolver identity information) that appears to originate from the
        resolver.  The data MAY be retained for diagnostic or client
