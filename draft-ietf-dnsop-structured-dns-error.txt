@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 8 January 2027                                          N. Cook
+Expires: 10 January 2027                                         N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                             7 July 2026
+                                                             9 July 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 January 2027.
+   This Internet-Draft will expire on 10 January 2027.
 
 Copyright Notice
 
@@ -462,6 +462,7 @@ Table of Contents
    When generating a DNS query, a client that supports this
    specification SHOULD include the Structured DNS Error (SDE) option
    defined in Section 5.4, unless instructed by local policy otherwise.
+   The query should be sent over an encrypted DNS transport.
 
    The presence of the SDE option indicates that the client desires the
    DNS server to include an EDE option in the DNS response when DNS
