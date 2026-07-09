@@ -229,8 +229,7 @@ Table of Contents
    "forged") response, NXDOMAIN error, or empty answer.  Also, clients
    can be informed that filtering occurred by sending an Extended DNS
    Error code defined in [RFC8914].  Each of these methods have
-   advantages and disadvantages that are discussed in the following
-   subsections.
+   limitations that are discussed in the following subsections.
 
 3.1.  Forged Responses
 
