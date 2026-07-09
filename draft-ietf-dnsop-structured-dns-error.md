@@ -185,7 +185,7 @@ filtering policies.
 DNS responses can be filtered by sending, e.g., a bogus (also called
 "forged") response, NXDOMAIN error, or empty answer. Also, clients can be informed that filtering occurred by sending an
 Extended DNS Error code defined in {{!RFC8914}}. Each of these
-methods have advantages and disadvantages that are discussed in the following subsections.
+methods have limitations that are discussed in the following subsections.
 
 ## Forged Responses
 
