@@ -408,7 +408,7 @@ field:
 
 1. If the the response is not received over an encrypted DNS tansport, the
    DNS client MUST NOT act upon data in the EXTRA-TEXT field, as the data
-   is vulnerable to
+   is vulnerable  to
    modification by an on-path attacker. An attacker can inject or
    modify a structured DNS error response in transit without detection,
    enabling fabrication of filtering information (e.g., misleading contact
@@ -686,9 +686,7 @@ constraints are described in {{name-spec}}.
 ## New Registry for Contact URI Scheme {#IANA-Contact}
 
 This document requests IANA to create a new registry, entitled "Contact URI Schemes"
-under "Extended DNS Error Codes"
-registry, which is under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}. The registration request for a new Contact URI scheme has to include the
-following fields:
+under "Extended DNS Error Codes" registry, which is under the "Domain Name System (DNS) Parameters" registry group {{IANA-DNS}}. The registration request for a new Contact URI scheme has to include the following fields:
 
 * Name: URI scheme name.
 
