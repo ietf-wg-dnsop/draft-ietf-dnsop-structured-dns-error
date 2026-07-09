@@ -406,7 +406,7 @@ On receipt of a DNS response with an EDE option from a
 DNS server, the following ordered actions are performed on the EXTRA-TEXT
 field:
 
-1. If the the response is not received over an encrypted DNS tansport, the
+1. If the the response is not received over an encrypted DNS transport, the
    DNS client MUST NOT act upon data in the EXTRA-TEXT field, as the data
    is vulnerable  to
    modification by an on-path attacker. An attacker can inject or
