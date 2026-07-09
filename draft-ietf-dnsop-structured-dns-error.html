@@ -1738,9 +1738,9 @@ DNS server, the following ordered actions are performed on the EXTRA-TEXT
 field:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.3-2">
 <li id="section-5.3-2.1">
-            <p id="section-5.3-2.1.1">If the integrity of the DNS response is not guaranteed (that is, the response is not received over an encrypted DNS tansport), the
+            <p id="section-5.3-2.1.1">If the the response is not received over an encrypted DNS tansport, the
 DNS client <span class="bcp14">MUST NOT</span> act upon data in the EXTRA-TEXT field, as the data
-is vulnerable to
+is vulnerable  to
 modification by an on-path attacker. An attacker can inject or
 modify a structured DNS error response in transit without detection,
 enabling fabrication of filtering information (e.g., misleading contact
@@ -2183,9 +2183,7 @@ constraints are described in <a href="#name-spec" class="auto internal xref">Sec
 <a href="#section-11.3" class="section-number selfRef">11.3. </a><a href="#name-new-registry-for-contact-ur" class="section-name selfRef">New Registry for Contact URI Scheme</a>
         </h3>
 <p id="section-11.3-1">This document requests IANA to create a new registry, entitled "Contact URI Schemes"
-under "Extended DNS Error Codes"
-registry, which is under the "Domain Name System (DNS) Parameters" registry group <span>[<a href="#IANA-DNS" class="cite xref">IANA-DNS</a>]</span>. The registration request for a new Contact URI scheme has to include the
-following fields:<a href="#section-11.3-1" class="pilcrow">¶</a></p>
+under "Extended DNS Error Codes" registry, which is under the "Domain Name System (DNS) Parameters" registry group <span>[<a href="#IANA-DNS" class="cite xref">IANA-DNS</a>]</span>. The registration request for a new Contact URI scheme has to include the following fields:<a href="#section-11.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11.3-2.1">
             <p id="section-11.3-2.1.1">Name: URI scheme name.<a href="#section-11.3-2.1.1" class="pilcrow">¶</a></p>
