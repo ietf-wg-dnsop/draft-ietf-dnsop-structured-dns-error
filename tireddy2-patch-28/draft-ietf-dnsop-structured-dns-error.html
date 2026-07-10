@@ -1440,7 +1440,8 @@ certificate.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 <p id="section-3.1-3">Note that:<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.1-4.1">
-            <p id="section-3.1-4.1.1">In deployments where a client is DNSSEC-aware and performs its own validation (DO=1), this approach becomes ineffective because DNSSEC
+            <p id="section-3.1-4.1.1">In deployments where a client is DNSSEC-aware and performs its own validation
+   (DO=1), this approach becomes ineffective because DNSSEC
 ensures the integrity and authenticity of DNS responses, preventing forged DNS
 responses from being accepted.<a href="#section-3.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
@@ -1469,26 +1470,18 @@ be installed on IoT devices without a device management tool.<a href="#section-3
           <li class="normal" id="section-3.1-4.5">
             <p id="section-3.1-4.5.1">An end user does not know why the connection was prevented and,
 consequently, may repeatedly try to reach the domain but with no
-success. Because the response conveys no reason for the
-failure and does not identify the filtering entity, the end user
-cannot distinguish erroneous over-blocking from filtering that is
-protecting them. The end user may therefore switch to an alternate
-network or resolver that performs no filtering, and in doing so lose
-the protection against malware and phishing that the filtering was
-providing. Furthermore, certificate errors train end users to click
+success. Frustrated, the end user may switch to an alternate
+network that offers no DNS filtering against malware and
+phishing, potentially compromising both security and
+privacy. Furthermore, certificate errors train end users to click
 through certificate errors, which is a bad security practice. To
 eliminate the need for an end user to click through certificate
 errors, an end user may manually install a local root certificate
-on a host device. In an unmanaged setting this is
-especially dangerous: the certificate's provenance often cannot be
-verified, and installing a root certificate of uncertain origin lets
-whoever holds the corresponding private key intercept the device's
-TLS connections to any site. More generally, any privately held root
-certificate capable of signing for arbitrary domains is a standing
-man-in-the-middle (MITM) exposure, since compromise or misuse of that
-key breaks the device's TLS trust across all sites. When a manually
-installed local root certificate expires, the end user has to (again)
-manually install the new one.<a href="#section-3.1-4.5.1" class="pilcrow">¶</a></p>
+on a host device. Doing so, however, is also a bad security
+practice as it creates a security vulnerability that may be
+exploited by a MITM attack. When a manually installed local root
+certificate expires, the end user has to (again) manually install the
+new local root certificate.<a href="#section-3.1-4.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -1498,7 +1491,7 @@ manually install the new one.<a href="#section-3.1-4.5.1" class="pilcrow">¶</a>
         <h3 id="name-forged-nxdomain-answer">
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-forged-nxdomain-answer" class="section-name selfRef">Forged NXDOMAIN Answer</a>
         </h3>
-<p id="section-3.2-1">The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Because the response conveys no reason for the failure, the end user cannot distinguish erroneous over-blocking from filtering that is protecting them, and may resort to circumventing the filtering entirely (e.g., switching to a resolver or network that performs no filtering), thereby losing the protection it was providing.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the end user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="extended-error-codes-edes">
@@ -1595,8 +1588,9 @@ logged, or ignored.<a href="#section-4.1-3.16.1" class="pilcrow">¶</a></p>
           <dd class="break"></dd>
 <dt id="section-4.1-3.17"></dt>
           <dd style="margin-left: 1.5em" id="section-4.1-3.18">
-            <p id="section-4.1-3.18.1">Returning non-UTF-8 data or an empty string in the "j" field
-indicates that a DNS server is misbehaving.<a href="#section-4.1-3.18.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-3.18.1">Returning non-UTF-8 data, syntactically invalid content, or
+deliberately meaningless values (including empty strings) indicates that
+a DNS server is misbehaving.<a href="#section-4.1-3.18.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-4.1-3.19"></dt>
@@ -1745,22 +1739,15 @@ DNS server, the following ordered actions are performed on the EXTRA-TEXT
 field:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.3-2">
 <li id="section-5.3-2.1">
-            <p id="section-5.3-2.1.1">If the integrity of the DNS response is not guaranteed (that is, the response is not received over an encrypted DNS transport), the
+            <p id="section-5.3-2.1.1">If the the response is not received over an encrypted DNS transport, the
 DNS client <span class="bcp14">MUST NOT</span> act upon data in the EXTRA-TEXT field, as the data
-is vulnerable to
+is vulnerable  to
 modification by an on-path attacker. An attacker can inject or
 modify a structured DNS error response in transit without detection,
 enabling fabrication of filtering information (e.g., misleading contact
 information or false resolver identity information) that appears to
 originate from the resolver. The data <span class="bcp14">MAY</span> be retained for diagnostic or
-client security policy evaluation purposes.
-Because the EDE option is hop-by-hop, this integrity
-requirement applies to the connection between the client and the DNS
-server that generated the EDE option; the security of any transport
-used further upstream is out of scope for the client's decision.
-Requirements for a forwarder that relays an error from an upstream
-server are given in the definition of the "Blocked by Upstream DNS
-Server" error code.<a href="#section-5.3-2.1.1" class="pilcrow">¶</a></p>
+client security policy evaluation purposes.<a href="#section-5.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.3-2.2">
             <p id="section-5.3-2.2.1">The DNS response <span class="bcp14">MUST</span> also contain an EDE code of
@@ -1991,28 +1978,22 @@ forward the JSON information, or they <span class="bcp14">MAY</span> choose to c
 <a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-authentication-and-confiden" class="section-name selfRef">Authentication and Confidentiality</a>
         </h3>
 <p id="section-10.1-1">Security considerations in <span><a href="https://rfc-editor.org/rfc/rfc8914#section-6" class="relref">Section 6</a> of [<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> apply to this
-document. As noted there, EDE information is unauthenticated
-unless it is secured by a form of secured DNS transaction, such as TSIG
-<span>[<a href="#RFC8945" class="cite xref">RFC8945</a>]</span>, SIG(0) <span>[<a href="#RFC2931" class="cite xref">RFC2931</a>]</span>, or an authenticated and encrypted DNS
-transport (e.g., DoT, DoH, or DoQ).<a href="#section-10.1-1" class="pilcrow">¶</a></p>
-<p id="section-10.1-2">Data origin authentication and integrity are necessary but not
-sufficient for this specification: it additionally requires confidentiality
-for the DNS query and for the structured error response (see <a href="#privacy" class="auto internal xref">Section 10.4</a>).
-Transaction-authentication mechanisms such as TSIG and SIG(0) provide
-integrity and data origin authentication but do not provide confidentiality.
-This specification therefore requires that structured EXTRA-TEXT data be
-conveyed over an authenticated, integrity-protected, and encrypted DNS
-transport (e.g., DoT, DoH, or DoQ); such transports <span class="bcp14">MUST</span> be based on TLS 1.3
-<span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> or later. A DNS client acts upon this data only as specified in
-<a href="#client-processing" class="auto internal xref">Section 5.3</a>, which prohibits acting upon EXTRA-TEXT data that was
-not received over such a transport. Under these conditions, EDE information
-is integrity-protected and confidential, reducing the risks associated with
-relying on structured EDE content.<a href="#section-10.1-2" class="pilcrow">¶</a></p>
-<p id="section-10.1-3">To minimize impact of active on-path attacks on the DNS channel, the
-client validates the response as described in <a href="#client-processing" class="auto internal xref">Section 5.3</a>.<a href="#section-10.1-3" class="pilcrow">¶</a></p>
+document. <span>[<a href="#RFC8914" class="cite xref">RFC8914</a>]</span> cautions against relying on EDE information because it may be unauthenticated and transmitted in cleartext. This specification requires the use of authenticated, integrity-protected DNS transports (e.g., DoT, DoH, or DoQ). Such transports <span class="bcp14">MUST</span> be based on TLS 1.3 <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> or later.  Under these conditions, EDE information is integrity-protected, reducing the risks associated with relying on structured EDE content.<a href="#section-10.1-1" class="pilcrow">¶</a></p>
+<p id="section-10.1-2">To minimize impact of active on-path attacks on the DNS channel, the
+client validates the response as described in <a href="#client-processing" class="auto internal xref">Section 5.3</a>.<a href="#section-10.1-2" class="pilcrow">¶</a></p>
+<p id="section-10.1-3">Because the EDE option is hop-by-hop, the integrity and confidentiality provided by the
+client's encrypted transport apply only to the connection between the client and its
+directly connected DNS server; the transport between that server and the upstream DNS
+server may or may not be secure. A client can use RESINFO <span>[<a href="#RFC9606" class="cite xref">RFC9606</a>]</span> to confirm, via
+the "exterr" key, that this server is configured to return EDE, which helps the client
+identify EDE relayed by a forwarder that is unaware of EDE (see <a href="#legacy" class="auto internal xref">Section 10.3</a>). In both
+the TBA1 case and the legacy DNS forwarder case, unless the client is aware that the
+upstream connection is secure, it processes only the "s" field and ignores the other
+fields. If the client is aware that the upstream connection is secure, the restrictions
+on displaying the "c", "o", and "j" fields described in <a href="#res" class="auto internal xref">Section 10.2</a> apply.<a href="#section-10.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="restrictions-on-display-of-c-o-and-j-fields">
+<div id="res">
 <section id="section-10.2">
         <h3 id="name-restrictions-on-display-of-">
 <a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-restrictions-on-display-of-" class="section-name selfRef">Restrictions on Display of "c", "o", and "j" Fields</a>
@@ -2053,7 +2034,7 @@ conditions is met:<a href="#section-10.2-5" class="pilcrow">¶</a></p>
 <p id="section-10.2-9">DNS clients <span class="bcp14">MAY</span> keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data <span class="bcp14">MUST NOT</span> be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.<a href="#section-10.2-9" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="security-risks-from-legacy-dns-forwarders">
+<div id="legacy">
 <section id="section-10.3">
         <h3 id="name-security-risks-from-legacy-">
 <a href="#section-10.3" class="section-number selfRef">10.3. </a><a href="#name-security-risks-from-legacy-" class="section-name selfRef">Security Risks from Legacy DNS Forwarders</a>
@@ -2066,7 +2047,7 @@ explicitly configured DNS servers or utilize RESINFO
 <span>[<a href="#RFC9606" class="cite xref">RFC9606</a>]</span>.<a href="#section-10.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="privacy">
+<div id="privacy-considerations">
 <section id="section-10.4">
         <h3 id="name-privacy-considerations">
 <a href="#section-10.4" class="section-number selfRef">10.4. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
@@ -2213,9 +2194,7 @@ constraints are described in <a href="#name-spec" class="auto internal xref">Sec
 <a href="#section-11.3" class="section-number selfRef">11.3. </a><a href="#name-new-registry-for-contact-ur" class="section-name selfRef">New Registry for Contact URI Scheme</a>
         </h3>
 <p id="section-11.3-1">This document requests IANA to create a new registry, entitled "Contact URI Schemes"
-under "Extended DNS Error Codes"
-registry, which is under the "Domain Name System (DNS) Parameters" registry group <span>[<a href="#IANA-DNS" class="cite xref">IANA-DNS</a>]</span>. The registration request for a new Contact URI scheme has to include the
-following fields:<a href="#section-11.3-1" class="pilcrow">¶</a></p>
+under "Extended DNS Error Codes" registry, which is under the "Domain Name System (DNS) Parameters" registry group <span>[<a href="#IANA-DNS" class="cite xref">IANA-DNS</a>]</span>. The registration request for a new Contact URI scheme has to include the following fields:<a href="#section-11.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11.3-2.1">
             <p id="section-11.3-2.1.1">Name: URI scheme name.<a href="#section-11.3-2.1.1" class="pilcrow">¶</a></p>
@@ -2230,12 +2209,8 @@ the URI scheme.<a href="#section-11.3-2.3.1" class="pilcrow">¶</a></p>
         </ul>
 <p id="section-11.3-3">The Contact URI scheme registry is initially populated with the
 following schemes:<a href="#section-11.3-3" class="pilcrow">¶</a></p>
-<span id="name-initial-contact-uri-schemes"></span><div id="reg-contact">
 <table class="center" id="table-2">
-          <caption>
-<a href="#table-2" class="selfRef">Table 2</a>:
-<a href="#name-initial-contact-uri-schemes" class="selfRef">Initial Contact URI Schemes Registry</a>
-          </caption>
+          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
             <tr>
               <th class="text-center" rowspan="1" colspan="1">Name</th>
@@ -2260,7 +2235,6 @@ following schemes:<a href="#section-11.3-3" class="pilcrow">¶</a></p>
             </tr>
           </tbody>
         </table>
-</div>
 <p id="section-11.3-5">The registration procedure for adding new Contact URI schemes to the "Contact URI Schemes" registry is "IETF
 Review" as defined in <span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.8" class="relref">Section 4.8</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.<a href="#section-11.3-5" class="pilcrow">¶</a></p>
 </section>
@@ -2480,10 +2454,6 @@ registry under the "Domain Name System (DNS) Parameters" registry group <span>[<
         <dd>
 <span class="refTitle">"Use of DNS Errors To improve Browsing User Experience With network based malware protection"</span>, <time datetime="2023-03" class="refDate">March 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/meeting/116/materials/slides-116-dnsop-dns-errors-implementation-proposal-slides-116-dnsop-update-on-dns-errors-implementation-00">https://datatracker.ietf.org/meeting/116/materials/slides-116-dnsop-dns-errors-implementation-proposal-slides-116-dnsop-update-on-dns-errors-implementation-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC2931">[RFC2931]</dt>
-        <dd>
-<span class="refAuthor">Eastlake 3rd, D.</span>, <span class="refTitle">"DNS Request and Transaction Signatures ( SIG(0)s )"</span>, <span class="seriesInfo">RFC 2931</span>, <span class="seriesInfo">DOI 10.17487/RFC2931</span>, <time datetime="2000-09" class="refDate">September 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2931">https://www.rfc-editor.org/rfc/rfc2931</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC3986">[RFC3986]</dt>
         <dd>
 <span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
@@ -2507,10 +2477,6 @@ registry under the "Domain Name System (DNS) Parameters" registry group <span>[<
 <dt id="RFC8792">[RFC8792]</dt>
         <dd>
 <span class="refAuthor">Watsen, K.</span>, <span class="refAuthor">Auerswald, E.</span>, <span class="refAuthor">Farrel, A.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Handling Long Lines in Content of Internet-Drafts and RFCs"</span>, <span class="seriesInfo">RFC 8792</span>, <span class="seriesInfo">DOI 10.17487/RFC8792</span>, <time datetime="2020-06" class="refDate">June 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8792">https://www.rfc-editor.org/rfc/rfc8792</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8945">[RFC8945]</dt>
-        <dd>
-<span class="refAuthor">Dupont, F.</span>, <span class="refAuthor">Morris, S.</span>, <span class="refAuthor">Vixie, P.</span>, <span class="refAuthor">Eastlake 3rd, D.</span>, <span class="refAuthor">Gudmundsson, O.</span>, and <span class="refAuthor">B. Wellington</span>, <span class="refTitle">"Secret Key Transaction Authentication for DNS (TSIG)"</span>, <span class="seriesInfo">STD 93</span>, <span class="seriesInfo">RFC 8945</span>, <span class="seriesInfo">DOI 10.17487/RFC8945</span>, <time datetime="2020-11" class="refDate">November 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8945">https://www.rfc-editor.org/rfc/rfc8945</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9250">[RFC9250]</dt>
         <dd>

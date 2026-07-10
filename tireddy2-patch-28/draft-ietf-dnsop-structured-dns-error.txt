@@ -282,27 +282,18 @@ Table of Contents
 
    *  An end user does not know why the connection was prevented and,
       consequently, may repeatedly try to reach the domain but with no
-      success.  Because the response conveys no reason for the failure
-      and does not identify the filtering entity, the end user cannot
-      distinguish erroneous over-blocking from filtering that is
-      protecting them.  The end user may therefore switch to an
-      alternate network or resolver that performs no filtering, and in
-      doing so lose the protection against malware and phishing that the
-      filtering was providing.  Furthermore, certificate errors train
-      end users to click through certificate errors, which is a bad
-      security practice.  To eliminate the need for an end user to click
-      through certificate errors, an end user may manually install a
-      local root certificate on a host device.  In an unmanaged setting
-      this is especially dangerous: the certificate's provenance often
-      cannot be verified, and installing a root certificate of uncertain
-      origin lets whoever holds the corresponding private key intercept
-      the device's TLS connections to any site.  More generally, any
-      privately held root certificate capable of signing for arbitrary
-      domains is a standing man-in-the-middle (MITM) exposure, since
-      compromise or misuse of that key breaks the device's TLS trust
-      across all sites.  When a manually installed local root
-      certificate expires, the end user has to (again) manually install
-      the new one.
+      success.  Frustrated, the end user may switch to an alternate
+      network that offers no DNS filtering against malware and phishing,
+      potentially compromising both security and privacy.  Furthermore,
+      certificate errors train end users to click through certificate
+      errors, which is a bad security practice.  To eliminate the need
+      for an end user to click through certificate errors, an end user
+      may manually install a local root certificate on a host device.
+      Doing so, however, is also a bad security practice as it creates a
+      security vulnerability that may be exploited by a MITM attack.
+      When a manually installed local root certificate expires, the end
+      user has to (again) manually install the new local root
+      certificate.
 
 3.2.  Forged NXDOMAIN Answer
 
@@ -316,12 +307,9 @@ Table of Contents
    as the client has no way to distinguish between a genuine and a
    forged response.  Further, the end user may not understand why a
    domain cannot be reached and may repeatedly attempt access without
-   success.  Because the response conveys no reason for the failure, the
-   end user cannot distinguish erroneous over-blocking from filtering
-   that is protecting them, and may resort to circumventing the
-   filtering entirely (e.g., switching to a resolver or network that
-   performs no filtering), thereby losing the protection it was
-   providing.
+   success.  Frustrated, the end user may resort to using insecure
+   methods to reach the domain, potentially compromising both security
+   and privacy.
 
 3.3.  Extended Error Codes (EDEs)
 
@@ -389,7 +377,8 @@ Table of Contents
       policy, whether the contents of this field are displayed to the
       end user, logged, or ignored.
 
-      Returning non-UTF-8 data or an empty string in the "j" field
+      Returning non-UTF-8 data, syntactically invalid content, or
+      deliberately meaningless values (including empty strings)
       indicates that a DNS server is misbehaving.
 
       This field is optional.
@@ -533,23 +522,15 @@ Table of Contents
    On receipt of a DNS response with an EDE option from a DNS server,
    the following ordered actions are performed on the EXTRA-TEXT field:
 
-   1.  If the integrity of the DNS response is not guaranteed (that is,
-       the response is not received over an encrypted DNS transport),
-       the DNS client MUST NOT act upon data in the EXTRA-TEXT field, as
-       the data is vulnerable to modification by an on-path attacker.
-       An attacker can inject or modify a structured DNS error response
-       in transit without detection, enabling fabrication of filtering
-       information (e.g., misleading contact information or false
-       resolver identity information) that appears to originate from the
-       resolver.  The data MAY be retained for diagnostic or client
-       security policy evaluation purposes.  Because the EDE option is
-       hop-by-hop, this integrity requirement applies to the connection
-       between the client and the DNS server that generated the EDE
-       option; the security of any transport used further upstream is
-       out of scope for the client's decision.  Requirements for a
-       forwarder that relays an error from an upstream server are given
-       in the definition of the "Blocked by Upstream DNS Server" error
-       code.
+   1.  If the the response is not received over an encrypted DNS
+       transport, the DNS client MUST NOT act upon data in the EXTRA-
+       TEXT field, as the data is vulnerable to modification by an on-
+       path attacker.  An attacker can inject or modify a structured DNS
+       error response in transit without detection, enabling fabrication
+       of filtering information (e.g., misleading contact information or
+       false resolver identity information) that appears to originate
+       from the resolver.  The data MAY be retained for diagnostic or
+       client security policy evaluation purposes.
 
    2.  The DNS response MUST also contain an EDE code of "Blocked by
        Upstream DNS Server", "Blocked", "Censored", or "Filtered"
@@ -744,28 +725,30 @@ Table of Contents
 10.1.  Authentication and Confidentiality
 
    Security considerations in Section 6 of [RFC8914] apply to this
-   document.  As noted there, EDE information is unauthenticated unless
-   it is secured by a form of secured DNS transaction, such as TSIG
-   [RFC8945], SIG(0) [RFC2931], or an authenticated and encrypted DNS
-   transport (e.g., DoT, DoH, or DoQ).
-
-   Data origin authentication and integrity are necessary but not
-   sufficient for this specification: it additionally requires
-   confidentiality for the DNS query and for the structured error
-   response (see Section 10.4).  Transaction-authentication mechanisms
-   such as TSIG and SIG(0) provide integrity and data origin
-   authentication but do not provide confidentiality.  This
-   specification therefore requires that structured EXTRA-TEXT data be
-   conveyed over an authenticated, integrity-protected, and encrypted
-   DNS transport (e.g., DoT, DoH, or DoQ); such transports MUST be based
-   on TLS 1.3 [RFC8446] or later.  A DNS client acts upon this data only
-   as specified in Section 5.3, which prohibits acting upon EXTRA-TEXT
-   data that was not received over such a transport.  Under these
-   conditions, EDE information is integrity-protected and confidential,
-   reducing the risks associated with relying on structured EDE content.
+   document.  [RFC8914] cautions against relying on EDE information
+   because it may be unauthenticated and transmitted in cleartext.  This
+   specification requires the use of authenticated, integrity-protected
+   DNS transports (e.g., DoT, DoH, or DoQ).  Such transports MUST be
+   based on TLS 1.3 [RFC8446] or later.  Under these conditions, EDE
+   information is integrity-protected, reducing the risks associated
+   with relying on structured EDE content.
 
    To minimize impact of active on-path attacks on the DNS channel, the
    client validates the response as described in Section 5.3.
+
+   Because the EDE option is hop-by-hop, the integrity and
+   confidentiality provided by the client's encrypted transport apply
+   only to the connection between the client and its directly connected
+   DNS server; the transport between that server and the upstream DNS
+   server may or may not be secure.  A client can use RESINFO [RFC9606]
+   to confirm, via the "exterr" key, that this server is configured to
+   return EDE, which helps the client identify EDE relayed by a
+   forwarder that is unaware of EDE (see Section 10.3).  In both the
+   TBA1 case and the legacy DNS forwarder case, unless the client is
+   aware that the upstream connection is secure, it processes only the
+   "s" field and ignores the other fields.  If the client is aware that
+   the upstream connection is secure, the restrictions on displaying the
+   "c", "o", and "j" fields described in Section 10.2 apply.
 
 10.2.  Restrictions on Display of "c", "o", and "j" Fields
 
@@ -958,8 +941,7 @@ Table of Contents
                  | mailto | Internet mail    | [RFC6068] |
                  +--------+------------------+-----------+
 
-                    Table 2: Initial Contact URI Schemes
-                                  Registry
+                                  Table 2
 
    The registration procedure for adding new Contact URI schemes to the
    "Contact URI Schemes" registry is "IETF Review" as defined in
@@ -1115,10 +1097,6 @@ Table of Contents
               slides-116-dnsop-dns-errors-implementation-proposal-
               slides-116-dnsop-update-on-dns-errors-implementation-00>.
 
-   [RFC2931]  Eastlake 3rd, D., "DNS Request and Transaction Signatures
-              ( SIG(0)s )", RFC 2931, DOI 10.17487/RFC2931, September
-              2000, <https://www.rfc-editor.org/rfc/rfc2931>.
-
    [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
               Resource Identifier (URI): Generic Syntax", STD 66,
               RFC 3986, DOI 10.17487/RFC3986, January 2005,
@@ -1146,12 +1124,6 @@ Table of Contents
               "Handling Long Lines in Content of Internet-Drafts and
               RFCs", RFC 8792, DOI 10.17487/RFC8792, June 2020,
               <https://www.rfc-editor.org/rfc/rfc8792>.
-
-   [RFC8945]  Dupont, F., Morris, S., Vixie, P., Eastlake 3rd, D.,
-              Gudmundsson, O., and B. Wellington, "Secret Key
-              Transaction Authentication for DNS (TSIG)", STD 93,
-              RFC 8945, DOI 10.17487/RFC8945, November 2020,
-              <https://www.rfc-editor.org/rfc/rfc8945>.
 
    [RFC9250]  Huitema, C., Dickinson, S., and A. Mankin, "DNS over
               Dedicated QUIC Connections", RFC 9250,
