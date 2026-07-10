@@ -135,7 +135,7 @@ One of the other benefits of the approach described in this document is to elimi
 clients implementing this approach would be able to display a
 meaningful error message, and would not need to connect to such a
 block page. This approach thus avoids the need to install a local root
-certificate authority on those IT-managed devices.
+certificate authority on end-user devices.
 
 This document describes a format for machine-readable data in the
 EXTRA-TEXT field of {{!RFC8914}}. The document updates {{Section 2 of !RFC8914}}, which
@@ -205,7 +205,8 @@ certificate.
 
 Note that:
 
-   * In deployments where a client is DNSSEC-aware and performs its own validation (DO=1), this approach becomes ineffective because DNSSEC
+   * In deployments where a client is DNSSEC-aware and performs its own validation   
+   (DO=1), this approach becomes ineffective because DNSSEC
      ensures the integrity and authenticity of DNS responses, preventing forged DNS
      responses from being accepted.
 
@@ -414,7 +415,7 @@ field:
    enabling fabrication of filtering information (e.g., misleading contact
    information or false resolver identity information) that appears to
    originate from the resolver. The data MAY be retained for diagnostic or
-   client security policy evaluation purposes.
+   client security policy evaluation purposes. 
 
 2. The DNS response MUST also contain an EDE code of
    "Blocked by Upstream DNS Server", "Blocked", "Censored", or "Filtered" {{!RFC8914}},
@@ -572,7 +573,18 @@ document. {{!RFC8914}} cautions against relying on EDE information because it ma
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
 
-## Restrictions on Display of "c", "o", and "j" Fields
+Because the EDE option is hop-by-hop, the integrity and confidentiality provided by the
+client's encrypted transport apply only to the connection between the client and its
+directly connected DNS server; the transport between that server and the upstream DNS
+server may or may not be secure. A client can use RESINFO {{?RFC9606}} to confirm, via
+the "exterr" key, that this server is configured to return EDE, which helps the client
+identify EDE relayed by a forwarder that is unaware of EDE (see {{legacy}}). In both
+the TBA1 case and the legacy DNS forwarder case, unless the client is aware that the
+upstream connection is secure, it processes only the "s" field and ignores the other
+fields. If the client is aware that the upstream connection is secure, the restrictions
+on displaying the "c", "o", and "j" fields described in {{display}} apply.
+
+## Restrictions on Display of "c", "o", and "j" Fields {#res}
 
 A client might choose to display the information in the "c" field
 to the end user if and only if the encrypted resolver has sufficient
