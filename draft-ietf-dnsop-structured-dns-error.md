@@ -205,7 +205,7 @@ certificate.
 
 Note that:
 
-   * In deployments where a client is DNSSEC-aware and performs its own validation   
+   * In deployments where a client is DNSSEC-aware and performs its own validation
    (DO=1), this approach becomes ineffective because DNSSEC
      ensures the integrity and authenticity of DNS responses, preventing forged DNS
      responses from being accepted.
@@ -415,7 +415,7 @@ field:
    enabling fabrication of filtering information (e.g., misleading contact
    information or false resolver identity information) that appears to
    originate from the resolver. The data MAY be retained for diagnostic or
-   client security policy evaluation purposes. 
+   client security policy evaluation purposes.
 
 2. The DNS response MUST also contain an EDE code of
    "Blocked by Upstream DNS Server", "Blocked", "Censored", or "Filtered" {{!RFC8914}},
@@ -582,7 +582,7 @@ identify EDE relayed by a forwarder that is unaware of EDE (see {{legacy}}). In 
 the TBA1 case and the legacy DNS forwarder case, unless the client is aware that the
 upstream connection is secure, it processes only the "s" field and ignores the other
 fields. If the client is aware that the upstream connection is secure, the restrictions
-on displaying the "c", "o", and "j" fields described in {{display}} apply.
+on displaying the "c", "o", and "j" fields described in {{res}} apply.
 
 ## Restrictions on Display of "c", "o", and "j" Fields {#res}
 
@@ -624,7 +624,7 @@ It is beyond the scope of this document to describe how the trust list is create
 
 DNS clients MAY keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data MUST NOT be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.
 
-## Security Risks from Legacy DNS Forwarders
+## Security Risks from Legacy DNS Forwarders {#legacy}
 
 An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
