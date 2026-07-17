@@ -573,16 +573,12 @@ document. {{!RFC8914}} cautions against relying on EDE information because it ma
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
 
-Because the EDE option is hop-by-hop, the integrity and confidentiality provided by the
-client's encrypted transport apply only to the connection between the client and its
-directly connected DNS server; the transport between that server and the upstream DNS
-server may or may not be secure. A client can use RESINFO {{?RFC9606}} to confirm, via
-the "exterr" key, that this server is configured to return EDE, which helps the client
-identify EDE relayed by a forwarder that is unaware of EDE (see {{legacy}}). In both
-the TBA1 case and the legacy DNS forwarder case, unless the client is aware that the
-upstream connection is secure, it processes only the "s" field and ignores the other
-fields. If the client is aware that the upstream connection is secure, the restrictions
-on displaying the "c", "o", and "j" fields described in {{res}} apply.
+Because EDE is hop-by-hop, the client secures the EDE information by protecting its own
+connection to the DNS server. This is sufficient when that server originates the EDE,
+but not when the EDE reflects information from an upstream server reached over an
+unprotected transport (see {{legacy}} and the TBA1 case). Propagation of EDE across a
+DNS resolver or forwarder involves implementation choices; see {{Section 3 of
+!RFC8914}} for details.
 
 ## Restrictions on Display of "c", "o", and "j" Fields {#res}
 
