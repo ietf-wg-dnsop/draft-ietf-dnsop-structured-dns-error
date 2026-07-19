@@ -135,7 +135,7 @@ One of the other benefits of the approach described in this document is to elimi
 clients implementing this approach would be able to display a
 meaningful error message, and would not need to connect to such a
 block page. This approach thus avoids the need to install a local root
-certificate authority on those IT-managed devices.
+certificate authority on end-user devices.
 
 This document describes a format for machine-readable data in the
 EXTRA-TEXT field of {{!RFC8914}}. The document updates {{Section 2 of !RFC8914}}, which
@@ -205,7 +205,8 @@ certificate.
 
 Note that:
 
-   * In deployments where a client is DNSSEC-aware and performs its own validation (DO=1), this approach becomes ineffective because DNSSEC
+   * In deployments where a client is DNSSEC-aware and performs its own validation
+   (DO=1), this approach becomes ineffective because DNSSEC
      ensures the integrity and authenticity of DNS responses, preventing forged DNS
      responses from being accepted.
 
@@ -572,7 +573,14 @@ document. {{!RFC8914}} cautions against relying on EDE information because it ma
 To minimize impact of active on-path attacks on the DNS channel, the
 client validates the response as described in {{client-processing}}.
 
-## Restrictions on Display of "c", "o", and "j" Fields
+Because EDE is hop-by-hop, the client secures the EDE information by protecting its own
+connection to the DNS server. This is sufficient when that server originates the EDE,
+but not when the EDE reflects information from an upstream server reached over an
+unprotected transport (see {{legacy}} and the TBA1 case). Propagation of EDE across a
+DNS resolver or forwarder involves implementation choices; see {{Section 3 of
+!RFC8914}} for details.
+
+## Restrictions on Display of "c", "o", and "j" Fields {#res}
 
 A client might choose to display the information in the "c" field
 to the end user if and only if the encrypted resolver has sufficient
@@ -612,7 +620,7 @@ It is beyond the scope of this document to describe how the trust list is create
 
 DNS clients MAY keep all fields conveyed in the EXTRA-TEXT field for evaluation according to the client security  policy. Such data MUST NOT be automatically trusted, displayed to end users, or used to influence security decisions without appropriate validation.
 
-## Security Risks from Legacy DNS Forwarders
+## Security Risks from Legacy DNS Forwarders {#legacy}
 
 An attacker might inject (or modify) the EDE EXTRA-TEXT field with a
 DNS proxy or DNS forwarder that is unaware of EDE. Such a DNS proxy or
