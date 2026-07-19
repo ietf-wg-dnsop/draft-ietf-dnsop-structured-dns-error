@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 10 January 2027                                         N. Cook
+Expires: 20 January 2027                                         N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                             9 July 2026
+                                                            19 July 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 January 2027.
+   This Internet-Draft will expire on 20 January 2027.
 
 Copyright Notice
 
@@ -172,8 +172,7 @@ Table of Contents
    This is achieved since clients implementing this approach would be
    able to display a meaningful error message, and would not need to
    connect to such a block page.  This approach thus avoids the need to
-   install a local root certificate authority on those IT-managed
-   devices.
+   install a local root certificate authority on end-user devices.
 
    This document describes a format for machine-readable data in the
    EXTRA-TEXT field of [RFC8914].  The document updates Section 2 of
@@ -736,6 +735,14 @@ Table of Contents
 
    To minimize impact of active on-path attacks on the DNS channel, the
    client validates the response as described in Section 5.3.
+
+   Because EDE is hop-by-hop, the client secures the EDE information by
+   protecting its own connection to the DNS server.  This is sufficient
+   when that server originates the EDE, but not when the EDE reflects
+   information from an upstream server reached over an unprotected
+   transport (see Section 10.3 and the TBA1 case).  Propagation of EDE
+   across a DNS resolver or forwarder involves implementation choices;
+   see Section 3 of [RFC8914] for details.
 
 10.2.  Restrictions on Display of "c", "o", and "j" Fields
 
