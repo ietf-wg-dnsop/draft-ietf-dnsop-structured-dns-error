@@ -1588,59 +1588,52 @@ logged, or ignored.<a href="#section-4.1-3.16.1" class="pilcrow">¶</a></p>
           <dd class="break"></dd>
 <dt id="section-4.1-3.17"></dt>
           <dd style="margin-left: 1.5em" id="section-4.1-3.18">
-            <p id="section-4.1-3.18.1">Returning non-UTF-8 data, syntactically invalid content, or
-deliberately meaningless values (including empty strings) indicates that
-a DNS server is misbehaving.<a href="#section-4.1-3.18.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-3.18.1">This field is optional.<a href="#section-4.1-3.18.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.1-3.19"></dt>
+<dt id="section-4.1-3.19">s: (sub-error)</dt>
           <dd style="margin-left: 1.5em" id="section-4.1-3.20">
-            <p id="section-4.1-3.20.1">This field is optional.<a href="#section-4.1-3.20.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-3.20.1">An integer representing the sub-error code for this particular DNS filtering case.<a href="#section-4.1-3.20.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.1-3.21">s: (sub-error)</dt>
+<dt id="section-4.1-3.21"></dt>
           <dd style="margin-left: 1.5em" id="section-4.1-3.22">
-            <p id="section-4.1-3.22.1">An integer representing the sub-error code for this particular DNS filtering case.<a href="#section-4.1-3.22.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-3.22.1">The integer values are defined in the IANA-managed registry for Extended DNS Sub-Error Codes in <a href="#IANA-SubError" class="auto internal xref">Section 11.4</a>.<a href="#section-4.1-3.22.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-4.1-3.23"></dt>
           <dd style="margin-left: 1.5em" id="section-4.1-3.24">
-            <p id="section-4.1-3.24.1">The integer values are defined in the IANA-managed registry for Extended DNS Sub-Error Codes in <a href="#IANA-SubError" class="auto internal xref">Section 11.4</a>.<a href="#section-4.1-3.24.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-3.24.1">This field is optional.<a href="#section-4.1-3.24.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-4.1-3.25"></dt>
           <dd style="margin-left: 1.5em" id="section-4.1-3.26">
-            <p id="section-4.1-3.26.1">This field is optional.<a href="#section-4.1-3.26.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-<dt id="section-4.1-3.27"></dt>
-          <dd style="margin-left: 1.5em" id="section-4.1-3.28">
-            <p id="section-4.1-3.28.1">When multiple blocking causes apply simultaneously
+            <p id="section-4.1-3.26.1">When multiple blocking causes apply simultaneously
 (e.g., a domain is blocked for both malware and phishing reasons),
 a single SDE response is returned. If "s" is supplied, then the "s" field <span class="bcp14">MUST</span> convey the
 primary blocking cause. In such case, the "j" field <span class="bcp14">MUST</span> be used to provide
-additional context describing all applicable causes.<a href="#section-4.1-3.28.1" class="pilcrow">¶</a></p>
+additional context describing all applicable causes.<a href="#section-4.1-3.26.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.1-3.29">o: (organization)</dt>
+<dt id="section-4.1-3.27">o: (organization)</dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-3.28">
+            <p id="section-4.1-3.28.1">'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query.<a href="#section-4.1-3.28.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.1-3.29"></dt>
           <dd style="margin-left: 1.5em" id="section-4.1-3.30">
-            <p id="section-4.1-3.30.1">'UTF-8'-encoded human-friendly name of the organization that filtered this particular DNS query.<a href="#section-4.1-3.30.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-3.30.1">This field is optional.<a href="#section-4.1-3.30.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.1-3.31"></dt>
+<dt id="section-4.1-3.31">l: (language)</dt>
           <dd style="margin-left: 1.5em" id="section-4.1-3.32">
-            <p id="section-4.1-3.32.1">This field is optional.<a href="#section-4.1-3.32.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-3.32.1">The "l" field indicates the language used for the JSON-encoded "j" and "o" fields.  The value of this field <span class="bcp14">MUST</span> conform to the
+language tag syntax specified in <span><a href="https://rfc-editor.org/rfc/rfc5646#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC5646" class="cite xref">RFC5646</a>]</span>.<a href="#section-4.1-3.32.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.1-3.33">l: (language)</dt>
+<dt id="section-4.1-3.33"></dt>
           <dd style="margin-left: 1.5em" id="section-4.1-3.34">
-            <p id="section-4.1-3.34.1">The "l" field indicates the language used for the JSON-encoded "j" and "o" fields.  The value of this field <span class="bcp14">MUST</span> conform to the
-language tag syntax specified in <span><a href="https://rfc-editor.org/rfc/rfc5646#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC5646" class="cite xref">RFC5646</a>]</span>.<a href="#section-4.1-3.34.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-<dt id="section-4.1-3.35"></dt>
-          <dd style="margin-left: 1.5em" id="section-4.1-3.36">
-            <p id="section-4.1-3.36.1">This field is <span class="bcp14">REQUIRED</span> when either the "j" or "o" fields are present.<a href="#section-4.1-3.36.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-3.34.1">This field is <span class="bcp14">REQUIRED</span> when either the "j" or "o" fields are present.<a href="#section-4.1-3.34.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
