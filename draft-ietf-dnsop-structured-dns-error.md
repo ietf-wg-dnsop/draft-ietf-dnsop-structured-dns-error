@@ -301,9 +301,6 @@ protocol behavior.
 : The DNS client determines, according to its client security policy,
 whether the contents of this field are displayed to the end user,
 logged, or ignored.
-: Returning non-UTF-8 data, syntactically invalid content, or
-deliberately meaningless values (including empty strings) indicates that
-a DNS server is misbehaving.
 : This field is optional.
 
 s: (sub-error)
