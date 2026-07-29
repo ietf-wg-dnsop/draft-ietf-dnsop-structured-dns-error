@@ -231,10 +231,13 @@ Note that:
 
    * An end user does not know why the connection was prevented and,
      consequently, may repeatedly try to reach the domain but with no
-     success. Frustrated, the end user may switch to an alternate
-     network that offers no DNS filtering against malware and
-     phishing, potentially compromising both security and
-     privacy. Furthermore, certificate errors train end users to click
+     success. Because the response conveys no reason for the
+     failure and does not identify the filtering entity, the end user
+     cannot make an informed decision or report an erroneous block, and
+     may switch to an alternate network or resolver that performs no
+     filtering, forfeiting any protection against malware and phishing
+     that the filtering provided.
+     Furthermore, certificate errors train end users to click
      through certificate errors, which is a bad security practice. To
      eliminate the need for an end user to click through certificate
      errors, an end user may manually install a local root certificate
@@ -246,7 +249,7 @@ Note that:
 
 ## Forged NXDOMAIN Answer
 
-The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, the end user may not understand why a domain cannot be reached and may repeatedly attempt access without success. Frustrated, the end user may resort to using insecure methods to reach the domain, potentially compromising both security and privacy.
+The DNS response is forged to provide an NXDOMAIN answer, causing the DNS lookup to fail. This approach is incompatible with DNSSEC when the client performs validation, as the forged response will fail DNSSEC checks. However, in deployments where the client relies on the DNS server to perform DNSSEC validation, a filtering DNS server can forge an NXDOMAIN response for a valid domain, and the client will trust it. This undermines the integrity guarantees of DNSSEC, as the client has no way to distinguish between a genuine and a forged response. Further, as with forged responses, the end user is given no reason for the failure and may circumvent the filtering entirely, forfeiting any protection it provided.
 
 ## Extended Error Codes (EDEs)
 
@@ -404,9 +407,9 @@ On receipt of a DNS response with an EDE option from a
 DNS server, the following ordered actions are performed on the EXTRA-TEXT
 field:
 
-1. If the the response is not received over an encrypted DNS transport, the
+1. If the response is not received over an encrypted DNS transport, the
    DNS client MUST NOT act upon data in the EXTRA-TEXT field, as the data
-   is vulnerable  to
+   is vulnerable to
    modification by an on-path attacker. An attacker can inject or
    modify a structured DNS error response in transit without detection,
    enabling fabrication of filtering information (e.g., misleading contact
@@ -481,7 +484,7 @@ The code indicates that the request was filtered according to policy determined 
 
 This document defines an addition to the EDE codes defined in {{RFC8914}}.
 
-## Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server
+## Extended DNS Error Code TBA1 - Blocked by Upstream DNS Server {#upstream}
 
 The DNS server is unable to respond to the request
 because the domain is on a blocklist due to an internal security policy
@@ -573,7 +576,7 @@ client validates the response as described in {{client-processing}}.
 Because EDE is hop-by-hop, the client secures the EDE information by protecting its own
 connection to the DNS server. This is sufficient when that server originates the EDE,
 but not when the EDE reflects information from an upstream server reached over an
-unprotected transport (see {{legacy}} and the TBA1 case). Propagation of EDE across a
+unprotected transport (see {{upstream}} and {{legacy}}). Propagation of EDE across a
 DNS resolver or forwarder involves implementation choices; see {{Section 3 of
 !RFC8914}} for details.
 
@@ -707,8 +710,7 @@ following schemes:
 |:---------:|:------------------|:-------------:|
 | tel       | Telephone Number   | {{!RFC3966}} |
 | mailto    | Internet mail      | {{!RFC6068}} |
-
-{: #reg-contact='Initial Contact URI Schemes Registry'}
+{: #reg-contact title='Initial Contact URI Schemes Registry'}
 
 The registration procedure for adding new Contact URI schemes to the "Contact URI Schemes" registry is "IETF
 Review" as defined in {{Section 4.8 of !RFC8126}}.
