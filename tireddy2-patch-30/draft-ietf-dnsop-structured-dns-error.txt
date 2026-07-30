@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 30 January 2027                                         N. Cook
+Expires: 31 January 2027                                         N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                            29 July 2026
+                                                            30 July 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 January 2027.
+   This Internet-Draft will expire on 31 January 2027.
 
 Copyright Notice
 
@@ -284,7 +284,7 @@ Table of Contents
       consequently, may repeatedly try to reach the domain but with no
       success.  Because the response conveys no reason for the failure
       and does not identify the filtering entity, the end user cannot
-      make an informed decision or report an erroneous block, and may
+      make an informed decision or report an erroneous response, and may
       switch to an alternate network or resolver that performs no
       filtering, forfeiting any protection against malware and phishing
       that the filtering provided.  Furthermore, certificate errors
