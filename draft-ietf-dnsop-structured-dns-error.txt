@@ -6,11 +6,11 @@ DNS Operations Working Group                                     D. Wing
 Internet-Draft                                                    Citrix
 Updates: 8914 (if approved)                                     T. Reddy
 Intended status: Standards Track                                   Nokia
-Expires: 25 January 2027                                         N. Cook
+Expires: 31 January 2027                                         N. Cook
                                                             Open-Xchange
                                                             M. Boucadair
                                                                   Orange
-                                                            24 July 2026
+                                                            30 July 2026
 
 
                  Structured Error Data for Filtered DNS
@@ -64,7 +64,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 January 2027.
+   This Internet-Draft will expire on 31 January 2027.
 
 Copyright Notice
 
@@ -282,18 +282,20 @@ Table of Contents
 
    *  An end user does not know why the connection was prevented and,
       consequently, may repeatedly try to reach the domain but with no
-      success.  Frustrated, the end user may switch to an alternate
-      network that offers no DNS filtering against malware and phishing,
-      potentially compromising both security and privacy.  Furthermore,
-      certificate errors train end users to click through certificate
-      errors, which is a bad security practice.  To eliminate the need
-      for an end user to click through certificate errors, an end user
-      may manually install a local root certificate on a host device.
-      Doing so, however, is also a bad security practice as it creates a
-      security vulnerability that may be exploited by a MITM attack.
-      When a manually installed local root certificate expires, the end
-      user has to (again) manually install the new local root
-      certificate.
+      success.  Because the response conveys no reason for the failure
+      and does not identify the filtering entity, the end user cannot
+      make an informed decision or report an erroneous response, and may
+      switch to an alternate network or resolver that performs no
+      filtering, forfeiting any protection against malware and phishing
+      that the filtering provided.  Furthermore, certificate errors
+      train end users to click through certificate errors, which is a
+      bad security practice.  To eliminate the need for an end user to
+      click through certificate errors, an end user may manually install
+      a local root certificate on a host device.  Doing so, however, is
+      also a bad security practice as it creates a security
+      vulnerability that may be exploited by a MITM attack.  When a
+      manually installed local root certificate expires, the end user
+      has to (again) manually install the new local root certificate.
 
 3.2.  Forged NXDOMAIN Answer
 
@@ -305,11 +307,9 @@ Table of Contents
    can forge an NXDOMAIN response for a valid domain, and the client
    will trust it.  This undermines the integrity guarantees of DNSSEC,
    as the client has no way to distinguish between a genuine and a
-   forged response.  Further, the end user may not understand why a
-   domain cannot be reached and may repeatedly attempt access without
-   success.  Frustrated, the end user may resort to using insecure
-   methods to reach the domain, potentially compromising both security
-   and privacy.
+   forged response.  Further, as with forged responses, the end user is
+   given no reason for the failure and may circumvent the filtering
+   entirely, forfeiting any protection it provided.
 
 3.3.  Extended Error Codes (EDEs)
 
@@ -518,15 +518,15 @@ Table of Contents
    On receipt of a DNS response with an EDE option from a DNS server,
    the following ordered actions are performed on the EXTRA-TEXT field:
 
-   1.  If the the response is not received over an encrypted DNS
-       transport, the DNS client MUST NOT act upon data in the EXTRA-
-       TEXT field, as the data is vulnerable to modification by an on-
-       path attacker.  An attacker can inject or modify a structured DNS
-       error response in transit without detection, enabling fabrication
-       of filtering information (e.g., misleading contact information or
-       false resolver identity information) that appears to originate
-       from the resolver.  The data MAY be retained for diagnostic or
-       client security policy evaluation purposes.
+   1.  If the response is not received over an encrypted DNS transport,
+       the DNS client MUST NOT act upon data in the EXTRA-TEXT field, as
+       the data is vulnerable to modification by an on-path attacker.
+       An attacker can inject or modify a structured DNS error response
+       in transit without detection, enabling fabrication of filtering
+       information (e.g., misleading contact information or false
+       resolver identity information) that appears to originate from the
+       resolver.  The data MAY be retained for diagnostic or client
+       security policy evaluation purposes.
 
    2.  The DNS response MUST also contain an EDE code of "Blocked by
        Upstream DNS Server", "Blocked", "Censored", or "Filtered"
@@ -737,7 +737,7 @@ Table of Contents
    protecting its own connection to the DNS server.  This is sufficient
    when that server originates the EDE, but not when the EDE reflects
    information from an upstream server reached over an unprotected
-   transport (see Section 10.3 and the TBA1 case).  Propagation of EDE
+   transport (see Section 7.1 and Section 10.3).  Propagation of EDE
    across a DNS resolver or forwarder involves implementation choices;
    see Section 3 of [RFC8914] for details.
 
@@ -932,7 +932,8 @@ Table of Contents
                  | mailto | Internet mail    | [RFC6068] |
                  +--------+------------------+-----------+
 
-                                  Table 2
+                    Table 2: Initial Contact URI Schemes
+                                  Registry
 
    The registration procedure for adding new Contact URI schemes to the
    "Contact URI Schemes" registry is "IETF Review" as defined in
