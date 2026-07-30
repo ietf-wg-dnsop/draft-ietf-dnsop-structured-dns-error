@@ -233,7 +233,7 @@ Note that:
      consequently, may repeatedly try to reach the domain but with no
      success. Because the response conveys no reason for the
      failure and does not identify the filtering entity, the end user
-     cannot make an informed decision or report an erroneous block, and
+     cannot make an informed decision or report an erroneous response, and
      may switch to an alternate network or resolver that performs no
      filtering, forfeiting any protection against malware and phishing
      that the filtering provided.
